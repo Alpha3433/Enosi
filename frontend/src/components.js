@@ -28,10 +28,14 @@ import {
   Twitter
 } from 'lucide-react';
 
+import { useAuth } from './contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
+
 // Header Component
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
