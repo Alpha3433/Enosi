@@ -1,38 +1,232 @@
+/* Custom styles for enhanced animations and interactions */
+
 .App {
-    text-align: center;
+  text-align: center;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }
 
-.App-link {
-    color: #61dafb;
+::-webkit-scrollbar-thumb {
+  background: #e11d48;
+  border-radius: 4px;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+::-webkit-scrollbar-thumb:hover {
+  background: #be185d;
+}
+
+/* Backdrop blur support */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+}
+
+/* Custom focus styles */
+.focus\:ring-rose-500:focus {
+  --tw-ring-color: rgb(244 63 94 / 0.5);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #e11d48, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero section enhancements */
+.hero-gradient {
+  background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+}
+
+/* Card hover effects */
+.vendor-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.vendor-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Button animations */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+/* Star rating animations */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star-rating .star {
+  transition: all 0.2s ease;
+}
+
+.star-rating:hover .star {
+  transform: scale(1.1);
+}
+
+/* Loading animations */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Testimonial card styles */
+.testimonial-card {
+  border-left: 4px solid #e11d48;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7f7 100%);
+}
+
+/* Trust signal icons */
+.trust-icon {
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+}
+
+/* Mobile responsiveness enhancements */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.2;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Category card image overlay */
+.category-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+}
+
+/* Planning tools card effects */
+.planning-tool-card {
+  background: linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
+  border: 1px solid #f3f4f6;
+}
+
+.planning-tool-card:hover {
+  border-color: #e11d48;
+  background: linear-gradient(135deg, #ffffff 0%, #fef7f7 100%);
+}
+
+/* Footer gradient */
+.footer-gradient {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+}
+
+/* Search bar enhancements */
+.search-container {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Quote modal overlay */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+}
+
+/* Vendor pricing display */
+.price-badge {
+  background: linear-gradient(135deg, #e11d48 0%, #be185d 100%);
+  color: white;
+  font-weight: 600;
+}
+
+/* Trust signal statistics */
+.stat-number {
+  background: linear-gradient(135deg, #e11d48 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Animation delays for staggered effects */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+
+/* Custom border animations */
+.border-animation {
+  position: relative;
+}
+
+.border-animation::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(45deg, #e11d48, #f59e0b, #e11d48);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.border-animation:hover::before {
+  opacity: 1;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #e11d48;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
