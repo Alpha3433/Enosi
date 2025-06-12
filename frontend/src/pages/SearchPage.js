@@ -344,7 +344,7 @@ const SearchPage = () => {
               {filters.location && ` in ${filters.location}`}
             </h1>
             <p className="text-gray-600 mt-1">
-              {vendors?.data?.length || 0} vendors found
+              {displayVendors?.length || 0} vendors found
             </p>
           </div>
         </div>
