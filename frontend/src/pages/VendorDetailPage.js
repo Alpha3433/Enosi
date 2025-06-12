@@ -182,7 +182,7 @@ const VendorDetailPage = () => {
     );
   }
 
-  const images = vendorData.data.data.gallery_images?.length > 0 ? vendorData.data.data.gallery_images : [
+  const images = vendorData.data.gallery_images?.length > 0 ? vendorData.data.gallery_images : [
     'https://images.unsplash.com/photo-1606490194859-07c18c9f0968',
     'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
     'https://images.unsplash.com/photo-1639259621742-90f4c0cf5a16'
@@ -213,20 +213,20 @@ const VendorDetailPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {vendorData.data.data.business_name}
+              {vendorData.data.business_name}
             </h1>
             <div className="flex items-center space-x-4 text-gray-600">
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
-                <span className="font-medium">{vendorData.data.data.average_rating}</span>
+                <span className="font-medium">{vendorData.data.average_rating}</span>
                 <span className="mx-1">·</span>
-                <span>{vendorData.data.data.total_reviews} reviews</span>
+                <span>{vendorData.data.total_reviews} reviews</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-5 w-5 mr-1" />
-                {vendorData.data.data.location}
+                {vendorData.data.location}
               </div>
-              {vendorData.data.data.verified && (
+              {vendorData.data.verified && (
                 <div className="flex items-center text-green-600">
                   <Shield className="h-5 w-5 mr-1" />
                   Verified
