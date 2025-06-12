@@ -379,8 +379,8 @@ def main():
     success, vendors = tester.test_search_vendors()
     
     # Test quote requests
-    if success and vendors and 'data' in vendors and len(vendors['data']) > 0:
-        vendor_id = vendors['data'][0]['id']
+    if success and vendors and len(vendors) > 0:
+        vendor_id = vendors[0]['id']
         tester.test_login("couple")
         tester.test_create_quote_request(vendor_id)
         tester.test_get_quote_requests()
