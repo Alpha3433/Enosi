@@ -213,20 +213,20 @@ const VendorDetailPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {vendorData.business_name}
+              {vendorData.data.business_name}
             </h1>
             <div className="flex items-center space-x-4 text-gray-600">
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
-                <span className="font-medium">{vendorData.average_rating}</span>
+                <span className="font-medium">{vendorData.data.average_rating}</span>
                 <span className="mx-1">·</span>
-                <span>{vendorData.total_reviews} reviews</span>
+                <span>{vendorData.data.total_reviews} reviews</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-5 w-5 mr-1" />
-                {vendorData.location}
+                {vendorData.data.location}
               </div>
-              {vendorData.verified && (
+              {vendorData.data.verified && (
                 <div className="flex items-center text-green-600">
                   <Shield className="h-5 w-5 mr-1" />
                   Verified
