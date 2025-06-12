@@ -170,6 +170,14 @@ export const Header = () => {
 export const HeroSection = () => {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchCategory, setSearchCategory] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchCategory) params.set('category', searchCategory);
+    if (searchLocation) params.set('location', searchLocation);
+    navigate(`/search?${params.toString()}`);
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center">
