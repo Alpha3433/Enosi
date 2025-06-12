@@ -33,6 +33,148 @@ const SearchPage = () => {
     queryFn: () => vendorsAPI.search(filters),
   });
 
+  // Mock vendor data for demonstration when no real vendors exist
+  const mockVendors = [
+    {
+      id: 'mock-1',
+      business_name: 'Eternal Moments Photography',
+      category: 'photographer',
+      description: 'Capturing love stories with artistic vision and professional excellence. Specializing in romantic, candid, and traditional wedding photography.',
+      location: 'Sydney, NSW',
+      service_areas: ['Sydney', 'Blue Mountains', 'Central Coast'],
+      pricing_from: 1200,
+      pricing_to: 3500,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.unsplash.com/photo-1606490194859-07c18c9f0968',
+        'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
+        'https://images.unsplash.com/photo-1639259621742-90f4c0cf5a16'
+      ],
+      average_rating: 4.9,
+      total_reviews: 156,
+      verified: true,
+      featured: true,
+      years_experience: 8,
+      team_size: 2,
+      website: 'https://eternalmoments.com.au',
+      instagram: '@eternalmomentsphotography'
+    },
+    {
+      id: 'mock-2',
+      business_name: 'Garden Grove Venues',
+      category: 'venue',
+      description: 'Stunning outdoor and indoor wedding venues with lush gardens, elegant pavilions, and breathtaking views.',
+      location: 'Melbourne, VIC',
+      service_areas: ['Melbourne', 'Yarra Valley', 'Mornington Peninsula'],
+      pricing_from: 2500,
+      pricing_to: 8000,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
+        'https://images.unsplash.com/photo-1606490194859-07c18c9f0968'
+      ],
+      average_rating: 4.8,
+      total_reviews: 89,
+      verified: true,
+      featured: true,
+      years_experience: 12,
+      team_size: 8
+    },
+    {
+      id: 'mock-3',
+      business_name: 'Bloom & Blossom Florists',
+      category: 'florist',
+      description: 'Creating magical floral designs for your special day. From bridal bouquets to ceremony decorations.',
+      location: 'Brisbane, QLD',
+      service_areas: ['Brisbane', 'Gold Coast', 'Sunshine Coast'],
+      pricing_from: 350,
+      pricing_to: 1500,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.unsplash.com/photo-1593471682521-5354d03150da'
+      ],
+      average_rating: 4.9,
+      total_reviews: 124,
+      verified: true,
+      featured: false,
+      years_experience: 6,
+      team_size: 3
+    },
+    {
+      id: 'mock-4',
+      business_name: 'Harmony Strings Music',
+      category: 'music',
+      description: 'Professional musicians providing elegant ceremony and reception music. String quartets, solo artists, and bands.',
+      location: 'Perth, WA',
+      service_areas: ['Perth', 'Fremantle', 'Swan Valley'],
+      pricing_from: 400,
+      pricing_to: 1200,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.unsplash.com/photo-1635612445702-1891217d4a30'
+      ],
+      average_rating: 4.7,
+      total_reviews: 67,
+      verified: true,
+      featured: false,
+      years_experience: 10,
+      team_size: 4
+    },
+    {
+      id: 'mock-5',
+      business_name: 'Gourmet Catering Co',
+      category: 'catering',
+      description: 'Exquisite wedding catering with fresh, local ingredients. Custom menus for every taste and dietary requirement.',
+      location: 'Adelaide, SA',
+      service_areas: ['Adelaide', 'Barossa Valley', 'Adelaide Hills'],
+      pricing_from: 45,
+      pricing_to: 120,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.unsplash.com/photo-1552617911-83473ac6204b'
+      ],
+      average_rating: 4.8,
+      total_reviews: 203,
+      verified: true,
+      featured: true,
+      years_experience: 15,
+      team_size: 12
+    },
+    {
+      id: 'mock-6',
+      business_name: 'Glamour Beauty Studio',
+      category: 'makeup',
+      description: 'Professional bridal hair and makeup services. Creating stunning looks for your special day.',
+      location: 'Gold Coast, QLD',
+      service_areas: ['Gold Coast', 'Brisbane', 'Byron Bay'],
+      pricing_from: 300,
+      pricing_to: 800,
+      pricing_type: 'range',
+      gallery_images: [
+        'https://images.pexels.com/photos/3434997/pexels-photo-3434997.jpeg'
+      ],
+      average_rating: 4.9,
+      total_reviews: 98,
+      verified: true,
+      featured: false,
+      years_experience: 7,
+      team_size: 5
+    }
+  ];
+
+  // Use mock data if no real vendors are returned
+  const displayVendors = vendors?.data?.length > 0 ? vendors.data : 
+    mockVendors.filter(vendor => {
+      const matchesCategory = !filters.category || vendor.category === filters.category;
+      const matchesLocation = !filters.location || 
+        vendor.location.toLowerCase().includes(filters.location.toLowerCase()) ||
+        vendor.service_areas.some(area => area.toLowerCase().includes(filters.location.toLowerCase()));
+      const matchesRating = !filters.min_rating || vendor.average_rating >= parseFloat(filters.min_rating);
+      const matchesFeatured = !filters.featured_only || vendor.featured;
+      
+      return matchesCategory && matchesLocation && matchesRating && matchesFeatured;
+    });
+
   const updateFilters = (newFilters) => {
     setFilters(prev => ({ ...prev, ...newFilters }));
     
