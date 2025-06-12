@@ -266,9 +266,12 @@ export const HeroSection = () => {
 
 // Vendor Category Cards
 export const VendorCategories = () => {
+  const navigate = useNavigate();
+  
   const categories = [
     {
       title: 'Photographers',
+      category: 'photographer',
       icon: Camera,
       image: 'https://images.unsplash.com/photo-1495434224324-36812b391125',
       vendorCount: '250+ verified',
@@ -276,6 +279,7 @@ export const VendorCategories = () => {
     },
     {
       title: 'Venues',
+      category: 'venue',
       icon: Building,
       image: 'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
       vendorCount: '180+ verified',
@@ -283,6 +287,7 @@ export const VendorCategories = () => {
     },
     {
       title: 'Catering',
+      category: 'catering',
       icon: Utensils,
       image: 'https://images.unsplash.com/photo-1552617911-83473ac6204b',
       vendorCount: '320+ verified',
@@ -290,6 +295,7 @@ export const VendorCategories = () => {
     },
     {
       title: 'Florists',
+      category: 'florist',
       icon: Flower,
       image: 'https://images.unsplash.com/photo-1593471682521-5354d03150da',
       vendorCount: '150+ verified',
@@ -297,6 +303,7 @@ export const VendorCategories = () => {
     },
     {
       title: 'Music & Entertainment',
+      category: 'music',
       icon: Music,
       image: 'https://images.unsplash.com/photo-1635612445702-1891217d4a30',
       vendorCount: '200+ verified',
@@ -304,12 +311,17 @@ export const VendorCategories = () => {
     },
     {
       title: 'Hair & Makeup',
+      category: 'makeup',
       icon: Heart,
       image: 'https://images.pexels.com/photos/3434997/pexels-photo-3434997.jpeg',
       vendorCount: '130+ verified',
       priceRange: 'From $300'
     }
   ];
+
+  const handleCategoryClick = (category) => {
+    navigate(`/search?category=${category}`);
+  };
 
   return (
     <section className="py-16 bg-gray-50" id="vendors">
