@@ -507,34 +507,40 @@ export const FeaturedVendors = () => {
 
 // Planning Tools Section
 export const PlanningTools = () => {
+  const navigate = useNavigate();
+  
   const tools = [
     {
       title: 'Budget Tracker',
       description: 'Track your wedding expenses and stay within budget with our smart calculator.',
       icon: DollarSign,
       color: 'bg-green-500',
-      users: '15,000+ couples'
+      users: '15,000+ couples',
+      link: '/planning/budget'
     },
     {
       title: 'Wedding Checklist',
       description: 'Never miss a detail with our comprehensive wedding planning checklist.',
       icon: CheckCircle,
       color: 'bg-blue-500',
-      users: '22,000+ couples'
+      users: '22,000+ couples',
+      link: '/planning/checklist'
     },
     {
       title: 'Timeline Creator',
       description: 'Plan your perfect day with our customizable wedding day timeline tool.',
       icon: Calendar,
       color: 'bg-purple-500',
-      users: '18,000+ couples'
+      users: '18,000+ couples',
+      link: '/planning/timeline'
     },
     {
       title: 'Guest List Manager',
       description: 'Organize your guest list, track RSVPs, and manage seating arrangements.',
       icon: Users,
       color: 'bg-orange-500',
-      users: '20,000+ couples'
+      users: '20,000+ couples',
+      link: '/planning/guests'
     }
   ];
 
