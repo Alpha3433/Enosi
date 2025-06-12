@@ -150,13 +150,13 @@ export const Header = () => {
             className="md:hidden py-4 border-t border-gray-100"
           >
             <div className="space-y-4">
-              <a href="#vendors" className="block text-gray-700 hover:text-rose-600">Find Vendors</a>
-              <a href="#planning-tools" className="block text-gray-700 hover:text-rose-600">Planning Tools</a>
+              <button onClick={() => navigate('/search')} className="block text-gray-700 hover:text-rose-600">Find Vendors</button>
+              <button onClick={() => navigate('/planning')} className="block text-gray-700 hover:text-rose-600">Planning Tools</button>
               <a href="#inspiration" className="block text-gray-700 hover:text-rose-600">Inspiration</a>
               <a href="#about" className="block text-gray-700 hover:text-rose-600">About</a>
               <div className="pt-4 border-t border-gray-100 space-y-2">
-                <button className="block w-full text-left text-gray-700">Sign In</button>
-                <button className="block w-full text-left bg-rose-600 text-white px-4 py-2 rounded-lg">Sign Up</button>
+                <button onClick={() => navigate('/login')} className="block w-full text-left text-gray-700">Sign In</button>
+                <button onClick={() => navigate('/signup')} className="block w-full text-left bg-rose-600 text-white px-4 py-2 rounded-lg">Sign Up</button>
               </div>
             </div>
           </motion.div>
