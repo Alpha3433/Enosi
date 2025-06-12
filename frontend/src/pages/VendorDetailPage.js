@@ -166,7 +166,7 @@ const VendorDetailPage = () => {
     );
   }
 
-  if (error || !vendor?.data) {
+  if (error || (!vendorData?.data && !vendorId.startsWith('mock-'))) {
     return (
       <div className="min-h-screen bg-white">
         <Header />
