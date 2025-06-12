@@ -61,25 +61,61 @@ export const Header = () => {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            {isLoggedIn ? (
+            {isAuthenticated ? (
               <div className="flex items-center space-x-3">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
+                  onClick={() => navigate('/dashboard')}
                   className="p-2 text-gray-600 hover:text-rose-600 transition-colors"
                 >
                   <Heart className="h-5 w-5" />
                 </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  className="p-2 text-gray-600 hover:text-rose-600 transition-colors"
-                >
-                  <User className="h-5 w-5" />
-                </motion.button>
+                <div className="relative group">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    className="flex items-center space-x-2 p-2 text-gray-600 hover:text-rose-600 transition-colors"
+                  >
+                    <User className="h-5 w-5" />
+                    <span className="text-sm">{user?.first_name}</span>
+                  </motion.button>
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      <button
+                        onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => navigate('/profile')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Profile
+                      </button>
+                      <button
+                        onClick={() => navigate('/planning')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Planning Tools
+                      </button>
+                      <hr className="my-1" />
+                      <button
+                        onClick={() => {
+                          logout();
+                          navigate('/');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="flex items-center space-x-3">
                 <button 
-                  onClick={() => setIsLoggedIn(true)}
+                  onClick={() => navigate('/login')}
                   className="text-gray-700 hover:text-rose-600 transition-colors"
                 >
                   Sign In
@@ -87,7 +123,7 @@ export const Header = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() => setIsLoggedIn(true)}
+                  onClick={() => navigate('/signup')}
                   className="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors"
                 >
                   Sign Up
