@@ -250,6 +250,7 @@ export const HeroSection = () => {
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                onClick={handleSearch}
                 className="w-full bg-rose-600 text-white py-3 px-6 rounded-lg hover:bg-rose-700 transition-colors font-semibold flex items-center justify-center space-x-2"
               >
                 <Search className="h-5 w-5" />
