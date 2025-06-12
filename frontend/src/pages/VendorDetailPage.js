@@ -182,7 +182,7 @@ const VendorDetailPage = () => {
     );
   }
 
-  const images = vendorData.data.gallery_images?.length > 0 ? vendorData.data.gallery_images : [
+  const images = vendorData.data.data.gallery_images?.length > 0 ? vendorData.data.data.gallery_images : [
     'https://images.unsplash.com/photo-1606490194859-07c18c9f0968',
     'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
     'https://images.unsplash.com/photo-1639259621742-90f4c0cf5a16'
@@ -213,20 +213,20 @@ const VendorDetailPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              {vendorData.data.business_name}
+              {vendorData.data.data.business_name}
             </h1>
             <div className="flex items-center space-x-4 text-gray-600">
               <div className="flex items-center">
                 <Star className="h-5 w-5 text-yellow-400 fill-current mr-1" />
-                <span className="font-medium">{vendorData.data.average_rating}</span>
+                <span className="font-medium">{vendorData.data.data.average_rating}</span>
                 <span className="mx-1">·</span>
-                <span>{vendorData.data.total_reviews} reviews</span>
+                <span>{vendorData.data.data.total_reviews} reviews</span>
               </div>
               <div className="flex items-center">
                 <MapPin className="h-5 w-5 mr-1" />
-                {vendorData.data.location}
+                {vendorData.data.data.location}
               </div>
-              {vendorData.data.verified && (
+              {vendorData.data.data.verified && (
                 <div className="flex items-center text-green-600">
                   <Shield className="h-5 w-5 mr-1" />
                   Verified
@@ -257,7 +257,7 @@ const VendorDetailPage = () => {
             <div className="relative overflow-hidden rounded-xl">
               <img
                 src={images[currentImageIndex]}
-                alt={vendorData.business_name}
+                alt={vendorData.data.business_name}
                 className="w-full h-full object-cover cursor-pointer"
                 onClick={() => setShowImageModal(true)}
               />
@@ -296,7 +296,7 @@ const VendorDetailPage = () => {
                 <div key={index} className="relative overflow-hidden rounded-xl">
                   <img
                     src={image}
-                    alt={`${vendorData.business_name} ${index + 2}`}
+                    alt={`${vendorData.data.business_name} ${index + 2}`}
                     className="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
                     onClick={() => {
                       setCurrentImageIndex(index + 1);
@@ -324,19 +324,19 @@ const VendorDetailPage = () => {
             {/* About */}
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                About {vendorData.business_name}
+                About {vendorData.data.business_name}
               </h2>
               <p className="text-gray-700 leading-relaxed">
-                {vendorData.description}
+                {vendorData.data.description}
               </p>
             </section>
 
             {/* Services & Packages */}
-            {vendorData.packages?.length > 0 && (
+            {vendorData.data.packages?.length > 0 && (
               <section>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Packages</h2>
                 <div className="grid gap-4">
-                  {vendorData.packages.map((pkg, index) => (
+                  {vendorData.data.packages.map((pkg, index) => (
                     <div key={index} className="border border-gray-200 rounded-lg p-6">
                       <div className="flex justify-between items-start mb-4">
                         <h3 className="text-lg font-semibold text-gray-900">{pkg.name}</h3>
@@ -360,7 +360,7 @@ const VendorDetailPage = () => {
             <section>
               <h2 className="text-2xl font-bold text-gray-900 mb-4">Reviews</h2>
               <div className="space-y-6">
-                {vendorData.reviews?.slice(0, 3).map((review, index) => (
+                {vendorData.data.reviews?.slice(0, 3).map((review, index) => (
                   <div key={index} className="border-b border-gray-200 pb-6">
                     <div className="flex items-center mb-3">
                       <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mr-3">
@@ -387,9 +387,9 @@ const VendorDetailPage = () => {
                   </div>
                 ))}
                 
-                {vendorData.total_reviews > 3 && (
+                {vendorData.data.total_reviews > 3 && (
                   <button className="text-rose-600 hover:text-rose-700 font-medium">
-                    Show all {vendorData.total_reviews} reviews
+                    Show all {vendorData.data.total_reviews} reviews
                   </button>
                 )}
               </div>
@@ -402,17 +402,17 @@ const VendorDetailPage = () => {
               {/* Quote Request Card */}
               <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-lg">
                 <div className="mb-4">
-                  {vendorData.pricing_type === 'from' && vendorData.pricing_from && (
+                  {vendorData.data.pricing_type === 'from' && vendorData.data.pricing_from && (
                     <div className="text-2xl font-bold text-gray-900">
-                      From ${vendorData.pricing_from}
+                      From ${vendorData.data.pricing_from}
                     </div>
                   )}
-                  {vendorData.pricing_type === 'range' && vendorData.pricing_from && vendorData.pricing_to && (
+                  {vendorData.data.pricing_type === 'range' && vendorData.data.pricing_from && vendorData.data.pricing_to && (
                     <div className="text-2xl font-bold text-gray-900">
-                      ${vendorData.pricing_from} - ${vendorData.pricing_to}
+                      ${vendorData.data.pricing_from} - ${vendorData.data.pricing_to}
                     </div>
                   )}
-                  {vendorData.pricing_type === 'enquire' && (
+                  {vendorData.data.pricing_type === 'enquire' && (
                     <div className="text-xl font-bold text-rose-600">
                       Contact for pricing
                     </div>
@@ -443,7 +443,7 @@ const VendorDetailPage = () => {
                     <Award className="h-5 w-5 text-gray-600 mr-3" />
                     <div>
                       <span className="text-sm text-gray-600">Experience</span>
-                      <p className="font-medium">{vendorData.years_experience || 'Not specified'} years</p>
+                      <p className="font-medium">{vendorData.data.years_experience || 'Not specified'} years</p>
                     </div>
                   </div>
                   
@@ -451,7 +451,7 @@ const VendorDetailPage = () => {
                     <Users className="h-5 w-5 text-gray-600 mr-3" />
                     <div>
                       <span className="text-sm text-gray-600">Team Size</span>
-                      <p className="font-medium">{vendorData.team_size || 'Not specified'} people</p>
+                      <p className="font-medium">{vendorData.data.team_size || 'Not specified'} people</p>
                     </div>
                   </div>
                   
@@ -460,7 +460,7 @@ const VendorDetailPage = () => {
                     <div>
                       <span className="text-sm text-gray-600">Service Areas</span>
                       <p className="font-medium">
-                        {vendorData.service_areas?.join(', ') || vendorData.location}
+                        {vendorData.data.service_areas?.join(', ') || vendorData.data.location}
                       </p>
                     </div>
                   </div>
@@ -473,9 +473,9 @@ const VendorDetailPage = () => {
                   Connect
                 </h3>
                 <div className="space-y-3">
-                  {vendorData.website && (
+                  {vendorData.data.website && (
                     <a
-                      href={vendorData.website}
+                      href={vendorData.data.website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center text-gray-600 hover:text-rose-600 transition-colors"
@@ -485,9 +485,9 @@ const VendorDetailPage = () => {
                     </a>
                   )}
                   
-                  {vendorData.instagram && (
+                  {vendorData.data.instagram && (
                     <a
-                      href={vendorData.instagram}
+                      href={vendorData.data.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center text-gray-600 hover:text-rose-600 transition-colors"
@@ -497,9 +497,9 @@ const VendorDetailPage = () => {
                     </a>
                   )}
                   
-                  {vendorData.facebook && (
+                  {vendorData.data.facebook && (
                     <a
-                      href={vendorData.facebook}
+                      href={vendorData.data.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center text-gray-600 hover:text-rose-600 transition-colors"
@@ -528,7 +528,7 @@ const VendorDetailPage = () => {
             
             <img
               src={images[currentImageIndex]}
-              alt={vendorData.business_name}
+              alt={vendorData.data.business_name}
               className="max-w-full max-h-full object-contain"
             />
             
