@@ -1,43 +1,102 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import {
-  Header,
-  HeroSection,
-  VendorCategories,
-  FeaturedVendors,
-  PlanningTools,
-  TrustSignals,
-  Testimonials,
-  Footer
-} from './components';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from './contexts/AuthContext';
 
-const Home = () => {
-  return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <HeroSection />
-      <VendorCategories />
-      <FeaturedVendors />
-      <PlanningTools />
-      <TrustSignals />
-      <Testimonials />
-      <Footer />
-    </div>
-  );
-};
+// Import pages
+import HomePage from './pages/HomePage';
+import SearchPage from './pages/SearchPage';
+import VendorDetailPage from './pages/VendorDetailPage';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import DashboardPage from './pages/DashboardPage';
+import VendorDashboardPage from './pages/VendorDashboardPage';
+import PlanningToolsPage from './pages/PlanningToolsPage';
+import BudgetTrackerPage from './pages/BudgetTrackerPage';
+import ChecklistPage from './pages/ChecklistPage';
+import TimelinePage from './pages/TimelinePage';
+import GuestListPage from './pages/GuestListPage';
+import ProfilePage from './pages/ProfilePage';
+import ProtectedRoute from './components/ProtectedRoute';
+
+// Create a client
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes
+      retry: 1,
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <div className="App">
+          <BrowserRouter>
+            <Routes>
+              {/* Public routes */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/search" element={<SearchPage />} />
+              <Route path="/vendors/:vendorId" element={<VendorDetailPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
+              
+              {/* Protected routes for couples */}
+              <Route path="/dashboard" element={
+                <ProtectedRoute userType="couple">
+                  <DashboardPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning" element={
+                <ProtectedRoute userType="couple">
+                  <PlanningToolsPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning/budget" element={
+                <ProtectedRoute userType="couple">
+                  <BudgetTrackerPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning/checklist" element={
+                <ProtectedRoute userType="couple">
+                  <ChecklistPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning/timeline" element={
+                <ProtectedRoute userType="couple">
+                  <TimelinePage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning/guests" element={
+                <ProtectedRoute userType="couple">
+                  <GuestListPage />
+                </ProtectedRoute>
+              } />
+              
+              {/* Protected routes for vendors */}
+              <Route path="/vendor-dashboard" element={
+                <ProtectedRoute userType="vendor">
+                  <VendorDashboardPage />
+                </ProtectedRoute>
+              } />
+              
+              {/* Protected routes for all users */}
+              <Route path="/profile" element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              } />
+              
+              {/* Catch all route */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
