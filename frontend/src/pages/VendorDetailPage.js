@@ -293,8 +293,7 @@ const VendorDetailPage = () => {
     );
   }
 
-  const vendorData = vendor.data;
-  const images = vendorData.gallery_images?.length > 0 ? vendorData.gallery_images : [
+  const images = vendorData.data.gallery_images?.length > 0 ? vendorData.data.gallery_images : [
     'https://images.unsplash.com/photo-1606490194859-07c18c9f0968',
     'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
     'https://images.unsplash.com/photo-1639259621742-90f4c0cf5a16'
