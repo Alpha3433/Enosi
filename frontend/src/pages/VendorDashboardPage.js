@@ -201,10 +201,13 @@ const VendorDashboardPage = () => {
               <span className="font-medium text-gray-900">Add Photos</span>
             </button>
             
-            <button className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-rose-300 hover:bg-rose-50 transition-colors">
-              <Plus className="h-6 w-6 text-rose-600 mr-3" />
-              <span className="font-medium text-gray-900">Add Package</span>
-            </button>
+            <Link
+              to="/vendor-subscription"
+              className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-rose-300 hover:bg-rose-50 transition-colors"
+            >
+              <DollarSign className="h-6 w-6 text-rose-600 mr-3" />
+              <span className="font-medium text-gray-900">Subscription</span>
+            </Link>
             
             <Link
               to="/profile"
