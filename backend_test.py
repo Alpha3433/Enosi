@@ -1208,9 +1208,100 @@ def test_phase2_features():
     
     return tester.tests_passed, tester.tests_run
 
+# Phase 3 Feature Tests
+def test_phase3_features():
+    """Test all Phase 3 features"""
+    print("\n🚀 Starting Phase 3 Feature Tests")
+    print("=" * 80)
+    
+    # Setup
+    tester = EnosiAPITester()
+    
+    # Test basic health check
+    tester.test_health_check()
+    
+    # Register and login as vendor
+    tester.test_register_vendor()
+    tester.test_login("vendor")
+    success, vendor_profile = tester.test_create_vendor_profile()
+    
+    # Register and login as couple
+    tester.test_register_couple()
+    tester.test_login("couple")
+    tester.test_update_couple_profile()
+    
+    # 1. Test File Upload & Media Management
+    print("\n📁 Testing File Upload & Media Management")
+    print("-" * 80)
+    
+    # Test file upload
+    tester.test_upload_image()
+    tester.test_upload_document()
+    
+    # Test getting user files
+    tester.test_get_user_files("image")
+    tester.test_get_user_files("document")
+    
+    # Test file deletion
+    if tester.file_id:
+        tester.test_delete_file(tester.file_id)
+    
+    # 2. Test Enhanced Search & Discovery
+    print("\n🔍 Testing Enhanced Search & Discovery")
+    print("-" * 80)
+    
+    # Test enhanced vendor search
+    tester.test_enhanced_vendor_search()
+    
+    # Test wishlist functionality
+    if tester.vendor_id:
+        tester.test_add_to_wishlist(tester.vendor_id)
+        tester.test_get_wishlist()
+        tester.test_remove_from_wishlist(tester.vendor_id)
+    
+    # Test view tracking
+    if tester.vendor_id:
+        tester.test_track_vendor_view(tester.vendor_id)
+        tester.test_get_recently_viewed()
+    
+    # 3. Test Real-time Communication System
+    print("\n💬 Testing Real-time Communication System")
+    print("-" * 80)
+    
+    # Test chat room creation
+    if tester.vendor_id:
+        tester.test_create_chat_room(tester.vendor_id)
+    
+    # Test getting chat rooms
+    tester.test_get_chat_rooms()
+    
+    # Test sending and retrieving messages
+    if tester.chat_room_id:
+        tester.test_send_chat_message(tester.chat_room_id)
+        tester.test_get_chat_messages(tester.chat_room_id)
+        tester.test_mark_messages_read(tester.chat_room_id)
+    
+    # Test notifications
+    tester.test_get_notifications()
+    tester.test_get_unread_notifications_count()
+    
+    if tester.notification_id:
+        tester.test_mark_notification_read(tester.notification_id)
+    
+    # Print results
+    print("\n📊 Tests passed: {}/{}".format(tester.tests_passed, tester.tests_run))
+    print("=" * 80)
+    
+    return tester.tests_passed, tester.tests_run
+
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "phase2":
-        passed, total = test_phase2_features()
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "phase2":
+            passed, total = test_phase2_features()
+        elif sys.argv[1] == "phase3":
+            passed, total = test_phase3_features()
+        else:
+            passed, total = test_phase1_features()
     else:
         passed, total = test_phase1_features()
     sys.exit(0 if passed == total else 1)
