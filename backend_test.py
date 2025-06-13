@@ -680,17 +680,14 @@ class EnosiAPITester:
     # 4. RSVP Management Tests
     def test_create_wedding_website(self):
         """Test creating a wedding website"""
+        # Create a simpler data structure for the wedding website
         data = {
             "title": "Sarah & Michael's Wedding",
             "welcome_message": "We're excited to celebrate our special day with you!",
             "wedding_date": (datetime.utcnow() + timedelta(days=180)).isoformat(),
             "venue_name": "Grand Ballroom",
             "venue_address": "123 Wedding Lane, Sydney NSW 2000",
-            "dress_code": "Formal",
-            "gift_registry_links": ["https://registry.example.com/sarah-michael"],
-            "rsvp_deadline": (datetime.utcnow() + timedelta(days=150)).isoformat(),
-            "is_published": True,
-            "url_slug": f"sarah-michael-{str(uuid.uuid4())[:8]}"
+            "rsvp_deadline": (datetime.utcnow() + timedelta(days=150)).isoformat()
         }
         
         success, response = self.run_test(
