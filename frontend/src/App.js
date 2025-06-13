@@ -21,6 +21,8 @@ import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import VendorSubscription from './pages/VendorSubscription';
 import PaymentSuccess from './pages/PaymentSuccess';
+import AdvancedPlanningPage from './pages/AdvancedPlanningPage';
+import VendorCalendarPage from './pages/VendorCalendarPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
