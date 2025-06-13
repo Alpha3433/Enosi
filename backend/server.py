@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, status
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import HTTPAuthorizationCredentials
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
@@ -7,7 +7,7 @@ import os
 import logging
 from pathlib import Path
 from typing import List, Optional
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 # Import our modules
 from .database import connect_to_mongo, close_mongo_connection, get_database
@@ -21,6 +21,10 @@ from .auth import (
     security,
     ACCESS_TOKEN_EXPIRE_MINUTES
 )
+from .services import AdminService, NotificationService, VendorAnalyticsService, PaymentService
+
+# Import Stripe integration
+from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
