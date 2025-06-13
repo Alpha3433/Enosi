@@ -219,12 +219,14 @@ class QuoteResponse(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class QuoteResponseCreate(BaseModel):
-    vendor_id: str
-    wedding_date: Optional[datetime] = None
-    guest_count: Optional[int] = None
-    budget_range: Optional[str] = None
-    event_details: str
-    additional_notes: Optional[str] = None
+    message: str
+    price_estimate: Optional[float] = None
+    packages_offered: List[Dict[str, Any]] = []
+    availability_confirmed: bool = False
+    valid_until: Optional[datetime] = None
+    attachments: List[str] = []
+    meeting_requested: bool = False
+    meeting_times: List[datetime] = []
 
 class QuoteRequestCreate(BaseModel):
     vendor_id: str
