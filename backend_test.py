@@ -1049,6 +1049,166 @@ def test_phase1_features():
     
     return tester.tests_passed, tester.tests_run
 
+def test_phase2_features():
+    """Test all Phase 2 features"""
+    print("\n🚀 Starting Phase 2 Feature Tests")
+    print("=" * 80)
+    
+    # Setup
+    tester = EnosiAPITester()
+    
+    # Test basic health check
+    tester.test_health_check()
+    
+    # Register and login as vendor
+    tester.test_register_vendor()
+    tester.test_login("vendor")
+    success, vendor_profile = tester.test_create_vendor_profile()
+    
+    # Register and login as couple
+    tester.test_register_couple()
+    tester.test_login("couple")
+    tester.test_update_couple_profile()
+    
+    # 1. Test Enhanced Review System
+    print("\n⭐ Testing Enhanced Review System")
+    print("-" * 80)
+    
+    # Create a review
+    if tester.vendor_id:
+        tester.test_create_review(tester.vendor_id)
+    else:
+        # Search for vendors if we don't have a vendor ID
+        success, vendors = tester.test_search_vendors()
+        if success and vendors and len(vendors) > 0:
+            tester.test_create_review(vendors[0]['id'])
+    
+    # Get vendor reviews
+    if tester.vendor_id:
+        tester.test_get_vendor_reviews(tester.vendor_id)
+    
+    # Login as vendor to respond to review
+    tester.test_login("vendor")
+    
+    # Respond to review
+    if tester.vendor_id and tester.review_id:
+        tester.test_respond_to_review(tester.vendor_id, tester.review_id)
+    
+    # 2. Test Trust Score & Badge System
+    print("\n🏆 Testing Trust Score & Badge System")
+    print("-" * 80)
+    
+    # Get vendor trust score
+    if tester.vendor_id:
+        tester.test_get_vendor_trust_score(tester.vendor_id)
+    
+    # Login as admin to recalculate trust score
+    tester.test_login("admin")
+    
+    # Recalculate trust score
+    if tester.vendor_id:
+        tester.test_recalculate_trust_score(tester.vendor_id)
+    
+    # 3. Test Enhanced Planning Tools - Seating Charts
+    print("\n🪑 Testing Seating Charts")
+    print("-" * 80)
+    
+    # Login as couple
+    tester.test_login("couple")
+    
+    # Create seating chart
+    tester.test_create_seating_chart()
+    
+    # Get seating charts
+    tester.test_get_seating_charts()
+    
+    # Optimize seating chart
+    if tester.seating_chart_id:
+        tester.test_optimize_seating_chart(tester.seating_chart_id)
+    
+    # 4. Test RSVP Management
+    print("\n📨 Testing RSVP Management")
+    print("-" * 80)
+    
+    # Create wedding website
+    tester.test_create_wedding_website()
+    
+    # Get wedding website (public)
+    if tester.wedding_website_slug:
+        tester.test_get_wedding_website(tester.wedding_website_slug)
+        
+        # Submit RSVP
+        tester.test_submit_rsvp(tester.wedding_website_slug)
+    
+    # 5. Test Vendor Calendar & Pricing Management
+    print("\n📅 Testing Vendor Calendar & Pricing Management")
+    print("-" * 80)
+    
+    # Login as vendor
+    tester.test_login("vendor")
+    
+    # Set vendor availability
+    tester.test_set_vendor_availability()
+    
+    # Get vendor availability
+    if tester.vendor_id:
+        tester.test_get_vendor_availability(tester.vendor_id)
+    
+    # Create vendor package
+    tester.test_create_vendor_package()
+    
+    # Get vendor packages
+    if tester.vendor_id:
+        tester.test_get_vendor_packages(tester.vendor_id)
+    
+    # 6. Test Decision Support Tools
+    print("\n🧠 Testing Decision Support Tools")
+    print("-" * 80)
+    
+    # Login as couple
+    tester.test_login("couple")
+    
+    # Create vendor comparison
+    if tester.vendor_id:
+        vendor_ids = [tester.vendor_id]
+        # Search for more vendors
+        success, vendors = tester.test_search_vendors()
+        if success and vendors and len(vendors) > 0:
+            for vendor in vendors[:2]:  # Add up to 2 more vendors
+                if vendor['id'] != tester.vendor_id:
+                    vendor_ids.append(vendor['id'])
+        
+        tester.test_create_vendor_comparison(vendor_ids)
+    
+    # Get vendor comparisons
+    tester.test_get_vendor_comparisons()
+    
+    # Optimize budget
+    tester.test_optimize_budget()
+    
+    # 7. Test Enhanced Guest Management
+    print("\n👥 Testing Enhanced Guest Management")
+    print("-" * 80)
+    
+    # Create guest
+    tester.test_create_guest()
+    
+    # Get guests
+    tester.test_get_guests()
+    
+    # Update guest
+    if tester.guest_id:
+        tester.test_update_guest(tester.guest_id)
+    
+    # Print results
+    print("\n📊 Tests passed: {}/{}".format(tester.tests_passed, tester.tests_run))
+    print("=" * 80)
+    
+    return tester.tests_passed, tester.tests_run
+
 if __name__ == "__main__":
-    passed, total = test_phase1_features()
+    if len(sys.argv) > 1 and sys.argv[1] == "phase2":
+        passed, total = test_phase2_features()
+    else:
+        passed, total = test_phase1_features()
     sys.exit(0 if passed == total else 1)
