@@ -18,6 +18,9 @@ import ChecklistPage from './pages/ChecklistPage';
 import TimelinePage from './pages/TimelinePage';
 import GuestListPage from './pages/GuestListPage';
 import ProfilePage from './pages/ProfilePage';
+import AdminDashboard from './pages/AdminDashboard';
+import VendorSubscription from './pages/VendorSubscription';
+import PaymentSuccess from './pages/PaymentSuccess';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
