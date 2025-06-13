@@ -1110,6 +1110,356 @@ async def update_guest(
     updated_guest = await db.guests.find_one({"id": guest_id})
     return Guest(**updated_guest)
 
+# Phase 3: File Upload & Media Management
+@api_router.post("/files/upload")
+async def upload_file(
+    file: UploadFile = File(...),
+    file_category: str = "image",
+    tags: str = "",
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Upload file to storage"""
+    current_user = await get_current_user(credentials, db)
+    
+    # Parse tags
+    tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()] if tags else []
+    
+    file_data = await FileUploadService.upload_file(
+        file=file,
+        file_category=file_category,
+        user_id=current_user.id,
+        db=db,
+        tags=tag_list
+    )
+    
+    return file_data
+
+@api_router.get("/files/user/{file_category}")
+async def get_user_files(
+    file_category: str,
+    limit: int = 50,
+    offset: int = 0,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get user's uploaded files"""
+    current_user = await get_current_user(credentials, db)
+    
+    files = await FileUploadService.get_user_files(
+        user_id=current_user.id,
+        file_category=file_category,
+        db=db,
+        limit=limit,
+        offset=offset
+    )
+    
+    return {"files": files, "total": len(files)}
+
+@api_router.delete("/files/{file_id}")
+async def delete_file(
+    file_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Delete file"""
+    current_user = await get_current_user(credentials, db)
+    
+    # Verify file ownership
+    file_metadata = await FileUploadService.get_file_metadata(file_id, db)
+    if not file_metadata or file_metadata["user_id"] != current_user.id:
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    success = await FileUploadService.delete_file(file_id, db)
+    if success:
+        return {"message": "File deleted successfully"}
+    else:
+        raise HTTPException(status_code=500, detail="Failed to delete file")
+
+# Phase 3: Enhanced Search & Discovery
+@api_router.post("/search/vendors/enhanced")
+async def enhanced_vendor_search(
+    search_filter: SearchFilter,
+    limit: int = 20,
+    offset: int = 0,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Enhanced vendor search with AI recommendations"""
+    current_user = await get_current_user(credentials, db)
+    
+    results = await AISearchService.enhanced_vendor_search(
+        db=db,
+        search_filter=search_filter,
+        user_id=current_user.id,
+        limit=limit,
+        offset=offset
+    )
+    
+    return results
+
+@api_router.post("/wishlist/add/{vendor_id}")
+async def add_to_wishlist(
+    vendor_id: str,
+    notes: str = "",
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Add vendor to wishlist"""
+    current_user = await get_current_user(credentials, db)
+    
+    wishlist_item = await WishlistService.add_to_wishlist(
+        db=db,
+        user_id=current_user.id,
+        vendor_id=vendor_id,
+        notes=notes
+    )
+    
+    return wishlist_item
+
+@api_router.delete("/wishlist/remove/{vendor_id}")
+async def remove_from_wishlist(
+    vendor_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Remove vendor from wishlist"""
+    current_user = await get_current_user(credentials, db)
+    
+    success = await WishlistService.remove_from_wishlist(
+        db=db,
+        user_id=current_user.id,
+        vendor_id=vendor_id
+    )
+    
+    if success:
+        return {"message": "Removed from wishlist"}
+    else:
+        raise HTTPException(status_code=404, detail="Item not found in wishlist")
+
+@api_router.get("/wishlist")
+async def get_wishlist(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get user's wishlist"""
+    current_user = await get_current_user(credentials, db)
+    
+    wishlist = await WishlistService.get_user_wishlist(db, current_user.id)
+    return {"wishlist": wishlist}
+
+@api_router.post("/tracking/view/{vendor_id}")
+async def track_vendor_view(
+    vendor_id: str,
+    time_spent: int = 0,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Track vendor profile view"""
+    current_user = await get_current_user(credentials, db)
+    
+    await ViewTrackingService.track_vendor_view(
+        db=db,
+        user_id=current_user.id,
+        vendor_id=vendor_id,
+        time_spent=time_spent
+    )
+    
+    return {"message": "View tracked"}
+
+@api_router.get("/tracking/recently-viewed")
+async def get_recently_viewed(
+    limit: int = 10,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get recently viewed vendors"""
+    current_user = await get_current_user(credentials, db)
+    
+    recently_viewed = await ViewTrackingService.get_recently_viewed(
+        db, current_user.id, limit
+    )
+    
+    return {"recently_viewed": recently_viewed}
+
+# Phase 3: Real-time Communication
+@api_router.websocket("/ws/{user_id}")
+async def websocket_endpoint(websocket: WebSocket, user_id: str):
+    """WebSocket endpoint for real-time communication"""
+    await connection_manager.connect(websocket, user_id)
+    try:
+        while True:
+            data = await websocket.receive_text()
+            message = json.loads(data)
+            
+            # Handle different message types
+            if message["type"] == "join_room":
+                await connection_manager.join_room(user_id, message["room_id"])
+            elif message["type"] == "leave_room":
+                await connection_manager.leave_room(user_id, message["room_id"])
+            elif message["type"] == "ping":
+                await websocket.send_text(json.dumps({"type": "pong"}))
+                
+    except WebSocketDisconnect:
+        connection_manager.disconnect(websocket, user_id)
+
+@api_router.post("/chat/rooms")
+async def create_chat_room(
+    vendor_id: str,
+    quote_id: str = None,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create chat room between couple and vendor"""
+    current_user = await get_current_user(credentials, db)
+    
+    if current_user.user_type != UserType.COUPLE:
+        raise HTTPException(status_code=403, detail="Only couples can create chat rooms")
+    
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    chat_room = await ChatService.create_chat_room(
+        db=db,
+        couple_id=couple_profile["id"],
+        vendor_id=vendor_id,
+        quote_id=quote_id
+    )
+    
+    return chat_room
+
+@api_router.get("/chat/rooms")
+async def get_chat_rooms(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get user's chat rooms"""
+    current_user = await get_current_user(credentials, db)
+    
+    rooms = await ChatService.get_user_chat_rooms(
+        db=db,
+        user_id=current_user.id,
+        user_type=current_user.user_type
+    )
+    
+    return {"rooms": rooms}
+
+@api_router.post("/chat/rooms/{room_id}/messages")
+async def send_chat_message(
+    room_id: str,
+    content: str,
+    message_type: str = "text",
+    attachments: List[str] = [],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Send message in chat room"""
+    current_user = await get_current_user(credentials, db)
+    
+    message = await ChatService.send_message(
+        db=db,
+        room_id=room_id,
+        sender_id=current_user.id,
+        sender_type=current_user.user_type,
+        content=content,
+        message_type=message_type,
+        attachments=attachments
+    )
+    
+    return message
+
+@api_router.get("/chat/rooms/{room_id}/messages")
+async def get_chat_messages(
+    room_id: str,
+    limit: int = 50,
+    before_id: str = None,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get messages from chat room"""
+    current_user = await get_current_user(credentials, db)
+    
+    messages = await ChatService.get_room_messages(
+        db=db,
+        room_id=room_id,
+        user_id=current_user.id,
+        limit=limit,
+        before_id=before_id
+    )
+    
+    return {"messages": messages}
+
+@api_router.post("/chat/rooms/{room_id}/read")
+async def mark_messages_read(
+    room_id: str,
+    message_ids: List[str] = None,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Mark messages as read"""
+    current_user = await get_current_user(credentials, db)
+    
+    success = await ChatService.mark_messages_read(
+        db=db,
+        room_id=room_id,
+        user_id=current_user.id,
+        message_ids=message_ids
+    )
+    
+    return {"success": success}
+
+@api_router.get("/notifications")
+async def get_notifications(
+    unread_only: bool = False,
+    limit: int = 50,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get user notifications"""
+    current_user = await get_current_user(credentials, db)
+    
+    notifications = await RealTimeNotificationService.get_user_notifications(
+        db=db,
+        user_id=current_user.id,
+        unread_only=unread_only,
+        limit=limit
+    )
+    
+    return {"notifications": notifications}
+
+@api_router.post("/notifications/{notification_id}/read")
+async def mark_notification_read(
+    notification_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Mark notification as read"""
+    current_user = await get_current_user(credentials, db)
+    
+    success = await RealTimeNotificationService.mark_notification_read(
+        db=db,
+        notification_id=notification_id,
+        user_id=current_user.id
+    )
+    
+    return {"success": success}
+
+@api_router.get("/notifications/unread-count")
+async def get_unread_notifications_count(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get unread notifications count"""
+    current_user = await get_current_user(credentials, db)
+    
+    count = await RealTimeNotificationService.get_unread_count(
+        db=db,
+        user_id=current_user.id
+    )
+    
+    return {"unread_count": count}
+
 # Basic routes
 @api_router.get("/")
 async def root():
