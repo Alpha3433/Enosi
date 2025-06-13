@@ -120,3 +120,34 @@ async def create_indexes():
     await db.db.seasonal_pricing.create_index("vendor_id")
     await db.db.seasonal_pricing.create_index("start_date")
     await db.db.seasonal_pricing.create_index("end_date")
+    
+    # Phase 3: File management indexes
+    await db.db.file_uploads.create_index("file_id", unique=True)
+    await db.db.file_uploads.create_index("user_id")
+    await db.db.file_uploads.create_index("file_type")
+    await db.db.file_uploads.create_index("category")
+    await db.db.file_uploads.create_index("upload_date")
+    await db.db.file_uploads.create_index("tags")
+    
+    # Phase 3: Enhanced search indexes
+    await db.db.wishlist_items.create_index([("user_id", 1), ("vendor_id", 1)], unique=True)
+    await db.db.wishlist_items.create_index("added_at")
+    await db.db.recently_viewed.create_index([("user_id", 1), ("vendor_id", 1)], unique=True)
+    await db.db.recently_viewed.create_index("viewed_at")
+    await db.db.recently_viewed.create_index("user_id")
+    
+    # Phase 3: Communication indexes
+    await db.db.chat_rooms.create_index([("couple_id", 1), ("vendor_id", 1)], unique=True)
+    await db.db.chat_rooms.create_index("created_at")
+    await db.db.chat_rooms.create_index("last_message_at")
+    await db.db.chat_messages.create_index("room_id")
+    await db.db.chat_messages.create_index("sender_id")
+    await db.db.chat_messages.create_index("created_at")
+    await db.db.chat_messages.create_index("read_by")
+    
+    # Phase 3: Notification indexes
+    await db.db.notifications.create_index("user_id")
+    await db.db.notifications.create_index("read")
+    await db.db.notifications.create_index("notification_type")
+    await db.db.notifications.create_index("created_at")
+    await db.db.notification_preferences.create_index("user_id", unique=True)
