@@ -151,6 +151,61 @@ const VendorDetailPage = () => {
     { data: mockVendorData[vendorId] } : 
     vendor || { data: mockVendorData['mock-1'] };
 
+  useEffect(() => {
+    if (vendor) {
+      fetchReviewsAndTrustScore();
+    }
+  }, [vendor]);
+
+  const fetchReviewsAndTrustScore = async () => {
+    try {
+      // Fetch reviews
+      const reviewsResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/vendors/${vendorId}/reviews`);
+      if (reviewsResponse.ok) {
+        const reviewsData = await reviewsResponse.json();
+        setReviews(reviewsData);
+      }
+
+      // Fetch trust score
+      const trustResponse = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/vendors/${vendorId}/trust-score`);
+      if (trustResponse.ok) {
+        const trustData = await trustResponse.json();
+        setTrustScore(trustData);
+      }
+    } catch (error) {
+      console.error('Error fetching reviews and trust score:', error);
+    }
+  };
+
+  const handleReviewSubmit = async (reviewData) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(reviewData)
+      });
+
+      if (response.ok) {
+        const newReview = await response.json();
+        setReviews(prev => [newReview, ...prev]);
+        setShowReviewForm(false);
+        alert('Review submitted successfully!');
+        
+        // Refresh trust score
+        fetchReviewsAndTrustScore();
+      } else {
+        throw new Error('Failed to submit review');
+      }
+    } catch (error) {
+      console.error('Error submitting review:', error);
+      alert('Failed to submit review. Please try again.');
+    }
+  };
+
   // Don't show loading for mock vendors
   const isActuallyLoading = isLoading && !vendorId.startsWith('mock-');
 
