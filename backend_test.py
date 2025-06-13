@@ -716,10 +716,21 @@ class EnosiAPITester:
     
     def test_submit_rsvp(self, website_slug):
         """Test submitting RSVP response"""
+        # First, we need to create a guest that we can update with RSVP
+        self.test_login("couple")
+        self.test_create_guest()
+        
+        # Get the guest we just created
+        success, guests = self.test_get_guests()
+        if not success or not guests or len(guests) == 0:
+            print("❌ No guests available for RSVP test")
+            return False, {}
+        
+        # Use the email of an existing guest
+        guest_email = guests[0]["email"]
+        
         data = {
-            "email": f"guest_{str(uuid.uuid4())[:8]}@example.com",
-            "first_name": "John",
-            "last_name": "Smith",
+            "email": guest_email,
             "rsvp_status": "attending",
             "dietary_requirements": "Vegetarian"
         }
