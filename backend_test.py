@@ -22,6 +22,9 @@ class EnosiAPITester:
         self.wedding_website_slug = None
         self.guest_id = None
         self.vendor_package_id = None
+        self.file_id = None
+        self.chat_room_id = None
+        self.notification_id = None
 
     def run_test(self, name, method, endpoint, expected_status, data=None, params=None):
         """Run a single API test"""
