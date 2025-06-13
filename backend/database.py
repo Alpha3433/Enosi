@@ -56,3 +56,25 @@ async def create_indexes():
     await db.db.checklist_items.create_index("couple_id")
     await db.db.timeline_events.create_index("couple_id")
     await db.db.guests.create_index("couple_id")
+    
+    # Payment transaction indexes
+    await db.db.payment_transactions.create_index("session_id", unique=True)
+    await db.db.payment_transactions.create_index("user_id")
+    await db.db.payment_transactions.create_index("payment_status")
+    await db.db.payment_transactions.create_index("created_at")
+    
+    # Quote response indexes
+    await db.db.quote_responses.create_index("quote_request_id")
+    await db.db.quote_responses.create_index("vendor_id")
+    await db.db.quote_responses.create_index("created_at")
+    
+    # Vendor analytics indexes
+    await db.db.vendor_analytics.create_index("vendor_id")
+    await db.db.vendor_analytics.create_index("period_start")
+    await db.db.vendor_analytics.create_index([("vendor_id", 1), ("period_start", 1)], unique=True)
+    
+    # Admin actions indexes
+    await db.db.admin_actions.create_index("admin_id")
+    await db.db.admin_actions.create_index("action_type")
+    await db.db.admin_actions.create_index("target_id")
+    await db.db.admin_actions.create_index("created_at")
