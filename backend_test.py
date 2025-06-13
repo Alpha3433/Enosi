@@ -346,7 +346,8 @@ class EnosiAPITester:
             "guest_count": 150,
             "budget_range": "$2000-$3000",
             "event_details": "Full day wedding photography",
-            "additional_notes": "Looking for candid style photography"
+            "additional_notes": "Looking for candid style photography",
+            "message": "I'm interested in your photography services for my wedding"
         }
         
         success, response = self.run_test(
