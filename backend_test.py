@@ -645,7 +645,7 @@ class EnosiAPITester:
     # 3. Enhanced Planning Tools - Seating Charts Tests
     def test_create_seating_chart(self):
         """Test creating a seating chart"""
-        data = {
+        params = {
             "layout_name": "Reception Dinner",
             "venue_layout": "ballroom"
         }
@@ -655,7 +655,7 @@ class EnosiAPITester:
             "POST",
             "planning/seating-charts",
             200,
-            data=data
+            params=params
         )
         
         if success and response and 'id' in response:
