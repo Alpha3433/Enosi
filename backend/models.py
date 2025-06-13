@@ -7,6 +7,7 @@ import uuid
 class UserType(str, Enum):
     COUPLE = "couple"
     VENDOR = "vendor"
+    ADMIN = "admin"
 
 class VendorCategory(str, Enum):
     PHOTOGRAPHER = "photographer"
@@ -25,6 +26,17 @@ class QuoteStatus(str, Enum):
     RESPONDED = "responded"
     ACCEPTED = "accepted"
     DECLINED = "declined"
+
+class VendorStatus(str, Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+    SUSPENDED = "suspended"
+
+class SubscriptionPlan(str, Enum):
+    STARTER = "starter"
+    PROFESSIONAL = "professional"
+    PREMIUM = "premium"
 
 # User Models
 class UserBase(BaseModel):
@@ -45,7 +57,205 @@ class UserResponse(UserBase):
 class UserInDB(UserResponse):
     hashed_password: str
 
-# Couple-specific models
+# Admin Models
+class AdminAction(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    admin_id: str
+    action_type: str  # "approve_vendor", "reject_vendor", "suspend_user", etc.
+    target_id: str
+    reason: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class PlatformMetrics(BaseModel):
+    total_vendors: int
+    active_vendors: int
+    pending_vendors: int
+    total_couples: int
+    active_couples: int
+    total_quotes: int
+    processed_quotes: int
+    monthly_revenue: float
+    date_generated: datetime = Field(default_factory=datetime.utcnow)
+
+# Vendor Verification Models
+class ABNValidation(BaseModel):
+    abn: str
+    business_name: str
+    business_status: str
+    gst_registered: bool
+    validated_at: datetime = Field(default_factory=datetime.utcnow)
+
+class VendorDocument(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    document_type: str  # "business_license", "insurance", "portfolio"
+    file_url: str
+    file_name: str
+    uploaded_at: datetime = Field(default_factory=datetime.utcnow)
+    verified: bool = False
+    verified_by: Optional[str] = None
+    verified_at: Optional[datetime] = None
+
+# Enhanced Vendor Models
+class VendorProfile(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    business_name: str
+    category: VendorCategory
+    description: str
+    location: str
+    service_areas: List[str] = []
+    pricing_from: Optional[float] = None
+    pricing_to: Optional[float] = None
+    pricing_type: str = "from"
+    gallery_images: List[str] = []
+    website: Optional[str] = None
+    instagram: Optional[str] = None
+    facebook: Optional[str] = None
+    years_experience: Optional[int] = None
+    team_size: Optional[int] = None
+    packages: List[Dict[str, Any]] = []
+    reviews: List[Dict[str, Any]] = []
+    average_rating: float = 0.0
+    total_reviews: int = 0
+    verified: bool = False
+    featured: bool = False
+    status: VendorStatus = VendorStatus.PENDING
+    subscription_plan: Optional[SubscriptionPlan] = None
+    subscription_active: bool = False
+    subscription_expires: Optional[datetime] = None
+    abn: Optional[str] = None
+    abn_validated: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    approved_at: Optional[datetime] = None
+    approved_by: Optional[str] = None
+
+class VendorProfileCreate(BaseModel):
+    business_name: str
+    category: VendorCategory
+    description: str
+    location: str
+    service_areas: List[str] = []
+    pricing_from: Optional[float] = None
+    pricing_to: Optional[float] = None
+    pricing_type: str = "from"
+    gallery_images: List[str] = []
+    website: Optional[str] = None
+    instagram: Optional[str] = None
+    facebook: Optional[str] = None
+    years_experience: Optional[int] = None
+    team_size: Optional[int] = None
+    packages: List[Dict[str, Any]] = []
+    abn: Optional[str] = None
+
+class VendorProfileUpdate(BaseModel):
+    business_name: Optional[str] = None
+    description: Optional[str] = None
+    location: Optional[str] = None
+    service_areas: Optional[List[str]] = None
+    pricing_from: Optional[float] = None
+    pricing_to: Optional[float] = None
+    pricing_type: Optional[str] = None
+    gallery_images: Optional[List[str]] = None
+    website: Optional[str] = None
+    instagram: Optional[str] = None
+    facebook: Optional[str] = None
+    years_experience: Optional[int] = None
+    team_size: Optional[int] = None
+    packages: Optional[List[Dict[str, Any]]] = None
+
+# Payment Models
+class SubscriptionPayment(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    stripe_subscription_id: str
+    plan: SubscriptionPlan
+    amount: float
+    currency: str = "AUD"
+    status: str  # "active", "past_due", "canceled", "unpaid"
+    current_period_start: datetime
+    current_period_end: datetime
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class PaymentHistory(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    stripe_payment_id: str
+    amount: float
+    currency: str = "AUD"
+    description: str
+    status: str  # "succeeded", "failed", "pending"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Enhanced Quote Models
+class QuoteRequest(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    vendor_id: str
+    wedding_date: Optional[datetime] = None
+    guest_count: Optional[int] = None
+    budget_range: Optional[str] = None
+    event_details: str
+    additional_notes: Optional[str] = None
+    status: QuoteStatus = QuoteStatus.PENDING
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    responded_at: Optional[datetime] = None
+    response_time_hours: Optional[float] = None
+
+class QuoteResponse(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    quote_request_id: str
+    vendor_id: str
+    message: str
+    price_estimate: Optional[float] = None
+    packages_offered: List[Dict[str, Any]] = []
+    availability_confirmed: bool = False
+    valid_until: Optional[datetime] = None
+    attachments: List[str] = []
+    meeting_requested: bool = False
+    meeting_times: List[datetime] = []
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class QuoteResponseCreate(BaseModel):
+    message: str
+    price_estimate: Optional[float] = None
+    packages_offered: List[Dict[str, Any]] = []
+    availability_confirmed: bool = False
+    valid_until: Optional[datetime] = None
+    attachments: List[str] = []
+    meeting_requested: bool = False
+    meeting_times: List[datetime] = []
+
+# Vendor Analytics Models
+class VendorAnalytics(BaseModel):
+    vendor_id: str
+    period_start: datetime
+    period_end: datetime
+    profile_views: int = 0
+    quote_requests_received: int = 0
+    quotes_responded: int = 0
+    quotes_accepted: int = 0
+    response_time_avg_hours: float = 0.0
+    conversion_rate: float = 0.0
+    revenue_generated: float = 0.0
+    gallery_clicks: int = 0
+    contact_clicks: int = 0
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+# File Upload Models
+class FileUpload(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    file_name: str
+    file_url: str
+    file_type: str
+    file_size: int
+    upload_purpose: str  # "vendor_gallery", "vendor_document", "quote_attachment"
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Keep existing models (Couple profiles, Planning tools, etc.)
 class CoupleProfile(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str
@@ -75,105 +285,7 @@ class CoupleProfileUpdate(BaseModel):
     budget: Optional[float] = None
     style_preferences: Optional[List[str]] = None
 
-# Vendor-specific models
-class VendorProfile(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    business_name: str
-    category: VendorCategory
-    description: str
-    location: str
-    service_areas: List[str] = []
-    pricing_from: Optional[float] = None
-    pricing_to: Optional[float] = None
-    pricing_type: str = "from"  # "from", "range", "enquire"
-    gallery_images: List[str] = []
-    website: Optional[str] = None
-    instagram: Optional[str] = None
-    facebook: Optional[str] = None
-    years_experience: Optional[int] = None
-    team_size: Optional[int] = None
-    packages: List[Dict[str, Any]] = []
-    reviews: List[Dict[str, Any]] = []
-    average_rating: float = 0.0
-    total_reviews: int = 0
-    verified: bool = False
-    featured: bool = False
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-
-class VendorProfileCreate(BaseModel):
-    business_name: str
-    category: VendorCategory
-    description: str
-    location: str
-    service_areas: List[str] = []
-    pricing_from: Optional[float] = None
-    pricing_to: Optional[float] = None
-    pricing_type: str = "from"
-    gallery_images: List[str] = []
-    website: Optional[str] = None
-    instagram: Optional[str] = None
-    facebook: Optional[str] = None
-    years_experience: Optional[int] = None
-    team_size: Optional[int] = None
-    packages: List[Dict[str, Any]] = []
-
-class VendorProfileUpdate(BaseModel):
-    business_name: Optional[str] = None
-    description: Optional[str] = None
-    location: Optional[str] = None
-    service_areas: Optional[List[str]] = None
-    pricing_from: Optional[float] = None
-    pricing_to: Optional[float] = None
-    pricing_type: Optional[str] = None
-    gallery_images: Optional[List[str]] = None
-    website: Optional[str] = None
-    instagram: Optional[str] = None
-    facebook: Optional[str] = None
-    years_experience: Optional[int] = None
-    team_size: Optional[int] = None
-    packages: Optional[List[Dict[str, Any]]] = None
-
-# Quote models
-class QuoteRequest(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    couple_id: str
-    vendor_id: str
-    wedding_date: Optional[datetime] = None
-    guest_count: Optional[int] = None
-    budget_range: Optional[str] = None
-    event_details: str
-    additional_notes: Optional[str] = None
-    status: QuoteStatus = QuoteStatus.PENDING
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-    updated_at: datetime = Field(default_factory=datetime.utcnow)
-
-class QuoteRequestCreate(BaseModel):
-    vendor_id: str
-    wedding_date: Optional[datetime] = None
-    guest_count: Optional[int] = None
-    budget_range: Optional[str] = None
-    event_details: str
-    additional_notes: Optional[str] = None
-
-class QuoteResponse(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    quote_request_id: str
-    vendor_id: str
-    message: str
-    price_estimate: Optional[float] = None
-    packages_offered: List[Dict[str, Any]] = []
-    valid_until: Optional[datetime] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
-class QuoteResponseCreate(BaseModel):
-    message: str
-    price_estimate: Optional[float] = None
-    packages_offered: List[Dict[str, Any]] = []
-    valid_until: Optional[datetime] = None
-
-# Planning Tools models
+# Planning Tools models (keep existing)
 class BudgetItem(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     couple_id: str
@@ -201,7 +313,7 @@ class ChecklistItem(BaseModel):
     due_date: Optional[datetime] = None
     completed: bool = False
     category: str
-    priority: int = 1  # 1-5 scale
+    priority: int = 1
     created_at: datetime = Field(default_factory=datetime.utcnow)
     completed_at: Optional[datetime] = None
 
@@ -219,7 +331,6 @@ class ChecklistItemUpdate(BaseModel):
     completed: Optional[bool] = None
     priority: Optional[int] = None
 
-# Timeline models
 class TimelineEvent(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     couple_id: str
@@ -243,7 +354,6 @@ class TimelineEventCreate(BaseModel):
     attendees: List[str] = []
     notes: Optional[str] = None
 
-# Guest List models
 class Guest(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     couple_id: str
@@ -253,7 +363,7 @@ class Guest(BaseModel):
     phone: Optional[str] = None
     address: Optional[str] = None
     relationship: Optional[str] = None
-    rsvp_status: str = "pending"  # pending, attending, not_attending
+    rsvp_status: str = "pending"
     plus_one: bool = False
     dietary_requirements: Optional[str] = None
     table_assignment: Optional[str] = None
