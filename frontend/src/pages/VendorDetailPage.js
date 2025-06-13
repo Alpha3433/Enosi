@@ -653,6 +653,14 @@ const VendorDetailPage = () => {
         vendor={vendorData}
       />
 
+      {showReviewForm && (
+        <ReviewForm
+          vendor={vendorData.data}
+          onSubmit={handleReviewSubmit}
+          onCancel={() => setShowReviewForm(false)}
+        />
+      )}
+
       <Footer />
     </div>
   );
