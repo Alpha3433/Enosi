@@ -389,7 +389,7 @@ const VendorDetailPage = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <div className="relative h-96">
                 <img
-                  src={vendorData.data.gallery_images?.[activeImageIndex] || vendorData.data.image}
+                  src={vendorData.data.gallery_images?.[currentImageIndex] || vendorData.data.image}
                   alt={vendorData.data.business_name}
                   className="w-full h-full object-cover"
                 />
