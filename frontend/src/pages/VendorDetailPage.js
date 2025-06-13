@@ -21,6 +21,9 @@ import {
 } from 'lucide-react';
 import { Header, Footer, QuoteRequestModal } from '../components';
 import { vendorsAPI } from '../services/api';
+import ReviewDisplay from '../components/ReviewDisplay';
+import ReviewForm from '../components/ReviewForm';
+import TrustBadges from '../components/TrustBadges';
 
 const VendorDetailPage = () => {
   const { vendorId } = useParams();
