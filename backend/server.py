@@ -22,6 +22,7 @@ from .auth import (
     ACCESS_TOKEN_EXPIRE_MINUTES
 )
 from .services import AdminService, NotificationService, VendorAnalyticsService, PaymentService
+from .phase2_services import ReviewService, TrustScoreService, SeatingChartService, RSVPService, VendorCalendarService, DecisionSupportService
 
 # Import Stripe integration
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
