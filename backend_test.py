@@ -3,6 +3,7 @@ import sys
 import json
 import uuid
 import base64
+import os
 from datetime import datetime, timedelta
 
 class EnosiAPITester:
