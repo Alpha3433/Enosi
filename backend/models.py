@@ -285,6 +285,166 @@ class CoupleProfile(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     updated_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Enhanced Review System Models
+class ReviewRating(BaseModel):
+    quality: float = Field(ge=1, le=5)
+    communication: float = Field(ge=1, le=5)
+    value: float = Field(ge=1, le=5)
+    professionalism: float = Field(ge=1, le=5)
+
+class ReviewPhoto(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    url: str
+    caption: Optional[str] = None
+    uploaded_at: datetime = Field(default_factory=datetime.utcnow)
+
+class VendorReview(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    couple_id: str
+    wedding_date: datetime
+    overall_rating: float = Field(ge=1, le=5)
+    detailed_ratings: ReviewRating
+    review_text: str
+    photos: List[ReviewPhoto] = []
+    verified: bool = False
+    helpful_votes: int = 0
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    vendor_response: Optional[str] = None
+    vendor_response_date: Optional[datetime] = None
+
+class ReviewCreate(BaseModel):
+    vendor_id: str
+    wedding_date: datetime
+    overall_rating: float = Field(ge=1, le=5)
+    detailed_ratings: ReviewRating
+    review_text: str
+    photos: List[str] = []  # Base64 encoded images
+
+# Trust Score & Badge Models
+class TrustBadge(str, Enum):
+    VERIFIED_BUSINESS = "verified_business"
+    QUICK_RESPONDER = "quick_responder"
+    HIGHLY_RATED = "highly_rated"
+    WEDDING_SPECIALIST = "wedding_specialist"
+    CUSTOMER_FAVORITE = "customer_favorite"
+    PLATFORM_RECOMMENDED = "platform_recommended"
+
+class VendorTrustScore(BaseModel):
+    vendor_id: str
+    overall_score: float = Field(ge=0, le=100)
+    verification_score: float = Field(ge=0, le=100)
+    performance_score: float = Field(ge=0, le=100)
+    customer_satisfaction_score: float = Field(ge=0, le=100)
+    badges: List[TrustBadge] = []
+    last_calculated: datetime = Field(default_factory=datetime.utcnow)
+
+# Seating Chart Models
+class TableArrangement(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    table_number: int
+    table_shape: str = "round"  # round, rectangular, etc.
+    seat_count: int
+    position_x: float
+    position_y: float
+    guests: List[str] = []  # Guest IDs
+
+class SeatingChart(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    layout_name: str
+    venue_layout: str = "ballroom"  # ballroom, garden, etc.
+    tables: List[TableArrangement] = []
+    unassigned_guests: List[str] = []
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Enhanced Guest Model with RSVP
+class Guest(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    first_name: str
+    last_name: str
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    address: Optional[str] = None
+    relationship: Optional[str] = None
+    rsvp_status: str = "pending"  # pending, attending, declined
+    plus_one: bool = False
+    plus_one_name: Optional[str] = None
+    plus_one_rsvp: str = "pending"
+    dietary_requirements: Optional[str] = None
+    accessibility_needs: Optional[str] = None
+    table_assignment: Optional[str] = None
+    rsvp_date: Optional[datetime] = None
+    notes: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+# RSVP Website Models
+class WeddingWebsite(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    url_slug: str = Field(unique=True)
+    title: str
+    welcome_message: str
+    wedding_date: datetime
+    venue_name: str
+    venue_address: str
+    dress_code: Optional[str] = None
+    gift_registry_links: List[str] = []
+    custom_sections: List[Dict[str, Any]] = []
+    rsvp_deadline: datetime
+    is_published: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+# Vendor Calendar & Pricing Models
+class VendorAvailability(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    date: datetime
+    is_available: bool = True
+    is_booked: bool = False
+    pricing_tier: str = "standard"  # standard, peak, off_peak
+    notes: Optional[str] = None
+
+class SeasonalPricing(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    season_name: str
+    start_date: datetime
+    end_date: datetime
+    price_multiplier: float = 1.0
+    description: Optional[str] = None
+
+class VendorPackage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    vendor_id: str
+    name: str
+    description: str
+    base_price: float
+    inclusions: List[str] = []
+    duration_hours: Optional[int] = None
+    max_guests: Optional[int] = None
+    is_customizable: bool = True
+    add_ons: List[Dict[str, Any]] = []
+
+# Decision Support Models
+class VendorComparison(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    vendors: List[str] = []  # vendor IDs
+    comparison_criteria: List[str] = []
+    notes: Dict[str, str] = {}  # vendor_id -> notes
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class BudgetOptimization(BaseModel):
+    couple_id: str
+    total_budget: float
+    recommendations: List[Dict[str, Any]] = []
+    savings_opportunities: List[Dict[str, Any]] = []
+    priority_adjustments: List[Dict[str, Any]] = []
+    generated_at: datetime = Field(default_factory=datetime.utcnow)
+
 class CoupleProfileCreate(BaseModel):
     partner_name: Optional[str] = None
     wedding_date: Optional[datetime] = None
