@@ -275,6 +275,122 @@ async def get_quote_requests(
     quotes = await db.quote_requests.find(query).to_list(100)
     return [QuoteRequest(**quote) for quote in quotes]
 
+# Quote response routes
+@api_router.post("/quotes/{quote_id}/respond", response_model=QuoteResponse)
+async def respond_to_quote(
+    quote_id: str,
+    response_data: QuoteResponseCreate,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Vendor responds to a quote request"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.VENDOR:
+        raise HTTPException(status_code=403, detail="Only vendors can respond to quotes")
+    
+    # Get vendor profile
+    vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+    if not vendor_profile:
+        raise HTTPException(status_code=404, detail="Vendor profile not found")
+    
+    # Get the quote request
+    quote_request = await db.quote_requests.find_one({"id": quote_id})
+    if not quote_request:
+        raise HTTPException(status_code=404, detail="Quote request not found")
+    
+    # Check if this is the vendor's quote
+    if quote_request["vendor_id"] != vendor_profile["id"]:
+        raise HTTPException(status_code=403, detail="You can only respond to your own quotes")
+    
+    # Calculate response time
+    created_at = quote_request["created_at"]
+    now = datetime.utcnow()
+    response_time_hours = (now - created_at).total_seconds() / 3600
+    
+    # Create quote response
+    quote_response = QuoteResponse(**response_data.dict(), 
+                                 quote_request_id=quote_id, 
+                                 vendor_id=vendor_profile["id"])
+    
+    await db.quote_responses.insert_one(quote_response.dict())
+    
+    # Update quote request status
+    await db.quote_requests.update_one(
+        {"id": quote_id},
+        {
+            "$set": {
+                "status": QuoteStatus.RESPONDED,
+                "responded_at": now,
+                "response_time_hours": response_time_hours,
+                "updated_at": now
+            }
+        }
+    )
+    
+    # Track analytics
+    await VendorAnalyticsService.track_quote_response(db, vendor_profile["id"], response_time_hours)
+    
+    # Send notification to couple
+    couple_profile = await db.couple_profiles.find_one({"id": quote_request["couple_id"]})
+    if couple_profile:
+        couple_user = await db.users.find_one({"id": couple_profile["user_id"]})
+        if couple_user:
+            await NotificationService.send_quote_notification_email(
+                couple_user["email"], 
+                vendor_profile["business_name"], 
+                quote_id
+            )
+    
+    return quote_response
+
+@api_router.get("/quotes/responses", response_model=List[QuoteResponse])
+async def get_quote_responses(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get quote responses for current user"""
+    current_user = await get_current_user(credentials, db)
+    
+    if current_user.user_type == UserType.VENDOR:
+        vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+        query = {"vendor_id": vendor_profile["id"]}
+    else:
+        # For couples, get responses to their quote requests
+        couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+        # Get all quote request IDs from this couple
+        quote_requests = await db.quote_requests.find({"couple_id": couple_profile["id"]}).to_list(100)
+        quote_request_ids = [q["id"] for q in quote_requests]
+        query = {"quote_request_id": {"$in": quote_request_ids}}
+    
+    responses = await db.quote_responses.find(query).to_list(100)
+    return [QuoteResponse(**response) for response in responses]
+
+@api_router.get("/quotes/{quote_id}/responses", response_model=List[QuoteResponse])
+async def get_responses_for_quote(
+    quote_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all responses for a specific quote request"""
+    current_user = await get_current_user(credentials, db)
+    
+    # Verify user has access to this quote
+    quote_request = await db.quote_requests.find_one({"id": quote_id})
+    if not quote_request:
+        raise HTTPException(status_code=404, detail="Quote request not found")
+    
+    if current_user.user_type == UserType.COUPLE:
+        couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+        if quote_request["couple_id"] != couple_profile["id"]:
+            raise HTTPException(status_code=403, detail="Access denied")
+    elif current_user.user_type == UserType.VENDOR:
+        vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+        if quote_request["vendor_id"] != vendor_profile["id"]:
+            raise HTTPException(status_code=403, detail="Access denied")
+    
+    responses = await db.quote_responses.find({"quote_request_id": quote_id}).to_list(100)
+    return [QuoteResponse(**response) for response in responses]
+
 # Planning tools routes
 @api_router.post("/planning/budget", response_model=BudgetItem)
 async def create_budget_item(
