@@ -563,6 +563,368 @@ class EnosiAPITester:
             f"vendors/{vendor_id}",
             200
         )
+    
+    # Phase 2 Feature Tests
+    
+    # 1. Enhanced Review System Tests
+    def test_create_review(self, vendor_id):
+        """Test creating a vendor review with photo upload"""
+        # Create a simple base64 image for testing
+        sample_image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+        
+        data = {
+            "vendor_id": vendor_id,
+            "wedding_date": (datetime.utcnow() - timedelta(days=30)).isoformat(),
+            "overall_rating": 4.5,
+            "detailed_ratings": {
+                "quality": 4.5,
+                "communication": 4.0,
+                "value": 4.5,
+                "professionalism": 5.0
+            },
+            "review_text": "We had an amazing experience with this vendor. They were professional, responsive, and delivered beyond our expectations.",
+            "photos": [sample_image]
+        }
+        
+        success, response = self.run_test(
+            "Create Vendor Review",
+            "POST",
+            "reviews",
+            200,
+            data=data
+        )
+        
+        if success and response and 'id' in response:
+            self.review_id = response['id']
+            print(f"Created review with ID: {self.review_id}")
+        
+        return success, response
+    
+    def test_get_vendor_reviews(self, vendor_id):
+        """Test getting vendor reviews"""
+        return self.run_test(
+            "Get Vendor Reviews",
+            "GET",
+            f"vendors/{vendor_id}/reviews",
+            200
+        )
+    
+    def test_respond_to_review(self, vendor_id, review_id):
+        """Test vendor responding to a review"""
+        data = {
+            "response": "Thank you for your kind review! We're so glad you had a wonderful experience and we look forward to serving you again in the future."
+        }
+        
+        return self.run_test(
+            "Respond to Review",
+            "POST",
+            f"vendors/{vendor_id}/reviews/{review_id}/respond",
+            200,
+            data=data
+        )
+    
+    # 2. Trust Score & Badge System Tests
+    def test_get_vendor_trust_score(self, vendor_id):
+        """Test getting vendor trust score"""
+        return self.run_test(
+            "Get Vendor Trust Score",
+            "GET",
+            f"vendors/{vendor_id}/trust-score",
+            200
+        )
+    
+    def test_recalculate_trust_score(self, vendor_id):
+        """Test admin recalculation of trust score"""
+        return self.run_test(
+            "Recalculate Trust Score",
+            "POST",
+            f"vendors/{vendor_id}/calculate-trust-score",
+            200
+        )
+    
+    # 3. Enhanced Planning Tools - Seating Charts Tests
+    def test_create_seating_chart(self):
+        """Test creating a seating chart"""
+        data = {
+            "layout_name": "Reception Dinner",
+            "venue_layout": "ballroom"
+        }
+        
+        success, response = self.run_test(
+            "Create Seating Chart",
+            "POST",
+            "planning/seating-charts",
+            200,
+            data=data
+        )
+        
+        if success and response and 'id' in response:
+            self.seating_chart_id = response['id']
+            print(f"Created seating chart with ID: {self.seating_chart_id}")
+        
+        return success, response
+    
+    def test_get_seating_charts(self):
+        """Test getting seating charts"""
+        return self.run_test(
+            "Get Seating Charts",
+            "GET",
+            "planning/seating-charts",
+            200
+        )
+    
+    def test_optimize_seating_chart(self, chart_id):
+        """Test AI-powered seating optimization"""
+        return self.run_test(
+            "Optimize Seating Chart",
+            "PUT",
+            f"planning/seating-charts/{chart_id}/optimize",
+            200
+        )
+    
+    # 4. RSVP Management Tests
+    def test_create_wedding_website(self):
+        """Test creating a wedding website"""
+        data = {
+            "title": "Sarah & Michael's Wedding",
+            "welcome_message": "We're excited to celebrate our special day with you!",
+            "wedding_date": (datetime.utcnow() + timedelta(days=180)).isoformat(),
+            "venue_name": "Grand Ballroom",
+            "venue_address": "123 Wedding Lane, Sydney NSW 2000",
+            "dress_code": "Formal",
+            "gift_registry_links": ["https://registry.example.com/sarah-michael"],
+            "rsvp_deadline": (datetime.utcnow() + timedelta(days=150)).isoformat(),
+            "is_published": True,
+            "url_slug": f"sarah-michael-{str(uuid.uuid4())[:8]}"
+        }
+        
+        success, response = self.run_test(
+            "Create Wedding Website",
+            "POST",
+            "planning/wedding-website",
+            200,
+            data=data
+        )
+        
+        if success and response and 'url_slug' in response:
+            self.wedding_website_slug = response['url_slug']
+            print(f"Created wedding website with slug: {self.wedding_website_slug}")
+        
+        return success, response
+    
+    def test_get_wedding_website(self, website_slug):
+        """Test getting wedding website (public)"""
+        return self.run_test(
+            "Get Wedding Website",
+            "GET",
+            f"rsvp/{website_slug}",
+            200
+        )
+    
+    def test_submit_rsvp(self, website_slug):
+        """Test submitting RSVP response"""
+        data = {
+            "email": f"guest_{str(uuid.uuid4())[:8]}@example.com",
+            "first_name": "John",
+            "last_name": "Smith",
+            "rsvp_status": "attending",
+            "dietary_requirements": "Vegetarian"
+        }
+        
+        return self.run_test(
+            "Submit RSVP",
+            "POST",
+            f"rsvp/{website_slug}/respond",
+            200,
+            data=data
+        )
+    
+    # 5. Vendor Calendar & Pricing Management Tests
+    def test_set_vendor_availability(self):
+        """Test setting vendor availability"""
+        data = [
+            {
+                "date": (datetime.utcnow() + timedelta(days=30)).isoformat(),
+                "is_available": True,
+                "pricing_tier": "standard",
+                "notes": "Available all day"
+            },
+            {
+                "date": (datetime.utcnow() + timedelta(days=31)).isoformat(),
+                "is_available": True,
+                "pricing_tier": "peak",
+                "notes": "Weekend premium pricing"
+            },
+            {
+                "date": (datetime.utcnow() + timedelta(days=32)).isoformat(),
+                "is_available": False,
+                "notes": "Already booked"
+            }
+        ]
+        
+        return self.run_test(
+            "Set Vendor Availability",
+            "POST",
+            "vendors/availability",
+            200,
+            data=data
+        )
+    
+    def test_get_vendor_availability(self, vendor_id):
+        """Test getting vendor availability"""
+        params = {
+            "start_date": datetime.utcnow().isoformat(),
+            "end_date": (datetime.utcnow() + timedelta(days=60)).isoformat()
+        }
+        
+        return self.run_test(
+            "Get Vendor Availability",
+            "GET",
+            f"vendors/{vendor_id}/availability",
+            200,
+            params=params
+        )
+    
+    def test_create_vendor_package(self):
+        """Test creating a vendor package"""
+        data = {
+            "name": "Premium Wedding Package",
+            "description": "Our most comprehensive wedding photography package",
+            "base_price": 3500,
+            "inclusions": [
+                "10 hours of coverage",
+                "2 photographers",
+                "Engagement session",
+                "Online gallery",
+                "Wedding album"
+            ],
+            "duration_hours": 10,
+            "max_guests": 200,
+            "is_customizable": True,
+            "add_ons": [
+                {
+                    "name": "Extra hour",
+                    "price": 250,
+                    "description": "Additional hour of photography coverage"
+                },
+                {
+                    "name": "Photo booth",
+                    "price": 500,
+                    "description": "3 hours of photo booth with props and unlimited prints"
+                }
+            ]
+        }
+        
+        success, response = self.run_test(
+            "Create Vendor Package",
+            "POST",
+            "vendors/packages",
+            200,
+            data=data
+        )
+        
+        if success and response and 'id' in response:
+            self.vendor_package_id = response['id']
+            print(f"Created vendor package with ID: {self.vendor_package_id}")
+        
+        return success, response
+    
+    def test_get_vendor_packages(self, vendor_id):
+        """Test getting vendor packages"""
+        return self.run_test(
+            "Get Vendor Packages",
+            "GET",
+            f"vendors/{vendor_id}/packages",
+            200
+        )
+    
+    # 6. Decision Support Tools Tests
+    def test_create_vendor_comparison(self, vendor_ids):
+        """Test creating a vendor comparison"""
+        return self.run_test(
+            "Create Vendor Comparison",
+            "POST",
+            "planning/vendor-comparison",
+            200,
+            data=vendor_ids
+        )
+    
+    def test_get_vendor_comparisons(self):
+        """Test getting vendor comparisons"""
+        return self.run_test(
+            "Get Vendor Comparisons",
+            "GET",
+            "planning/vendor-comparisons",
+            200
+        )
+    
+    def test_optimize_budget(self):
+        """Test budget optimization"""
+        data = {
+            "total_budget": 30000
+        }
+        
+        return self.run_test(
+            "Optimize Budget",
+            "POST",
+            "planning/budget-optimization",
+            200,
+            data=data
+        )
+    
+    # 7. Enhanced Guest Management Tests
+    def test_create_guest(self):
+        """Test creating a guest"""
+        data = {
+            "first_name": "Emma",
+            "last_name": "Johnson",
+            "email": f"emma.johnson.{str(uuid.uuid4())[:8]}@example.com",
+            "phone": "0412345678",
+            "address": "456 Guest Street, Melbourne VIC 3000",
+            "relationship": "Family - Bride's Side",
+            "plus_one": True,
+            "dietary_requirements": "Gluten-free",
+            "notes": "Childhood friend of the bride"
+        }
+        
+        success, response = self.run_test(
+            "Create Guest",
+            "POST",
+            "planning/guests",
+            200,
+            data=data
+        )
+        
+        if success and response and 'id' in response:
+            self.guest_id = response['id']
+            print(f"Created guest with ID: {self.guest_id}")
+        
+        return success, response
+    
+    def test_get_guests(self):
+        """Test getting guests"""
+        return self.run_test(
+            "Get Guests",
+            "GET",
+            "planning/guests",
+            200
+        )
+    
+    def test_update_guest(self, guest_id):
+        """Test updating guest information"""
+        data = {
+            "rsvp_status": "attending",
+            "dietary_requirements": "Gluten-free and dairy-free",
+            "plus_one": True
+        }
+        
+        return self.run_test(
+            "Update Guest",
+            "PUT",
+            f"planning/guests/{guest_id}",
+            200,
+            data=data
+        )
 
 def test_phase1_features():
     """Test all Phase 1 features"""
