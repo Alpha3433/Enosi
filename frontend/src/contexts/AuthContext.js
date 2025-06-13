@@ -49,7 +49,8 @@ export const AuthProvider = ({ children }) => {
     logout,
     isAuthenticated: !!user,
     isCouple: user?.user_type === 'couple',
-    isVendor: user?.user_type === 'vendor'
+    isVendor: user?.user_type === 'vendor',
+    isAdmin: user?.user_type === 'admin'
   };
 
   return (
