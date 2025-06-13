@@ -633,13 +633,20 @@ def test_phase1_features():
     # Login as vendor
     tester.test_login("vendor")
     
-    # Get vendor analytics
-    tester.test_get_vendor_analytics()
+    # Get vendor profile first to ensure we have the correct vendor ID
+    success, vendor_profile = tester.test_get_vendor_profile()
     
-    # Login as couple to view vendor profile (should track view)
-    tester.test_login("couple")
-    if tester.vendor_id:
-        tester.test_view_vendor_profile(tester.vendor_id)
+    # Get vendor analytics
+    if success and vendor_profile and 'id' in vendor_profile:
+        # Ensure we have some analytics data by viewing the profile and creating a quote
+        tester.test_login("couple")
+        tester.test_view_vendor_profile(vendor_profile['id'])
+        
+        # Login back as vendor
+        tester.test_login("vendor")
+        tester.test_get_vendor_analytics()
+    else:
+        tester.test_get_vendor_analytics()
     
     # 5. Test Admin Vendor Approval/Rejection
     print("\n✅ Testing Admin Vendor Approval/Rejection")
