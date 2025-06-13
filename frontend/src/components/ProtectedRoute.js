@@ -19,7 +19,14 @@ const ProtectedRoute = ({ children, userType = null }) => {
   }
 
   if (userType && user?.user_type !== userType) {
-    return <Navigate to="/dashboard" replace />;
+    // Redirect to appropriate dashboard based on user type
+    if (user?.user_type === 'admin') {
+      return <Navigate to="/admin" replace />;
+    } else if (user?.user_type === 'vendor') {
+      return <Navigate to="/vendor-dashboard" replace />;
+    } else {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   return children;
