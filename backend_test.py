@@ -611,16 +611,14 @@ class EnosiAPITester:
     
     def test_respond_to_review(self, vendor_id, review_id):
         """Test vendor responding to a review"""
-        params = {
-            "response": "Thank you for your kind review! We're so glad you had a wonderful experience and we look forward to serving you again in the future."
-        }
+        # The endpoint expects a query parameter 'response'
+        endpoint = f"vendors/{vendor_id}/reviews/{review_id}/respond?response=Thank%20you%20for%20your%20kind%20review!%20We%27re%20so%20glad%20you%20had%20a%20wonderful%20experience."
         
         return self.run_test(
             "Respond to Review",
             "POST",
-            f"vendors/{vendor_id}/reviews/{review_id}/respond",
-            200,
-            params=params
+            endpoint,
+            200
         )
     
     # 2. Trust Score & Badge System Tests
