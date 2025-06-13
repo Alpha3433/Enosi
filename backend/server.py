@@ -48,6 +48,19 @@ app.add_middleware(
 async def get_db():
     return await get_database()
 
+# Initialize services
+stripe_checkout = StripeCheckout(api_key=os.getenv("STRIPE_SECRET_KEY"))
+
+# Helper function to check admin access
+async def get_admin_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return current_user
+
 # Authentication routes
 @api_router.post("/auth/register", response_model=UserResponse)
 async def register_user(user_data: UserCreate, db: AsyncIOMotorDatabase = Depends(get_db)):
