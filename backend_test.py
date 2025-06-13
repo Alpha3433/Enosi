@@ -687,7 +687,8 @@ class EnosiAPITester:
             "wedding_date": (datetime.utcnow() + timedelta(days=180)).isoformat(),
             "venue_name": "Grand Ballroom",
             "venue_address": "123 Wedding Lane, Sydney NSW 2000",
-            "rsvp_deadline": (datetime.utcnow() + timedelta(days=150)).isoformat()
+            "rsvp_deadline": (datetime.utcnow() + timedelta(days=150)).isoformat(),
+            "is_published": True  # Make sure it's published for the get test
         }
         
         success, response = self.run_test(
