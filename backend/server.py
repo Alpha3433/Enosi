@@ -202,6 +202,10 @@ async def get_vendor_by_id(vendor_id: str, db: AsyncIOMotorDatabase = Depends(ge
     vendor = await db.vendor_profiles.find_one({"id": vendor_id})
     if not vendor:
         raise HTTPException(status_code=404, detail="Vendor not found")
+    
+    # Track profile view for analytics
+    await VendorAnalyticsService.track_profile_view(db, vendor_id)
+    
     return VendorProfile(**vendor)
 
 # Couple profile routes
