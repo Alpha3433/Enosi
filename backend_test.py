@@ -2,6 +2,7 @@ import requests
 import sys
 import json
 import uuid
+import base64
 from datetime import datetime, timedelta
 
 class EnosiAPITester:
@@ -16,6 +17,11 @@ class EnosiAPITester:
         self.vendor_id = None
         self.quote_id = None
         self.checklist_item_id = None
+        self.review_id = None
+        self.seating_chart_id = None
+        self.wedding_website_slug = None
+        self.guest_id = None
+        self.vendor_package_id = None
 
     def run_test(self, name, method, endpoint, expected_status, data=None, params=None):
         """Run a single API test"""
