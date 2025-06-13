@@ -485,7 +485,7 @@ const VendorDetailPage = () => {
             {/* Reviews Section */}
             <ReviewDisplay
               reviews={reviews}
-              vendor={displayVendor}
+              vendor={vendorData.data}
               onWriteReview={() => setShowReviewForm(true)}
             />
           </div>
