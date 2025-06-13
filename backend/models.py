@@ -445,6 +445,90 @@ class BudgetOptimization(BaseModel):
     priority_adjustments: List[Dict[str, Any]] = []
     generated_at: datetime = Field(default_factory=datetime.utcnow)
 
+# Phase 3: File Management Models
+class FileMetadata(BaseModel):
+    file_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    original_name: str
+    file_path: str
+    file_type: str  # image, video, document
+    mime_type: str
+    size: int
+    original_size: Optional[int] = None
+    user_id: str
+    vendor_id: Optional[str] = None
+    category: Optional[str] = None  # portfolio, contract, review_photo, chat_attachment, document_verification
+    tags: List[str] = []
+    optimization_metadata: Dict[str, Any] = {}
+    thumbnail_path: Optional[str] = None
+    upload_date: datetime = Field(default_factory=datetime.utcnow)
+
+# Phase 3: Search Enhancement Models
+class SearchFilter(BaseModel):
+    location: Optional[str] = None
+    category: Optional[str] = None
+    price_min: Optional[float] = None
+    price_max: Optional[float] = None
+    availability_date: Optional[datetime] = None
+    rating_min: Optional[float] = None
+    style_tags: List[str] = []
+    verified_only: bool = False
+
+class WishlistItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    vendor_id: str
+    notes: Optional[str] = None
+    priority: int = 0  # 0-5 priority level
+    added_at: datetime = Field(default_factory=datetime.utcnow)
+
+class RecentlyViewed(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    vendor_id: str
+    viewed_at: datetime = Field(default_factory=datetime.utcnow)
+    time_spent_seconds: Optional[int] = None
+
+# Phase 3: Real-time Communication Models
+class ChatRoom(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    couple_id: str
+    vendor_id: str
+    quote_id: Optional[str] = None
+    status: str = "active"  # active, archived, blocked
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    last_message_at: Optional[datetime] = None
+
+class ChatMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    room_id: str
+    sender_id: str
+    sender_type: str  # couple, vendor
+    message_type: str = "text"  # text, file, image, quote_update
+    content: str
+    attachments: List[str] = []  # file IDs
+    read_by: List[str] = []  # user IDs who have read this message
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    edited_at: Optional[datetime] = None
+
+class NotificationPreferences(BaseModel):
+    user_id: str
+    email_notifications: bool = True
+    push_notifications: bool = True
+    sms_notifications: bool = False
+    notification_types: List[str] = ["messages", "quotes", "reviews", "bookings"]
+
+class Notification(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    title: str
+    message: str
+    notification_type: str  # message, quote, review, booking, system
+    related_id: Optional[str] = None  # related object ID
+    read: bool = False
+    sent_via: List[str] = []  # email, push, sms
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    read_at: Optional[datetime] = None
+
 class CoupleProfileCreate(BaseModel):
     partner_name: Optional[str] = None
     wedding_date: Optional[datetime] = None
