@@ -643,17 +643,14 @@ class EnosiAPITester:
     # 3. Enhanced Planning Tools - Seating Charts Tests
     def test_create_seating_chart(self):
         """Test creating a seating chart"""
-        params = {
-            "layout_name": "Reception Dinner",
-            "venue_layout": "ballroom"
-        }
+        # The endpoint expects query parameters 'layout_name' and 'venue_layout'
+        endpoint = "planning/seating-charts?layout_name=Reception%20Dinner&venue_layout=ballroom"
         
         success, response = self.run_test(
             "Create Seating Chart",
             "POST",
-            "planning/seating-charts",
-            200,
-            params=params
+            endpoint,
+            200
         )
         
         if success and response and 'id' in response:
