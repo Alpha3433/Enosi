@@ -175,7 +175,7 @@ backend:
           comment: "Implemented vendor performance metrics, profile view tracking, and quote request tracking."
         - working: false
           agent: "testing"
-          comment: "Profile view tracking works correctly, but the vendor analytics endpoint returns a 404 error with 'Vendor not found'. The issue appears to be in the VendorAnalyticsService.get_vendor_analytics method where it's not correctly matching the vendor profile with the user."
+          comment: "Profile view tracking works correctly, but the vendor analytics endpoint returns a 404 error with 'Vendor not found'. The issue appears to be in the VendorAnalyticsService.get_vendor_analytics method where it's not correctly matching the vendor profile with the user. We confirmed that the vendor profile exists and can be retrieved, but the analytics endpoint still fails."
   
   - task: "Enhanced Models & Database"
     implemented: true
