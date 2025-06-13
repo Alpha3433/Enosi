@@ -931,6 +931,300 @@ class EnosiAPITester:
             200,
             data=data
         )
+    
+    # Phase 3 Feature Tests
+    
+    # 1. File Upload & Media Management Tests
+    def test_upload_image(self):
+        """Test uploading an image file"""
+        # Create a simple base64 image for testing
+        sample_image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+        image_bytes = base64.b64decode(sample_image)
+        
+        # Create a temporary file
+        with open("test_image.png", "wb") as f:
+            f.write(image_bytes)
+        
+        # Prepare multipart form data
+        url = f"{self.base_url}/files/upload"
+        headers = {'Authorization': f'Bearer {self.token}'}
+        
+        files = {
+            'file': ('test_image.png', open('test_image.png', 'rb'), 'image/png')
+        }
+        data = {
+            'file_category': 'image',
+            'tags': 'test,image'
+        }
+        
+        self.tests_run += 1
+        print(f"\n🔍 Testing Upload Image...")
+        
+        try:
+            response = requests.post(url, headers=headers, files=files, data=data)
+            
+            success = response.status_code == 200
+            if success:
+                self.tests_passed += 1
+                print(f"✅ Passed - Status: {response.status_code}")
+                response_data = response.json()
+                if 'file_id' in response_data:
+                    self.file_id = response_data['file_id']
+                    print(f"Uploaded file with ID: {self.file_id}")
+                return True, response_data
+            else:
+                print(f"❌ Failed - Expected 200, got {response.status_code}")
+                try:
+                    print(f"Response: {response.json()}")
+                except:
+                    print(f"Response: {response.text}")
+                return False, {}
+                
+        except Exception as e:
+            print(f"❌ Failed - Error: {str(e)}")
+            return False, {}
+        finally:
+            # Clean up temporary file
+            if os.path.exists("test_image.png"):
+                os.remove("test_image.png")
+    
+    def test_upload_document(self):
+        """Test uploading a document file"""
+        # Create a simple text document
+        with open("test_document.txt", "w") as f:
+            f.write("This is a test document for upload testing.")
+        
+        # Prepare multipart form data
+        url = f"{self.base_url}/files/upload"
+        headers = {'Authorization': f'Bearer {self.token}'}
+        
+        files = {
+            'file': ('test_document.txt', open('test_document.txt', 'rb'), 'text/plain')
+        }
+        data = {
+            'file_category': 'document',
+            'tags': 'test,document'
+        }
+        
+        self.tests_run += 1
+        print(f"\n🔍 Testing Upload Document...")
+        
+        try:
+            response = requests.post(url, headers=headers, files=files, data=data)
+            
+            success = response.status_code == 200
+            if success:
+                self.tests_passed += 1
+                print(f"✅ Passed - Status: {response.status_code}")
+                response_data = response.json()
+                if 'file_id' in response_data and not self.file_id:
+                    self.file_id = response_data['file_id']
+                    print(f"Uploaded file with ID: {self.file_id}")
+                return True, response_data
+            else:
+                print(f"❌ Failed - Expected 200, got {response.status_code}")
+                try:
+                    print(f"Response: {response.json()}")
+                except:
+                    print(f"Response: {response.text}")
+                return False, {}
+                
+        except Exception as e:
+            print(f"❌ Failed - Error: {str(e)}")
+            return False, {}
+        finally:
+            # Clean up temporary file
+            if os.path.exists("test_document.txt"):
+                os.remove("test_document.txt")
+    
+    def test_get_user_files(self, file_category="image"):
+        """Test getting user files by category"""
+        return self.run_test(
+            f"Get User {file_category.capitalize()} Files",
+            "GET",
+            f"files/user/{file_category}",
+            200
+        )
+    
+    def test_delete_file(self, file_id):
+        """Test deleting a file"""
+        return self.run_test(
+            "Delete File",
+            "DELETE",
+            f"files/{file_id}",
+            200
+        )
+    
+    # 2. Enhanced Search & Discovery Tests
+    def test_enhanced_vendor_search(self):
+        """Test enhanced vendor search with filters"""
+        data = {
+            "location": "Sydney",
+            "category": "photographer",
+            "price_min": 1000,
+            "price_max": 5000,
+            "rating_min": 3.5,
+            "verified_only": False,
+            "style_tags": ["modern", "candid"]
+        }
+        
+        return self.run_test(
+            "Enhanced Vendor Search",
+            "POST",
+            "search/vendors/enhanced",
+            200,
+            data=data
+        )
+    
+    def test_add_to_wishlist(self, vendor_id):
+        """Test adding vendor to wishlist"""
+        data = {
+            "notes": "Great photographer, love their style"
+        }
+        
+        return self.run_test(
+            "Add to Wishlist",
+            "POST",
+            f"wishlist/add/{vendor_id}",
+            200,
+            data=data
+        )
+    
+    def test_get_wishlist(self):
+        """Test getting user's wishlist"""
+        return self.run_test(
+            "Get Wishlist",
+            "GET",
+            "wishlist",
+            200
+        )
+    
+    def test_remove_from_wishlist(self, vendor_id):
+        """Test removing vendor from wishlist"""
+        return self.run_test(
+            "Remove from Wishlist",
+            "DELETE",
+            f"wishlist/remove/{vendor_id}",
+            200
+        )
+    
+    def test_track_vendor_view(self, vendor_id):
+        """Test tracking vendor profile view"""
+        data = {
+            "time_spent": 120  # seconds
+        }
+        
+        return self.run_test(
+            "Track Vendor View",
+            "POST",
+            f"tracking/view/{vendor_id}",
+            200,
+            data=data
+        )
+    
+    def test_get_recently_viewed(self):
+        """Test getting recently viewed vendors"""
+        return self.run_test(
+            "Get Recently Viewed",
+            "GET",
+            "tracking/recently-viewed",
+            200
+        )
+    
+    # 3. Real-time Communication System Tests
+    def test_create_chat_room(self, vendor_id):
+        """Test creating a chat room"""
+        data = {
+            "vendor_id": vendor_id
+        }
+        
+        success, response = self.run_test(
+            "Create Chat Room",
+            "POST",
+            "chat/rooms",
+            200,
+            data=data
+        )
+        
+        if success and response and 'id' in response:
+            self.chat_room_id = response['id']
+            print(f"Created chat room with ID: {self.chat_room_id}")
+        
+        return success, response
+    
+    def test_get_chat_rooms(self):
+        """Test getting user's chat rooms"""
+        return self.run_test(
+            "Get Chat Rooms",
+            "GET",
+            "chat/rooms",
+            200
+        )
+    
+    def test_send_chat_message(self, room_id):
+        """Test sending a chat message"""
+        data = {
+            "content": "Hello! I'm interested in your services for my wedding.",
+            "message_type": "text"
+        }
+        
+        return self.run_test(
+            "Send Chat Message",
+            "POST",
+            f"chat/rooms/{room_id}/messages",
+            200,
+            data=data
+        )
+    
+    def test_get_chat_messages(self, room_id):
+        """Test getting chat messages"""
+        return self.run_test(
+            "Get Chat Messages",
+            "GET",
+            f"chat/rooms/{room_id}/messages",
+            200
+        )
+    
+    def test_mark_messages_read(self, room_id):
+        """Test marking messages as read"""
+        return self.run_test(
+            "Mark Messages Read",
+            "POST",
+            f"chat/rooms/{room_id}/read",
+            200
+        )
+    
+    def test_get_notifications(self):
+        """Test getting user notifications"""
+        success, response = self.run_test(
+            "Get Notifications",
+            "GET",
+            "notifications",
+            200
+        )
+        
+        if success and response and 'notifications' in response and len(response['notifications']) > 0:
+            self.notification_id = response['notifications'][0]['id']
+        
+        return success, response
+    
+    def test_mark_notification_read(self, notification_id):
+        """Test marking a notification as read"""
+        return self.run_test(
+            "Mark Notification Read",
+            "POST",
+            f"notifications/{notification_id}/read",
+            200
+        )
+    
+    def test_get_unread_notifications_count(self):
+        """Test getting unread notifications count"""
+        return self.run_test(
+            "Get Unread Notifications Count",
+            "GET",
+            "notifications/unread-count",
+            200
+        )
 
 def test_phase1_features():
     """Test all Phase 1 features"""
