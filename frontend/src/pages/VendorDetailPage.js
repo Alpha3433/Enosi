@@ -421,15 +421,15 @@ const VendorDetailPage = () => {
               </div>
               
               {/* Thumbnail strip */}
-              {displayVendor.gallery_images?.length > 1 && (
+              {vendorData.data.gallery_images?.length > 1 && (
                 <div className="p-4 bg-gray-50">
                   <div className="flex space-x-2 overflow-x-auto">
-                    {displayVendor.gallery_images.map((image, index) => (
+                    {vendorData.data.gallery_images.map((image, index) => (
                       <button
                         key={index}
-                        onClick={() => setActiveImageIndex(index)}
+                        onClick={() => setCurrentImageIndex(index)}
                         className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 ${
-                          index === activeImageIndex ? 'border-rose-500' : 'border-transparent'
+                          index === currentImageIndex ? 'border-rose-500' : 'border-transparent'
                         }`}
                       >
                         <img
