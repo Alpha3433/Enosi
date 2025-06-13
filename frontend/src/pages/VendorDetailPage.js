@@ -29,7 +29,10 @@ const VendorDetailPage = () => {
   const { vendorId } = useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const [trustScore, setTrustScore] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
+  const [showReviewForm, setShowReviewForm] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
   const { data: vendor, isLoading, error } = useQuery({
