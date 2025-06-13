@@ -1161,16 +1161,14 @@ class EnosiAPITester:
     # 3. Real-time Communication System Tests
     def test_create_chat_room(self, vendor_id):
         """Test creating a chat room"""
-        data = {
-            "vendor_id": vendor_id
-        }
+        # The endpoint expects a query parameter 'vendor_id'
+        endpoint = f"chat/rooms?vendor_id={vendor_id}"
         
         success, response = self.run_test(
             "Create Chat Room",
             "POST",
-            "chat/rooms",
-            200,
-            data=data
+            endpoint,
+            200
         )
         
         if success and response and 'id' in response:
