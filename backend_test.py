@@ -860,7 +860,7 @@ class EnosiAPITester:
     
     def test_optimize_budget(self):
         """Test budget optimization"""
-        data = {
+        params = {
             "total_budget": 30000
         }
         
@@ -869,7 +869,7 @@ class EnosiAPITester:
             "POST",
             "planning/budget-optimization",
             200,
-            data=data
+            params=params
         )
     
     # 7. Enhanced Guest Management Tests
