@@ -97,6 +97,11 @@ function App() {
                   <VendorSubscription />
                 </ProtectedRoute>
               } />
+              <Route path="/vendor-calendar" element={
+                <ProtectedRoute userType="vendor">
+                  <VendorCalendarPage />
+                </ProtectedRoute>
+              } />
               
               {/* Protected routes for admins */}
               <Route path="/admin" element={
