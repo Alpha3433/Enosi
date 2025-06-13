@@ -530,6 +530,18 @@ class EnosiAPITester:
     # 4. Vendor Analytics Tests
     def test_get_vendor_analytics(self):
         """Test getting vendor analytics"""
+        # First, get the vendor profile to see if it exists
+        success, profile = self.run_test(
+            "Get Vendor Profile (for analytics)",
+            "GET",
+            "vendors/profile",
+            200
+        )
+        
+        if success and profile:
+            print(f"Vendor profile found with ID: {profile.get('id')}")
+            
+        # Now try to get analytics
         return self.run_test(
             "Get Vendor Analytics",
             "GET",
