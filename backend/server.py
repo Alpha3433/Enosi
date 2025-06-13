@@ -23,6 +23,10 @@ from .auth import (
 )
 from .services import AdminService, NotificationService, VendorAnalyticsService, PaymentService
 from .phase2_services import ReviewService, TrustScoreService, SeatingChartService, RSVPService, VendorCalendarService, DecisionSupportService
+from .file_service import FileUploadService
+from .search_service import AISearchService, WishlistService, ViewTrackingService
+from .communication_service import ChatService, connection_manager, NotificationService as RealTimeNotificationService
+from .supabase_client import create_bucket_if_not_exists
 
 # Import Stripe integration
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
