@@ -395,7 +395,7 @@ const VendorDetailPage = () => {
                 />
                 
                 {/* Navigation arrows */}
-                {displayVendor.gallery_images?.length > 1 && (
+                {vendorData.data.gallery_images?.length > 1 && (
                   <>
                     <button
                       onClick={prevImage}
@@ -413,9 +413,9 @@ const VendorDetailPage = () => {
                 )}
                 
                 {/* Image counter */}
-                {displayVendor.gallery_images?.length > 1 && (
+                {vendorData.data.gallery_images?.length > 1 && (
                   <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
-                    {activeImageIndex + 1} / {displayVendor.gallery_images.length}
+                    {currentImageIndex + 1} / {vendorData.data.gallery_images.length}
                   </div>
                 )}
               </div>
