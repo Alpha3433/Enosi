@@ -357,6 +357,273 @@ async def update_checklist_item(
     updated_item = await db.checklist_items.find_one({"id": item_id})
     return ChecklistItem(**updated_item)
 
+# Admin routes
+@api_router.get("/admin/metrics")
+async def get_platform_metrics(
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get platform-wide metrics for admin dashboard"""
+    metrics = await AdminService.get_platform_metrics(db)
+    return metrics
+
+@api_router.get("/admin/vendors/pending", response_model=List[VendorProfile])
+async def get_pending_vendors(
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all vendors awaiting approval"""
+    vendors = await db.vendor_profiles.find({"status": VendorStatus.PENDING}).to_list(100)
+    return [VendorProfile(**vendor) for vendor in vendors]
+
+@api_router.get("/admin/vendors", response_model=List[VendorProfile])
+async def get_all_vendors_admin(
+    status: Optional[VendorStatus] = None,
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all vendors with optional status filter"""
+    query = {}
+    if status:
+        query["status"] = status
+    
+    vendors = await db.vendor_profiles.find(query).to_list(1000)
+    return [VendorProfile(**vendor) for vendor in vendors]
+
+@api_router.post("/admin/vendors/{vendor_id}/approve")
+async def approve_vendor(
+    vendor_id: str,
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Approve vendor application"""
+    success = await AdminService.approve_vendor(db, vendor_id, admin_user.id)
+    if not success:
+        raise HTTPException(status_code=404, detail="Vendor not found")
+    
+    # Send approval email
+    vendor = await db.vendor_profiles.find_one({"id": vendor_id})
+    if vendor:
+        user = await db.users.find_one({"id": vendor["user_id"]})
+        if user:
+            await NotificationService.send_vendor_approval_email(
+                user["email"], vendor["business_name"], True
+            )
+    
+    return {"message": "Vendor approved successfully"}
+
+@api_router.post("/admin/vendors/{vendor_id}/reject")
+async def reject_vendor(
+    vendor_id: str,
+    reason: str = "Application does not meet requirements",
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Reject vendor application"""
+    success = await AdminService.reject_vendor(db, vendor_id, admin_user.id, reason)
+    if not success:
+        raise HTTPException(status_code=404, detail="Vendor not found")
+    
+    # Send rejection email
+    vendor = await db.vendor_profiles.find_one({"id": vendor_id})
+    if vendor:
+        user = await db.users.find_one({"id": vendor["user_id"]})
+        if user:
+            await NotificationService.send_vendor_approval_email(
+                user["email"], vendor["business_name"], False
+            )
+    
+    return {"message": "Vendor rejected successfully"}
+
+@api_router.get("/admin/users", response_model=List[UserResponse])
+async def get_all_users(
+    user_type: Optional[UserType] = None,
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all users with optional type filter"""
+    query = {}
+    if user_type:
+        query["user_type"] = user_type
+    
+    users = await db.users.find(query).to_list(1000)
+    return [UserResponse(**user) for user in users]
+
+# Payment routes
+@api_router.post("/payments/checkout/session")
+async def create_checkout_session(
+    request: Request,
+    checkout_request: CheckoutSessionRequest,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create Stripe checkout session for vendor subscription"""
+    current_user = await get_current_user(credentials, db)
+    
+    # Get host URL from request
+    host_url = str(request.base_url).rstrip('/')
+    
+    # Build success and cancel URLs
+    success_url = f"{host_url}/payment-success?session_id={{CHECKOUT_SESSION_ID}}"
+    cancel_url = f"{host_url}/vendor-dashboard"
+    
+    # Override the URLs in the request
+    checkout_request.success_url = success_url
+    checkout_request.cancel_url = cancel_url
+    
+    # Add metadata
+    if not checkout_request.metadata:
+        checkout_request.metadata = {}
+    checkout_request.metadata.update({
+        "user_id": current_user.id,
+        "user_email": current_user.email,
+        "source": "vendor_subscription"
+    })
+    
+    try:
+        # Create checkout session
+        session = await stripe_checkout.create_checkout_session(checkout_request)
+        
+        # Store payment transaction record
+        payment_transaction = {
+            "session_id": session.session_id,
+            "user_id": current_user.id,
+            "user_email": current_user.email,
+            "amount": checkout_request.amount,
+            "currency": checkout_request.currency,
+            "payment_status": "initiated",
+            "status": "pending",
+            "metadata": checkout_request.metadata,
+            "created_at": datetime.utcnow()
+        }
+        await db.payment_transactions.insert_one(payment_transaction)
+        
+        return {"url": session.url, "session_id": session.session_id}
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to create checkout session: {str(e)}")
+
+@api_router.get("/payments/checkout/status/{session_id}")
+async def get_checkout_status(
+    session_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get checkout session status"""
+    current_user = await get_current_user(credentials, db)
+    
+    try:
+        # Get status from Stripe
+        checkout_status = await stripe_checkout.get_checkout_status(session_id)
+        
+        # Update our database
+        update_data = {
+            "status": checkout_status.status,
+            "payment_status": checkout_status.payment_status,
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Only process successful payments once
+        existing_transaction = await db.payment_transactions.find_one({"session_id": session_id})
+        if existing_transaction and checkout_status.payment_status == "paid" and existing_transaction.get("payment_status") != "paid":
+            # Activate vendor subscription
+            vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+            if vendor_profile:
+                await db.vendor_profiles.update_one(
+                    {"user_id": current_user.id},
+                    {
+                        "$set": {
+                            "subscription_active": True,
+                            "subscription_expires": datetime.utcnow() + timedelta(days=30),
+                            "updated_at": datetime.utcnow()
+                        }
+                    }
+                )
+        
+        await db.payment_transactions.update_one(
+            {"session_id": session_id},
+            {"$set": update_data}
+        )
+        
+        return checkout_status
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Failed to get checkout status: {str(e)}")
+
+# Vendor subscription plans endpoint
+@api_router.get("/payments/plans")
+async def get_subscription_plans():
+    """Get available subscription plans"""
+    return {
+        "plans": [
+            {
+                "id": "starter",
+                "name": "Starter",
+                "price": 79.00,
+                "currency": "AUD",
+                "features": [
+                    "10 quote requests per month",
+                    "Basic profile listing",
+                    "Email support",
+                    "Basic analytics"
+                ]
+            },
+            {
+                "id": "professional", 
+                "name": "Professional",
+                "price": 149.00,
+                "currency": "AUD",
+                "features": [
+                    "25 quote requests per month",
+                    "Featured listing (2 per month)",
+                    "Priority email support",
+                    "Advanced analytics",
+                    "Custom portfolio gallery"
+                ]
+            },
+            {
+                "id": "premium",
+                "name": "Premium", 
+                "price": 299.00,
+                "currency": "AUD",
+                "features": [
+                    "50 quote requests per month",
+                    "Featured listing (5 per month)",
+                    "Priority phone support",
+                    "Premium analytics",
+                    "Unlimited portfolio gallery",
+                    "Lead management tools"
+                ]
+            }
+        ]
+    }
+
+# Vendor analytics routes
+@api_router.get("/vendors/analytics", response_model=VendorAnalytics)
+async def get_vendor_analytics(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get analytics for current vendor"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.VENDOR:
+        raise HTTPException(status_code=403, detail="Vendor access required")
+    
+    vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+    if not vendor_profile:
+        raise HTTPException(status_code=404, detail="Vendor profile not found")
+    
+    analytics = await VendorAnalyticsService.get_vendor_analytics(db, vendor_profile["id"])
+    if not analytics:
+        # Return empty analytics
+        return VendorAnalytics(
+            vendor_id=vendor_profile["id"],
+            period_start=datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0),
+            period_end=datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0) + timedelta(days=32)
+        )
+    
+    return analytics
+
 # Basic routes
 @api_router.get("/")
 async def root():
