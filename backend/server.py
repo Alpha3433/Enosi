@@ -260,6 +260,10 @@ async def create_quote_request(
     
     quote_request = QuoteRequest(**quote_data.dict(), couple_id=couple_profile["id"])
     await db.quote_requests.insert_one(quote_request.dict())
+    
+    # Track quote request for vendor analytics
+    await VendorAnalyticsService.track_quote_request(db, quote_request.vendor_id)
+    
     return quote_request
 
 @api_router.get("/quotes/requests", response_model=List[QuoteRequest])
