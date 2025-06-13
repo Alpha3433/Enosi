@@ -381,83 +381,113 @@ const VendorDetailPage = () => {
           </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Main Content */}
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Main Content */}
           <div className="lg:col-span-2 space-y-8">
-            {/* About */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                About {vendorData.data.business_name}
-              </h2>
-              <p className="text-gray-700 leading-relaxed">
-                {vendorData.data.description}
-              </p>
-            </section>
-
-            {/* Services & Packages */}
-            {vendorData.data.packages?.length > 0 && (
-              <section>
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Packages</h2>
-                <div className="grid gap-4">
-                  {vendorData.data.packages.map((pkg, index) => (
-                    <div key={index} className="border border-gray-200 rounded-lg p-6">
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg font-semibold text-gray-900">{pkg.name}</h3>
-                        <span className="text-xl font-bold text-rose-600">${pkg.price}</span>
-                      </div>
-                      <p className="text-gray-600 mb-4">{pkg.description}</p>
-                      {pkg.features && (
-                        <ul className="list-disc list-inside text-gray-600 space-y-1">
-                          {pkg.features.map((feature, idx) => (
-                            <li key={idx}>{feature}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Reviews */}
-            <section>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Reviews</h2>
-              <div className="space-y-6">
-                {vendorData.data.reviews?.slice(0, 3).map((review, index) => (
-                  <div key={index} className="border-b border-gray-200 pb-6">
-                    <div className="flex items-center mb-3">
-                      <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center mr-3">
-                        <span className="text-rose-600 font-medium">
-                          {review.name?.charAt(0)}
-                        </span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{review.name}</p>
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star 
-                              key={i} 
-                              className={`h-4 w-4 ${
-                                i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                              }`} 
-                            />
-                          ))}
-                          <span className="ml-2 text-sm text-gray-600">{review.date}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <p className="text-gray-700">{review.comment}</p>
-                  </div>
-                ))}
+            {/* Gallery */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+              <div className="relative h-96">
+                <img
+                  src={displayVendor.gallery_images?.[activeImageIndex] || displayVendor.image}
+                  alt={displayVendor.business_name}
+                  className="w-full h-full object-cover"
+                />
                 
-                {vendorData.data.total_reviews > 3 && (
-                  <button className="text-rose-600 hover:text-rose-700 font-medium">
-                    Show all {vendorData.data.total_reviews} reviews
-                  </button>
+                {/* Navigation arrows */}
+                {displayVendor.gallery_images?.length > 1 && (
+                  <>
+                    <button
+                      onClick={prevImage}
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70"
+                    >
+                      <ChevronLeft className="h-5 w-5" />
+                    </button>
+                    <button
+                      onClick={nextImage}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white rounded-full p-2 hover:bg-opacity-70"
+                    >
+                      <ChevronRight className="h-5 w-5" />
+                    </button>
+                  </>
+                )}
+                
+                {/* Image counter */}
+                {displayVendor.gallery_images?.length > 1 && (
+                  <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
+                    {activeImageIndex + 1} / {displayVendor.gallery_images.length}
+                  </div>
                 )}
               </div>
-            </section>
+              
+              {/* Thumbnail strip */}
+              {displayVendor.gallery_images?.length > 1 && (
+                <div className="p-4 bg-gray-50">
+                  <div className="flex space-x-2 overflow-x-auto">
+                    {displayVendor.gallery_images.map((image, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setActiveImageIndex(index)}
+                        className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 ${
+                          index === activeImageIndex ? 'border-rose-500' : 'border-transparent'
+                        }`}
+                      >
+                        <img
+                          src={image}
+                          alt={`Gallery ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* About Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">About {displayVendor.business_name}</h2>
+              <p className="text-gray-700 leading-relaxed">
+                {displayVendor.description}
+              </p>
+            </div>
+
+            {/* Services & Packages */}
+            {displayVendor.packages && displayVendor.packages.length > 0 && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Service Packages</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {displayVendor.packages.map((pkg, index) => (
+                    <motion.div
+                      key={index}
+                      whileHover={{ scale: 1.02 }}
+                      className="border border-gray-200 rounded-lg p-4 hover:border-rose-300 transition-colors"
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h3 className="font-semibold text-gray-900">{pkg.name}</h3>
+                        <span className="text-2xl font-bold text-rose-600">${pkg.price}</span>
+                      </div>
+                      <p className="text-gray-600 text-sm mb-3">{pkg.description}</p>
+                      <ul className="space-y-1">
+                        {pkg.features.map((feature, idx) => (
+                          <li key={idx} className="text-sm text-gray-600 flex items-center">
+                            <div className="w-1.5 h-1.5 bg-rose-500 rounded-full mr-2"></div>
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Reviews Section */}
+            <ReviewDisplay
+              reviews={reviews}
+              vendor={displayVendor}
+              onWriteReview={() => setShowReviewForm(true)}
+            />
           </div>
 
           {/* Sidebar */}
