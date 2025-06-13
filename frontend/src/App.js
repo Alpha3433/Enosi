@@ -60,6 +60,11 @@ function App() {
                   <PlanningToolsPage />
                 </ProtectedRoute>
               } />
+              <Route path="/planning/advanced" element={
+                <ProtectedRoute userType="couple">
+                  <AdvancedPlanningPage />
+                </ProtectedRoute>
+              } />
               <Route path="/planning/budget" element={
                 <ProtectedRoute userType="couple">
                   <BudgetTrackerPage />
