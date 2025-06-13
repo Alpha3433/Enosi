@@ -1124,12 +1124,15 @@ app.include_router(api_router)
 
 # Event handlers
 @app.on_event("startup")
-async def startup_db_client():
+async def startup_event():
     await connect_to_mongo()
+    await create_bucket_if_not_exists()
+    logger.info("Application startup complete")
 
 @app.on_event("shutdown")
-async def shutdown_db_client():
+async def shutdown_event():
     await close_mongo_connection()
+    logger.info("Application shutdown complete")
 
 # Configure logging
 logging.basicConfig(
