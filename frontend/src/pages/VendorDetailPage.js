@@ -145,7 +145,10 @@ const VendorDetailPage = () => {
     { data: mockVendorData[vendorId] } : 
     vendor || { data: mockVendorData['mock-1'] };
 
-  if (isLoading) {
+  // Don't show loading for mock vendors
+  const isActuallyLoading = isLoading && !vendorId.startsWith('mock-');
+
+  if (isActuallyLoading) {
     return (
       <div className="min-h-screen bg-white">
         <Header />
