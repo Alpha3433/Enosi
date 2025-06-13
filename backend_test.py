@@ -5,7 +5,7 @@ import uuid
 from datetime import datetime
 
 class EnosiAPITester:
-    def __init__(self, base_url="https://14e1e9e8-1c6a-4aab-bd83-0b7e67d9d605.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://d250d48b-5e76-4caf-a964-617b53fc810c.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.tests_run = 0
