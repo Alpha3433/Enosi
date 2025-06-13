@@ -109,6 +109,54 @@ const VendorDashboardPage = () => {
           </motion.div>
         )}
 
+        {/* Subscription Status Banner */}
+        {profile?.data && !profile?.data?.subscription_active && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-yellow-900">Activate Your Subscription</h2>
+                <p className="text-yellow-700 mt-1">
+                  Subscribe to start receiving quote requests and unlock premium features
+                </p>
+              </div>
+              <Link
+                to="/vendor-subscription"
+                className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors font-medium"
+              >
+                View Plans
+              </Link>
+            </div>
+          </motion.div>
+        )}
+
+        {/* Active Subscription Status */}
+        {profile?.data?.subscription_active && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-green-50 border border-green-200 rounded-xl p-6 mb-8"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-lg font-semibold text-green-900">Subscription Active ✅</h2>
+                <p className="text-green-700 mt-1">
+                  Your subscription is active until {profile?.data?.subscription_expires ? new Date(profile.data.subscription_expires).toLocaleDateString() : 'N/A'}
+                </p>
+              </div>
+              <Link
+                to="/vendor-subscription"
+                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
+              >
+                Manage Plan
+              </Link>
+            </div>
+          </motion.div>
+        )}
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
