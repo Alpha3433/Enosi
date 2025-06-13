@@ -78,3 +78,45 @@ async def create_indexes():
     await db.db.admin_actions.create_index("action_type")
     await db.db.admin_actions.create_index("target_id")
     await db.db.admin_actions.create_index("created_at")
+    
+    # Phase 2: Enhanced collections indexes
+    
+    # Vendor reviews indexes
+    await db.db.vendor_reviews.create_index("vendor_id")
+    await db.db.vendor_reviews.create_index("couple_id")
+    await db.db.vendor_reviews.create_index("overall_rating")
+    await db.db.vendor_reviews.create_index("created_at")
+    await db.db.vendor_reviews.create_index("verified")
+    
+    # Trust scores indexes
+    await db.db.vendor_trust_scores.create_index("vendor_id", unique=True)
+    await db.db.vendor_trust_scores.create_index("overall_score")
+    await db.db.vendor_trust_scores.create_index("last_calculated")
+    
+    # Seating charts indexes
+    await db.db.seating_charts.create_index("couple_id")
+    await db.db.seating_charts.create_index("created_at")
+    
+    # Wedding websites indexes
+    await db.db.wedding_websites.create_index("couple_id")
+    await db.db.wedding_websites.create_index("url_slug", unique=True)
+    await db.db.wedding_websites.create_index("is_published")
+    
+    # Vendor availability indexes
+    await db.db.vendor_availability.create_index("vendor_id")
+    await db.db.vendor_availability.create_index("date")
+    await db.db.vendor_availability.create_index([("vendor_id", 1), ("date", 1)], unique=True)
+    await db.db.vendor_availability.create_index("is_available")
+    
+    # Vendor packages indexes
+    await db.db.vendor_packages.create_index("vendor_id")
+    await db.db.vendor_packages.create_index("base_price")
+    
+    # Vendor comparisons indexes
+    await db.db.vendor_comparisons.create_index("couple_id")
+    await db.db.vendor_comparisons.create_index("created_at")
+    
+    # Seasonal pricing indexes
+    await db.db.seasonal_pricing.create_index("vendor_id")
+    await db.db.seasonal_pricing.create_index("start_date")
+    await db.db.seasonal_pricing.create_index("end_date")
