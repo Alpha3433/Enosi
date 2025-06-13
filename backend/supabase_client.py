@@ -50,13 +50,21 @@ async def create_bucket_if_not_exists():
         
         # Try to get bucket info
         try:
-            supabase.storage.get_bucket(bucket_name)
+            bucket_info = supabase.storage.get_bucket(bucket_name)
             logger.info(f"Bucket '{bucket_name}' already exists")
         except Exception:
             # Bucket doesn't exist, create it
-            supabase.storage.create_bucket(bucket_name, {"public": True})
-            logger.info(f"Created bucket '{bucket_name}'")
+            try:
+                result = supabase.storage.create_bucket(
+                    bucket_name, 
+                    {"public": True, "allowedMimeTypes": None, "fileSizeLimit": None}
+                )
+                logger.info(f"Created bucket '{bucket_name}': {result}")
+            except Exception as create_error:
+                logger.warning(f"Could not create bucket '{bucket_name}': {str(create_error)}")
+                # Bucket might already exist or we might not have permissions
+                pass
             
     except Exception as e:
-        logger.error(f"Error managing bucket: {str(e)}")
-        # Don't raise error as bucket might already exist
+        logger.warning(f"Error managing bucket: {str(e)}")
+        # Don't raise error as bucket might already exist or be managed externally
