@@ -762,6 +762,350 @@ async def get_vendor_analytics(
     
     return analytics
 
+# Phase 2: Enhanced Review System
+@api_router.post("/reviews", response_model=VendorReview)
+async def create_review(
+    review_data: ReviewCreate,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a vendor review"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.COUPLE:
+        raise HTTPException(status_code=403, detail="Only couples can create reviews")
+    
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    review = await ReviewService.create_review(db, review_data, couple_profile["id"])
+    return review
+
+@api_router.get("/vendors/{vendor_id}/reviews", response_model=List[VendorReview])
+async def get_vendor_reviews(
+    vendor_id: str,
+    limit: int = 10,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get reviews for a vendor"""
+    reviews = await ReviewService.get_vendor_reviews(db, vendor_id, limit)
+    return reviews
+
+@api_router.post("/vendors/{vendor_id}/reviews/{review_id}/respond")
+async def respond_to_review(
+    vendor_id: str,
+    review_id: str,
+    response: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Vendor responds to a review"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.VENDOR:
+        raise HTTPException(status_code=403, detail="Only vendors can respond to reviews")
+    
+    vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+    if not vendor_profile or vendor_profile["id"] != vendor_id:
+        raise HTTPException(status_code=403, detail="You can only respond to reviews for your business")
+    
+    result = await db.vendor_reviews.update_one(
+        {"id": review_id, "vendor_id": vendor_id},
+        {
+            "$set": {
+                "vendor_response": response,
+                "vendor_response_date": datetime.utcnow()
+            }
+        }
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    return {"message": "Response added successfully"}
+
+# Trust Score & Badge System
+@api_router.get("/vendors/{vendor_id}/trust-score", response_model=VendorTrustScore)
+async def get_vendor_trust_score(
+    vendor_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get vendor trust score"""
+    trust_score = await TrustScoreService.calculate_trust_score(db, vendor_id)
+    return trust_score
+
+@api_router.post("/vendors/{vendor_id}/calculate-trust-score")
+async def recalculate_trust_score(
+    vendor_id: str,
+    admin_user: UserResponse = Depends(get_admin_user),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Recalculate vendor trust score (admin only)"""
+    trust_score = await TrustScoreService.calculate_trust_score(db, vendor_id)
+    return {"message": "Trust score recalculated", "score": trust_score.overall_score}
+
+# Enhanced Planning Tools: Seating Charts
+@api_router.post("/planning/seating-charts", response_model=SeatingChart)
+async def create_seating_chart(
+    layout_name: str,
+    venue_layout: str = "ballroom",
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a new seating chart"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    seating_chart = await SeatingChartService.create_seating_chart(
+        db, couple_profile["id"], layout_name
+    )
+    return seating_chart
+
+@api_router.get("/planning/seating-charts", response_model=List[SeatingChart])
+async def get_seating_charts(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all seating charts for a couple"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    charts = await db.seating_charts.find({"couple_id": couple_profile["id"]}).to_list(100)
+    return [SeatingChart(**chart) for chart in charts]
+
+@api_router.put("/planning/seating-charts/{chart_id}/optimize")
+async def optimize_seating_chart(
+    chart_id: str,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """AI-powered seating optimization"""
+    current_user = await get_current_user(credentials, db)
+    
+    # Verify ownership
+    chart = await db.seating_charts.find_one({"id": chart_id})
+    if not chart:
+        raise HTTPException(status_code=404, detail="Seating chart not found")
+    
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if chart["couple_id"] != couple_profile["id"]:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    result = await SeatingChartService.optimize_seating(db, chart_id)
+    return result
+
+# RSVP Management
+@api_router.post("/planning/wedding-website", response_model=WeddingWebsite)
+async def create_wedding_website(
+    website_data: dict,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a wedding website with RSVP functionality"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    website = await RSVPService.create_wedding_website(db, couple_profile["id"], website_data)
+    return website
+
+@api_router.get("/rsvp/{website_slug}")
+async def get_wedding_website(
+    website_slug: str,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get wedding website for RSVP (public endpoint)"""
+    website = await db.wedding_websites.find_one({"url_slug": website_slug})
+    if not website or not website.get("is_published"):
+        raise HTTPException(status_code=404, detail="Wedding website not found")
+    
+    return WeddingWebsite(**website)
+
+@api_router.post("/rsvp/{website_slug}/respond")
+async def submit_rsvp(
+    website_slug: str,
+    guest_data: dict,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Submit RSVP response"""
+    result = await RSVPService.process_rsvp(db, website_slug, guest_data)
+    return result
+
+# Vendor Calendar & Pricing Management
+@api_router.post("/vendors/availability")
+async def set_vendor_availability(
+    availability_data: List[dict],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Set vendor availability for multiple dates"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.VENDOR:
+        raise HTTPException(status_code=403, detail="Only vendors can set availability")
+    
+    vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+    if not vendor_profile:
+        raise HTTPException(status_code=404, detail="Vendor profile not found")
+    
+    success = await VendorCalendarService.set_availability(
+        db, vendor_profile["id"], availability_data
+    )
+    
+    if success:
+        return {"message": "Availability updated successfully"}
+    else:
+        raise HTTPException(status_code=400, detail="Failed to update availability")
+
+@api_router.get("/vendors/{vendor_id}/availability")
+async def get_vendor_availability(
+    vendor_id: str,
+    start_date: datetime,
+    end_date: datetime,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get vendor availability for a date range"""
+    availability = await VendorCalendarService.get_availability(
+        db, vendor_id, start_date, end_date
+    )
+    return availability
+
+@api_router.post("/vendors/packages", response_model=VendorPackage)
+async def create_vendor_package(
+    package_data: dict,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a vendor package"""
+    current_user = await get_current_user(credentials, db)
+    if current_user.user_type != UserType.VENDOR:
+        raise HTTPException(status_code=403, detail="Only vendors can create packages")
+    
+    vendor_profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
+    if not vendor_profile:
+        raise HTTPException(status_code=404, detail="Vendor profile not found")
+    
+    package = VendorPackage(**package_data, vendor_id=vendor_profile["id"])
+    await db.vendor_packages.insert_one(package.dict())
+    return package
+
+@api_router.get("/vendors/{vendor_id}/packages", response_model=List[VendorPackage])
+async def get_vendor_packages(
+    vendor_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all packages for a vendor"""
+    packages = await db.vendor_packages.find({"vendor_id": vendor_id}).to_list(100)
+    return [VendorPackage(**package) for package in packages]
+
+# Decision Support Tools
+@api_router.post("/planning/vendor-comparison", response_model=VendorComparison)
+async def create_vendor_comparison(
+    vendor_ids: List[str],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a vendor comparison"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    comparison = await DecisionSupportService.create_vendor_comparison(
+        db, couple_profile["id"], vendor_ids
+    )
+    return comparison
+
+@api_router.get("/planning/vendor-comparisons", response_model=List[VendorComparison])
+async def get_vendor_comparisons(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all vendor comparisons for a couple"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    comparisons = await db.vendor_comparisons.find({"couple_id": couple_profile["id"]}).to_list(100)
+    return [VendorComparison(**comp) for comp in comparisons]
+
+@api_router.post("/planning/budget-optimization", response_model=BudgetOptimization)
+async def optimize_budget(
+    total_budget: float,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get budget optimization recommendations"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    optimization = await DecisionSupportService.optimize_budget(
+        db, couple_profile["id"], total_budget
+    )
+    return optimization
+
+# Enhanced Guest Management
+@api_router.post("/planning/guests", response_model=Guest)
+async def create_guest(
+    guest_data: GuestCreate,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Create a new guest"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    guest = Guest(**guest_data.dict(), couple_id=couple_profile["id"])
+    await db.guests.insert_one(guest.dict())
+    return guest
+
+@api_router.get("/planning/guests", response_model=List[Guest])
+async def get_guests(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Get all guests for a couple"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    if not couple_profile:
+        raise HTTPException(status_code=404, detail="Couple profile not found")
+    
+    guests = await db.guests.find({"couple_id": couple_profile["id"]}).to_list(1000)
+    return [Guest(**guest) for guest in guests]
+
+@api_router.put("/planning/guests/{guest_id}", response_model=Guest)
+async def update_guest(
+    guest_id: str,
+    guest_update: GuestUpdate,
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: AsyncIOMotorDatabase = Depends(get_db)
+):
+    """Update guest information"""
+    current_user = await get_current_user(credentials, db)
+    couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
+    
+    update_data = {k: v for k, v in guest_update.dict().items() if v is not None}
+    update_data["updated_at"] = datetime.utcnow()
+    
+    result = await db.guests.update_one(
+        {"id": guest_id, "couple_id": couple_profile["id"]},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Guest not found")
+    
+    updated_guest = await db.guests.find_one({"id": guest_id})
+    return Guest(**updated_guest)
+
 # Basic routes
 @api_router.get("/")
 async def root():
