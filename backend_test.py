@@ -855,16 +855,14 @@ class EnosiAPITester:
     
     def test_optimize_budget(self):
         """Test budget optimization"""
-        params = {
-            "total_budget": 30000
-        }
+        # The endpoint expects a query parameter 'total_budget'
+        endpoint = "planning/budget-optimization?total_budget=30000"
         
         return self.run_test(
             "Optimize Budget",
             "POST",
-            "planning/budget-optimization",
-            200,
-            params=params
+            endpoint,
+            200
         )
     
     # 7. Enhanced Guest Management Tests
