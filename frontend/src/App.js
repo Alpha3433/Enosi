@@ -85,6 +85,25 @@ function App() {
                   <VendorDashboardPage />
                 </ProtectedRoute>
               } />
+              <Route path="/vendor-subscription" element={
+                <ProtectedRoute userType="vendor">
+                  <VendorSubscription />
+                </ProtectedRoute>
+              } />
+              
+              {/* Protected routes for admins */}
+              <Route path="/admin" element={
+                <ProtectedRoute userType="admin">
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } />
+              
+              {/* Payment success page */}
+              <Route path="/payment-success" element={
+                <ProtectedRoute>
+                  <PaymentSuccess />
+                </ProtectedRoute>
+              } />
               
               {/* Protected routes for all users */}
               <Route path="/profile" element={
