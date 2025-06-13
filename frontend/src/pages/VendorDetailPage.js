@@ -446,18 +446,18 @@ const VendorDetailPage = () => {
 
             {/* About Section */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">About {displayVendor.business_name}</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">About {vendorData.data.business_name}</h2>
               <p className="text-gray-700 leading-relaxed">
-                {displayVendor.description}
+                {vendorData.data.description}
               </p>
             </div>
 
             {/* Services & Packages */}
-            {displayVendor.packages && displayVendor.packages.length > 0 && (
+            {vendorData.data.packages && vendorData.data.packages.length > 0 && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Service Packages</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {displayVendor.packages.map((pkg, index) => (
+                  {vendorData.data.packages.map((pkg, index) => (
                     <motion.div
                       key={index}
                       whileHover={{ scale: 1.02 }}
