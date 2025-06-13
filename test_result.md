@@ -180,6 +180,90 @@ backend:
           agent: "testing"
           comment: "Successfully verified new collections and proper indexing for payment_transactions, quote_responses, vendor_analytics, admin_actions."
 
+  - task: "Enhanced Review System API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested creating vendor reviews with photo uploads, retrieving vendor reviews, and vendor responses to reviews."
+
+  - task: "Trust Score & Badge System API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested getting vendor trust scores and admin recalculation of trust scores."
+
+  - task: "Enhanced Planning Tools - Seating Charts API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested creating seating charts, retrieving seating charts, and AI-powered seating optimization."
+
+  - task: "RSVP Management API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested creating wedding websites, retrieving wedding websites, and submitting RSVP responses."
+
+  - task: "Vendor Calendar & Pricing Management API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested setting vendor availability, getting vendor availability, creating vendor packages, and retrieving vendor packages."
+
+  - task: "Decision Support Tools API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested creating vendor comparisons, retrieving vendor comparisons, and budget optimization recommendations."
+
+  - task: "Enhanced Guest Management API"
+    implemented: true
+    working: true
+    file: "server.py, phase2_services.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested creating guests, retrieving guests, and updating guest information."
+
 frontend:
   - task: "MVP Frontend Foundation"
     implemented: true
@@ -251,3 +335,5 @@ agent_communication:
       message: "Backend Phase 1 features tested successfully. Admin Dashboard, Payment Integration, Quote Response System, and Enhanced Database Collections all working. Vendor Analytics endpoint fixed. Ready for frontend testing."
     - agent: "main"
       message: "Implemented Phase 1 frontend features: Admin Dashboard, Vendor Subscription pages, and enhanced Vendor Dashboard with subscription management. All backend APIs tested and working. Frontend features need testing."
+    - agent: "testing"
+      message: "Backend Phase 2 features tested successfully. Enhanced Review System, Trust Score & Badge System, Seating Charts, RSVP Management, Vendor Calendar & Pricing Management, Decision Support Tools, and Enhanced Guest Management APIs all working. All tests are passing."
