@@ -739,11 +739,24 @@ async def get_vendor_analytics(
     
     analytics = await VendorAnalyticsService.get_vendor_analytics(db, vendor_profile["id"])
     if not analytics:
-        # Return empty analytics
-        return VendorAnalytics(
+        # Return default analytics with current month period
+        now = datetime.utcnow()
+        period_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        period_end = period_start + timedelta(days=32)
+        
+        analytics = VendorAnalytics(
             vendor_id=vendor_profile["id"],
-            period_start=datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0),
-            period_end=datetime.utcnow().replace(day=1, hour=0, minute=0, second=0, microsecond=0) + timedelta(days=32)
+            period_start=period_start,
+            period_end=period_end,
+            profile_views=0,
+            quote_requests_received=0,
+            quotes_responded=0,
+            quotes_accepted=0,
+            response_time_avg_hours=0.0,
+            conversion_rate=0.0,
+            revenue_generated=0.0,
+            gallery_clicks=0,
+            contact_clicks=0
         )
     
     return analytics
