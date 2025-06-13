@@ -1197,17 +1197,14 @@ class EnosiAPITester:
     
     def test_send_chat_message(self, room_id):
         """Test sending a chat message"""
-        data = {
-            "content": "Hello! I'm interested in your services for my wedding.",
-            "message_type": "text"
-        }
+        # The endpoint expects query parameters 'content' and 'message_type'
+        endpoint = f"chat/rooms/{room_id}/messages?content=Hello!%20I'm%20interested%20in%20your%20services%20for%20my%20wedding.&message_type=text"
         
         return self.run_test(
             "Send Chat Message",
             "POST",
-            f"chat/rooms/{room_id}/messages",
-            200,
-            data=data
+            endpoint,
+            200
         )
     
     def test_get_chat_messages(self, room_id):
