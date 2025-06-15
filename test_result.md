@@ -169,6 +169,7 @@ test_plan:
     - "Phase 3: Media Manager Page"
     - "Phase 3: Chat Page"
     - "Phase 3: Navigation & Integration"
+    - "Redesigned Landing Page"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
