@@ -35,8 +35,30 @@ class VendorStatus(str, Enum):
 
 class SubscriptionPlan(str, Enum):
     STARTER = "starter"
-    PROFESSIONAL = "professional"
+    PROFESSIONAL = "professional"  
     PREMIUM = "premium"
+
+class SubscriptionTier(str, Enum):
+    BASIC = "basic"
+    PREMIUM = "premium"
+    PRO = "pro"
+
+class PaymentStatus(str, Enum):
+    PENDING = "pending"
+    PROCESSING = "processing"
+    COMPLETED = "completed"
+    FAILED = "failed"
+    REFUNDED = "refunded"
+    CANCELLED = "cancelled"
+
+class BookingStatus(str, Enum):
+    PENDING_PAYMENT = "pending_payment"
+    PAID = "paid"
+    CONFIRMED = "confirmed"
+    IN_PROGRESS = "in_progress"
+    COMPLETED = "completed"
+    CANCELLED = "cancelled"
+    DISPUTED = "disputed"
 
 # User Models
 class UserBase(BaseModel):
