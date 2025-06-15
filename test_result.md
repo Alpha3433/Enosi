@@ -54,6 +54,18 @@ backend:
           comment: "Successfully tested WebSocket endpoints, chat room creation, message sending/retrieval, and notification management. Real-time communication system functional."
 
 frontend:
+  - task: "Redesigned Landing Page"
+    implemented: true
+    working: true
+    file: "HomePage.js, components-airbnb.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested the redesigned landing page with Airbnb-style design and Bookings.com layout structure. The page features a clean, minimalist design with proper white space, rounded corners on cards (rounded-2xl), soft shadows, and pink/coral accent colors. The hero section includes a prominent 4-field search layout (Where, What, When, Guests) with a pink gradient search button. All required sections are present: Popular wedding destinations, Browse by vendor type cards, Deals & offers, Explore nearby venues, Real wedding stories, and Wedding inspiration & guides. The design is responsive and adapts well to different screen sizes."
+
   - task: "Basic Application Functionality"
     implemented: true
     working: true
