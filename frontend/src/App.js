@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/AuthContext';
 // Import pages
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
+import EnhancedSearchPage from './pages/EnhancedSearchPage';
 import VendorDetailPage from './pages/VendorDetailPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
@@ -23,6 +24,7 @@ import VendorSubscription from './pages/VendorSubscription';
 import PaymentSuccess from './pages/PaymentSuccess';
 import AdvancedPlanningPage from './pages/AdvancedPlanningPage';
 import VendorCalendarPage from './pages/VendorCalendarPage';
+import WishlistPage from './pages/WishlistPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
