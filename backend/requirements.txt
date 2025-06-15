@@ -26,6 +26,5 @@ aiofiles>=23.0.0
 emergentintegrations
 mailgun
 supabase>=2.0.0
-python-magic>=0.4.27
-websockets>=12.0
-redis>=5.0.0
+stripe>=7.0.0
+python-dotenv>=1.0.0
