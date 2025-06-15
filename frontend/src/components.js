@@ -99,6 +99,24 @@ export const Header = () => {
                       >
                         Planning Tools
                       </button>
+                      <button
+                        onClick={() => navigate('/wishlist')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Wishlist
+                      </button>
+                      <button
+                        onClick={() => navigate('/media')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Media Manager
+                      </button>
+                      <button
+                        onClick={() => navigate('/chat')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        Messages
+                      </button>
                       <hr className="my-1" />
                       <button
                         onClick={() => {
