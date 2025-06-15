@@ -1489,7 +1489,7 @@ async def get_payment_service(db: AsyncIOMotorDatabase = Depends(get_database)):
 async def onboard_vendor(
     request: VendorOnboardingRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Onboard vendor to Stripe Connect for receiving payments"""
     try:
@@ -1515,7 +1515,7 @@ async def onboard_vendor(
 async def create_subscription(
     request: VendorSubscriptionRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Create vendor subscription"""
     try:
@@ -1541,7 +1541,7 @@ async def create_subscription(
 @api_router.get("/payments/subscriptions/current")
 async def get_current_subscription(
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Get current vendor subscription"""
     try:
@@ -1561,7 +1561,7 @@ async def get_current_subscription(
 @api_router.post("/payments/customer-portal")
 async def create_customer_portal(
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Create Stripe customer portal session for subscription management"""
     try:
@@ -1582,7 +1582,7 @@ async def create_customer_portal(
 async def create_booking_deposit(
     request: BookingDepositRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Create booking deposit payment"""
     try:
@@ -1611,7 +1611,7 @@ async def create_booking_deposit(
 @api_router.get("/payments/bookings/vendor")
 async def get_vendor_bookings(
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Get vendor's bookings"""
     try:
@@ -1628,7 +1628,7 @@ async def get_vendor_bookings(
 @api_router.get("/payments/bookings/customer")
 async def get_customer_bookings(
     current_user: dict = Depends(get_current_active_user),
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Get customer's bookings"""
     try:
@@ -1646,7 +1646,7 @@ async def get_customer_bookings(
 @api_router.post("/payments/webhook")
 async def stripe_webhook(
     request: Request,
-    payment_service: StripePaymentService = Depends(get_payment_service)
+    payment_service = Depends(get_payment_service)
 ):
     """Handle Stripe webhooks"""
     try:
@@ -1691,7 +1691,7 @@ async def stripe_webhook(
 
 # Subscription tier information
 @api_router.get("/payments/subscription-tiers")
-async def get_subscription_tiers(payment_service: StripePaymentService = Depends(get_payment_service)):
+async def get_subscription_tiers(payment_service = Depends(get_payment_service)):
     """Get available subscription tiers"""
     return {
         "tiers": payment_service.subscription_tiers,
