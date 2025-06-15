@@ -1480,10 +1480,9 @@ async def health_check():
 # STRIPE PAYMENT SYSTEM ROUTES
 # =============================================
 
-# Initialize payment service
-async def get_payment_service():
-    db = await get_database()
-    return StripePaymentService(db=db)
+# Payment service dependency
+async def get_payment_service(db: AsyncIOMotorDatabase = Depends(get_database)):
+    return StripePaymentService(db)
 
 # Vendor onboarding routes
 @api_router.post("/payments/vendor/onboard", response_model=OnboardingResponse)
@@ -1685,11 +1684,8 @@ async def stripe_webhook(
 
 # Subscription tier information
 @api_router.get("/payments/subscription-tiers")
-async def get_subscription_tiers():
+async def get_subscription_tiers(payment_service: StripePaymentService = Depends(get_payment_service)):
     """Get available subscription tiers"""
-    db = await get_database()
-    payment_service = StripePaymentService(db=db)
-    
     return {
         "tiers": payment_service.subscription_tiers,
         "currency": "AUD"
