@@ -25,6 +25,8 @@ import PaymentSuccess from './pages/PaymentSuccess';
 import AdvancedPlanningPage from './pages/AdvancedPlanningPage';
 import VendorCalendarPage from './pages/VendorCalendarPage';
 import WishlistPage from './pages/WishlistPage';
+import MediaManagerPage from './pages/MediaManagerPage';
+import ChatPage from './pages/ChatPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
