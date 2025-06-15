@@ -28,6 +28,7 @@ from .file_service import FileUploadService
 from .search_service import AISearchService, WishlistService, ViewTrackingService
 from .communication_service import ChatService, connection_manager, NotificationService as RealTimeNotificationService
 from .supabase_client import create_bucket_if_not_exists
+from .stripe_payment_service import StripePaymentService
 
 # Import Stripe integration
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
