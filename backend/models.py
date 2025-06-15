@@ -688,3 +688,60 @@ class TokenData(BaseModel):
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
+
+# Payment Models
+class VendorSubscriptionRequest(BaseModel):
+    vendor_id: str
+    tier: SubscriptionTier
+    
+class VendorOnboardingRequest(BaseModel):
+    vendor_id: str
+    business_name: str
+    email: EmailStr
+    business_type: str = "individual"
+    
+class BookingDepositRequest(BaseModel):
+    customer_id: str
+    vendor_id: str
+    amount: float
+    service_date: str
+    service_description: str
+    
+class PaymentMethodRequest(BaseModel):
+    customer_id: str
+    payment_method_type: str = "card"
+    
+class PayoutRequest(BaseModel):
+    booking_id: str
+    amount: Optional[float] = None
+    
+class SubscriptionResponse(BaseModel):
+    subscription_id: str
+    customer_id: str
+    vendor_id: str
+    tier: SubscriptionTier
+    status: str
+    current_period_start: datetime
+    current_period_end: datetime
+    created_at: datetime
+    
+class BookingResponse(BaseModel):
+    booking_id: str
+    customer_id: str
+    vendor_id: str
+    amount: float
+    service_date: str
+    status: BookingStatus
+    payment_intent_id: Optional[str] = None
+    created_at: datetime
+    
+class PaymentIntentResponse(BaseModel):
+    payment_intent_id: str
+    client_secret: str
+    amount: float
+    status: str
+    
+class OnboardingResponse(BaseModel):
+    account_id: str
+    onboarding_url: str
+    vendor_id: str
