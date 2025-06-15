@@ -95,6 +95,16 @@ function App() {
                   <WishlistPage />
                 </ProtectedRoute>
               } />
+              <Route path="/media" element={
+                <ProtectedRoute>
+                  <MediaManagerPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/chat" element={
+                <ProtectedRoute>
+                  <ChatPage />
+                </ProtectedRoute>
+              } />
               
               {/* Protected routes for vendors */}
               <Route path="/vendor-dashboard" element={
