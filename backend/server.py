@@ -1688,7 +1688,7 @@ async def stripe_webhook(
 async def get_subscription_tiers():
     """Get available subscription tiers"""
     db = await get_database()
-    payment_service = StripePaymentService(db)
+    payment_service = StripePaymentService(db=db)
     
     return {
         "tiers": payment_service.subscription_tiers,
