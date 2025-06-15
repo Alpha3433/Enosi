@@ -88,6 +88,11 @@ function App() {
                   <GuestListPage />
                 </ProtectedRoute>
               } />
+              <Route path="/wishlist" element={
+                <ProtectedRoute userType="couple">
+                  <WishlistPage />
+                </ProtectedRoute>
+              } />
               
               {/* Protected routes for vendors */}
               <Route path="/vendor-dashboard" element={
