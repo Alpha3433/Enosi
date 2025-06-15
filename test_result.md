@@ -53,6 +53,18 @@ backend:
           agent: "testing"
           comment: "Successfully tested WebSocket endpoints, chat room creation, message sending/retrieval, and notification management. Real-time communication system functional."
 
+  - task: "Stripe Payment System Implementation"
+    implemented: true
+    working: false
+    file: "stripe_payment_service.py, server.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "The Stripe payment system implementation is partially implemented. The subscription tiers are correctly defined in the StripePaymentService class with Basic ($29.99), Premium ($79.99), and Pro ($149.99) tiers, each with appropriate features. However, the API endpoints are not accessible due to dependency injection issues in the FastAPI routes. The backend server fails to start properly due to errors with the payment service dependency injection. Unit tests confirm that the StripePaymentService class itself is correctly implemented with the required functionality for vendor onboarding, subscription management, booking deposits, and webhook handling."
+
 frontend:
   - task: "Redesigned Landing Page"
     implemented: true
@@ -170,7 +182,9 @@ test_plan:
     - "Phase 3: Chat Page"
     - "Phase 3: Navigation & Integration"
     - "Redesigned Landing Page"
-  stuck_tasks: []
+    - "Stripe Payment System Implementation"
+  stuck_tasks:
+    - "Stripe Payment System Implementation"
   test_all: false
   test_priority: "high_first"
 
@@ -185,3 +199,5 @@ agent_communication:
       message: "Tested Phase 3 frontend features. The Enhanced Search Page is working correctly with search filters and UI components. Protected pages (Wishlist, Media Manager, Chat) correctly redirect to login when not authenticated. The code for these pages is well-implemented but requires authentication to fully test functionality. Navigation and route protection are working as expected. The application needs test credentials to fully verify the protected features."
     - agent: "testing"
       message: "Tested the redesigned landing page with Airbnb-style design and Bookings.com layout structure. The implementation successfully follows the requested design patterns with a clean, minimalist aesthetic featuring rounded corners, soft shadows, and pink accent colors. The hero section includes the 4-field search layout (Where, What, When, Guests) with a pink gradient search button. All required sections are present and properly styled: Popular wedding destinations, Browse by vendor type cards, Deals & offers, Explore nearby venues, Real wedding stories, and Wedding inspiration & guides. The design is responsive and adapts well to different screen sizes. Card hover animations and transitions work as expected, enhancing the user experience."
+    - agent: "testing"
+      message: "Tested the Stripe payment system implementation. The subscription tiers are correctly defined in the StripePaymentService class with Basic ($29.99), Premium ($79.99), and Pro ($149.99) tiers, each with appropriate features. However, the API endpoints are not accessible due to dependency injection issues in the FastAPI routes. The backend server fails to start properly due to errors with the payment service dependency injection. Unit tests confirm that the StripePaymentService class itself is correctly implemented with the required functionality for vendor onboarding, subscription management, booking deposits, and webhook handling. The main issue is with the FastAPI route dependencies, which need to be fixed to make the payment system fully functional."
