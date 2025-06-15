@@ -27,6 +27,8 @@ import VendorCalendarPage from './pages/VendorCalendarPage';
 import WishlistPage from './pages/WishlistPage';
 import MediaManagerPage from './pages/MediaManagerPage';
 import ChatPage from './pages/ChatPage';
+import VendorSubscriptionPage from './pages/VendorSubscriptionPage';
+import BookingPaymentPage from './pages/BookingPaymentPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
