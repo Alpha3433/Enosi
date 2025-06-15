@@ -1481,7 +1481,7 @@ async def health_check():
 # =============================================
 
 # Payment service dependency
-async def get_payment_service(db = Depends(get_database)):
+async def get_payment_service(db: AsyncIOMotorDatabase = Depends(get_database)):
     return StripePaymentService(db)
 
 # Vendor onboarding routes
