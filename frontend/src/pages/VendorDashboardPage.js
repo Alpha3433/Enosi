@@ -124,7 +124,7 @@ const VendorDashboardPage = () => {
                 </p>
               </div>
               <Link
-                to="/vendor-subscription"
+                to="/vendor/subscription"
                 className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors font-medium"
               >
                 View Plans
@@ -148,7 +148,7 @@ const VendorDashboardPage = () => {
                 </p>
               </div>
               <Link
-                to="/vendor-subscription"
+                to="/vendor/subscription"
                 className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors font-medium"
               >
                 Manage Plan
@@ -202,7 +202,7 @@ const VendorDashboardPage = () => {
             </button>
             
             <Link
-              to="/vendor-subscription"
+              to="/vendor/subscription"
               className="flex items-center p-4 border border-gray-200 rounded-lg hover:border-rose-300 hover:bg-rose-50 transition-colors"
             >
               <DollarSign className="h-6 w-6 text-rose-600 mr-3" />
