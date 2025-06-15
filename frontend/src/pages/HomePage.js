@@ -9,7 +9,7 @@ import {
   RealWeddingStories,
   WeddingInspiration,
   Footer
-} from '../components';
+} from '../components-airbnb';
 
 const HomePage = () => {
   return (
@@ -26,5 +26,7 @@ const HomePage = () => {
     </div>
   );
 };
+
+export default HomePage;
 
 export default HomePage;
