@@ -107,6 +107,16 @@ function App() {
                   <ChatPage />
                 </ProtectedRoute>
               } />
+              <Route path="/vendor/subscription" element={
+                <ProtectedRoute userType="vendor">
+                  <VendorSubscriptionPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/booking/payment/:vendorId" element={
+                <ProtectedRoute userType="couple">
+                  <BookingPaymentPage />
+                </ProtectedRoute>
+              } />
               
               {/* Protected routes for vendors */}
               <Route path="/vendor-dashboard" element={
