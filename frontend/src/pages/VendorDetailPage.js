@@ -517,13 +517,26 @@ const VendorDetailPage = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => setShowQuoteModal(true)}
-                  className="w-full bg-rose-600 text-white py-3 px-6 rounded-lg hover:bg-rose-700 transition-colors font-medium mb-4"
+                  className="w-full bg-rose-600 text-white py-3 px-6 rounded-lg hover:bg-rose-700 transition-colors font-medium mb-3"
                 >
                   Request Quote
                 </motion.button>
                 
+                <Link
+                  to={`/booking/payment/${vendorId}`}
+                  className="block"
+                >
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="w-full bg-pink-600 text-white py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors font-medium mb-4"
+                  >
+                    Book with Deposit
+                  </motion.button>
+                </Link>
+                
                 <p className="text-sm text-gray-600 text-center">
-                  Free quotes • No commitment
+                  Free quotes • Secure deposits • No commitment
                 </p>
               </div>
 
