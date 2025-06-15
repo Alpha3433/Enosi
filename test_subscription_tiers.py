@@ -13,10 +13,10 @@ def test_subscription_tiers():
     class MockDB:
         def __init__(self):
             self.vendors = None
-            self.subscriptions_collection = None
-            self.bookings_collection = None
-            self.transactions_collection = None
-            self.customers_collection = None
+            self.vendor_subscriptions = None
+            self.bookings = None
+            self.transactions = None
+            self.customers = None
     
     # Create the payment service
     payment_service = StripePaymentService(db=MockDB())
