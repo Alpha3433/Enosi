@@ -1483,7 +1483,7 @@ async def health_check():
 # Initialize payment service
 async def get_payment_service():
     db = await get_database()
-    return StripePaymentService(db)
+    return StripePaymentService(db=db)
 
 # Vendor onboarding routes
 @api_router.post("/payments/vendor/onboard", response_model=OnboardingResponse)
