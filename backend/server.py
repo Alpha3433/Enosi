@@ -1480,16 +1480,12 @@ async def health_check():
 # STRIPE PAYMENT SYSTEM ROUTES
 # =============================================
 
-# Payment service dependency
-async def get_payment_service(db: AsyncIOMotorDatabase = Depends(get_database)):
-    return StripePaymentService(db)
-
 # Vendor onboarding routes
 @api_router.post("/payments/vendor/onboard")
 async def onboard_vendor(
     request: VendorOnboardingRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Onboard vendor to Stripe Connect for receiving payments"""
     try:
@@ -1497,6 +1493,7 @@ async def onboard_vendor(
         if current_user.get("user_type") != "vendor":
             raise HTTPException(status_code=403, detail="Only vendors can be onboarded")
         
+        payment_service = StripePaymentService(db)
         result = await payment_service.onboard_vendor(
             vendor_id=current_user["id"],
             business_name=request.business_name,
@@ -1515,7 +1512,7 @@ async def onboard_vendor(
 async def create_subscription(
     request: VendorSubscriptionRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Create vendor subscription"""
     try:
@@ -1526,6 +1523,7 @@ async def create_subscription(
         # If admin, use provided vendor_id, otherwise use current user's id
         vendor_id = request.vendor_id if current_user.get("user_type") == "admin" else current_user["id"]
         
+        payment_service = StripePaymentService(db)
         result = await payment_service.create_vendor_subscription(
             vendor_id=vendor_id,
             tier=request.tier.value if hasattr(request.tier, 'value') else request.tier
@@ -1541,13 +1539,14 @@ async def create_subscription(
 @api_router.get("/payments/subscriptions/current")
 async def get_current_subscription(
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Get current vendor subscription"""
     try:
         if current_user.get("user_type") != "vendor":
             raise HTTPException(status_code=403, detail="Only vendors can access subscriptions")
         
+        payment_service = StripePaymentService(db)
         subscription = await payment_service.get_vendor_subscription(current_user["id"])
         
         if not subscription:
@@ -1561,13 +1560,14 @@ async def get_current_subscription(
 @api_router.post("/payments/customer-portal")
 async def create_customer_portal(
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Create Stripe customer portal session for subscription management"""
     try:
         if current_user.get("user_type") != "vendor":
             raise HTTPException(status_code=403, detail="Only vendors can access customer portal")
         
+        payment_service = StripePaymentService(db)
         portal_url = await payment_service.create_customer_portal_session(current_user["id"])
         
         return {"portal_url": portal_url}
@@ -1582,7 +1582,7 @@ async def create_customer_portal(
 async def create_booking_deposit(
     request: BookingDepositRequest,
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Create booking deposit payment"""
     try:
@@ -1593,6 +1593,7 @@ async def create_booking_deposit(
         # Use current user's id if not admin
         customer_id = request.customer_id if current_user.get("user_type") == "admin" else current_user["id"]
         
+        payment_service = StripePaymentService(db)
         result = await payment_service.create_booking_deposit(
             customer_id=customer_id,
             vendor_id=request.vendor_id,
@@ -1611,13 +1612,14 @@ async def create_booking_deposit(
 @api_router.get("/payments/bookings/vendor")
 async def get_vendor_bookings(
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Get vendor's bookings"""
     try:
         if current_user.get("user_type") != "vendor":
             raise HTTPException(status_code=403, detail="Only vendors can access their bookings")
         
+        payment_service = StripePaymentService(db)
         bookings = await payment_service.get_vendor_bookings(current_user["id"])
         
         return {"bookings": bookings}
@@ -1628,13 +1630,14 @@ async def get_vendor_bookings(
 @api_router.get("/payments/bookings/customer")
 async def get_customer_bookings(
     current_user: dict = Depends(get_current_active_user),
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Get customer's bookings"""
     try:
         if current_user.get("user_type") != "couple":
             raise HTTPException(status_code=403, detail="Only couples can access their bookings")
         
+        payment_service = StripePaymentService(db)
         bookings = await payment_service.get_customer_bookings(current_user["id"])
         
         return {"bookings": bookings}
@@ -1646,7 +1649,7 @@ async def get_customer_bookings(
 @api_router.post("/payments/webhook")
 async def stripe_webhook(
     request: Request,
-    payment_service = Depends(get_payment_service)
+    db: AsyncIOMotorDatabase = Depends(get_database)
 ):
     """Handle Stripe webhooks"""
     try:
@@ -1674,6 +1677,7 @@ async def stripe_webhook(
                 raise HTTPException(status_code=400, detail="Invalid signature")
         
         # Handle the event
+        payment_service = StripePaymentService(db)
         success = await payment_service.handle_webhook_event(
             event['type'], 
             event['data']
@@ -1691,8 +1695,12 @@ async def stripe_webhook(
 
 # Subscription tier information
 @api_router.get("/payments/subscription-tiers")
-async def get_subscription_tiers(payment_service = Depends(get_payment_service)):
+async def get_subscription_tiers():
     """Get available subscription tiers"""
+    # Create payment service without dependency injection to avoid type issues
+    db = await get_database()
+    payment_service = StripePaymentService(db)
+    
     return {
         "tiers": payment_service.subscription_tiers,
         "currency": "AUD"
