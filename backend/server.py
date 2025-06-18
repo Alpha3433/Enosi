@@ -1477,234 +1477,82 @@ async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow()}
 
 # =============================================
-# STRIPE PAYMENT SYSTEM ROUTES
+# SIMPLE STRIPE PAYMENT TEST ROUTES
 # =============================================
 
-# Vendor onboarding routes
-@api_router.post("/payments/vendor/onboard")
-async def onboard_vendor(
-    request: VendorOnboardingRequest,
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Onboard vendor to Stripe Connect for receiving payments"""
-    try:
-        # Verify user is vendor
-        if current_user.get("user_type") != "vendor":
-            raise HTTPException(status_code=403, detail="Only vendors can be onboarded")
-        
-        payment_service = StripePaymentService(db)
-        result = await payment_service.onboard_vendor(
-            vendor_id=current_user["id"],
-            business_name=request.business_name,
-            email=request.email
-        )
-        
-        return result
-        
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Onboarding failed: {str(e)}")
-
-# Subscription management routes
-@api_router.post("/payments/subscriptions/create")
-async def create_subscription(
-    request: VendorSubscriptionRequest,
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Create vendor subscription"""
-    try:
-        # Verify user is vendor or admin
-        if current_user.get("user_type") not in ["vendor", "admin"]:
-            raise HTTPException(status_code=403, detail="Access denied")
-        
-        # If admin, use provided vendor_id, otherwise use current user's id
-        vendor_id = request.vendor_id if current_user.get("user_type") == "admin" else current_user["id"]
-        
-        payment_service = StripePaymentService(db)
-        result = await payment_service.create_vendor_subscription(
-            vendor_id=vendor_id,
-            tier=request.tier.value if hasattr(request.tier, 'value') else request.tier
-        )
-        
-        return result
-        
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Subscription creation failed: {str(e)}")
-
-@api_router.get("/payments/subscriptions/current")
-async def get_current_subscription(
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Get current vendor subscription"""
-    try:
-        if current_user.get("user_type") != "vendor":
-            raise HTTPException(status_code=403, detail="Only vendors can access subscriptions")
-        
-        payment_service = StripePaymentService(db)
-        subscription = await payment_service.get_vendor_subscription(current_user["id"])
-        
-        if not subscription:
-            return {"subscription": None, "message": "No active subscription found"}
-        
-        return {"subscription": subscription}
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get subscription: {str(e)}")
-
-@api_router.post("/payments/customer-portal")
-async def create_customer_portal(
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Create Stripe customer portal session for subscription management"""
-    try:
-        if current_user.get("user_type") != "vendor":
-            raise HTTPException(status_code=403, detail="Only vendors can access customer portal")
-        
-        payment_service = StripePaymentService(db)
-        portal_url = await payment_service.create_customer_portal_session(current_user["id"])
-        
-        return {"portal_url": portal_url}
-        
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Portal creation failed: {str(e)}")
-
-# Booking and deposit routes
-@api_router.post("/payments/bookings/deposit")
-async def create_booking_deposit(
-    request: BookingDepositRequest,
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Create booking deposit payment"""
-    try:
-        # Verify user is couple or admin
-        if current_user.get("user_type") not in ["couple", "admin"]:
-            raise HTTPException(status_code=403, detail="Only couples can create bookings")
-        
-        # Use current user's id if not admin
-        customer_id = request.customer_id if current_user.get("user_type") == "admin" else current_user["id"]
-        
-        payment_service = StripePaymentService(db)
-        result = await payment_service.create_booking_deposit(
-            customer_id=customer_id,
-            vendor_id=request.vendor_id,
-            amount=request.amount,
-            service_date=request.service_date,
-            service_description=request.service_description
-        )
-        
-        return result
-        
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Booking creation failed: {str(e)}")
-
-@api_router.get("/payments/bookings/vendor")
-async def get_vendor_bookings(
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Get vendor's bookings"""
-    try:
-        if current_user.get("user_type") != "vendor":
-            raise HTTPException(status_code=403, detail="Only vendors can access their bookings")
-        
-        payment_service = StripePaymentService(db)
-        bookings = await payment_service.get_vendor_bookings(current_user["id"])
-        
-        return {"bookings": bookings}
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get bookings: {str(e)}")
-
-@api_router.get("/payments/bookings/customer")
-async def get_customer_bookings(
-    current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Get customer's bookings"""
-    try:
-        if current_user.get("user_type") != "couple":
-            raise HTTPException(status_code=403, detail="Only couples can access their bookings")
-        
-        payment_service = StripePaymentService(db)
-        bookings = await payment_service.get_customer_bookings(current_user["id"])
-        
-        return {"bookings": bookings}
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to get bookings: {str(e)}")
-
-# Webhook endpoint
-@api_router.post("/payments/webhook")
-async def stripe_webhook(
-    request: Request,
-    db: AsyncIOMotorDatabase = Depends(get_database)
-):
-    """Handle Stripe webhooks"""
-    try:
-        payload = await request.body()
-        sig_header = request.headers.get("stripe-signature")
-        
-        if not sig_header:
-            raise HTTPException(status_code=400, detail="Missing Stripe signature")
-        
-        # For development, skip signature verification
-        if STRIPE_WEBHOOK_SECRET == "whsec_placeholder":
-            try:
-                event = json.loads(payload.decode())
-            except json.JSONDecodeError:
-                raise HTTPException(status_code=400, detail="Invalid JSON payload")
-        else:
-            # Verify webhook signature in production
-            try:
-                event = stripe.Webhook.construct_event(
-                    payload, sig_header, STRIPE_WEBHOOK_SECRET
-                )
-            except ValueError:
-                raise HTTPException(status_code=400, detail="Invalid payload")
-            except stripe.error.SignatureVerificationError:
-                raise HTTPException(status_code=400, detail="Invalid signature")
-        
-        # Handle the event
-        payment_service = StripePaymentService(db)
-        success = await payment_service.handle_webhook_event(
-            event['type'], 
-            event['data']
-        )
-        
-        if success:
-            return {"status": "success"}
-        else:
-            raise HTTPException(status_code=500, detail="Webhook processing failed")
-            
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Webhook error: {str(e)}")
-
-# Subscription tier information
+# Test subscription tier information without database dependency
 @api_router.get("/payments/subscription-tiers")
 async def get_subscription_tiers():
     """Get available subscription tiers"""
-    # Create payment service without dependency injection to avoid type issues
-    db = await get_database()
-    payment_service = StripePaymentService(db)
+    subscription_tiers = {
+        "basic": {
+            "name": "Basic Plan",
+            "price": 29.99,
+            "currency": "aud",
+            "interval": "month",
+            "features": [
+                "Basic vendor profile",
+                "Up to 5 portfolio images", 
+                "Basic search visibility",
+                "Email support"
+            ]
+        },
+        "premium": {
+            "name": "Premium Plan",
+            "price": 79.99,
+            "currency": "aud", 
+            "interval": "month",
+            "features": [
+                "Enhanced vendor profile",
+                "Unlimited portfolio images",
+                "Priority search placement",
+                "Advanced analytics",
+                "Chat support",
+                "Featured vendor badge"
+            ]
+        },
+        "pro": {
+            "name": "Pro Plan",
+            "price": 149.99,
+            "currency": "aud",
+            "interval": "month",
+            "features": [
+                "Premium vendor profile",
+                "Unlimited portfolio & videos",
+                "Top search placement", 
+                "Advanced analytics & insights",
+                "Priority support",
+                "Premium vendor badge",
+                "Lead generation tools",
+                "Custom booking forms"
+            ]
+        }
+    }
     
     return {
-        "tiers": payment_service.subscription_tiers,
+        "tiers": subscription_tiers,
         "currency": "AUD"
     }
+
+# Test Stripe connection
+@api_router.get("/payments/test-stripe")
+async def test_stripe_connection():
+    """Test Stripe API connection"""
+    try:
+        # Test Stripe connection by retrieving account info
+        account = stripe.Account.retrieve()
+        return {
+            "status": "success",
+            "stripe_connected": True,
+            "account_id": account.id,
+            "test_mode": not account.livemode
+        }
+    except Exception as e:
+        return {
+            "status": "error", 
+            "stripe_connected": False,
+            "error": str(e)
+        }
 
 # Include the router in the main app
 app.include_router(api_router)
