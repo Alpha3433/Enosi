@@ -55,15 +55,18 @@ backend:
 
   - task: "Stripe Payment System Implementation"
     implemented: true
-    working: false
+    working: true
     file: "stripe_payment_service.py, server.py"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
         - working: false
           agent: "testing"
           comment: "The Stripe payment system implementation is partially implemented. The subscription tiers are correctly defined in the StripePaymentService class with Basic ($29.99), Premium ($79.99), and Pro ($149.99) tiers, each with appropriate features. However, the API endpoints are not accessible due to dependency injection issues in the FastAPI routes. The backend server fails to start properly due to errors with the payment service dependency injection. Unit tests confirm that the StripePaymentService class itself is correctly implemented with the required functionality for vendor onboarding, subscription management, booking deposits, and webhook handling."
+        - working: true
+          agent: "testing"
+          comment: "The Stripe payment system implementation is now working correctly. The backend API endpoint /api/payments/subscription-tiers returns the correct subscription tiers with Basic ($29.99), Premium ($79.99), and Pro ($149.99) plans. The frontend components for payment are properly implemented with Stripe Elements integration. The payment pages are protected routes that require authentication. The Stripe publishable key is properly configured in the frontend environment."
 
 frontend:
   - task: "Redesigned Landing Page"
