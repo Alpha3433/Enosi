@@ -60,6 +60,24 @@ class BookingStatus(str, Enum):
     CANCELLED = "cancelled"
     DISPUTED = "disputed"
 
+class ReviewStatus(str, Enum):
+    PENDING = "pending"
+    VERIFIED = "verified"
+    FLAGGED = "flagged"
+    REJECTED = "rejected"
+
+class ReviewSentiment(str, Enum):
+    POSITIVE = "positive"
+    NEUTRAL = "neutral"
+    NEGATIVE = "negative"
+
+class ReviewCategory(str, Enum):
+    COMMUNICATION = "communication"
+    QUALITY = "quality"
+    TIMELINESS = "timeliness"
+    VALUE = "value"
+    PROFESSIONALISM = "professionalism"
+
 # User Models
 class UserBase(BaseModel):
     email: EmailStr
