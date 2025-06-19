@@ -3,10 +3,11 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Camera, Heart, Download } from 'lucide-react';
 import { Header, Footer } from '../components-airbnb';
 import EnhancedPhotoGallery from '../components/EnhancedPhotoGallery';
+import { getRouteParam } from '../utils/routeUtils';
 
 const GalleryPage = () => {
   const params = useParams();
-  const vendorId = params.vendorId;
+  const vendorId = getRouteParam(params, 'vendorId', 'mock-1');
   const [galleryStats, setGalleryStats] = useState({
     totalViews: 1247,
     totalLikes: 89,
