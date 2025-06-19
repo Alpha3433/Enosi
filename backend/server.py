@@ -58,7 +58,7 @@ app.add_middleware(
 )
 
 # Database dependency
-async def get_db() -> AsyncIOMotorDatabase:
+async def get_db():
     return await get_database()
 
 # Initialize services
