@@ -29,6 +29,7 @@ from .search_service import AISearchService, WishlistService, ViewTrackingServic
 from .communication_service import ChatService, connection_manager, NotificationService as RealTimeNotificationService
 from .supabase_client import create_bucket_if_not_exists
 from .stripe_payment_service import StripePaymentService
+from .enhanced_review_service import EnhancedReviewService
 
 # Import Stripe integration
 from emergentintegrations.payments.stripe.checkout import StripeCheckout, CheckoutSessionResponse, CheckoutStatusResponse, CheckoutSessionRequest
