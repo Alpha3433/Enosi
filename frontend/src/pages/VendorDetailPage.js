@@ -316,7 +316,17 @@ const VendorDetailPage = () => {
 
         {/* Image Gallery */}
         <div className="mb-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-96 lg:h-[500px]">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-gray-900">Photo Gallery</h2>
+            <Link
+              to={`/vendors/${vendorId}/gallery`}
+              className="flex items-center text-rose-600 hover:text-rose-700 font-medium transition-colors"
+            >
+              View Full Gallery
+              <ChevronRight className="h-4 w-4 ml-1" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-96 lg:h-[500px]">{/* Rest of image gallery code stays the same */}
             {/* Main image */}
             <div className="relative overflow-hidden rounded-xl">
               <img
