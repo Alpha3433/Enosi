@@ -194,6 +194,18 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Successfully tested navigation and integration. The header navigation includes links to Enhanced Search. Protected routes (Wishlist, Media Manager, Chat) correctly redirect to login when not authenticated. Route protection is working as expected."
+        
+  - task: "Enhanced Photo Gallery Functionality"
+    implemented: true
+    working: false
+    file: "GalleryPage.js, EnhancedPhotoGallery.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the Enhanced Photo Gallery functionality but encountered critical issues. The application is showing JavaScript errors in the browser console related to 'match' property being undefined. When trying to navigate to the vendor detail page or gallery page directly, the application redirects to the homepage. Code review shows that the GalleryPage.js and EnhancedPhotoGallery.js components are well-implemented with features for masonry grid layout, category filtering, view mode toggle, and lightbox functionality, but these features cannot be tested due to routing and JavaScript errors. The implementation includes all the required features: masonry layout, category filters (All Photos, Ceremony, Reception, Details, Portraits), view mode toggle (masonry/grid), and lightbox with navigation, zoom, and rotation controls."
 
 metadata:
   created_by: "testing_agent"
