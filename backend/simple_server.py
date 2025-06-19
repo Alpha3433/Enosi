@@ -144,12 +144,16 @@ async def register_user(user_data: UserCreate):
             detail="Registration failed. Please try again."
         )
 
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
+
 @app.post("/api/auth/login")
-async def login_user(email: str, password: str):
+async def login_user(login_data: LoginRequest):
     try:
         # Find user
-        user = await db.users.find_one({"email": email})
-        if not user or not verify_password(password, user["hashed_password"]):
+        user = await db.users.find_one({"email": login_data.email})
+        if not user or not verify_password(login_data.password, user["hashed_password"]):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Incorrect email or password"
