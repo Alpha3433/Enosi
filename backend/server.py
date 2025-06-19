@@ -67,7 +67,7 @@ stripe_checkout = StripeCheckout(api_key=os.getenv("STRIPE_SECRET_KEY"))
 # Helper function to check admin access
 async def get_admin_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     if current_user.user_type != UserType.ADMIN:
@@ -123,7 +123,7 @@ async def login(login_data: LoginRequest, db = Depends(get_db)):
 @api_router.get("/users/me", response_model=UserResponse)
 async def read_users_me(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     return UserResponse(**current_user.dict())
@@ -133,7 +133,7 @@ async def read_users_me(
 async def create_vendor_profile(
     profile_data: VendorProfileCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     if current_user.user_type != UserType.VENDOR:
@@ -151,7 +151,7 @@ async def create_vendor_profile(
 @api_router.get("/vendors/profile", response_model=VendorProfile)
 async def get_vendor_profile(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     profile = await db.vendor_profiles.find_one({"user_id": current_user.id})
@@ -163,7 +163,7 @@ async def get_vendor_profile(
 async def update_vendor_profile(
     profile_update: VendorProfileUpdate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     
@@ -190,7 +190,7 @@ async def search_vendors(
     featured_only: Optional[bool] = False,
     limit: int = 20,
     skip: int = 0,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     # Build query
     query = {}
@@ -211,7 +211,7 @@ async def search_vendors(
     return [VendorProfile(**vendor) for vendor in vendors]
 
 @api_router.get("/vendors/{vendor_id}", response_model=VendorProfile)
-async def get_vendor_by_id(vendor_id: str, db: AsyncIOMotorDatabase = Depends(get_db)):
+async def get_vendor_by_id(vendor_id: str, db = Depends(get_db)):
     vendor = await db.vendor_profiles.find_one({"id": vendor_id})
     if not vendor:
         raise HTTPException(status_code=404, detail="Vendor not found")
@@ -225,7 +225,7 @@ async def get_vendor_by_id(vendor_id: str, db: AsyncIOMotorDatabase = Depends(ge
 @api_router.get("/couples/profile", response_model=CoupleProfile)
 async def get_couple_profile(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -237,7 +237,7 @@ async def get_couple_profile(
 async def update_couple_profile(
     profile_update: CoupleProfileUpdate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     
@@ -260,7 +260,7 @@ async def update_couple_profile(
 async def create_quote_request(
     quote_data: QuoteRequestCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     if current_user.user_type != UserType.COUPLE:
@@ -282,7 +282,7 @@ async def create_quote_request(
 @api_router.get("/quotes/requests", response_model=List[QuoteRequest])
 async def get_quote_requests(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     
@@ -302,7 +302,7 @@ async def respond_to_quote(
     quote_id: str,
     response_data: QuoteResponseCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Vendor responds to a quote request"""
     current_user = await get_current_user(credentials, db)
@@ -367,7 +367,7 @@ async def respond_to_quote(
 @api_router.get("/quotes/responses", response_model=List[QuoteResponse])
 async def get_quote_responses(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get quote responses for current user"""
     current_user = await get_current_user(credentials, db)
@@ -390,7 +390,7 @@ async def get_quote_responses(
 async def get_responses_for_quote(
     quote_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all responses for a specific quote request"""
     current_user = await get_current_user(credentials, db)
@@ -417,7 +417,7 @@ async def get_responses_for_quote(
 async def create_budget_item(
     budget_data: BudgetItemCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -431,7 +431,7 @@ async def create_budget_item(
 @api_router.get("/planning/budget", response_model=List[BudgetItem])
 async def get_budget_items(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -445,7 +445,7 @@ async def get_budget_items(
 async def create_checklist_item(
     checklist_data: ChecklistItemCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -459,7 +459,7 @@ async def create_checklist_item(
 @api_router.get("/planning/checklist", response_model=List[ChecklistItem])
 async def get_checklist_items(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -474,7 +474,7 @@ async def update_checklist_item(
     item_id: str,
     item_update: ChecklistItemUpdate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     couple_profile = await db.couple_profiles.find_one({"user_id": current_user.id})
@@ -498,7 +498,7 @@ async def update_checklist_item(
 @api_router.get("/admin/metrics")
 async def get_platform_metrics(
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get platform-wide metrics for admin dashboard"""
     metrics = await AdminService.get_platform_metrics(db)
@@ -507,7 +507,7 @@ async def get_platform_metrics(
 @api_router.get("/admin/vendors/pending", response_model=List[VendorProfile])
 async def get_pending_vendors(
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all vendors awaiting approval"""
     vendors = await db.vendor_profiles.find({"status": VendorStatus.PENDING}).to_list(100)
@@ -517,7 +517,7 @@ async def get_pending_vendors(
 async def get_all_vendors_admin(
     status: Optional[VendorStatus] = None,
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all vendors with optional status filter"""
     query = {}
@@ -531,7 +531,7 @@ async def get_all_vendors_admin(
 async def approve_vendor(
     vendor_id: str,
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Approve vendor application"""
     success = await AdminService.approve_vendor(db, vendor_id, admin_user.id)
@@ -554,7 +554,7 @@ async def reject_vendor(
     vendor_id: str,
     reason: str = "Application does not meet requirements",
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Reject vendor application"""
     success = await AdminService.reject_vendor(db, vendor_id, admin_user.id, reason)
@@ -576,7 +576,7 @@ async def reject_vendor(
 async def get_all_users(
     user_type: Optional[UserType] = None,
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all users with optional type filter"""
     query = {}
@@ -592,7 +592,7 @@ async def create_checkout_session(
     request: Request,
     checkout_request: CheckoutSessionRequest,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create Stripe checkout session for vendor subscription"""
     current_user = await get_current_user(credentials, db)
@@ -644,7 +644,7 @@ async def create_checkout_session(
 async def get_checkout_status(
     session_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get checkout session status"""
     current_user = await get_current_user(credentials, db)
@@ -739,7 +739,7 @@ async def get_subscription_plans():
 @api_router.get("/vendors/analytics", response_model=VendorAnalytics)
 async def get_vendor_analytics(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get analytics for current vendor"""
     current_user = await get_current_user(credentials, db)
@@ -779,7 +779,7 @@ async def get_vendor_analytics(
 async def create_review(
     review_data: ReviewCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a vendor review"""
     current_user = await get_current_user(credentials, db)
@@ -797,7 +797,7 @@ async def create_review(
 async def get_vendor_reviews(
     vendor_id: str,
     limit: int = 10,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get reviews for a vendor"""
     reviews = await ReviewService.get_vendor_reviews(db, vendor_id, limit)
@@ -809,7 +809,7 @@ async def respond_to_review(
     review_id: str,
     response: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Vendor responds to a review"""
     current_user = await get_current_user(credentials, db)
@@ -839,7 +839,7 @@ async def respond_to_review(
 @api_router.get("/vendors/{vendor_id}/trust-score", response_model=VendorTrustScore)
 async def get_vendor_trust_score(
     vendor_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get vendor trust score"""
     trust_score = await TrustScoreService.calculate_trust_score(db, vendor_id)
@@ -849,7 +849,7 @@ async def get_vendor_trust_score(
 async def recalculate_trust_score(
     vendor_id: str,
     admin_user: UserResponse = Depends(get_admin_user),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Recalculate vendor trust score (admin only)"""
     trust_score = await TrustScoreService.calculate_trust_score(db, vendor_id)
@@ -861,7 +861,7 @@ async def create_seating_chart(
     layout_name: str,
     venue_layout: str = "ballroom",
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a new seating chart"""
     current_user = await get_current_user(credentials, db)
@@ -877,7 +877,7 @@ async def create_seating_chart(
 @api_router.get("/planning/seating-charts", response_model=List[SeatingChart])
 async def get_seating_charts(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all seating charts for a couple"""
     current_user = await get_current_user(credentials, db)
@@ -892,7 +892,7 @@ async def get_seating_charts(
 async def optimize_seating_chart(
     chart_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """AI-powered seating optimization"""
     current_user = await get_current_user(credentials, db)
@@ -914,7 +914,7 @@ async def optimize_seating_chart(
 async def create_wedding_website(
     website_data: dict,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a wedding website with RSVP functionality"""
     current_user = await get_current_user(credentials, db)
@@ -928,7 +928,7 @@ async def create_wedding_website(
 @api_router.get("/rsvp/{website_slug}")
 async def get_wedding_website(
     website_slug: str,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get wedding website for RSVP (public endpoint)"""
     website = await db.wedding_websites.find_one({"url_slug": website_slug})
@@ -941,7 +941,7 @@ async def get_wedding_website(
 async def submit_rsvp(
     website_slug: str,
     guest_data: dict,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Submit RSVP response"""
     result = await RSVPService.process_rsvp(db, website_slug, guest_data)
@@ -952,7 +952,7 @@ async def submit_rsvp(
 async def set_vendor_availability(
     availability_data: List[dict],
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Set vendor availability for multiple dates"""
     current_user = await get_current_user(credentials, db)
@@ -977,7 +977,7 @@ async def get_vendor_availability(
     vendor_id: str,
     start_date: datetime,
     end_date: datetime,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get vendor availability for a date range"""
     availability = await VendorCalendarService.get_availability(
@@ -989,7 +989,7 @@ async def get_vendor_availability(
 async def create_vendor_package(
     package_data: dict,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a vendor package"""
     current_user = await get_current_user(credentials, db)
@@ -1007,7 +1007,7 @@ async def create_vendor_package(
 @api_router.get("/vendors/{vendor_id}/packages", response_model=List[VendorPackage])
 async def get_vendor_packages(
     vendor_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all packages for a vendor"""
     packages = await db.vendor_packages.find({"vendor_id": vendor_id}).to_list(100)
@@ -1018,7 +1018,7 @@ async def get_vendor_packages(
 async def create_vendor_comparison(
     vendor_ids: List[str],
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a vendor comparison"""
     current_user = await get_current_user(credentials, db)
@@ -1034,7 +1034,7 @@ async def create_vendor_comparison(
 @api_router.get("/planning/vendor-comparisons", response_model=List[VendorComparison])
 async def get_vendor_comparisons(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all vendor comparisons for a couple"""
     current_user = await get_current_user(credentials, db)
@@ -1049,7 +1049,7 @@ async def get_vendor_comparisons(
 async def optimize_budget(
     total_budget: float,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get budget optimization recommendations"""
     current_user = await get_current_user(credentials, db)
@@ -1067,7 +1067,7 @@ async def optimize_budget(
 async def create_guest(
     guest_data: GuestCreate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create a new guest"""
     current_user = await get_current_user(credentials, db)
@@ -1082,7 +1082,7 @@ async def create_guest(
 @api_router.get("/planning/guests", response_model=List[Guest])
 async def get_guests(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get all guests for a couple"""
     current_user = await get_current_user(credentials, db)
@@ -1098,7 +1098,7 @@ async def update_guest(
     guest_id: str,
     guest_update: GuestUpdate,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Update guest information"""
     current_user = await get_current_user(credentials, db)
@@ -1125,7 +1125,7 @@ async def upload_file(
     file_category: str = "image",
     tags: str = "",
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Upload file to storage"""
     current_user = await get_current_user(credentials, db)
@@ -1149,7 +1149,7 @@ async def get_user_files(
     limit: int = 50,
     offset: int = 0,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get user's uploaded files"""
     current_user = await get_current_user(credentials, db)
@@ -1168,7 +1168,7 @@ async def get_user_files(
 async def delete_file(
     file_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Delete file"""
     current_user = await get_current_user(credentials, db)
@@ -1191,7 +1191,7 @@ async def enhanced_vendor_search(
     limit: int = 20,
     offset: int = 0,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Enhanced vendor search with AI recommendations"""
     current_user = await get_current_user(credentials, db)
@@ -1211,7 +1211,7 @@ async def add_to_wishlist(
     vendor_id: str,
     notes: str = "",
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Add vendor to wishlist"""
     current_user = await get_current_user(credentials, db)
@@ -1229,7 +1229,7 @@ async def add_to_wishlist(
 async def remove_from_wishlist(
     vendor_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Remove vendor from wishlist"""
     current_user = await get_current_user(credentials, db)
@@ -1248,7 +1248,7 @@ async def remove_from_wishlist(
 @api_router.get("/wishlist")
 async def get_wishlist(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get user's wishlist"""
     current_user = await get_current_user(credentials, db)
@@ -1261,7 +1261,7 @@ async def track_vendor_view(
     vendor_id: str,
     time_spent: int = 0,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Track vendor profile view"""
     current_user = await get_current_user(credentials, db)
@@ -1279,7 +1279,7 @@ async def track_vendor_view(
 async def get_recently_viewed(
     limit: int = 10,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get recently viewed vendors"""
     current_user = await get_current_user(credentials, db)
@@ -1316,7 +1316,7 @@ async def create_chat_room(
     vendor_id: str,
     quote_id: str = None,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Create chat room between couple and vendor"""
     current_user = await get_current_user(credentials, db)
@@ -1340,7 +1340,7 @@ async def create_chat_room(
 @api_router.get("/chat/rooms")
 async def get_chat_rooms(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get user's chat rooms"""
     current_user = await get_current_user(credentials, db)
@@ -1360,7 +1360,7 @@ async def send_chat_message(
     message_type: str = "text",
     attachments: List[str] = [],
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Send message in chat room"""
     current_user = await get_current_user(credentials, db)
@@ -1383,7 +1383,7 @@ async def get_chat_messages(
     limit: int = 50,
     before_id: str = None,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get messages from chat room"""
     current_user = await get_current_user(credentials, db)
@@ -1403,7 +1403,7 @@ async def mark_messages_read(
     room_id: str,
     message_ids: List[str] = None,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Mark messages as read"""
     current_user = await get_current_user(credentials, db)
@@ -1422,7 +1422,7 @@ async def get_notifications(
     unread_only: bool = False,
     limit: int = 50,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get user notifications"""
     current_user = await get_current_user(credentials, db)
@@ -1440,7 +1440,7 @@ async def get_notifications(
 async def mark_notification_read(
     notification_id: str,
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Mark notification as read"""
     current_user = await get_current_user(credentials, db)
@@ -1456,7 +1456,7 @@ async def mark_notification_read(
 @api_router.get("/notifications/unread-count")
 async def get_unread_notifications_count(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db: AsyncIOMotorDatabase = Depends(get_db)
+    db = Depends(get_db)
 ):
     """Get unread notifications count"""
     current_user = await get_current_user(credentials, db)
