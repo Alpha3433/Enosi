@@ -1468,6 +1468,306 @@ async def get_unread_notifications_count(
     
     return {"unread_count": count}
 
+# =============================================
+# ENHANCED REVIEW & RATING SYSTEM
+# =============================================
+
+# Create review
+@api_router.post("/reviews/create")
+async def create_review(
+    request: ReviewCreate,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Create a new review with sentiment analysis and photo processing"""
+    try:
+        # Verify user is a couple (only couples can leave reviews)
+        if current_user.get("user_type") != "couple":
+            raise HTTPException(status_code=403, detail="Only couples can create reviews")
+        
+        review_service = EnhancedReviewService(db)
+        result = await review_service.create_review(
+            customer_id=current_user["id"],
+            review_data=request.dict()
+        )
+        
+        return result
+        
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Review creation failed: {str(e)}")
+
+# Get vendor reviews
+@api_router.get("/reviews/vendor/{vendor_id}")
+async def get_vendor_reviews(
+    vendor_id: str,
+    limit: int = 20,
+    offset: int = 0,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Get reviews for a specific vendor"""
+    try:
+        review_service = EnhancedReviewService(db)
+        reviews = await review_service.get_vendor_reviews(vendor_id, limit, offset)
+        
+        return {
+            "reviews": reviews,
+            "total": len(reviews),
+            "limit": limit,
+            "offset": offset
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get reviews: {str(e)}")
+
+# Get review analytics
+@api_router.get("/reviews/analytics/{vendor_id}")
+async def get_review_analytics(
+    vendor_id: str,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Get comprehensive review analytics for vendor"""
+    try:
+        # Allow vendors to see their own analytics, and admin to see all
+        if current_user.get("user_type") == "vendor" and current_user["id"] != vendor_id:
+            raise HTTPException(status_code=403, detail="Can only access your own analytics")
+        elif current_user.get("user_type") not in ["vendor", "admin"]:
+            raise HTTPException(status_code=403, detail="Access denied")
+        
+        review_service = EnhancedReviewService(db)
+        analytics = await review_service.get_review_analytics(vendor_id)
+        
+        if not analytics:
+            return {"message": "No analytics available for this vendor"}
+        
+        return {"analytics": analytics}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get analytics: {str(e)}")
+
+# Get quality score
+@api_router.get("/reviews/quality-score/{vendor_id}")
+async def get_quality_score(
+    vendor_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Get quality score for vendor (public endpoint)"""
+    try:
+        review_service = EnhancedReviewService(db)
+        quality_score = await review_service.get_quality_score(vendor_id)
+        
+        if not quality_score:
+            return {"message": "No quality score available for this vendor"}
+        
+        return {"quality_score": quality_score}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get quality score: {str(e)}")
+
+# Add vendor response
+@api_router.post("/reviews/{review_id}/respond")
+async def add_vendor_response(
+    review_id: str,
+    request: VendorReviewResponse,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Add vendor response to a review"""
+    try:
+        # Verify user is vendor
+        if current_user.get("user_type") != "vendor":
+            raise HTTPException(status_code=403, detail="Only vendors can respond to reviews")
+        
+        review_service = EnhancedReviewService(db)
+        success = await review_service.add_vendor_response(
+            vendor_id=current_user["id"],
+            review_id=review_id,
+            response=request.response
+        )
+        
+        if success:
+            return {"status": "success", "message": "Response added successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="Review not found or unauthorized")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to add response: {str(e)}")
+
+# Verify review (admin only)
+@api_router.post("/reviews/{review_id}/verify")
+async def verify_review(
+    review_id: str,
+    verified: bool = True,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Verify or unverify a review (admin only)"""
+    try:
+        # Verify user is admin
+        if current_user.get("user_type") != "admin":
+            raise HTTPException(status_code=403, detail="Only admins can verify reviews")
+        
+        review_service = EnhancedReviewService(db)
+        success = await review_service.verify_review(review_id, verified)
+        
+        if success:
+            status = "verified" if verified else "unverified"
+            return {"status": "success", "message": f"Review {status} successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="Review not found")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to verify review: {str(e)}")
+
+# Flag review
+@api_router.post("/reviews/{review_id}/flag")
+async def flag_review(
+    review_id: str,
+    reason: str,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Flag a review for moderation"""
+    try:
+        review_service = EnhancedReviewService(db)
+        success = await review_service.flag_review(review_id, reason)
+        
+        if success:
+            return {"status": "success", "message": "Review flagged for moderation"}
+        else:
+            raise HTTPException(status_code=404, detail="Review not found")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to flag review: {str(e)}")
+
+# Vote on review helpfulness
+@api_router.post("/reviews/{review_id}/vote")
+async def vote_review_helpful(
+    review_id: str,
+    helpful: bool,
+    current_user: dict = Depends(get_current_active_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Vote on review helpfulness"""
+    try:
+        review_service = EnhancedReviewService(db)
+        success = await review_service.vote_helpful(review_id, helpful)
+        
+        if success:
+            return {"status": "success", "message": "Vote recorded successfully"}
+        else:
+            raise HTTPException(status_code=404, detail="Review not found")
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to record vote: {str(e)}")
+
+# Get trending reviews (public)
+@api_router.get("/reviews/trending")
+async def get_trending_reviews(
+    limit: int = 10,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Get trending reviews across the platform"""
+    try:
+        review_service = EnhancedReviewService(db)
+        
+        # Get recent high-rated reviews with photos
+        cursor = review_service.reviews_collection.find({
+            'status': 'verified',
+            'rating': {'$gte': 4.0},
+            'photos': {'$ne': []},
+            'created_at': {'$gte': datetime.utcnow() - timedelta(days=30)}
+        }).sort([
+            ('helpful_votes', -1),
+            ('rating', -1),
+            ('created_at', -1)
+        ]).limit(limit)
+        
+        trending_reviews = await cursor.to_list(length=limit)
+        
+        # Add vendor info
+        for review in trending_reviews:
+            vendor = await review_service.vendors_collection.find_one({'id': review['vendor_id']})
+            if vendor:
+                review['vendor_name'] = vendor.get('business_name', 'Unknown')
+                review['vendor_category'] = vendor.get('category', 'Unknown')
+        
+        return {"trending_reviews": trending_reviews}
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get trending reviews: {str(e)}")
+
+# Get review statistics (public)
+@api_router.get("/reviews/statistics")
+async def get_review_statistics(
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Get platform-wide review statistics"""
+    try:
+        review_service = EnhancedReviewService(db)
+        
+        # Get overall stats
+        total_reviews = await review_service.reviews_collection.count_documents({'status': 'verified'})
+        
+        # Average rating across platform
+        pipeline = [
+            {'$match': {'status': 'verified'}},
+            {'$group': {'_id': None, 'avg_rating': {'$avg': '$rating'}}}
+        ]
+        
+        avg_result = await review_service.reviews_collection.aggregate(pipeline).to_list(1)
+        platform_avg = avg_result[0]['avg_rating'] if avg_result else 0
+        
+        # Sentiment distribution
+        sentiment_pipeline = [
+            {'$match': {'status': 'verified'}},
+            {'$group': {'_id': '$sentiment', 'count': {'$sum': 1}}}
+        ]
+        
+        sentiment_results = await review_service.reviews_collection.aggregate(sentiment_pipeline).to_list(10)
+        sentiment_distribution = {result['_id']: result['count'] for result in sentiment_results}
+        
+        # Top rated categories
+        vendor_cursor = review_service.vendors_collection.find({
+            'average_rating': {'$gte': 4.5},
+            'review_count': {'$gte': 5}
+        }).sort('average_rating', -1).limit(5)
+        
+        top_vendors = await vendor_cursor.to_list(5)
+        
+        return {
+            "statistics": {
+                "total_reviews": total_reviews,
+                "platform_average_rating": round(platform_avg, 2),
+                "sentiment_distribution": sentiment_distribution,
+                "top_rated_vendors": [
+                    {
+                        "id": v["id"],
+                        "name": v.get("business_name", "Unknown"),
+                        "category": v.get("category", "Unknown"),
+                        "rating": v.get("average_rating", 0),
+                        "review_count": v.get("review_count", 0)
+                    }
+                    for v in top_vendors
+                ]
+            }
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get statistics: {str(e)}")
+
 # Basic routes
 @api_router.get("/")
 async def root():
