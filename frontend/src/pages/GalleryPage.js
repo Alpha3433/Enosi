@@ -5,7 +5,8 @@ import { Header, Footer } from '../components-airbnb';
 import EnhancedPhotoGallery from '../components/EnhancedPhotoGallery';
 
 const GalleryPage = () => {
-  const { vendorId } = useParams();
+  const params = useParams();
+  const vendorId = params.vendorId;
   const [galleryStats, setGalleryStats] = useState({
     totalViews: 1247,
     totalLikes: 89,
