@@ -1477,7 +1477,7 @@ async def get_unread_notifications_count(
 async def create_review(
     request: ReviewCreate,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Create a new review with sentiment analysis and photo processing"""
     try:
@@ -1504,7 +1504,7 @@ async def get_vendor_reviews(
     vendor_id: str,
     limit: int = 20,
     offset: int = 0,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Get reviews for a specific vendor"""
     try:
@@ -1526,7 +1526,7 @@ async def get_vendor_reviews(
 async def get_review_analytics(
     vendor_id: str,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Get comprehensive review analytics for vendor"""
     try:
@@ -1553,7 +1553,7 @@ async def get_review_analytics(
 @api_router.get("/reviews/quality-score/{vendor_id}")
 async def get_quality_score(
     vendor_id: str,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Get quality score for vendor (public endpoint)"""
     try:
@@ -1574,7 +1574,7 @@ async def add_vendor_response(
     review_id: str,
     request: VendorReviewResponse,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Add vendor response to a review"""
     try:
@@ -1605,7 +1605,7 @@ async def verify_review(
     review_id: str,
     verified: bool = True,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Verify or unverify a review (admin only)"""
     try:
@@ -1633,7 +1633,7 @@ async def flag_review(
     review_id: str,
     reason: str,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Flag a review for moderation"""
     try:
@@ -1656,7 +1656,7 @@ async def vote_review_helpful(
     review_id: str,
     helpful: bool,
     current_user: dict = Depends(get_current_active_user),
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Vote on review helpfulness"""
     try:
@@ -1677,7 +1677,7 @@ async def vote_review_helpful(
 @api_router.get("/reviews/trending")
 async def get_trending_reviews(
     limit: int = 10,
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Get trending reviews across the platform"""
     try:
@@ -1712,7 +1712,7 @@ async def get_trending_reviews(
 # Get review statistics (public)
 @api_router.get("/reviews/statistics")
 async def get_review_statistics(
-    db: AsyncIOMotorDatabase = Depends(get_database)
+    db = Depends(get_database)
 ):
     """Get platform-wide review statistics"""
     try:
