@@ -19,7 +19,7 @@ import {
   ChevronRight,
   X
 } from 'lucide-react';
-import { Header, Footer, QuoteRequestModal } from '../components';
+import { Header, Footer, QuoteRequestModal } from '../components-airbnb';
 import { vendorsAPI } from '../services/api';
 import ReviewDisplay from '../components/ReviewDisplay';
 import ReviewForm from '../components/ReviewForm';
