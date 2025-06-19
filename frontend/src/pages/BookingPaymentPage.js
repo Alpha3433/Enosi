@@ -31,7 +31,8 @@ function BookingPaymentPage() {
 }
 
 function BookingPaymentContent() {
-  const { vendorId } = useParams();
+  const params = useParams();
+  const vendorId = params.vendorId;
   const navigate = useNavigate();
   const { user } = useAuth();
   const [vendor, setVendor] = useState(null);
