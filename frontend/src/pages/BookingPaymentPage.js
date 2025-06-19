@@ -33,7 +33,7 @@ function BookingPaymentPage() {
 
 function BookingPaymentContent() {
   const params = useParams();
-  const vendorId = params.vendorId;
+  const vendorId = getRouteParam(params, 'vendorId', 'mock-1');
   const navigate = useNavigate();
   const { user } = useAuth();
   const [vendor, setVendor] = useState(null);
