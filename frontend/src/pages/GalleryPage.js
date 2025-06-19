@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Camera, Heart, Download } from 'lucide-react';
-import { Header, Footer } from '../components';
+import { Header, Footer } from '../components-airbnb';
 import EnhancedPhotoGallery from '../components/EnhancedPhotoGallery';
 
 const GalleryPage = () => {
