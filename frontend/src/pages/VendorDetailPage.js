@@ -25,10 +25,11 @@ import { vendorsAPI } from '../services/api';
 import ReviewDisplay from '../components/ReviewDisplay';
 import ReviewForm from '../components/ReviewForm';
 import TrustBadges from '../components/TrustBadges';
+import { getRouteParam } from '../utils/routeUtils';
 
 const VendorDetailPage = () => {
   const params = useParams();
-  const vendorId = params.vendorId;
+  const vendorId = getRouteParam(params, 'vendorId', 'mock-1');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [reviews, setReviews] = useState([]);
