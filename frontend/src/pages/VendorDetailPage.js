@@ -368,12 +368,15 @@ const VendorDetailPage = () => {
                     }}
                   />
                   {index === 3 && images.length > 5 && (
-                    <div 
-                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white font-medium cursor-pointer"
-                      onClick={() => setShowImageModal(true)}
+                    <Link 
+                      to={`/vendors/${vendorId}/gallery`}
+                      className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center text-white font-medium cursor-pointer hover:bg-opacity-60 transition-all"
                     >
-                      +{images.length - 4} more
-                    </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold">+{images.length - 4}</div>
+                        <div className="text-sm">View Gallery</div>
+                      </div>
+                    </Link>
                   )}
                 </div>
               ))}
