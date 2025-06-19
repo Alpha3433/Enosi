@@ -27,7 +27,8 @@ import ReviewForm from '../components/ReviewForm';
 import TrustBadges from '../components/TrustBadges';
 
 const VendorDetailPage = () => {
-  const { vendorId } = useParams();
+  const params = useParams();
+  const vendorId = params.vendorId;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
   const [reviews, setReviews] = useState([]);
