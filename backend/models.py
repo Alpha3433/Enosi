@@ -707,6 +707,86 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+# Enhanced Review System Models
+class ReviewPhoto(BaseModel):
+    photo_id: str
+    photo_url: str
+    caption: Optional[str] = None
+    verified: bool = False
+
+class CategoryRating(BaseModel):
+    category: ReviewCategory
+    rating: float  # 1-5 scale
+    comment: Optional[str] = None
+
+class ReviewCreate(BaseModel):
+    vendor_id: str
+    rating: float  # 1-5 overall rating
+    title: str
+    content: str
+    category_ratings: List[CategoryRating] = []
+    photos: List[str] = []  # Base64 encoded photos
+    service_date: Optional[str] = None
+    would_recommend: bool = True
+    anonymous: bool = False
+
+class ReviewUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    rating: Optional[float] = None
+    category_ratings: Optional[List[CategoryRating]] = None
+    photos: Optional[List[str]] = None
+
+class ReviewResponse(BaseModel):
+    id: str
+    vendor_id: str
+    customer_id: str
+    customer_name: Optional[str] = None
+    rating: float
+    title: str
+    content: str
+    category_ratings: List[CategoryRating] = []
+    photos: List[ReviewPhoto] = []
+    service_date: Optional[str] = None
+    would_recommend: bool
+    anonymous: bool
+    status: ReviewStatus
+    sentiment: Optional[ReviewSentiment] = None
+    sentiment_score: Optional[float] = None
+    verified: bool = False
+    helpful_votes: int = 0
+    total_votes: int = 0
+    vendor_response: Optional[str] = None
+    vendor_response_date: Optional[datetime] = None
+    created_at: datetime
+    updated_at: datetime
+
+class VendorReviewResponse(BaseModel):
+    review_id: str
+    response: str
+
+class ReviewAnalytics(BaseModel):
+    vendor_id: str
+    total_reviews: int
+    average_rating: float
+    rating_distribution: Dict[str, int]  # {"5": 10, "4": 5, etc.}
+    category_averages: Dict[str, float]
+    sentiment_breakdown: Dict[str, int]
+    recent_trend: str  # "improving", "declining", "stable"
+    recommendation_rate: float
+    verified_review_percentage: float
+
+class QualityScore(BaseModel):
+    vendor_id: str
+    overall_score: float  # 0-100
+    rating_score: float
+    review_volume_score: float
+    response_rate_score: float
+    sentiment_score: float
+    verification_score: float
+    trend_score: float
+    last_calculated: datetime
+
 # Payment Models
 class VendorSubscriptionRequest(BaseModel):
     vendor_id: str
