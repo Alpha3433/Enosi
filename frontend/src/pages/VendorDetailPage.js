@@ -326,7 +326,7 @@ const VendorDetailPage = () => {
               <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-96 lg:h-[500px]">{/* Rest of image gallery code stays the same */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 h-96 lg:h-[500px]">
             {/* Main image */}
             <div className="relative overflow-hidden rounded-xl">
               <img
