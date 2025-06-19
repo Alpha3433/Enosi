@@ -19,45 +19,54 @@ backend:
 
   - task: "Phase 3: File Upload & Media Management System API"
     implemented: true
-    working: true
+    working: false
     file: "file_service.py, supabase_client.py, server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "critical"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
           comment: "Successfully tested file upload, retrieval, and deletion endpoints. Supabase integration implemented. Image optimization and file validation working."
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the File Upload & Media Management System API. The backend is failing to start due to dependency issues with the 'magic' module. After installing python-magic and libmagic1, the backend still fails to start due to FastAPI errors related to response field types. All API endpoints return 502 errors."
 
   - task: "Phase 3: Enhanced Search & Discovery API"
     implemented: true
-    working: true
+    working: false
     file: "search_service.py, server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
           comment: "Successfully tested enhanced search with filters, wishlist functionality, and view tracking. AI recommendation algorithms implemented."
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the Enhanced Search & Discovery API. The backend is failing to start due to FastAPI errors. All API endpoints return 502 errors."
 
   - task: "Phase 3: Real-time Communication System API"
     implemented: true
-    working: true
+    working: false
     file: "communication_service.py, server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
           comment: "Successfully tested WebSocket endpoints, chat room creation, message sending/retrieval, and notification management. Real-time communication system functional."
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the Real-time Communication System API. The backend is failing to start due to FastAPI errors. All API endpoints return 502 errors."
 
   - task: "Stripe Payment System Implementation"
     implemented: true
-    working: true
+    working: false
     file: "stripe_payment_service.py, server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -67,6 +76,21 @@ backend:
         - working: true
           agent: "testing"
           comment: "The Stripe payment system implementation is now working correctly. The backend API endpoint /api/payments/subscription-tiers returns the correct subscription tiers with Basic ($29.99), Premium ($79.99), and Pro ($149.99) plans. The frontend components for payment are properly implemented with Stripe Elements integration. The payment pages are protected routes that require authentication. The Stripe publishable key is properly configured in the frontend environment."
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the Stripe Payment System. The backend is failing to start due to FastAPI errors. All API endpoints return 502 errors."
+
+  - task: "Enhanced Photo Gallery Functionality"
+    implemented: true
+    working: false
+    file: "file_service.py, server.py, models.py"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the Enhanced Photo Gallery functionality. The backend is failing to start due to dependency issues with the 'magic' module and FastAPI errors related to response field types. The code inspection shows that the functionality is implemented with image optimization, thumbnail generation, and gallery management features in the VendorProfile model and FileUploadService class. However, all API endpoints return 502 errors, preventing actual testing of the functionality."
 
 frontend:
   - task: "Redesigned Landing Page"
