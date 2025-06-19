@@ -19,6 +19,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { useAuth } from '../contexts/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
+import { getRouteParam } from '../utils/routeUtils';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
