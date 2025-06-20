@@ -213,6 +213,73 @@ class EmailService:
         """
         
         return self.send_email(vendor_email, subject, html_content, plain_content)
+    
+    def send_vendor_approval_notification(self, vendor_email: str, vendor_name: str, approved: bool):
+        """Send vendor approval/rejection notification to vendor"""
+        if approved:
+            subject = "🎉 Your Enosi Vendor Account Has Been Approved!"
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                    .header {{ background-color: #10b981; color: white; padding: 20px; text-align: center; }}
+                    .content {{ padding: 20px; background-color: #f9f9f9; }}
+                    .button {{ background-color: #e11d48; color: white; padding: 12px 24px; text-decoration: none; 
+                              border-radius: 5px; display: inline-block; margin: 10px 0; }}
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>🎉 Welcome to Enosi!</h1>
+                        <p>Your vendor account has been approved</p>
+                    </div>
+                    <div class="content">
+                        <p>Hi {vendor_name},</p>
+                        <p>Great news! Your Enosi vendor account has been approved and is now active.</p>
+                        <p>You can now access your vendor dashboard and start showcasing your services to couples planning their dream weddings.</p>
+                        <div style="text-align: center;">
+                            <a href="https://d3d31e89-3c08-4101-817f-edcf53de07ce.preview.emergentagent.com/vendor-dashboard" class="button">
+                                Access Your Dashboard
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+        else:
+            subject = "Update on Your Enosi Vendor Application"
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <style>
+                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                    .header {{ background-color: #ef4444; color: white; padding: 20px; text-align: center; }}
+                    .content {{ padding: 20px; background-color: #f9f9f9; }}
+                </style>
+            </head>
+            <body>
+                <div class="container">
+                    <div class="header">
+                        <h1>Application Update</h1>
+                    </div>
+                    <div class="content">
+                        <p>Hi {vendor_name},</p>
+                        <p>Thank you for your interest in joining Enosi. After reviewing your application, we're unable to approve your vendor account at this time.</p>
+                        <p>If you have any questions or would like to discuss this decision, please contact us at james@enosiweddings.com</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+        
+        return self.send_email(vendor_email, subject, html_content)
 
 # Create a global instance
 email_service = EmailService()
