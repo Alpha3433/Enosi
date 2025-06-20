@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
+
+# Import email service
+import sys
+sys.path.append('/app/backend')
 from email_service import email_service
 
 # Simple FastAPI app for handling registration
