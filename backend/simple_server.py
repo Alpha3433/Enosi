@@ -83,7 +83,7 @@ async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow()}
 
 @app.post("/api/auth/register", response_model=UserResponse)
-async def register_user(user_data: UserCreate):
+async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks):
     try:
         # Check if user already exists
         existing_user = await db.users.find_one({"email": user_data.email})
@@ -93,9 +93,19 @@ async def register_user(user_data: UserCreate):
                 detail="Email already registered"
             )
         
+        # Validate business name for vendor accounts
+        if user_data.user_type == "vendor" and not user_data.business_name:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Business name is required for vendor accounts"
+            )
+        
         # Create user
         user_id = str(uuid.uuid4())
         hashed_password = get_password_hash(user_data.password)
+        
+        # Set approval status based on user type
+        is_approved = True if user_data.user_type == "couple" else False  # Vendors need approval
         
         user_doc = {
             "id": user_id,
@@ -104,9 +114,11 @@ async def register_user(user_data: UserCreate):
             "last_name": user_data.last_name,
             "phone": user_data.phone,
             "user_type": user_data.user_type,
+            "business_name": user_data.business_name,
             "hashed_password": hashed_password,
             "created_at": datetime.utcnow(),
-            "is_active": True
+            "is_active": True,
+            "is_approved": is_approved
         }
         
         await db.users.insert_one(user_doc)
@@ -127,6 +139,32 @@ async def register_user(user_data: UserCreate):
                 "updated_at": datetime.utcnow()
             }
             await db.couple_profiles.insert_one(couple_profile)
+        elif user_data.user_type == "vendor":
+            # Create vendor profile (pending approval)
+            vendor_profile = {
+                "id": str(uuid.uuid4()),
+                "user_id": user_id,
+                "business_name": user_data.business_name,
+                "status": "pending",  # pending, approved, rejected
+                "created_at": datetime.utcnow(),
+                "updated_at": datetime.utcnow()
+            }
+            await db.vendor_profiles.insert_one(vendor_profile)
+            
+            # Send email notification to admin (in background)
+            vendor_notification_data = {
+                "id": user_id,
+                "business_name": user_data.business_name,
+                "first_name": user_data.first_name,
+                "last_name": user_data.last_name,
+                "email": user_data.email,
+                "phone": user_data.phone,
+                "created_at": datetime.utcnow().isoformat()
+            }
+            background_tasks.add_task(
+                email_service.send_vendor_registration_notification,
+                vendor_notification_data
+            )
         
         # Return user response (without password)
         return UserResponse(
@@ -136,7 +174,9 @@ async def register_user(user_data: UserCreate):
             last_name=user_data.last_name,
             phone=user_data.phone,
             user_type=user_data.user_type,
-            created_at=datetime.utcnow()
+            business_name=user_data.business_name,
+            created_at=datetime.utcnow(),
+            is_approved=is_approved
         )
         
     except HTTPException:
