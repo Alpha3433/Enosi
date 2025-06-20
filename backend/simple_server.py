@@ -35,6 +35,7 @@ class UserCreate(BaseModel):
     last_name: str
     phone: str = None
     user_type: str
+    business_name: str = None  # For vendor accounts
 
 class UserResponse(BaseModel):
     id: str
@@ -43,8 +44,10 @@ class UserResponse(BaseModel):
     last_name: str
     phone: str = None
     user_type: str
+    business_name: str = None
     created_at: datetime
     is_active: bool = True
+    is_approved: bool = None  # For vendor accounts
 
 # Helper functions
 def get_password_hash(password: str) -> str:
