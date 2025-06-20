@@ -31,6 +31,7 @@ import MediaManagerPage from './pages/MediaManagerPage';
 import ChatPage from './pages/ChatPage';
 import VendorSubscriptionPage from './pages/VendorSubscriptionPage';
 import BookingPaymentPage from './pages/BookingPaymentPage';
+import SimpleRegistrationTest from './pages/SimpleRegistrationTest';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
