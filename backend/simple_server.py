@@ -205,12 +205,22 @@ async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks
             # Log that we're adding the email task
             logging.info(f"Adding vendor registration email task for: {user_data.business_name}")
             
+            # Send admin notification
             background_tasks.add_task(
                 email_service.send_vendor_registration_notification,
                 vendor_notification_data
             )
             
-            logging.info(f"Vendor registration email task added successfully")
+            # Send vendor confirmation email
+            vendor_name = f"{user_data.first_name} {user_data.last_name}"
+            background_tasks.add_task(
+                email_service.send_vendor_registration_confirmation,
+                user_data.email,
+                vendor_name,
+                user_data.business_name
+            )
+            
+            logging.info(f"Vendor registration email tasks added successfully")
         
         # Return user response (without password)
         return UserResponse(
