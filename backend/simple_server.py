@@ -320,7 +320,12 @@ async def reject_vendor(vendor_id: str, background_tasks: BackgroundTasks):
         vendor = await db.users.find_one({"id": vendor_id})
         if vendor:
             vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
-            logging.info(f"Would send rejection email to {vendor['email']} for {vendor_name}")
+            background_tasks.add_task(
+                email_service.send_vendor_approval_notification,
+                vendor["email"],
+                vendor_name,
+                False
+            )
         
         # Delete the user account (optional - you might want to keep for records)
         await db.users.delete_one({"id": vendor_id})
