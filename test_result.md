@@ -31,6 +31,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Attempted to test the new simple registration test page at /test-registration. The backend API for registration and login is working correctly, as verified by direct API calls using curl. However, the frontend UI has JavaScript errors related to React Router's 'match' property being undefined. This prevents proper rendering of the test registration page. The application is using React Router v7.5.1, but there appears to be code using the older React Router v5 API which is causing compatibility issues. Attempted to create standalone HTML pages for testing, but the React app is intercepting all routes, including static HTML files."
+        - working: false
+          agent: "testing"
+          comment: "Tested the vendor registration functionality with the enhanced error handling. The backend API for registration and login is working correctly, as verified by direct API calls. Successfully created a new vendor user via the /api/auth/register endpoint and logged in with the new user via the /api/auth/login endpoint. However, the frontend UI still has JavaScript errors related to React Router's 'match' property being undefined. This prevents proper rendering of the signup and login pages. The enhanced error handling includes more detailed console logging, a fallback mechanism for navigation using window.location.href if the navigate function fails, and more detailed error messages in the catch block. Despite these improvements, the core issue with React Router compatibility remains unresolved."
 
   - task: "Vendor Calendar Page"
     implemented: true
