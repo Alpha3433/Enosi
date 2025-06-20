@@ -365,6 +365,71 @@ const SignUpPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Vendor Approval Pending Modal */}
+      {showApprovalModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-2xl"
+          >
+            <div className="mb-6">
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-yellow-100 mb-4">
+                <svg
+                  className="h-8 w-8 text-yellow-600"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">
+                Account Under Review
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Thank you for registering your vendor account! Your application is currently being manually reviewed by our team.
+              </p>
+              <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                <p className="text-sm text-gray-700">
+                  <strong>What happens next?</strong>
+                </p>
+                <ul className="text-sm text-gray-600 mt-2 space-y-1 text-left">
+                  <li>• Our team will review your business details</li>
+                  <li>• You'll receive an email notification within 24-48 hours</li>
+                  <li>• Once approved, you can access your vendor dashboard</li>
+                </ul>
+              </div>
+              <p className="text-sm text-gray-500">
+                If you have any questions, contact us at{' '}
+                <a href="mailto:enosiaustralia@gmail.com" className="text-rose-600 hover:text-rose-700">
+                  enosiaustralia@gmail.com
+                </a>
+              </p>
+            </div>
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={() => setShowApprovalModal(false)}
+                className="w-full px-6 py-3 bg-rose-600 text-white font-medium rounded-lg hover:bg-rose-700 transition-colors"
+              >
+                Understand
+              </button>
+              <Link
+                to="/"
+                className="w-full px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors"
+              >
+                Back to Home
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };
