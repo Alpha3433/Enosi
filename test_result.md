@@ -119,6 +119,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Successfully tested basic application functionality. Login and authentication now work correctly. Protected routes properly redirect to login when not authenticated. After login, users are redirected to the appropriate dashboard based on their user type. Some backend API endpoints return 404 or 500 errors, but the core authentication flow works."
+        - working: false
+          agent: "testing"
+          comment: "Tested user registration functionality. The backend API for registration and login is working correctly, as verified by direct API calls. However, the frontend UI has JavaScript errors related to React Router's 'match' property being undefined. This prevents proper rendering of the signup and login pages. The application is using React Router v7.5.1, but there appears to be code using the older React Router v5 API which is causing compatibility issues."
 
   - task: "Vendor Calendar Page"
     implemented: true
