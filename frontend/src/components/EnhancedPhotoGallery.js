@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import Lightbox from 'react-image-lightbox';
+// import Lightbox from 'react-image-lightbox';
 import Masonry from 'react-masonry-css';
 import ReactCompareImage from 'react-compare-image';
 import { 
@@ -17,7 +17,7 @@ import {
   Grid,
   Image as ImageIcon
 } from 'lucide-react';
-import 'react-image-lightbox/style.css';
+// import 'react-image-lightbox/style.css';
 
 const EnhancedPhotoGallery = ({ 
   images = [], 
