@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
-import 'react-image-lightbox/style.css';
+// import 'react-image-lightbox/style.css';
 
 // Import pages
 import HomePage from './pages/HomePage';
