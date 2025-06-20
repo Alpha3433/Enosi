@@ -242,9 +242,12 @@ async def get_pending_vendors():
             "is_approved": False
         }).to_list(None)
         
-        # Remove passwords from response
+        # Remove passwords and convert MongoDB ObjectId to string
         for vendor in pending_vendors:
             vendor.pop("hashed_password", None)
+            # Convert ObjectId to string if present
+            if "_id" in vendor:
+                vendor["_id"] = str(vendor["_id"])
             
         return {"vendors": pending_vendors}
         
