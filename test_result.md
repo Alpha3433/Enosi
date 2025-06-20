@@ -13,9 +13,9 @@ frontend:
 
   - task: "Basic Application Functionality"
     implemented: true
-    working: false
+    working: true
     file: "App.js, LoginPage.js, SignUpPage.js"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -37,6 +37,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Tested the application after removing the react-image-lightbox library and adding a Stripe publishable key. The 'match' property error is no longer appearing in the console logs. The gallery page is now loading correctly, and the simplified lightbox functionality is working. However, other pages like the signup page, login page, and vendor detail page are still not loading correctly. It appears that removing the react-image-lightbox library has partially resolved the React Router compatibility issue, but there are still other issues preventing the full functionality of the application."
+        - working: true
+          agent: "testing"
+          comment: "Retested the application and found that the basic functionality is now working correctly. The signup page loads properly and allows user registration. Successfully created a new user account and was redirected to the dashboard after registration. The login page also works correctly. There are no more React Router 'match' property errors in the console. Some backend API endpoints still return 404 errors (couples/profile, planning/checklist, planning/budget, quotes/requests), but these don't prevent the core authentication and navigation functionality from working."
 
   - task: "Vendor Calendar Page"
     implemented: true
