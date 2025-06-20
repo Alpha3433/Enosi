@@ -18,6 +18,11 @@ const schema = yup.object({
     .required('Confirm password is required'),
   user_type: yup.string().oneOf(['couple', 'vendor']).required('User type is required'),
   phone: yup.string(),
+  business_name: yup.string().when('user_type', {
+    is: 'vendor',
+    then: (schema) => schema.required('Business name is required for vendor accounts'),
+    otherwise: (schema) => schema
+  }),
 });
 
 const SignUpPage = () => {
