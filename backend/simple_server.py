@@ -203,6 +203,13 @@ async def login_user(login_data: LoginRequest):
                 detail="Incorrect email or password"
             )
         
+        # Check if vendor is approved
+        if user["user_type"] == "vendor" and not user.get("is_approved", False):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Your vendor account is pending approval. Please wait for admin review."
+            )
+        
         # For now, return a simple token (in production, use JWT)
         return {
             "access_token": f"token_{user['id']}",
@@ -212,7 +219,9 @@ async def login_user(login_data: LoginRequest):
                 "email": user["email"],
                 "first_name": user["first_name"],
                 "last_name": user["last_name"],
-                "user_type": user["user_type"]
+                "user_type": user["user_type"],
+                "business_name": user.get("business_name"),
+                "is_approved": user.get("is_approved", True)
             }
         }
         
@@ -223,6 +232,109 @@ async def login_user(login_data: LoginRequest):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Login failed. Please try again."
+        )
+
+# Admin endpoints for vendor approval
+@app.get("/api/admin/pending-vendors")
+async def get_pending_vendors():
+    """Get all pending vendor registrations"""
+    try:
+        # Find users who are vendors and not approved
+        pending_vendors = await db.users.find({
+            "user_type": "vendor",
+            "is_approved": False
+        }).to_list(None)
+        
+        # Remove passwords from response
+        for vendor in pending_vendors:
+            vendor.pop("hashed_password", None)
+            
+        return {"vendors": pending_vendors}
+        
+    except Exception as e:
+        logging.error(f"Error fetching pending vendors: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch pending vendors"
+        )
+
+@app.post("/api/admin/approve-vendor/{vendor_id}")
+async def approve_vendor(vendor_id: str, background_tasks: BackgroundTasks):
+    """Approve a vendor account"""
+    try:
+        # Update user approval status
+        result = await db.users.update_one(
+            {"id": vendor_id, "user_type": "vendor"},
+            {"$set": {"is_approved": True, "updated_at": datetime.utcnow()}}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Vendor not found"
+            )
+        
+        # Update vendor profile status
+        await db.vendor_profiles.update_one(
+            {"user_id": vendor_id},
+            {"$set": {"status": "approved", "updated_at": datetime.utcnow()}}
+        )
+        
+        # Get vendor details for email
+        vendor = await db.users.find_one({"id": vendor_id})
+        if vendor:
+            vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
+            background_tasks.add_task(
+                email_service.send_vendor_approval_notification,
+                vendor["email"],
+                vendor_name,
+                True
+            )
+        
+        return {"message": "Vendor approved successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error approving vendor: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to approve vendor"
+        )
+
+@app.post("/api/admin/reject-vendor/{vendor_id}")
+async def reject_vendor(vendor_id: str, background_tasks: BackgroundTasks):
+    """Reject a vendor account"""
+    try:
+        # Update vendor profile status
+        await db.vendor_profiles.update_one(
+            {"user_id": vendor_id},
+            {"$set": {"status": "rejected", "updated_at": datetime.utcnow()}}
+        )
+        
+        # Get vendor details for email
+        vendor = await db.users.find_one({"id": vendor_id})
+        if vendor:
+            vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
+            background_tasks.add_task(
+                email_service.send_vendor_approval_notification,
+                vendor["email"],
+                vendor_name,
+                False
+            )
+        
+        # Delete the user account (optional - you might want to keep for records)
+        await db.users.delete_one({"id": vendor_id})
+        
+        return {"message": "Vendor rejected successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error rejecting vendor: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to reject vendor"
         )
 
 # Configure logging
