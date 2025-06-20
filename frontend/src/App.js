@@ -63,6 +63,7 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/test-registration" element={<SimpleRegistrationTest />} />
+              <Route path="/admin" element={<AdminDashboardPage />} />
               
               {/* Protected routes for couples */}
               <Route path="/dashboard" element={
