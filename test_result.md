@@ -155,16 +155,27 @@ frontend:
           agent: "testing"
           comment: "Retested the Simple Registration Test Page and found it to be working correctly. The page loads properly and displays the registration form with pre-filled fields. Successfully submitted the form and created a new user account. The success message is displayed correctly showing the user ID and login token. There are no console errors related to React Router. The page is functioning as expected."
 
+  - task: "Vendor Registration and Approval Workflow"
+    implemented: true
+    working: true
+    file: "SignUpPage.js, AdminDashboardPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested the vendor registration and approval workflow. The signup page correctly shows the business name field when 'vendor' is selected as the user type. After submitting the registration form, the approval pending modal appears with a blurred background, informing the user that their application is under review. The admin dashboard correctly displays pending vendor applications with their details (business name, contact info, registration date). The approval process works correctly - clicking the 'Approve' button successfully approves the vendor and displays a success message. The backend logs show that the approval process is working correctly, updating the vendor's approval status in the database. There are still some React Router 'match' property errors in the console, but they don't affect the core functionality of the workflow."
+
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 8
+  test_sequence: 9
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Simple Registration Test Page"
-    - "Basic Application Functionality"
+    - "Vendor Registration and Approval Workflow"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -200,3 +211,5 @@ agent_communication:
       message: "Tested the application after removing the react-image-lightbox library and adding a Stripe publishable key. The 'match' property error is no longer appearing in the console logs. The gallery page is now loading correctly, and the simplified lightbox functionality is working. However, other pages like the signup page, login page, and vendor detail page are still not loading correctly. It appears that removing the react-image-lightbox library has partially resolved the React Router compatibility issue, but there are still other issues preventing the full functionality of the application."
     - agent: "testing"
       message: "Completed comprehensive testing of the application. The previous React Router compatibility issues have been resolved. The signup page, login page, and simple registration test page are now working correctly. Successfully created new user accounts through both the main signup page and the test registration page. The gallery page is also functioning properly with the masonry layout and image display. Some backend API endpoints still return 404 errors (couples/profile, planning/checklist, planning/budget, quotes/requests), but these don't prevent the core authentication and navigation functionality from working. The application is now in a functional state with all the previously stuck tasks resolved."
+    - agent: "testing"
+      message: "Successfully tested the vendor registration and approval workflow. The signup page correctly shows the business name field when 'vendor' is selected as the user type. After submitting the registration form, the approval pending modal appears with a blurred background, informing the user that their application is under review. The admin dashboard correctly displays pending vendor applications with their details (business name, contact info, registration date). The approval process works correctly - clicking the 'Approve' button successfully approves the vendor and displays a success message. The backend logs show that the approval process is working correctly, updating the vendor's approval status in the database. There are still some React Router 'match' property errors in the console, but they don't affect the core functionality of the workflow."
