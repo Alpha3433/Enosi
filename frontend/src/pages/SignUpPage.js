@@ -59,7 +59,8 @@ const SignUpPage = () => {
         email: data.email,
         password: data.password,
         user_type: data.user_type,
-        phone: data.phone
+        phone: data.phone,
+        business_name: data.business_name
       };
       
       console.log('Attempting registration with:', userData);
@@ -67,7 +68,14 @@ const SignUpPage = () => {
       const response = await authAPI.register(userData);
       console.log('Registration response:', response);
       
-      // Auto login after registration
+      // Check if this is a vendor account that needs approval
+      if (data.user_type === 'vendor' && !response.data.is_approved) {
+        // Show approval pending modal instead of logging in
+        setShowApprovalModal(true);
+        return;
+      }
+      
+      // Auto login after registration for approved accounts
       const loginResponse = await authAPI.login(data.email, data.password);
       console.log('Login response:', loginResponse);
       
