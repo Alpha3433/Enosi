@@ -126,72 +126,93 @@ class EmailService:
         
         return self.send_email(self.admin_email, subject, html_content, plain_content)
     
-    def send_vendor_approval_notification(self, vendor_email: str, vendor_name: str, approved: bool):
-        """Send vendor approval/rejection notification to vendor"""
-        if approved:
-            subject = "🎉 Your Enosi Vendor Account Has Been Approved!"
-            html_content = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                    .header {{ background-color: #10b981; color: white; padding: 20px; text-align: center; }}
-                    .content {{ padding: 20px; background-color: #f9f9f9; }}
-                    .button {{ background-color: #e11d48; color: white; padding: 12px 24px; text-decoration: none; 
-                              border-radius: 5px; display: inline-block; margin: 10px 0; }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h1>🎉 Welcome to Enosi!</h1>
-                        <p>Your vendor account has been approved</p>
-                    </div>
-                    <div class="content">
-                        <p>Hi {vendor_name},</p>
-                        <p>Great news! Your Enosi vendor account has been approved and is now active.</p>
-                        <p>You can now access your vendor dashboard and start showcasing your services to couples planning their dream weddings.</p>
-                        <div style="text-align: center;">
-                            <a href="https://d3d31e89-3c08-4101-817f-edcf53de07ce.preview.emergentagent.com/vendor-dashboard" class="button">
-                                Access Your Dashboard
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </body>
-            </html>
-            """
-        else:
-            subject = "Update on Your Enosi Vendor Application"
-            html_content = f"""
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                    .header {{ background-color: #ef4444; color: white; padding: 20px; text-align: center; }}
-                    .content {{ padding: 20px; background-color: #f9f9f9; }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h1>Application Update</h1>
-                    </div>
-                    <div class="content">
-                        <p>Hi {vendor_name},</p>
-                        <p>Thank you for your interest in joining Enosi. After reviewing your application, we're unable to approve your vendor account at this time.</p>
-                        <p>If you have any questions or would like to discuss this decision, please contact us at enosiaustralia@gmail.com</p>
-                    </div>
-                </div>
-            </body>
-            </html>
-            """
+    def send_vendor_registration_confirmation(self, vendor_email: str, vendor_name: str, business_name: str):
+        """Send registration confirmation email to vendor"""
+        subject = f"Registration Received - {business_name}"
         
-        return self.send_email(vendor_email, subject, html_content)
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
+                .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
+                .header {{ background-color: #e11d48; color: white; padding: 20px; text-align: center; }}
+                .content {{ padding: 20px; background-color: #f9f9f9; }}
+                .info-box {{ background-color: white; padding: 15px; margin: 10px 0; border-radius: 5px; }}
+                .label {{ font-weight: bold; color: #e11d48; }}
+                .footer {{ text-align: center; padding: 20px; color: #666; font-size: 12px; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>📋 Registration Received</h1>
+                    <p>Thank you for applying to join Enosi</p>
+                </div>
+                
+                <div class="content">
+                    <p>Hi {vendor_name},</p>
+                    
+                    <p>Thank you for registering <strong>{business_name}</strong> with Enosi Wedding Marketplace!</p>
+                    
+                    <div class="info-box">
+                        <h3>What happens next?</h3>
+                        <ul>
+                            <li>✅ Your application has been received</li>
+                            <li>⏳ Our team will manually review your business details</li>
+                            <li>📧 You'll receive an email notification within 24-48 hours</li>
+                            <li>🎉 Once approved, you can access your vendor dashboard</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <p><strong>Your Registration Details:</strong></p>
+                        <p><span class="label">Business Name:</span> {business_name}</p>
+                        <p><span class="label">Contact Email:</span> {vendor_email}</p>
+                        <p><span class="label">Status:</span> Pending Review</p>
+                    </div>
+                    
+                    <p>We appreciate your interest in joining our wedding marketplace and look forward to potentially welcoming you to our vendor community.</p>
+                    
+                    <p>If you have any questions during the review process, please contact us at james@enosiweddings.com</p>
+                </div>
+                
+                <div class="footer">
+                    <p>This is an automated confirmation from Enosi Wedding Marketplace</p>
+                    <p>Please do not reply to this email</p>
+                </div>
+            </div>
+        </body>
+        </html>
+        """
+        
+        plain_content = f"""
+        Registration Received - Enosi Wedding Marketplace
+        
+        Hi {vendor_name},
+        
+        Thank you for registering {business_name} with Enosi Wedding Marketplace!
+        
+        What happens next?
+        - Your application has been received
+        - Our team will manually review your business details  
+        - You'll receive an email notification within 24-48 hours
+        - Once approved, you can access your vendor dashboard
+        
+        Your Registration Details:
+        Business Name: {business_name}
+        Contact Email: {vendor_email}
+        Status: Pending Review
+        
+        We appreciate your interest in joining our wedding marketplace and look forward to potentially welcoming you to our vendor community.
+        
+        If you have any questions during the review process, please contact us at james@enosiweddings.com
+        
+        This is an automated confirmation from Enosi Wedding Marketplace.
+        """
+        
+        return self.send_email(vendor_email, subject, html_content, plain_content)
 
 # Create a global instance
 email_service = EmailService()
