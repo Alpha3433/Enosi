@@ -288,7 +288,12 @@ async def approve_vendor(vendor_id: str, background_tasks: BackgroundTasks):
         vendor = await db.users.find_one({"id": vendor_id})
         if vendor:
             vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
-            logging.info(f"Would send approval email to {vendor['email']} for {vendor_name}")
+            background_tasks.add_task(
+                email_service.send_vendor_approval_notification,
+                vendor["email"],
+                vendor_name,
+                True
+            )
         
         return {"message": "Vendor approved successfully"}
         
