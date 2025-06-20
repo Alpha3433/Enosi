@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// Standalone component that doesn't rely on React Router
 const SimpleRegistrationTest = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    first_name: '',
-    last_name: '',
-    phone: '',
+    email: 'simple-test@example.com',
+    password: 'Password123!',
+    first_name: 'Simple',
+    last_name: 'Test',
+    phone: '1234567890',
     user_type: 'vendor'
   });
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [backendUrl, setBackendUrl] = useState('');
+
+  useEffect(() => {
+    // Get the backend URL from environment variables
+    const apiBaseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+    setBackendUrl(apiBaseUrl);
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -26,26 +34,30 @@ const SimpleRegistrationTest = () => {
     setMessage('');
 
     try {
-      const API_BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001';
+      console.log('Submitting registration to:', `${backendUrl}/api/auth/register`);
+      console.log('Form data:', formData);
       
-      const response = await axios.post(`${API_BASE_URL}/api/auth/register`, formData, {
+      const response = await axios.post(`${backendUrl}/api/auth/register`, formData, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
+      console.log('Registration response:', response.data);
       setMessage(`Registration successful! User ID: ${response.data.id}`);
       
       // Try to login
-      const loginResponse = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+      console.log('Attempting login with:', formData.email);
+      const loginResponse = await axios.post(`${backendUrl}/api/auth/login`, {
         email: formData.email,
         password: formData.password
       });
       
+      console.log('Login response:', loginResponse.data);
       setMessage(prev => prev + `\nLogin successful! Token: ${loginResponse.data.access_token.substring(0, 20)}...`);
       
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Registration/login error:', error);
       setMessage(`Error: ${error.response?.data?.detail || error.message || 'Registration failed'}`);
     } finally {
       setLoading(false);
@@ -54,7 +66,7 @@ const SimpleRegistrationTest = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '500px', margin: '0 auto' }}>
-      <h2>Simple Registration Test</h2>
+      <h1 style={{ textAlign: 'center', marginBottom: '20px' }}>Simple Registration Test</h1>
       
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <input
@@ -145,7 +157,7 @@ const SimpleRegistrationTest = () => {
       )}
       
       <div style={{ marginTop: '20px', fontSize: '12px', color: '#666' }}>
-        <p>Backend URL: {process.env.REACT_APP_BACKEND_URL || 'http://localhost:8001'}</p>
+        <p>Backend URL: {backendUrl}</p>
         <p>This is a simple test page to verify registration functionality works.</p>
       </div>
     </div>
