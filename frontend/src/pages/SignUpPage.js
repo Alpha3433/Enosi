@@ -30,6 +30,7 @@ const SignUpPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showApprovalModal, setShowApprovalModal] = useState(false);
   
   const { login } = useAuth();
   const navigate = useNavigate();
