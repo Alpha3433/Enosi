@@ -36,6 +36,9 @@ yarn-error.log*
 .env.production.local
 backend/.env
 frontend/.env
+
+# Local development setup (contains secrets)
+setup-local-env.sh
 *token.json*
 # vercel
 .vercel
