@@ -33,11 +33,20 @@ class EmailService:
             sg = SendGridAPIClient(self.api_key)
             response = sg.send(message)
             
-            logger.info(f"Email sent successfully to {to_email}. Status: {response.status_code}")
-            return response.status_code == 202
+            logger.info(f"SendGrid response status: {response.status_code}")
+            logger.info(f"SendGrid response body: {response.body}")
+            logger.info(f"SendGrid response headers: {response.headers}")
+            
+            if response.status_code == 202:
+                logger.info(f"Email sent successfully to {to_email}")
+                return True
+            else:
+                logger.error(f"Email failed to send. Status: {response.status_code}, Body: {response.body}")
+                return False
             
         except Exception as e:
             logger.error(f"Failed to send email to {to_email}: {str(e)}")
+            logger.error(f"Exception type: {type(e).__name__}")
             return False
     
     def send_vendor_registration_notification(self, vendor_data: dict):
