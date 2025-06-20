@@ -251,6 +251,24 @@ const SignUpPage = () => {
               />
             </div>
 
+            {/* Business name field for vendors */}
+            {userType === 'vendor' && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Business name *
+                </label>
+                <input
+                  {...register('business_name')}
+                  type="text"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-colors"
+                  placeholder="Enter your business name"
+                />
+                {errors.business_name && (
+                  <p className="mt-1 text-sm text-red-600">{errors.business_name.message}</p>
+                )}
+              </div>
+            )}
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Password
