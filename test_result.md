@@ -165,9 +165,7 @@ test_plan:
   current_focus:
     - "Simple Registration Test Page"
     - "Basic Application Functionality"
-  stuck_tasks: 
-    - "Simple Registration Test Page"
-    - "Basic Application Functionality"
+  stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
