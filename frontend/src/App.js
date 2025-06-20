@@ -50,8 +50,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <div className="App">
-          <BrowserRouter>
-            <Routes>
+          <RouterErrorBoundary>
+            <BrowserRouter>
+              <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
