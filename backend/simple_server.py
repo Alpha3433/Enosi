@@ -7,7 +7,7 @@ from datetime import datetime
 import os
 import uuid
 import logging
-from email_service import email_service
+from .email_service import email_service
 
 # Simple FastAPI app for handling registration
 app = FastAPI(title="Enosi Registration API", version="1.0.0")
