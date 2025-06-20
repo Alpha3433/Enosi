@@ -59,6 +59,7 @@ function App() {
               <Route path="/vendors/:vendorId/gallery" element={<GalleryPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
+              <Route path="/test-registration" element={<SimpleRegistrationTest />} />
               
               {/* Protected routes for couples */}
               <Route path="/dashboard" element={
