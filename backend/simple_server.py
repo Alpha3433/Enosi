@@ -8,6 +8,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Import email service
 import sys
