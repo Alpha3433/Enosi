@@ -34,6 +34,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Tested the vendor registration functionality with the enhanced error handling. The backend API for registration and login is working correctly, as verified by direct API calls. Successfully created a new vendor user via the /api/auth/register endpoint and logged in with the new user via the /api/auth/login endpoint. However, the frontend UI still has JavaScript errors related to React Router's 'match' property being undefined. This prevents proper rendering of the signup and login pages. The enhanced error handling includes more detailed console logging, a fallback mechanism for navigation using window.location.href if the navigate function fails, and more detailed error messages in the catch block. Despite these improvements, the core issue with React Router compatibility remains unresolved."
+        - working: false
+          agent: "testing"
+          comment: "Tested the application after removing the react-image-lightbox library and adding a Stripe publishable key. The 'match' property error is no longer appearing in the console logs. The gallery page is now loading correctly, and the simplified lightbox functionality is working. However, other pages like the signup page, login page, and vendor detail page are still not loading correctly. It appears that removing the react-image-lightbox library has partially resolved the React Router compatibility issue, but there are still other issues preventing the full functionality of the application."
 
   - task: "Vendor Calendar Page"
     implemented: true
@@ -124,6 +127,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Successfully tested the Enhanced Photo Gallery functionality. The gallery page is accessible directly via URL and displays correctly. The filter functionality works with category filters (All Photos, Ceremony, Reception, Details, Portraits). The images are displayed in a masonry grid layout. There are still some JavaScript console errors related to the 'match' property, but they don't prevent the gallery from functioning properly. The implementation includes all the required features: masonry layout, category filters, and image display. The 'Back to vendor profile' link is present and allows navigation back to the vendor detail page."
+        - working: true
+          agent: "testing"
+          comment: "Tested the Enhanced Photo Gallery functionality after removing the react-image-lightbox library. The gallery page is now loading correctly, and the simplified lightbox functionality is working. The 'match' property error is no longer appearing in the console logs. The filter functionality works with category filters, and the images are displayed in a masonry grid layout. The implementation includes all the required features: masonry layout, category filters, and image display with a simplified lightbox."
 
   - task: "Simple Registration Test Page"
     implemented: true
@@ -139,11 +145,14 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Tested the enhanced simple registration test page. The backend API for registration and login is working correctly, as verified by direct API calls. The SimpleRegistrationTest.js component has been updated to be a standalone component that doesn't rely on React Router, with pre-filled form fields and more detailed error handling. However, the React app is still intercepting all routes, including the /test-registration.html static file, and redirecting to the homepage due to the catch-all route in App.js. The JavaScript errors related to React Router's 'match' property being undefined are still present. Despite the improvements to the component itself, it cannot be properly tested due to the routing issues."
+        - working: false
+          agent: "testing"
+          comment: "Tested the Simple Registration Test Page after removing the react-image-lightbox library and adding a Stripe publishable key. The 'match' property error is no longer appearing in the console logs. However, the page is still not loading correctly. It appears that removing the react-image-lightbox library has partially resolved the React Router compatibility issue, but there are still other issues preventing the full functionality of the application."
 
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 6
+  test_sequence: 7
   run_ui: false
 
 test_plan:
@@ -183,3 +192,5 @@ agent_communication:
       message: "Attempted to test the new simple registration test page at /test-registration. The backend API for registration and login is working correctly, as verified by direct API calls using curl. However, the frontend UI has JavaScript errors related to React Router's 'match' property being undefined. This prevents proper rendering of the test registration page. The application is using React Router v7.5.1, but there appears to be code using the older React Router v5 API which is causing compatibility issues. Attempted to create standalone HTML pages for testing, but the React app is intercepting all routes, including static HTML files. The main issue is with React Router compatibility, which needs to be fixed to make the registration test page functional."
     - agent: "testing"
       message: "Tested the vendor registration functionality with the enhanced error handling. The backend API for registration and login is working correctly, as verified by direct API calls. The enhanced error handling includes more detailed console logging, a fallback mechanism for navigation using window.location.href if the navigate function fails, and more detailed error messages in the catch block. However, the frontend UI still has JavaScript errors related to React Router's 'match' property being undefined, which prevents proper rendering of the signup and login pages. The React app is also intercepting all routes, including static HTML files, and redirecting to the homepage due to the catch-all route in App.js. Despite the improvements to error handling, the core issue with React Router compatibility remains unresolved."
+    - agent: "testing"
+      message: "Tested the application after removing the react-image-lightbox library and adding a Stripe publishable key. The 'match' property error is no longer appearing in the console logs. The gallery page is now loading correctly, and the simplified lightbox functionality is working. However, other pages like the signup page, login page, and vendor detail page are still not loading correctly. It appears that removing the react-image-lightbox library has partially resolved the React Router compatibility issue, but there are still other issues preventing the full functionality of the application."
