@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #e11d48;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #be123c;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .success {
+            color: #10b981;
+        }
+        .error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>API Test</h1>
+        
+        <div class="card">
+            <h2>Register User</h2>
+            <p>Test the registration API endpoint</p>
+            <button id="registerBtn">Register Test User</button>
+            <pre id="registerResult"></pre>
+        </div>
+        
+        <div class="card">
+            <h2>Login User</h2>
+            <p>Test the login API endpoint</p>
+            <button id="loginBtn">Login Test User</button>
+            <pre id="loginResult"></pre>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const backendUrl = 'https://d3d31e89-3c08-4101-817f-edcf53de07ce.preview.emergentagent.com';
+            const registerBtn = document.getElementById('registerBtn');
+            const loginBtn = document.getElementById('loginBtn');
+            const registerResult = document.getElementById('registerResult');
+            const loginResult = document.getElementById('loginResult');
+            
+            // Generate a unique email for testing
+            const timestamp = new Date().getTime();
+            const testEmail = `test-${timestamp}@example.com`;
+            const testPassword = 'Password123!';
+            
+            registerBtn.addEventListener('click', async function() {
+                registerResult.textContent = 'Loading...';
+                registerResult.className = '';
+                
+                try {
+                    const userData = {
+                        email: testEmail,
+                        password: testPassword,
+                        first_name: 'Test',
+                        last_name: 'User',
+                        phone: '1234567890',
+                        user_type: 'vendor'
+                    };
+                    
+                    console.log('Registering user:', userData);
+                    
+                    const response = await fetch(`${backendUrl}/api/auth/register`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(userData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        registerResult.textContent = `✅ Registration successful!\n\nEmail: ${testEmail}\nPassword: ${testPassword}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                        registerResult.className = 'success';
+                    } else {
+                        registerResult.textContent = `❌ Registration failed!\n\nError: ${data.detail || 'Unknown error'}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                        registerResult.className = 'error';
+                    }
+                } catch (error) {
+                    registerResult.textContent = `❌ Error: ${error.message}`;
+                    registerResult.className = 'error';
+                    console.error('Registration error:', error);
+                }
+            });
+            
+            loginBtn.addEventListener('click', async function() {
+                loginResult.textContent = 'Loading...';
+                loginResult.className = '';
+                
+                try {
+                    const loginData = {
+                        email: testEmail,
+                        password: testPassword
+                    };
+                    
+                    console.log('Logging in user:', loginData);
+                    
+                    const response = await fetch(`${backendUrl}/api/auth/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(loginData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        // Mask most of the token for security
+                        const maskedToken = data.access_token ? 
+                            `${data.access_token.substring(0, 10)}...${data.access_token.substring(data.access_token.length - 5)}` : 
+                            'No token returned';
+                            
+                        const displayData = {
+                            ...data,
+                            access_token: maskedToken
+                        };
+                        
+                        loginResult.textContent = `✅ Login successful!\n\nResponse:\n${JSON.stringify(displayData, null, 2)}`;
+                        loginResult.className = 'success';
+                    } else {
+                        loginResult.textContent = `❌ Login failed!\n\nError: ${data.detail || 'Unknown error'}\n\nResponse:\n${JSON.stringify(data, null, 2)}`;
+                        loginResult.className = 'error';
+                    }
+                } catch (error) {
+                    loginResult.textContent = `❌ Error: ${error.message}`;
+                    loginResult.className = 'error';
+                    console.error('Login error:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
