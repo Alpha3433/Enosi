@@ -32,6 +32,7 @@ import ChatPage from './pages/ChatPage';
 import VendorSubscriptionPage from './pages/VendorSubscriptionPage';
 import BookingPaymentPage from './pages/BookingPaymentPage';
 import SimpleRegistrationTest from './pages/SimpleRegistrationTest';
+import AdminDashboardPage from './pages/AdminDashboardPage';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 
