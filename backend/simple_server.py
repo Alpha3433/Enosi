@@ -152,7 +152,7 @@ async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks
             }
             await db.vendor_profiles.insert_one(vendor_profile)
             
-            # Log email notification (instead of sending)
+            # Send email notification to admin (in background)
             vendor_notification_data = {
                 "id": user_id,
                 "business_name": user_data.business_name,
@@ -162,7 +162,10 @@ async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks
                 "phone": user_data.phone,
                 "created_at": datetime.utcnow().isoformat()
             }
-            logging.info(f"Would send vendor registration notification: {vendor_notification_data}")
+            background_tasks.add_task(
+                email_service.send_vendor_registration_notification,
+                vendor_notification_data
+            )
         
         # Return user response (without password)
         return UserResponse(
