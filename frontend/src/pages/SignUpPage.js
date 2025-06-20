@@ -57,15 +57,28 @@ const SignUpPage = () => {
         phone: data.phone
       };
       
+      console.log('Attempting registration with:', userData);
+      
       const response = await authAPI.register(userData);
+      console.log('Registration response:', response);
       
       // Auto login after registration
       const loginResponse = await authAPI.login(data.email, data.password);
+      console.log('Login response:', loginResponse);
+      
       login(loginResponse.data.user, loginResponse.data.access_token);
       
-      navigate(data.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard');
+      // Use window.location as fallback if navigate fails
+      try {
+        navigate(data.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard');
+      } catch (navError) {
+        console.log('Navigate failed, using window.location:', navError);
+        window.location.href = data.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard';
+      }
+      
     } catch (err) {
-      setError(err.response?.data?.detail || 'Registration failed. Please try again.');
+      console.error('Registration error:', err);
+      setError(err.response?.data?.detail || err.message || 'Registration failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
