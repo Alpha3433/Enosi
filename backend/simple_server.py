@@ -1,13 +1,13 @@
-from fastapi import FastAPI, HTTPException, status, BackgroundTasks
-from fastapi.middleware.cors import CORSMiddleware
-from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
-from pydantic import BaseModel, EmailStr
-from passlib.context import CryptContext
-from datetime import datetime
+import logging
 import os
 import uuid
-import logging
-from .email_service import email_service
+from datetime import datetime
+
+from fastapi import BackgroundTasks, FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
+from passlib.context import CryptContext
+from pydantic import BaseModel, EmailStr
 
 # Simple FastAPI app for handling registration
 app = FastAPI(title="Enosi Registration API", version="1.0.0")
@@ -151,7 +151,7 @@ async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks
             }
             await db.vendor_profiles.insert_one(vendor_profile)
             
-            # Send email notification to admin (in background)
+            # Log email notification (instead of sending)
             vendor_notification_data = {
                 "id": user_id,
                 "business_name": user_data.business_name,
@@ -161,10 +161,7 @@ async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks
                 "phone": user_data.phone,
                 "created_at": datetime.utcnow().isoformat()
             }
-            background_tasks.add_task(
-                email_service.send_vendor_registration_notification,
-                vendor_notification_data
-            )
+            logging.info(f"Would send vendor registration notification: {vendor_notification_data}")
         
         # Return user response (without password)
         return UserResponse(
@@ -284,12 +281,7 @@ async def approve_vendor(vendor_id: str, background_tasks: BackgroundTasks):
         vendor = await db.users.find_one({"id": vendor_id})
         if vendor:
             vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
-            background_tasks.add_task(
-                email_service.send_vendor_approval_notification,
-                vendor["email"],
-                vendor_name,
-                True
-            )
+            logging.info(f"Would send approval email to {vendor['email']} for {vendor_name}")
         
         return {"message": "Vendor approved successfully"}
         
@@ -316,12 +308,7 @@ async def reject_vendor(vendor_id: str, background_tasks: BackgroundTasks):
         vendor = await db.users.find_one({"id": vendor_id})
         if vendor:
             vendor_name = f"{vendor['first_name']} {vendor['last_name']}"
-            background_tasks.add_task(
-                email_service.send_vendor_approval_notification,
-                vendor["email"],
-                vendor_name,
-                False
-            )
+            logging.info(f"Would send rejection email to {vendor['email']} for {vendor_name}")
         
         # Delete the user account (optional - you might want to keep for records)
         await db.users.delete_one({"id": vendor_id})
