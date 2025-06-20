@@ -91,6 +91,37 @@ async def shutdown_db_client():
 async def health_check():
     return {"status": "healthy", "timestamp": datetime.utcnow()}
 
+@app.post("/api/test-email")
+async def test_email():
+    """Test endpoint to verify email functionality"""
+    try:
+        # Test email sending
+        test_data = {
+            "id": "test-123",
+            "business_name": "Test Business",
+            "first_name": "Test",
+            "last_name": "User",
+            "email": "test@example.com",
+            "phone": "1234567890",
+            "created_at": datetime.utcnow().isoformat()
+        }
+        
+        success = email_service.send_vendor_registration_notification(test_data)
+        
+        return {
+            "email_sent": success,
+            "api_key_configured": bool(email_service.api_key),
+            "sender_email": email_service.sender_email,
+            "admin_email": email_service.admin_email
+        }
+    except Exception as e:
+        logging.error(f"Email test error: {str(e)}")
+        return {
+            "error": str(e),
+            "email_sent": False,
+            "api_key_configured": bool(email_service.api_key)
+        }
+
 @app.post("/api/auth/register", response_model=UserResponse)
 async def register_user(user_data: UserCreate, background_tasks: BackgroundTasks):
     try:
