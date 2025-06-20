@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from passlib.context import CryptContext
 from pydantic import BaseModel, EmailStr
+from email_service import email_service
 
 # Simple FastAPI app for handling registration
 app = FastAPI(title="Enosi Registration API", version="1.0.0")
