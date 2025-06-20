@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, HTTPException, status, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from pydantic import BaseModel, EmailStr
@@ -7,6 +7,7 @@ from datetime import datetime
 import os
 import uuid
 import logging
+from email_service import email_service
 
 # Simple FastAPI app for handling registration
 app = FastAPI(title="Enosi Registration API", version="1.0.0")
