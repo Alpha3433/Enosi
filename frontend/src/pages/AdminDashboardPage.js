@@ -16,6 +16,7 @@ const AdminDashboardPage = () => {
 
   useEffect(() => {
     fetchPendingVendors();
+    fetchPendingProfiles();
   }, []);
 
   const fetchPendingVendors = async () => {
@@ -28,6 +29,16 @@ const AdminDashboardPage = () => {
       setError('Failed to fetch pending vendors');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPendingProfiles = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/api/admin/vendor-profiles?status=pending_review`);
+      setPendingProfiles(response.data.profiles || []);
+    } catch (error) {
+      console.error('Error fetching profiles:', error);
+      // Don't set error here as this is a new feature
     }
   };
 
