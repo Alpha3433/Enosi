@@ -159,6 +159,37 @@ const VendorDashboardPage = () => {
           </motion.div>
         )}
 
+        {/* Profile Setup Completion Banner */}
+        {user && !user.profile_setup_complete && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-rose-50 border border-rose-200 rounded-xl p-6 mb-8"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <div className="bg-rose-100 rounded-full p-3 mr-4">
+                  <AlertCircle className="h-6 w-6 text-rose-600" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-rose-900">Complete Your Business Profile</h2>
+                  <p className="text-rose-700 mt-1">
+                    Set up your complete business profile to start receiving bookings from couples. 
+                    Add your services, portfolio, and business details to go live!
+                  </p>
+                </div>
+              </div>
+              <Link
+                to="/vendor-profile-setup"
+                className="flex items-center bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition-colors font-medium whitespace-nowrap"
+              >
+                Complete Setup
+                <ArrowRight className="h-4 w-4 ml-2" />
+              </Link>
+            </div>
+          </motion.div>
+        )}
+
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
