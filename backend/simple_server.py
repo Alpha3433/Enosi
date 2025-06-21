@@ -248,6 +248,90 @@ class LoginRequest(BaseModel):
     email: EmailStr
     password: str
 
+class VendorProfileCreate(BaseModel):
+    # Step 1: Basic Info
+    business_name: str
+    category: str
+    subcategory: str = None
+    abn: str = None
+    business_description: str = None
+    
+    # Step 2: Services & Pricing
+    services: list = []
+    pricing_packages: list = []
+    service_specialties: list = []
+    
+    # Step 3: Location & Coverage
+    business_address: str = None
+    coverage_areas: list = []
+    latitude: float = None
+    longitude: float = None
+    
+    # Step 4: Portfolio
+    portfolio_description: str = None
+    gallery_images: list = []
+    featured_image: str = None
+    
+    # Additional Info
+    website: str = None
+    social_media: dict = {}
+    years_experience: int = None
+    team_size: int = None
+    
+class VendorProfileUpdate(BaseModel):
+    business_name: str = None
+    category: str = None
+    subcategory: str = None
+    abn: str = None
+    business_description: str = None
+    services: list = None
+    pricing_packages: list = None
+    service_specialties: list = None
+    business_address: str = None
+    coverage_areas: list = None
+    latitude: float = None
+    longitude: float = None
+    portfolio_description: str = None
+    gallery_images: list = None
+    featured_image: str = None
+    website: str = None
+    social_media: dict = None
+    years_experience: int = None
+    team_size: int = None
+
+class VendorProfileResponse(BaseModel):
+    id: str
+    user_id: str
+    business_name: str
+    category: str = None
+    subcategory: str = None
+    abn: str = None
+    business_description: str = None
+    services: list = []
+    pricing_packages: list = []
+    service_specialties: list = []
+    business_address: str = None
+    coverage_areas: list = []
+    latitude: float = None
+    longitude: float = None
+    portfolio_description: str = None
+    gallery_images: list = []
+    featured_image: str = None
+    website: str = None
+    social_media: dict = {}
+    years_experience: int = None
+    team_size: int = None
+    profile_status: str = "incomplete"  # incomplete, pending_review, live, changes_pending
+    completion_percentage: int = 0
+    is_live: bool = False
+    admin_notes: str = None
+    created_at: datetime
+    updated_at: datetime
+    
+class ProfileStatusUpdate(BaseModel):
+    status: str  # pending_review, live, changes_pending, rejected
+    admin_notes: str = None
+
 @app.post("/api/auth/login")
 async def login_user(login_data: LoginRequest):
     try:
