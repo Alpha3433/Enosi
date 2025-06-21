@@ -82,12 +82,13 @@ const SignUpPage = () => {
       
       login(loginResponse.data.user, loginResponse.data.access_token);
       
-      // Use window.location as fallback if navigate fails
-      try {
-        navigate(data.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard');
-      } catch (navError) {
-        console.log('Navigate failed, using window.location:', navError);
-        window.location.href = data.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard';
+      // For new vendors, always redirect to profile setup
+      // For other user types, use default redirect logic
+      if (data.user_type === 'vendor') {
+        navigate('/vendor-profile-setup');
+      } else {
+        const redirectPath = getDefaultRedirectPath();
+        navigate(redirectPath);
       }
       
     } catch (err) {
