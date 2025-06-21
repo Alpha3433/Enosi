@@ -82,6 +82,9 @@ export const AuthProvider = ({ children }) => {
     updateUserProfileStatus,
     getDefaultRedirectPath,
     isAuthenticated: !!user,
+    isCouple: user?.user_type === 'couple',
+    isVendor: user?.user_type === 'vendor',
+    isAdmin: user?.user_type === 'admin'
   };
     isCouple: user?.user_type === 'couple',
     isVendor: user?.user_type === 'vendor',
