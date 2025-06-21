@@ -16,7 +16,9 @@ import {
   Plus,
   Camera,
   Award,
-  Shield
+  Shield,
+  AlertCircle,
+  ArrowRight
 } from 'lucide-react';
 import { Header, Footer } from '../components';
 import { useAuth } from '../contexts/AuthContext';
