@@ -40,19 +40,10 @@ const LoginPage = () => {
       const response = await authAPI.login(data.email, data.password);
       login(response.data.user, response.data.access_token);
       
-      // Redirect based on user type
-      let redirectPath = from;
-      if (from === '/dashboard') { // Only redirect if coming from default
-        if (response.data.user.user_type === 'admin') {
-          redirectPath = '/admin';
-        } else if (response.data.user.user_type === 'vendor') {
-          redirectPath = '/vendor-dashboard';
-        } else {
-          redirectPath = '/dashboard';
-        }
-      }
+      // Use custom redirect logic or fallback to provided path
+      const redirectPath = from || getDefaultRedirectPath();
+      navigate(redirectPath);
       
-      navigate(redirectPath, { replace: true });
     } catch (err) {
       setError(err.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
