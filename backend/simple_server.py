@@ -350,6 +350,12 @@ async def login_user(login_data: LoginRequest):
                 detail="Your vendor account is pending approval. Please wait for admin review."
             )
         
+        # Check if vendor has completed profile setup
+        profile_setup_complete = True
+        if user["user_type"] == "vendor":
+            vendor_profile = await db.vendor_profiles.find_one({"user_id": user["id"]})
+            profile_setup_complete = vendor_profile and vendor_profile.get("profile_status") in ["live", "pending_review"]
+        
         # For now, return a simple token (in production, use JWT)
         return {
             "access_token": f"token_{user['id']}",
@@ -361,7 +367,8 @@ async def login_user(login_data: LoginRequest):
                 "last_name": user["last_name"],
                 "user_type": user["user_type"],
                 "business_name": user.get("business_name"),
-                "is_approved": user.get("is_approved", True)
+                "is_approved": user.get("is_approved", True),
+                "profile_setup_complete": profile_setup_complete
             }
         }
         
