@@ -34,6 +34,38 @@ export const AuthProvider = ({ children }) => {
     Cookies.set('user_data', JSON.stringify(userData), { expires: 1 });
   };
 
+  const updateUserProfileStatus = (profileComplete) => {
+    if (user) {
+      const updatedUser = { ...user, profile_setup_complete: profileComplete };
+      setUser(updatedUser);
+      Cookies.set('user_data', JSON.stringify(updatedUser), { expires: 1 });
+    }
+  };
+
+  const getDefaultRedirectPath = () => {
+    if (!user) return '/';
+    
+    // For vendors, check if profile setup is complete
+    if (user.user_type === 'vendor') {
+      if (!user.profile_setup_complete) {
+        return '/vendor-profile-setup';
+      }
+      return '/vendor-dashboard';
+    }
+    
+    // For couples
+    if (user.user_type === 'couple') {
+      return '/dashboard';
+    }
+    
+    // For admin
+    if (user.user_type === 'admin') {
+      return '/admin';
+    }
+    
+    return '/';
+  };
+
   const logout = () => {
     setUser(null);
     setToken(null);
