@@ -733,3 +733,13 @@ async def update_profile_status(profile_id: str, status_update: ProfileStatusUpd
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to update profile status"
         )
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)
