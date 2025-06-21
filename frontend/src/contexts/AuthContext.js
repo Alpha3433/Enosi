@@ -86,10 +86,6 @@ export const AuthProvider = ({ children }) => {
     isVendor: user?.user_type === 'vendor',
     isAdmin: user?.user_type === 'admin'
   };
-    isCouple: user?.user_type === 'couple',
-    isVendor: user?.user_type === 'vendor',
-    isAdmin: user?.user_type === 'admin'
-  };
 
   return (
     <AuthContext.Provider value={value}>
