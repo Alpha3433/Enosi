@@ -61,7 +61,52 @@ const AdminDashboardPage = () => {
     }
   };
 
-  const handleRejectVendor = async (vendorId) => {
+  const handleApproveProfile = async (profileId) => {
+    try {
+      setProcessingVendor(profileId);
+      await axios.post(`${API_BASE_URL}/api/admin/vendor-profile/${profileId}/status`, {
+        status: 'live',
+        admin_notes: 'Profile approved and is now live'
+      });
+      
+      // Remove from pending list
+      setPendingProfiles(prev => prev.filter(profile => profile.id !== profileId));
+      setSuccess('Vendor profile approved successfully! Profile is now live.');
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      console.error('Error approving profile:', error);
+      setError('Failed to approve vendor profile');
+    } finally {
+      setProcessingVendor(null);
+    }
+  };
+
+  const handleRejectProfile = async (profileId) => {
+    const notes = prompt('Please provide a reason for rejection (this will be sent to the vendor):');
+    if (!notes) return;
+
+    try {
+      setProcessingVendor(profileId);
+      await axios.post(`${API_BASE_URL}/api/admin/vendor-profile/${profileId}/status`, {
+        status: 'rejected',
+        admin_notes: notes
+      });
+      
+      // Remove from pending list
+      setPendingProfiles(prev => prev.filter(profile => profile.id !== profileId));
+      setSuccess('Vendor profile rejected. Vendor has been notified.');
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      console.error('Error rejecting profile:', error);
+      setError('Failed to reject vendor profile');
+    } finally {
+      setProcessingVendor(null);
+    }
+  };
     if (!window.confirm('Are you sure you want to reject this vendor? This action cannot be undone.')) {
       return;
     }
