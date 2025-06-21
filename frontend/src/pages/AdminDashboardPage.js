@@ -126,14 +126,42 @@ const AdminDashboardPage = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600 mt-1">Manage vendor applications</p>
+              <p className="text-gray-600 mt-1">Manage vendor applications and profiles</p>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="text-right">
-                <div className="text-sm text-gray-500">Pending Reviews</div>
+            <div className="grid grid-cols-2 gap-4 text-right">
+              <div>
+                <div className="text-sm text-gray-500">Pending Registrations</div>
                 <div className="text-2xl font-bold text-rose-600">{pendingVendors.length}</div>
               </div>
+              <div>
+                <div className="text-sm text-gray-500">Profiles for Review</div>
+                <div className="text-2xl font-bold text-blue-600">{pendingProfiles.length}</div>
+              </div>
             </div>
+          </div>
+
+          {/* Tab Navigation */}
+          <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg mt-6">
+            <button
+              onClick={() => setActiveTab('registrations')}
+              className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
+                activeTab === 'registrations'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Vendor Registrations ({pendingVendors.length})
+            </button>
+            <button
+              onClick={() => setActiveTab('profiles')}
+              className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
+                activeTab === 'profiles'
+                  ? 'bg-white text-gray-900 shadow-sm'
+                  : 'text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              Profile Reviews ({pendingProfiles.length})
+            </button>
           </div>
         </div>
       </div>
