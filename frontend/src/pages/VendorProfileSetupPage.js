@@ -62,15 +62,26 @@ const VendorProfileSetupPage = () => {
       localStorage.setItem(`vendor_profile_${user?.id}`, JSON.stringify(formData));
       setProfileData(formData);
       
-      // Show success message
+      // Update user profile status in auth context
+      const isComplete = formData.profile_status === 'pending_review' || formData.profile_status === 'live';
+      updateUserProfileStatus(isComplete);
+      
+      // Show success message and redirect
       if (formData.profile_status === 'pending_review') {
-        setSaveMessage('Profile submitted for review! You\'ll receive an email notification once approved.');
+        setSaveMessage('Profile submitted for review! Redirecting to vendor dashboard...');
+        
+        // Redirect to vendor dashboard after submission
+        setTimeout(() => {
+          navigate('/vendor-dashboard');
+        }, 2000);
       } else {
         setSaveMessage('Profile saved as draft successfully!');
       }
       
-      // Clear message after 3 seconds
-      setTimeout(() => setSaveMessage(''), 3000);
+      // Clear message after 3 seconds (if not redirecting)
+      if (formData.profile_status !== 'pending_review') {
+        setTimeout(() => setSaveMessage(''), 3000);
+      }
       
     } catch (error) {
       console.error('Error saving profile:', error);
