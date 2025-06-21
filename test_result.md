@@ -169,6 +169,18 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Retested the complete vendor registration and email workflow. Successfully registered a new vendor with the specified details (Email Working Wedding Services). The business name field correctly appears when 'vendor' is selected as the user type. After registration, the approval pending modal appears with information about the review process. The admin dashboard correctly shows the new vendor in the pending list with all details (name, email, business name, etc.). The approval process works smoothly - clicking the 'Approve' button successfully approves the vendor and displays a success message stating 'Vendor approved successfully! Approval email sent.' There are still some React Router 'match' property errors in the console logs, but they don't affect the core functionality of the workflow. The email functionality is working correctly, with the system confirming that approval emails are sent."
+        
+  - task: "First-Time Vendor Login and Profile Setup Flow"
+    implemented: true
+    working: false
+    file: "SignUpPage.js, VendorProfileSetupPage.js, VendorDashboardPage.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the new first-time vendor login and profile setup flow. The application is showing JavaScript errors in the browser console related to 'match' property being undefined. This is a React Router v7 compatibility issue where the application is trying to access route parameters in a way that's not compatible with React Router v7. The error prevents proper rendering of the signup page and subsequent navigation. Code review shows that the VendorProfileSetupPage.js component is well-implemented with a multi-step wizard for profile setup, progress tracking, and proper redirection logic. The SignUpPage.js correctly shows the business name field when 'vendor' is selected and has logic to redirect new vendors to the profile setup page. The VendorDashboardPage.js includes a banner for incomplete profiles. However, due to the React Router compatibility issues, the actual flow cannot be tested end-to-end."
 
 metadata:
   created_by: "testing_agent"
