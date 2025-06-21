@@ -18,11 +18,11 @@ const LoginPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const { login } = useAuth();
+  const { login, getDefaultRedirectPath } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   
-  const from = location.state?.from?.pathname || '/dashboard';
+  const from = location.state?.from?.pathname || null;
 
   const {
     register,
