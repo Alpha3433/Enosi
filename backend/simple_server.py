@@ -480,12 +480,256 @@ async def reject_vendor(vendor_id: str, background_tasks: BackgroundTasks):
             detail="Failed to reject vendor"
         )
 
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+# Helper function to calculate profile completion percentage
+def calculate_completion_percentage(profile_data):
+    """Calculate profile completion percentage based on filled fields"""
+    required_fields = [
+        'business_name', 'category', 'business_description', 'business_address',
+        'services', 'pricing_packages', 'portfolio_description', 'gallery_images'
+    ]
+    
+    optional_fields = [
+        'subcategory', 'abn', 'service_specialties', 'coverage_areas',
+        'featured_image', 'website', 'social_media', 'years_experience', 'team_size'
+    ]
+    
+    total_fields = len(required_fields) + len(optional_fields)
+    completed_fields = 0
+    
+    # Check required fields (worth more)
+    for field in required_fields:
+        value = profile_data.get(field)
+        if value and (not isinstance(value, list) or len(value) > 0):
+            completed_fields += 2  # Required fields count double
+    
+    # Check optional fields
+    for field in optional_fields:
+        value = profile_data.get(field)
+        if value and (not isinstance(value, list) or len(value) > 0):
+            completed_fields += 1
+    
+    # Calculate percentage (required fields worth double)
+    max_points = len(required_fields) * 2 + len(optional_fields)
+    percentage = min(100, int((completed_fields / max_points) * 100))
+    
+    return percentage
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+# Vendor Profile Management Endpoints
+@app.post("/api/vendor/profile", response_model=VendorProfileResponse)
+async def create_vendor_profile(profile_data: VendorProfileCreate, background_tasks: BackgroundTasks):
+    """Create or update vendor profile"""
+    try:
+        # In a real app, you'd get user_id from JWT token
+        # For now, we'll use a placeholder
+        user_id = "current_user_id"  # This should come from authentication
+        
+        profile_id = str(uuid.uuid4())
+        completion_percentage = calculate_completion_percentage(profile_data.dict())
+        
+        # Determine initial status based on completion
+        if completion_percentage >= 80:
+            profile_status = "pending_review"
+        else:
+            profile_status = "incomplete"
+        
+        profile_doc = {
+            "id": profile_id,
+            "user_id": user_id,
+            **profile_data.dict(),
+            "profile_status": profile_status,
+            "completion_percentage": completion_percentage,
+            "is_live": False,
+            "admin_notes": None,
+            "created_at": datetime.utcnow(),
+            "updated_at": datetime.utcnow()
+        }
+        
+        # Check if profile already exists
+        existing_profile = await db.vendor_profiles.find_one({"user_id": user_id})
+        if existing_profile:
+            # Update existing profile
+            await db.vendor_profiles.update_one(
+                {"user_id": user_id},
+                {"$set": profile_doc}
+            )
+        else:
+            # Create new profile
+            await db.vendor_profiles.insert_one(profile_doc)
+        
+        # Send notification if profile is ready for review
+        if profile_status == "pending_review":
+            # Add email notification task here
+            logging.info(f"Vendor profile ready for review: {profile_data.business_name}")
+        
+        return VendorProfileResponse(**profile_doc)
+        
+    except Exception as e:
+        logging.error(f"Error creating vendor profile: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to create vendor profile"
+        )
+
+@app.get("/api/vendor/profile/{user_id}", response_model=VendorProfileResponse)
+async def get_vendor_profile(user_id: str):
+    """Get vendor profile by user ID"""
+    try:
+        profile = await db.vendor_profiles.find_one({"user_id": user_id})
+        if not profile:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Vendor profile not found"
+            )
+        
+        return VendorProfileResponse(**profile)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching vendor profile: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch vendor profile"
+        )
+
+@app.put("/api/vendor/profile/{user_id}", response_model=VendorProfileResponse)
+async def update_vendor_profile(user_id: str, profile_data: VendorProfileUpdate, background_tasks: BackgroundTasks):
+    """Update vendor profile"""
+    try:
+        # Get existing profile
+        existing_profile = await db.vendor_profiles.find_one({"user_id": user_id})
+        if not existing_profile:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Vendor profile not found"
+            )
+        
+        # Prepare update data (only include non-None fields)
+        update_data = {k: v for k, v in profile_data.dict().items() if v is not None}
+        update_data["updated_at"] = datetime.utcnow()
+        
+        # Merge with existing data for completion calculation
+        merged_data = {**existing_profile, **update_data}
+        completion_percentage = calculate_completion_percentage(merged_data)
+        update_data["completion_percentage"] = completion_percentage
+        
+        # Update status if needed
+        current_status = existing_profile.get("profile_status", "incomplete")
+        if completion_percentage >= 80 and current_status == "incomplete":
+            update_data["profile_status"] = "pending_review"
+            # Send notification
+            logging.info(f"Vendor profile ready for review: {merged_data.get('business_name')}")
+        elif current_status == "live" and completion_percentage < 80:
+            update_data["profile_status"] = "changes_pending"
+        
+        # Update profile
+        await db.vendor_profiles.update_one(
+            {"user_id": user_id},
+            {"$set": update_data}
+        )
+        
+        # Get updated profile
+        updated_profile = await db.vendor_profiles.find_one({"user_id": user_id})
+        return VendorProfileResponse(**updated_profile)
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating vendor profile: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update vendor profile"
+        )
+
+# Admin Profile Management
+@app.get("/api/admin/vendor-profiles")
+async def get_vendor_profiles_for_admin(status: str = None, limit: int = 50, skip: int = 0):
+    """Get vendor profiles for admin review"""
+    try:
+        # Build query
+        query = {}
+        if status:
+            query["profile_status"] = status
+        
+        # Get profiles with pagination
+        profiles = await db.vendor_profiles.find(query).skip(skip).limit(limit).to_list(None)
+        
+        # Get total count
+        total_count = await db.vendor_profiles.count_documents(query)
+        
+        # Get user details for each profile
+        for profile in profiles:
+            user = await db.users.find_one({"id": profile["user_id"]})
+            if user:
+                profile["user_email"] = user["email"]
+                profile["user_name"] = f"{user['first_name']} {user['last_name']}"
+        
+        return {
+            "profiles": profiles,
+            "total_count": total_count,
+            "page": skip // limit + 1,
+            "total_pages": (total_count + limit - 1) // limit
+        }
+        
+    except Exception as e:
+        logging.error(f"Error fetching vendor profiles for admin: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to fetch vendor profiles"
+        )
+
+@app.post("/api/admin/vendor-profile/{profile_id}/status")
+async def update_profile_status(profile_id: str, status_update: ProfileStatusUpdate, background_tasks: BackgroundTasks):
+    """Update vendor profile status (admin only)"""
+    try:
+        # Update profile status
+        update_data = {
+            "profile_status": status_update.status,
+            "admin_notes": status_update.admin_notes,
+            "updated_at": datetime.utcnow()
+        }
+        
+        if status_update.status == "live":
+            update_data["is_live"] = True
+        else:
+            update_data["is_live"] = False
+        
+        result = await db.vendor_profiles.update_one(
+            {"id": profile_id},
+            {"$set": update_data}
+        )
+        
+        if result.matched_count == 0:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="Vendor profile not found"
+            )
+        
+        # Get profile and user details for notification
+        profile = await db.vendor_profiles.find_one({"id": profile_id})
+        user = await db.users.find_one({"id": profile["user_id"]})
+        
+        if user and profile:
+            # Send notification email
+            vendor_name = f"{user['first_name']} {user['last_name']}"
+            business_name = profile.get('business_name', 'Your Business')
+            
+            if status_update.status == "live":
+                # Send profile approved notification
+                logging.info(f"Sending profile approval notification to {user['email']}")
+                # Add email task here
+            elif status_update.status == "rejected":
+                # Send profile rejected notification
+                logging.info(f"Sending profile rejection notification to {user['email']}")
+                # Add email task here
+        
+        return {"message": f"Profile status updated to {status_update.status}"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error updating profile status: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to update profile status"
+        )
