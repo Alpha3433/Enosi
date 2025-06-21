@@ -32,7 +32,7 @@ const SignUpPage = () => {
   const [error, setError] = useState('');
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   
-  const { login } = useAuth();
+  const { login, getDefaultRedirectPath } = useAuth();
   const navigate = useNavigate();
 
   const {
