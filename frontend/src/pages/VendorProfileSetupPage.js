@@ -7,7 +7,7 @@ import BusinessProfileWizard from '../components/BusinessProfileWizard';
 import { Header, Footer } from '../components-airbnb';
 
 const VendorProfileSetupPage = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, updateUserProfileStatus } = useAuth();
   const navigate = useNavigate();
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
