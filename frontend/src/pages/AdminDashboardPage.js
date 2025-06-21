@@ -107,27 +107,6 @@ const AdminDashboardPage = () => {
       setProcessingVendor(null);
     }
   };
-    if (!window.confirm('Are you sure you want to reject this vendor? This action cannot be undone.')) {
-      return;
-    }
-
-    try {
-      setProcessingVendor(vendorId);
-      await axios.post(`${API_BASE_URL}/api/admin/reject-vendor/${vendorId}`);
-      
-      // Remove from pending list
-      setPendingVendors(prev => prev.filter(vendor => vendor.id !== vendorId));
-      setSuccess('Vendor rejected successfully! Rejection email sent.');
-      
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccess(''), 3000);
-    } catch (error) {
-      console.error('Error rejecting vendor:', error);
-      setError('Failed to reject vendor');
-    } finally {
-      setProcessingVendor(null);
-    }
-  };
 
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-AU', {
