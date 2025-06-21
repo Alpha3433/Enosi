@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, XCircle, Clock, Mail, Phone, Building, User, Calendar } from 'lucide-react';
+import { CheckCircle, XCircle, Clock, Mail, Phone, Building, User, Calendar, Eye, Star, MapPin, DollarSign } from 'lucide-react';
 import axios from 'axios';
 
 const AdminDashboardPage = () => {
