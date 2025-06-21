@@ -5,6 +5,8 @@ import axios from 'axios';
 
 const AdminDashboardPage = () => {
   const [pendingVendors, setPendingVendors] = useState([]);
+  const [pendingProfiles, setPendingProfiles] = useState([]);
+  const [activeTab, setActiveTab] = useState('registrations'); // registrations, profiles
   const [loading, setLoading] = useState(true);
   const [processingVendor, setProcessingVendor] = useState(null);
   const [error, setError] = useState('');
