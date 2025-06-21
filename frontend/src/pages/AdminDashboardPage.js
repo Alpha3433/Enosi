@@ -108,6 +108,30 @@ const AdminDashboardPage = () => {
     }
   };
 
+  const handleRejectVendor = async (vendorId) => {
+    const notes = prompt('Please provide a reason for rejection (this will be sent to the vendor):');
+    if (!notes) return;
+
+    try {
+      setProcessingVendor(vendorId);
+      await axios.post(`${API_BASE_URL}/api/admin/reject-vendor/${vendorId}`, {
+        rejection_reason: notes
+      });
+      
+      // Remove from pending list
+      setPendingVendors(prev => prev.filter(vendor => vendor.id !== vendorId));
+      setSuccess('Vendor rejected successfully. Rejection email sent.');
+      
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccess(''), 3000);
+    } catch (error) {
+      console.error('Error rejecting vendor:', error);
+      setError('Failed to reject vendor');
+    } finally {
+      setProcessingVendor(null);
+    }
+  };
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-AU', {
       day: 'numeric',
