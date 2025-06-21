@@ -79,7 +79,10 @@ export const AuthProvider = ({ children }) => {
     isLoading,
     login,
     logout,
+    updateUserProfileStatus,
+    getDefaultRedirectPath,
     isAuthenticated: !!user,
+  };
     isCouple: user?.user_type === 'couple',
     isVendor: user?.user_type === 'vendor',
     isAdmin: user?.user_type === 'admin'
