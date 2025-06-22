@@ -1,26 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Send, 
-  Paperclip, 
-  Smile, 
-  Phone, 
-  Video, 
-  MoreVertical,
-  Search,
-  Plus,
-  Users,
-  MessageCircle,
-  Clock,
-  Check,
-  CheckCheck,
-  X,
-  Image,
-  File,
-  Calendar,
-  Star
-} from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { MessageCircle } from 'lucide-react';
+import { Header, Footer } from '../components-airbnb';
+import ChatComponent from '../components/ChatComponent';
 
 function ChatPage() {
   const { user } = useAuth();
