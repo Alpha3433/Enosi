@@ -439,21 +439,21 @@ const BusinessProfileWizard = ({ initialData = null, onSave, onPreview }) => {
       title: 'Services & Pricing',
       description: 'What you offer and pricing',
       icon: <DollarSign className="h-5 w-5" />,
-      fields: ['services', 'pricing_packages']
+      fields: ['services']
     },
     {
       id: 3,
       title: 'Location & Coverage',
       description: 'Where you operate',
       icon: <MapPin className="h-5 w-5" />,
-      fields: ['business_address', 'coverage_areas']
+      fields: ['business_address']
     },
     {
       id: 4,
       title: 'Portfolio',
       description: 'Showcase your work',
       icon: <ImageIcon className="h-5 w-5" />,
-      fields: ['portfolio_description', 'gallery_images']
+      fields: ['portfolio_description']
     },
     {
       id: 5,
