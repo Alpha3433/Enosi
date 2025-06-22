@@ -32,7 +32,7 @@ import VendorSubscriptionPage from './pages/VendorSubscriptionPage';
 import BookingPaymentPage from './pages/BookingPaymentPage';
 import SimpleRegistrationTest from './pages/SimpleRegistrationTest';
 import AdminDashboardPage from './pages/AdminDashboardPage';
-import VendorProfileSetupPage from './pages/VendorProfileSetupPage';
+
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import withRouterCompat from './utils/routerCompat';
