@@ -226,6 +226,17 @@ const Step3LocationAndCoverage = ({ formData, updateFormData, errors }) => {
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Location & Coverage</h3>
         <p className="text-gray-600 mb-6">Where is your business located and what areas do you serve?</p>
+        
+        {/* Requirements */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h4 className="font-medium text-blue-900 mb-2">📋 Requirements to proceed:</h4>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• Business address (required - where clients can find you)</li>
+            <li>• Coverage areas are optional but recommended</li>
+            <li>• List areas you're willing to travel to for events</li>
+            <li>• Separate multiple areas with commas</li>
+          </ul>
+        </div>
       </div>
 
       <div>
