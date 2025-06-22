@@ -76,7 +76,7 @@ async def get_admin_user(
 
 # Authentication routes
 @api_router.post("/auth/register", response_model=UserResponse)
-async def register_user(user_data: UserCreate, db = Depends(get_db)):
+async def register_user(user_data: UserCreate, db: AsyncIOMotorDatabase = Depends(get_db)):
     # Check if user already exists
     existing_user = await db.users.find_one({"email": user_data.email})
     if existing_user:
