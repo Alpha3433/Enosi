@@ -12,6 +12,7 @@ from datetime import timedelta, datetime
 
 # Import our modules
 from .database import connect_to_mongo, close_mongo_connection, get_database
+from .dependencies import get_db
 from .models import *
 from .auth import (
     authenticate_user, 
