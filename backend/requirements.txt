@@ -30,3 +30,4 @@ stripe>=7.0.0
 python-dotenv>=1.0.0
 sendgrid>=6.12.0
 python-magic>=0.4.27
+stream-chat>=4.0.0
