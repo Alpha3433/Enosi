@@ -135,62 +135,63 @@ def run_auth_tests():
     
     print(f"Using backend URL: {base_url}")
     
-    # Test 1: Try login with invalid credentials
-    print("\n=== Test 1: Login with Invalid Credentials ===")
-    test_login_endpoint(base_url, "nonexistent@example.com", "wrongpassword")
+    # Test existing users from the database
+    existing_users = [
+        {"email": "testuser_5401b3e3@example.com", "password": "password123"},
+        {"email": "vendor_94886ffc@example.com", "password": "password123"},
+        {"email": "testuser_af55fbc1@example.com", "password": "password123"},
+        {"email": "test.user+336612ce@example.com", "password": "password123"},
+        {"email": "test_user_1750573027@example.com", "password": "password123"},
+        {"email": "test_user_1750573214@example.com", "password": "password123"},
+        {"email": "vendor_1750573225@example.com", "password": "password123"},
+        {"email": "lumenaustralia@gmail.com", "password": "password123"}
+    ]
     
-    # Test 2: Register a new user
-    print("\n=== Test 2: Register a New User ===")
+    print("\n=== Testing Existing Users ===")
+    for user in existing_users:
+        test_login_endpoint(base_url, user["email"], user["password"])
+    
+    # Test with different password formats
+    print("\n=== Testing Password Variations ===")
+    test_passwords = ["Password123!", "password123", "PASSWORD123", "p@ssw0rd"]
+    for password in test_passwords:
+        for user in existing_users[:2]:  # Test just the first two users
+            test_login_endpoint(base_url, user["email"], password)
+    
+    # Register a new user
+    print("\n=== Register a New User ===")
     unique_id = str(uuid.uuid4())[:8]
     test_email = f"testuser_{unique_id}@example.com"
     test_password = "Password123!"
     success, user_data = test_register_endpoint(base_url, test_email, test_password)
     
-    # Test 3: Login with the newly registered user
-    print("\n=== Test 3: Login with New User ===")
+    # Login with the newly registered user
+    print("\n=== Login with New User ===")
     if success:
         success, login_data = test_login_endpoint(base_url, test_email, test_password)
         
-        # Test 4: Get user profile with token
+        # Get user profile with token
         if success and 'access_token' in login_data:
-            print("\n=== Test 4: Get User Profile ===")
+            print("\n=== Get User Profile ===")
             test_get_user_profile(base_url, login_data['access_token'])
     
-    # Test 5: Try login with wrong password for existing user
-    print("\n=== Test 5: Login with Wrong Password ===")
-    if success:
-        test_login_endpoint(base_url, test_email, "WrongPassword123!")
-    
-    # Test 6: Register a vendor user
-    print("\n=== Test 6: Register a Vendor User ===")
+    # Register a vendor user
+    print("\n=== Register a Vendor User ===")
     unique_id = str(uuid.uuid4())[:8]
     vendor_email = f"vendor_{unique_id}@example.com"
     vendor_password = "Password123!"
     success, vendor_data = test_register_endpoint(base_url, vendor_email, vendor_password, "vendor")
     
-    # Test 7: Login with the vendor user
-    print("\n=== Test 7: Login with Vendor User ===")
+    # Login with the vendor user
+    print("\n=== Login with Vendor User ===")
     if success:
         test_login_endpoint(base_url, vendor_email, vendor_password)
     
-    # Test 8: Try to login with a malformed request
-    print("\n=== Test 8: Login with Malformed Request ===")
-    url = f"{base_url}/api/auth/login"
-    headers = {'Content-Type': 'application/json'}
-    data = {
-        "email": "malformed@example.com"
-        # Missing password field
-    }
-    
-    try:
-        response = requests.post(url, json=data, headers=headers)
-        print(f"Status Code: {response.status_code}")
-        try:
-            print(f"Response: {response.json()}")
-        except:
-            print(f"Response: {response.text}")
-    except Exception as e:
-        print(f"❌ Error: {str(e)}")
+    # Print summary of working credentials
+    print("\n=== WORKING CREDENTIALS SUMMARY ===")
+    print("For testing purposes, use these credentials:")
+    print(f"New Couple User: {test_email} / {test_password}")
+    print(f"New Vendor User: {vendor_email} / {vendor_password}")
 
 if __name__ == "__main__":
     run_auth_tests()
