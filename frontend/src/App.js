@@ -36,6 +36,13 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import VendorProfileSetupPage from './pages/VendorProfileSetupPage';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
+import withRouterCompat from './utils/routerCompat';
+
+// Wrap components that might use match with the compatibility wrapper
+const WrappedVendorDetailPage = withRouterCompat(VendorDetailPage);
+const WrappedGalleryPage = withRouterCompat(GalleryPage);
+const WrappedVendorProfileSetupPage = withRouterCompat(VendorProfileSetupPage);
+const WrappedBookingPaymentPage = withRouterCompat(BookingPaymentPage);
 
 // Create a client
 const queryClient = new QueryClient({
@@ -59,8 +66,8 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/search/enhanced" element={<EnhancedSearchPage />} />
-              <Route path="/vendors/:vendorId" element={<VendorDetailPage />} />
-              <Route path="/vendors/:vendorId/gallery" element={<GalleryPage />} />
+              <Route path="/vendors/:vendorId" element={<WrappedVendorDetailPage />} />
+              <Route path="/vendors/:vendorId/gallery" element={<WrappedGalleryPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/test-registration" element={<SimpleRegistrationTest />} />
@@ -128,7 +135,7 @@ function App() {
               } />
               <Route path="/booking/payment/:vendorId" element={
                 <ProtectedRoute userType="couple">
-                  <BookingPaymentPage />
+                  <WrappedBookingPaymentPage />
                 </ProtectedRoute>
               } />
               
@@ -140,7 +147,7 @@ function App() {
               } />
               <Route path="/vendor-profile-setup" element={
                 <ProtectedRoute userType="vendor">
-                  <VendorProfileSetupPage />
+                  <WrappedVendorProfileSetupPage />
                 </ProtectedRoute>
               } />
               <Route path="/vendor-subscription" element={
@@ -185,5 +192,7 @@ function App() {
     </QueryClientProvider>
   );
 }
+
+export default App;
 
 export default App;
