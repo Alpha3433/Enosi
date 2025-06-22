@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { useParams, useLocation, useNavigate, useMatch } from 'react-router-dom';
 
 // Compatibility wrapper for React Router v7
 // This component provides a match-like object for components that might expect it
@@ -9,12 +9,16 @@ const withRouterCompat = (Component) => {
     const location = useLocation();
     const navigate = useNavigate();
     
+    // Use useMatch to get match data for the current route
+    const matchResult = useMatch(location.pathname);
+    
     // Create a match-like object for backward compatibility
     const match = {
       params,
       isExact: true,
       path: location.pathname,
-      url: location.pathname
+      url: location.pathname,
+      ...matchResult
     };
     
     // Create history-like object
