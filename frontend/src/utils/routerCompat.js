@@ -19,13 +19,23 @@ const withRouterCompat = (Component) => {
     
     // Create history-like object
     const history = {
-      push: navigate,
+      push: (path) => navigate(path),
       replace: (path) => navigate(path, { replace: true }),
       go: (delta) => window.history.go(delta),
       goBack: () => window.history.back(),
       goForward: () => window.history.forward(),
       location
     };
+    
+    // Add a global window._routerCompat object to help debug
+    if (typeof window !== 'undefined') {
+      window._routerCompat = {
+        match,
+        history,
+        location,
+        params
+      };
+    }
     
     return (
       <Component 
