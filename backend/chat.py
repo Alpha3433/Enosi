@@ -11,9 +11,16 @@ from .auth import get_current_user
 from .models import UserInDB
 
 # Initialize Stream Chat client
+api_key = os.getenv("STREAM_API_KEY")
+api_secret = os.getenv("STREAM_API_SECRET")
+
+# Ensure both values are strings
+if api_key is None or api_secret is None:
+    raise ValueError("Stream Chat API key or secret is missing")
+
 stream_client = StreamChat(
-    api_key=os.getenv("STREAM_API_KEY"),
-    api_secret=os.getenv("STREAM_API_SECRET")
+    api_key=api_key,
+    api_secret=api_secret
 )
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
