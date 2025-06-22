@@ -1860,6 +1860,9 @@ async def test_stripe_connection():
 # Include the router in the main app
 app.include_router(api_router)
 
+# Include Stream Chat router
+app.include_router(stream_chat.router)
+
 # Event handlers
 @app.on_event("startup")
 async def startup_event():
