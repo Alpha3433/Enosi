@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import { Header, Footer } from '../components-airbnb';
 import { QuoteRequestModal } from '../components';
+import { ChatButton } from '../components/ChatModal';
 import { vendorsAPI } from '../services/api';
 import ReviewDisplay from '../components/ReviewDisplay';
 import ReviewForm from '../components/ReviewForm';
