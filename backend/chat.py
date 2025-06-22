@@ -7,7 +7,7 @@ from stream_chat import StreamChat
 from typing import List, Optional
 import os
 import uuid
-from .dependencies import get_current_user
+from .auth import get_current_user
 from .models import UserInDB
 
 # Initialize Stream Chat client
