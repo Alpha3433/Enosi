@@ -135,36 +135,63 @@ const VendorDashboardPage = () => {
           </motion.div>
         )}
 
-        {/* Profile Setup Completion Banner */}
-        {user && !user.profile_setup_complete && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-rose-50 border border-rose-200 rounded-xl p-6 mb-8"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <div className="bg-rose-100 rounded-full p-3 mr-4">
-                  <AlertCircle className="h-6 w-6 text-rose-600" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-rose-900">Complete Your Business Profile</h2>
-                  <p className="text-rose-700 mt-1">
-                    Set up your complete business profile to start receiving bookings from couples. 
-                    Add your services, portfolio, and business details to go live!
-                  </p>
-                </div>
-              </div>
-              <Link
-                to="/vendor-profile-setup"
-                className="flex items-center bg-rose-600 text-white px-6 py-3 rounded-lg hover:bg-rose-700 transition-colors font-medium whitespace-nowrap"
-              >
-                Complete Setup
-                <ArrowRight className="h-4 w-4 ml-2" />
-              </Link>
+        {/* Profile Overview Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8"
+        >
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">Your Business Profile</h2>
+              <p className="text-gray-600 mt-1">Manage your contact details and availability</p>
             </div>
-          </motion.div>
-        )}
+            <div className="flex space-x-3">
+              <Link
+                to="/search"
+                className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Eye className="h-4 w-4 mr-2" />
+                View Live Profile
+              </Link>
+              <button
+                onClick={() => setActiveTab('profile')}
+                className="flex items-center bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Details
+              </button>
+            </div>
+          </div>
+          
+          {/* Profile Summary */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-medium text-gray-900 mb-2">Business Info</h3>
+              <p className="text-sm text-gray-600">
+                <strong>Business:</strong> {profile?.data?.business_name || user?.business_name || 'Not set'}<br/>
+                <strong>Category:</strong> {profile?.data?.category || 'Not set'}<br/>
+                <strong>Status:</strong> <span className="text-green-600">Live Profile</span>
+              </p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-medium text-gray-900 mb-2">Contact Info</h3>
+              <p className="text-sm text-gray-600">
+                <strong>Email:</strong> {profile?.data?.email || user?.email}<br/>
+                <strong>Phone:</strong> {profile?.data?.phone || 'Add phone number'}<br/>
+                <strong>Website:</strong> {profile?.data?.website || 'Add website'}
+              </p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-medium text-gray-900 mb-2">Availability</h3>
+              <p className="text-sm text-gray-600">
+                <strong>Status:</strong> {profile?.data?.accepting_bookings ? 'Accepting bookings' : 'Unavailable'}<br/>
+                <strong>Hours:</strong> {profile?.data?.business_hours || 'Add business hours'}<br/>
+                <strong>Lead Time:</strong> {profile?.data?.booking_lead_time || 'Not set'}
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
