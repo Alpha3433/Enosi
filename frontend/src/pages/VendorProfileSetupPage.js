@@ -332,4 +332,4 @@ const ProfilePreview = ({ profileData, onBack }) => {
   );
 };
 
-export default withRouterCompat(VendorProfileSetupPage);
+export default VendorProfileSetupPage;
