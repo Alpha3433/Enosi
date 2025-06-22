@@ -35,7 +35,7 @@ const Step1BasicInfo = ({ formData, updateFormData, errors, categories }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Business Name *
@@ -74,32 +74,6 @@ const Step1BasicInfo = ({ formData, updateFormData, errors, categories }) => {
           {errors.category && (
             <p className="mt-1 text-sm text-red-600">{errors.category}</p>
           )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Subcategory
-          </label>
-          <input
-            type="text"
-            value={formData.subcategory}
-            onChange={(e) => updateFormData('subcategory', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-            placeholder="e.g., Wedding Photography, Portrait Photography"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            ABN (Optional)
-          </label>
-          <input
-            type="text"
-            value={formData.abn}
-            onChange={(e) => updateFormData('abn', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-            placeholder="12 345 678 901"
-          />
         </div>
       </div>
 
