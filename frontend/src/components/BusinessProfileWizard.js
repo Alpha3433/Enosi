@@ -15,6 +15,378 @@ import {
   Info
 } from 'lucide-react';
 
+// Step Components (moved outside to prevent re-creation on each render)
+const Step1BasicInfo = ({ formData, updateFormData, errors, categories }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Business Information</h3>
+        <p className="text-gray-600 mb-6">Let's start with the essential details about your business.</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Business Name *
+            <Info className="inline h-4 w-4 ml-1 text-gray-400" title="This will appear on your public listing" />
+          </label>
+          <input
+            type="text"
+            value={formData.business_name}
+            onChange={(e) => updateFormData('business_name', e.target.value)}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+              errors.business_name ? 'border-red-500' : 'border-gray-300'
+            }`}
+            placeholder="Enter your business name"
+          />
+          {errors.business_name && (
+            <p className="mt-1 text-sm text-red-600">{errors.business_name}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Category *
+          </label>
+          <select
+            value={formData.category}
+            onChange={(e) => updateFormData('category', e.target.value)}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+              errors.category ? 'border-red-500' : 'border-gray-300'
+            }`}
+          >
+            <option value="">Select a category</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+          {errors.category && (
+            <p className="mt-1 text-sm text-red-600">{errors.category}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Subcategory
+          </label>
+          <input
+            type="text"
+            value={formData.subcategory}
+            onChange={(e) => updateFormData('subcategory', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+            placeholder="e.g., Wedding Photography, Portrait Photography"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            ABN (Optional)
+          </label>
+          <input
+            type="text"
+            value={formData.abn}
+            onChange={(e) => updateFormData('abn', e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+            placeholder="12 345 678 901"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Business Description *
+          <Info className="inline h-4 w-4 ml-1 text-gray-400" title="Describe your business and what makes you unique" />
+        </label>
+        <textarea
+          value={formData.business_description}
+          onChange={(e) => updateFormData('business_description', e.target.value)}
+          rows={4}
+          className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+            errors.business_description ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder="Tell couples about your business, your style, and what makes your services special..."
+        />
+        {errors.business_description && (
+          <p className="mt-1 text-sm text-red-600">{errors.business_description}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Step2ServicesAndPricing = ({ formData, updateFormData, errors, addService, updateService, removeService, addPricingPackage, updatePricingPackage, removePricingPackage, serviceSpecialties, toggleSpecialty }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Services & Pricing</h3>
+        <p className="text-gray-600 mb-6">Define what you offer and your pricing structure.</p>
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Services *
+          </label>
+          <button
+            onClick={addService}
+            className="px-3 py-1 text-sm bg-rose-600 text-white rounded-lg hover:bg-rose-700"
+          >
+            Add Service
+          </button>
+        </div>
+        
+        {formData.services.map((service, index) => (
+          <div key={index} className="border border-gray-200 rounded-lg p-4 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <input
+                type="text"
+                value={service.name}
+                onChange={(e) => updateService(index, 'name', e.target.value)}
+                placeholder="Service name"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              />
+              <input
+                type="text"
+                value={service.price}
+                onChange={(e) => updateService(index, 'price', e.target.value)}
+                placeholder="Starting price (e.g., $500)"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              />
+              <button
+                onClick={() => removeService(index)}
+                className="px-3 py-2 text-red-600 border border-red-300 rounded-lg hover:bg-red-50"
+              >
+                Remove
+              </button>
+            </div>
+            <textarea
+              value={service.description}
+              onChange={(e) => updateService(index, 'description', e.target.value)}
+              placeholder="Describe this service..."
+              rows={2}
+              className="w-full mt-3 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+            />
+          </div>
+        ))}
+        
+        {errors.services && (
+          <p className="mt-1 text-sm text-red-600">{errors.services}</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-3">
+          Service Specialties
+        </label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {serviceSpecialties.map(specialty => (
+            <button
+              key={specialty}
+              onClick={() => toggleSpecialty(specialty)}
+              className={`px-3 py-2 text-sm rounded-lg border transition-colors ${
+                formData.service_specialties.includes(specialty)
+                  ? 'bg-rose-600 text-white border-rose-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:border-rose-300'
+              }`}
+            >
+              {specialty}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Step3LocationAndCoverage = ({ formData, updateFormData, errors }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Location & Coverage</h3>
+        <p className="text-gray-600 mb-6">Where is your business located and what areas do you serve?</p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Business Address *
+        </label>
+        <input
+          type="text"
+          value={formData.business_address}
+          onChange={(e) => updateFormData('business_address', e.target.value)}
+          className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+            errors.business_address ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder="Enter your business address"
+        />
+        {errors.business_address && (
+          <p className="mt-1 text-sm text-red-600">{errors.business_address}</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Coverage Areas
+        </label>
+        <input
+          type="text"
+          value={formData.coverage_areas.join(', ')}
+          onChange={(e) => updateFormData('coverage_areas', e.target.value.split(',').map(area => area.trim()))}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+          placeholder="e.g., Sydney, Blue Mountains, Central Coast (separate with commas)"
+        />
+        <p className="mt-1 text-sm text-gray-500">
+          Enter areas you're willing to travel to for events
+        </p>
+      </div>
+    </div>
+  );
+};
+
+const Step4Portfolio = ({ formData, updateFormData, errors, handleImageUpload, removeImage }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Portfolio</h3>
+        <p className="text-gray-600 mb-6">Showcase your work to attract potential clients.</p>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Portfolio Description *
+        </label>
+        <textarea
+          value={formData.portfolio_description}
+          onChange={(e) => updateFormData('portfolio_description', e.target.value)}
+          rows={4}
+          className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent ${
+            errors.portfolio_description ? 'border-red-500' : 'border-gray-300'
+          }`}
+          placeholder="Describe your style, approach, and what couples can expect when working with you..."
+        />
+        {errors.portfolio_description && (
+          <p className="mt-1 text-sm text-red-600">{errors.portfolio_description}</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-4">
+          Gallery Images *
+        </label>
+        
+        <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+            id="gallery-upload"
+          />
+          <label
+            htmlFor="gallery-upload"
+            className="cursor-pointer flex flex-col items-center"
+          >
+            <Upload className="h-12 w-12 text-gray-400 mb-4" />
+            <p className="text-lg font-medium text-gray-900 mb-2">Upload Portfolio Images</p>
+            <p className="text-gray-500">Drag and drop files here, or click to select</p>
+            <p className="text-sm text-gray-400 mt-2">PNG, JPG, GIF up to 10MB each</p>
+          </label>
+        </div>
+
+        {formData.gallery_images.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
+            {formData.gallery_images.map((image, index) => (
+              <div key={index} className="relative group">
+                <img
+                  src={image}
+                  alt={`Portfolio ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg"
+                />
+                <button
+                  onClick={() => removeImage(index)}
+                  className="absolute top-2 right-2 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        
+        {errors.gallery_images && (
+          <p className="mt-1 text-sm text-red-600">{errors.gallery_images}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const Step5Review = ({ formData }) => {
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Review Your Profile</h3>
+        <p className="text-gray-600 mb-6">Please review all information before submitting.</p>
+      </div>
+
+      <div className="space-y-6">
+        <div className="bg-gray-50 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 mb-3">Basic Information</h4>
+          <div className="grid grid-cols-2 gap-4 text-sm">
+            <div>
+              <span className="text-gray-500">Business Name:</span>
+              <span className="ml-2 font-medium">{formData.business_name}</span>
+            </div>
+            <div>
+              <span className="text-gray-500">Category:</span>
+              <span className="ml-2 font-medium">{formData.category}</span>
+            </div>
+            <div className="col-span-2">
+              <span className="text-gray-500">Description:</span>
+              <p className="ml-2 font-medium">{formData.business_description}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 mb-3">Services & Pricing</h4>
+          <div className="text-sm">
+            <div>
+              <span className="text-gray-500">Services:</span>
+              <span className="ml-2 font-medium">{formData.services.length} services</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 mb-3">Location</h4>
+          <div className="text-sm">
+            <div>
+              <span className="text-gray-500">Business Address:</span>
+              <span className="ml-2 font-medium">{formData.business_address}</span>
+            </div>
+            <div>
+              <span className="text-gray-500">Coverage Areas:</span>
+              <span className="ml-2 font-medium">{formData.coverage_areas.join(', ')}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-50 rounded-lg p-4">
+          <h4 className="font-semibold text-gray-900 mb-3">Portfolio</h4>
+          <div className="text-sm">
+            <div>
+              <span className="text-gray-500">Gallery Images:</span>
+              <span className="ml-2 font-medium">{formData.gallery_images.length} images</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const BusinessProfileWizard = ({ initialData = null, onSave, onPreview }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
