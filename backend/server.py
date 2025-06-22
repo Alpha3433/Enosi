@@ -28,6 +28,7 @@ from .phase2_services import ReviewService, TrustScoreService, SeatingChartServi
 from .file_service import FileUploadService
 from .search_service import AISearchService, WishlistService, ViewTrackingService
 from .communication_service import ChatService, connection_manager, NotificationService as RealTimeNotificationService
+from . import chat as stream_chat
 from .supabase_client import create_bucket_if_not_exists
 from .stripe_payment_service import StripePaymentService
 from .enhanced_review_service import EnhancedReviewService
