@@ -539,6 +539,13 @@ const VendorDetailPage = () => {
                   Request Quote
                 </motion.button>
                 
+                {/* Chat Button */}
+                <ChatButton 
+                  vendorId={vendorId}
+                  vendorName={vendorData?.data?.business_name}
+                  className="w-full mb-3"
+                />
+                
                 <Link
                   to={`/booking/payment/${vendorId}`}
                   className="block"
