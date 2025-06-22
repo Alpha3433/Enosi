@@ -4,6 +4,17 @@ class RouterErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false, error: null, errorInfo: null };
+    
+    // Set up global match object immediately
+    if (typeof window !== 'undefined' && !window.match) {
+      window.match = {
+        params: {},
+        isExact: true,
+        path: window.location.pathname,
+        url: window.location.pathname
+      };
+      console.log('Created global fallback match object on initialization');
+    }
   }
 
   static getDerivedStateFromError(error) {
@@ -23,14 +34,14 @@ class RouterErrorBoundary extends React.Component {
       console.error('Error details:', error.stack);
       
       // Try to recover by setting up a global match object
-      if (typeof window !== 'undefined' && !window._match) {
-        window._match = {
+      if (typeof window !== 'undefined') {
+        window.match = {
           params: {},
           isExact: true,
           path: window.location.pathname,
           url: window.location.pathname
         };
-        console.log('Created global fallback _match object:', window._match);
+        console.log('Created global fallback match object:', window.match);
         
         // Try to reload the page after a short delay
         setTimeout(() => {
@@ -77,5 +88,7 @@ class RouterErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
+export default RouterErrorBoundary;
 
 export default RouterErrorBoundary;
