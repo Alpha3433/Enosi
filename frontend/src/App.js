@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -55,7 +55,30 @@ const queryClient = new QueryClient({
   },
 });
 
+// Global match object for compatibility
+if (typeof window !== 'undefined') {
+  window.match = {
+    params: {},
+    isExact: true,
+    path: window.location.pathname,
+    url: window.location.pathname
+  };
+}
+
 function App() {
+  // Set up global match object on component mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.match = {
+        params: {},
+        isExact: true,
+        path: window.location.pathname,
+        url: window.location.pathname
+      };
+      console.log('Created global match object in App component');
+    }
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
@@ -194,5 +217,7 @@ function App() {
     </QueryClientProvider>
   );
 }
+
+export default App;
 
 export default App;
