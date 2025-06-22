@@ -101,7 +101,7 @@ async def register_user(user_data: UserCreate, db: AsyncIOMotorDatabase = Depend
     return UserResponse(**user_in_db.dict())
 
 @api_router.post("/auth/login", response_model=Token)
-async def login(login_data: LoginRequest, db = Depends(get_db)):
+async def login(login_data: LoginRequest, db: AsyncIOMotorDatabase = Depends(get_db)):
     user = await authenticate_user(db, login_data.email, login_data.password)
     if not user:
         raise HTTPException(
