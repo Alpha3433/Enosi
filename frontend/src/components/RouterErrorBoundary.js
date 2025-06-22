@@ -21,6 +21,22 @@ class RouterErrorBoundary extends React.Component {
     if (error.message && error.message.includes('match')) {
       console.error('This appears to be a React Router v5 to v7 compatibility issue');
       console.error('Error details:', error.stack);
+      
+      // Try to recover by setting up a global match object
+      if (typeof window !== 'undefined' && !window._match) {
+        window._match = {
+          params: {},
+          isExact: true,
+          path: window.location.pathname,
+          url: window.location.pathname
+        };
+        console.log('Created global fallback _match object:', window._match);
+        
+        // Try to reload the page after a short delay
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
     }
   }
 
@@ -61,5 +77,7 @@ class RouterErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
+export default RouterErrorBoundary;
 
 export default RouterErrorBoundary;
