@@ -92,7 +92,8 @@ const VendorProfileSetupPage = () => {
     }
   };
 
-  const handlePreviewProfile = () => {
+  const handlePreviewProfile = (currentFormData) => {
+    setPreviewData(currentFormData);
     setShowPreview(true);
   };
 
