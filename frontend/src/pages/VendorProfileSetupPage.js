@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Eye, CheckCircle, Clock } from 'lucide-react';
 import BusinessProfileWizard from '../components/BusinessProfileWizard';
@@ -9,6 +9,7 @@ import { Header, Footer } from '../components-airbnb';
 const VendorProfileSetupPage = () => {
   const { user, isAuthenticated, updateUserProfileStatus } = useAuth();
   const navigate = useNavigate();
+  const params = useParams(); // Use useParams instead of match
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
