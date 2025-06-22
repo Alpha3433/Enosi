@@ -168,19 +168,14 @@ function App() {
                   <VendorDashboardPage />
                 </ProtectedRoute>
               } />
-              <Route path="/vendor-profile-setup" element={
+              <Route path="/vendor-calendar" element={
                 <ProtectedRoute userType="vendor">
-                  <VendorProfileSetupPage />
+                  <VendorCalendarPage />
                 </ProtectedRoute>
               } />
               <Route path="/vendor-subscription" element={
                 <ProtectedRoute userType="vendor">
-                  <VendorSubscription />
-                </ProtectedRoute>
-              } />
-              <Route path="/vendor-calendar" element={
-                <ProtectedRoute userType="vendor">
-                  <VendorCalendarPage />
+                  <VendorSubscriptionPage />
                 </ProtectedRoute>
               } />
               
