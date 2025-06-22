@@ -255,9 +255,12 @@ const VendorDashboardPage = () => {
           </div>
         </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Quote Requests */}
+        {/* Conditional Content Based on Active Tab */}
+        {activeTab === 'overview' && (
+          <>
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Quote Requests */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
               <div className="flex items-center justify-between mb-6">
