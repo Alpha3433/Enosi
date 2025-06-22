@@ -106,7 +106,7 @@ const VendorProfileSetupPage = () => {
   }
 
   if (showPreview) {
-    return <ProfilePreview profileData={profileData} onBack={() => setShowPreview(false)} />;
+    return <ProfilePreview profileData={previewData} onBack={() => setShowPreview(false)} />;
   }
 
   return (
