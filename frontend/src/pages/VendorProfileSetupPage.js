@@ -13,6 +13,7 @@ const VendorProfileSetupPage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [previewData, setPreviewData] = useState(null);
   const [saveMessage, setSaveMessage] = useState('');
 
   useEffect(() => {
