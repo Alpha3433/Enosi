@@ -67,7 +67,7 @@ stripe_checkout = StripeCheckout(api_key=os.getenv("STRIPE_SECRET_KEY"))
 # Helper function to check admin access
 async def get_admin_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
-    db = Depends(get_db)
+    db: AsyncIOMotorDatabase = Depends(get_db)
 ):
     current_user = await get_current_user(credentials, db)
     if current_user.user_type != UserType.ADMIN:
