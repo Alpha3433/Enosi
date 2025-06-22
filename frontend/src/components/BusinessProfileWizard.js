@@ -22,6 +22,17 @@ const Step1BasicInfo = ({ formData, updateFormData, errors, categories }) => {
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Basic Business Information</h3>
         <p className="text-gray-600 mb-6">Let's start with the essential details about your business.</p>
+        
+        {/* Requirements */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h4 className="font-medium text-blue-900 mb-2">📋 Requirements to proceed:</h4>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• Business name (required)</li>
+            <li>• Category selection (required)</li>
+            <li>• Business description (required - tell couples about your business)</li>
+            <li>• Subcategory and ABN are optional</li>
+          </ul>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
