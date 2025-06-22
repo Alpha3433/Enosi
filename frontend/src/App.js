@@ -41,7 +41,6 @@ import TestBusinessProfileSetup from './pages/TestBusinessProfileSetup';
 // Wrap components that might use match with the compatibility wrapper
 const WrappedVendorDetailPage = withRouterCompat(VendorDetailPage);
 const WrappedGalleryPage = withRouterCompat(GalleryPage);
-const WrappedVendorProfileSetupPage = withRouterCompat(VendorProfileSetupPage);
 const WrappedBookingPaymentPage = withRouterCompat(BookingPaymentPage);
 
 // Create a client
