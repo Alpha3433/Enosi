@@ -8,7 +8,6 @@ import { AuthProvider } from './contexts/AuthContext';
 // Import pages
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
-import EnhancedSearchPage from './pages/EnhancedSearchPage';
 import VendorDetailPage from './pages/VendorDetailPage';
 import GalleryPage from './pages/GalleryPage';
 import LoginPage from './pages/LoginPage';
