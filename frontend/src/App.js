@@ -88,7 +88,6 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
-              <Route path="/search/enhanced" element={<EnhancedSearchPage />} />
               <Route path="/vendors/:vendorId" element={<WrappedVendorDetailPage />} />
               <Route path="/vendors/:vendorId/gallery" element={<WrappedGalleryPage />} />
               <Route path="/login" element={<LoginPage />} />
