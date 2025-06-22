@@ -174,9 +174,9 @@ frontend:
     implemented: true
     working: false
     file: "SignUpPage.js, VendorProfileSetupPage.js, VendorDashboardPage.js"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: false
           agent: "testing"
@@ -187,6 +187,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Attempted to test the Business Profile Setup page but encountered JavaScript errors in the browser console related to 'match' property being undefined. This is a React Router v7 compatibility issue where the application is trying to access route parameters in a way that's not compatible with React Router v7. Despite multiple attempts to fix the issue by updating the RouterErrorBoundary component, routerCompat utility, and adding global match objects, the error persists. The application redirects to the homepage when trying to access the vendor profile setup page. The TestBusinessProfileSetup page also shows the same error. This is a critical issue that prevents testing the Business Profile Setup functionality."
+        - working: false
+          agent: "testing"
+          comment: "Retested the Business Profile Setup page after the React Router compatibility fixes, but the issue persists. When attempting to access the vendor profile setup page (/vendor-profile-setup) or the test profile setup page (/test-profile-setup), the application still shows JavaScript errors in the console related to 'match' property being undefined. The error occurs at initStripe function in the bundle.js file. Despite the implementation of compatibility layers (RouterErrorBoundary, routerCompat utility, global match object), the error prevents the page from rendering correctly. The application shows the homepage with error messages instead of the Business Profile Setup form. This is a critical issue that continues to block testing of the Business Profile Setup functionality."
 
 metadata:
   created_by: "testing_agent"
