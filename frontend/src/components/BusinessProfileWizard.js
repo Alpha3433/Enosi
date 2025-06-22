@@ -529,7 +529,22 @@ const BusinessProfileWizard = ({ initialData = null, onSave, onPreview }) => {
     
     step.fields.forEach(field => {
       const value = formData[field];
-      if (!value || (Array.isArray(value) && value.length === 0)) {
+      
+      if (field === 'services') {
+        // Special validation for services - need at least one complete service
+        if (!value || value.length === 0) {
+          stepErrors[field] = 'At least one service is required';
+        } else {
+          // Check if at least one service has name and price filled
+          const hasCompleteService = value.some(service => 
+            service.name && service.name.trim() && 
+            service.price && service.price.trim()
+          );
+          if (!hasCompleteService) {
+            stepErrors[field] = 'Please complete at least one service with name and price';
+          }
+        }
+      } else if (!value || (Array.isArray(value) && value.length === 0) || (typeof value === 'string' && value.trim() === '')) {
         stepErrors[field] = 'This field is required';
       }
     });
