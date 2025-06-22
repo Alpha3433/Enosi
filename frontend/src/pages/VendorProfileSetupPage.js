@@ -202,7 +202,7 @@ const VendorProfileSetupPage = () => {
   );
 };
 
-// Profile Preview Component
+// Profile Preview Component - Eternal Moments Photography Design
 const ProfilePreview = ({ profileData, onBack }) => {
   if (!profileData) {
     return (
