@@ -87,30 +87,6 @@ const VendorDashboardPage = () => {
           </p>
         </div>
 
-        {/* Profile Setup Banner */}
-        {!profile?.data && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-rose-50 border border-rose-200 rounded-xl p-6 mb-8"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-rose-900">Complete Your Vendor Profile</h2>
-                <p className="text-rose-700 mt-1">
-                  Set up your business profile to start receiving quote requests from couples
-                </p>
-              </div>
-              <Link
-                to="/profile"
-                className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors font-medium"
-              >
-                Setup Profile
-              </Link>
-            </div>
-          </motion.div>
-        )}
-
         {/* Subscription Status Banner */}
         {profile?.data && !profile?.data?.subscription_active && (
           <motion.div
