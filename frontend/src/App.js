@@ -60,6 +60,19 @@ if (typeof window !== 'undefined') {
     path: window.location.pathname,
     url: window.location.pathname
   };
+  
+  // Monkey patch initStripe to handle missing match
+  const originalInitStripe = window.initStripe;
+  if (typeof originalInitStripe === 'function') {
+    window.initStripe = function(...args) {
+      try {
+        return originalInitStripe(...args);
+      } catch (error) {
+        console.error('Error in initStripe:', error);
+        return null;
+      }
+    };
+  }
 }
 
 function App() {
