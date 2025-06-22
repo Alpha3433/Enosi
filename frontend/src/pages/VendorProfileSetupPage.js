@@ -39,9 +39,18 @@ const VendorProfileSetupPage = () => {
       
       // For now, use empty data or localStorage
       const savedData = localStorage.getItem(`vendor_profile_${user?.id}`);
+      let profileData = {};
+      
       if (savedData) {
-        setProfileData(JSON.parse(savedData));
+        profileData = JSON.parse(savedData);
       }
+      
+      // Auto-fill business name from user signup data if not already set
+      if (!profileData.business_name && user?.business_name) {
+        profileData.business_name = user.business_name;
+      }
+      
+      setProfileData(profileData);
     } catch (error) {
       console.error('Error loading profile:', error);
     } finally {
