@@ -45,10 +45,10 @@ async def get_stream_auth_token(
         token = stream_client.create_token(user_id)
         
         # Create or update user in Stream
+        # Remove the role field to avoid the "role not defined" error
         stream_client.update_user({
             "id": user_id,
             "name": f"{current_user.first_name} {current_user.last_name}",
-            "role": current_user.user_type,
             "email": current_user.email
         })
         
@@ -78,7 +78,7 @@ async def create_channel(
         if user_id not in request.members:
             request.members.append(user_id)
         
-        # Create channel
+        # Create channel - only use created_by_id, not both
         channel = stream_client.channel(
             request.channel_type, 
             request.channel_id,
@@ -141,6 +141,7 @@ async def upload_file(
     try:
         # Upload to Stream CDN
         file_content = content
+        user_id = str(current_user.id)
         
         # Create a temporary file-like object
         class FileWrapper:
@@ -171,9 +172,11 @@ async def upload_file(
         
         file_wrapper = FileWrapper(file_content, file.filename)
         
+        # Include the required 'name' and 'user' parameters
         response = stream_client.send_file(
             file_wrapper,
-            file.filename,
+            name=file.filename,
+            user={"id": user_id},
             content_type=file.content_type
         )
         
@@ -224,7 +227,7 @@ async def start_conversation(
         # Create a unique channel ID
         channel_id = f"chat_{min(user_id, vendor_id)}_{max(user_id, vendor_id)}"
         
-        # Create channel with both users
+        # Create channel with both users - use channel_type instead of type
         channel = stream_client.channel(
             "messaging",
             channel_id,
@@ -232,7 +235,7 @@ async def start_conversation(
                 "name": f"Conversation with vendor",
                 "members": [user_id, vendor_id],
                 "created_by_id": user_id,
-                "type": "vendor_couple_chat"
+                "channel_type": "vendor_couple_chat"  # Changed from 'type' to 'channel_type'
             }
         )
         
