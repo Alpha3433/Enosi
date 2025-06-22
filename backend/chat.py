@@ -11,12 +11,8 @@ from .auth import get_current_user
 from .models import UserInDB
 
 # Initialize Stream Chat client
-api_key = os.getenv("STREAM_API_KEY")
-api_secret = os.getenv("STREAM_API_SECRET")
-
-# Ensure both values are strings
-if api_key is None or api_secret is None:
-    raise ValueError("Stream Chat API key or secret is missing")
+api_key = "xzt8q9ttynux"
+api_secret = "bj8umd92pcusakq458hfyfmqewgm2efjbq7gzpnq5srqbs35kkawbp8n6s7nft6k"
 
 stream_client = StreamChat(
     api_key=api_key,
@@ -58,7 +54,7 @@ async def get_stream_auth_token(
         
         return {
             "token": token,
-            "api_key": os.getenv("STREAM_API_KEY"),
+            "api_key": api_key,
             "user_id": user_id,
             "user_name": f"{current_user.first_name} {current_user.last_name}",
             "user_type": current_user.user_type
@@ -131,7 +127,12 @@ async def upload_file(
     
     # Validate file size (10MB limit)
     MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
-    if file.size > MAX_FILE_SIZE:
+    file_size = 0
+    content = await file.read()
+    file_size = len(content)
+    await file.seek(0)
+    
+    if file_size > MAX_FILE_SIZE:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="File too large. Maximum size is 10MB"
@@ -139,7 +140,7 @@ async def upload_file(
     
     try:
         # Upload to Stream CDN
-        file_content = await file.read()
+        file_content = content
         
         # Create a temporary file-like object
         class FileWrapper:
@@ -179,7 +180,7 @@ async def upload_file(
         return {
             "url": response["file"],
             "filename": file.filename,
-            "size": file.size,
+            "size": file_size,
             "content_type": file.content_type
         }
         
