@@ -372,6 +372,17 @@ const Step5Review = ({ formData }) => {
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Review Your Profile</h3>
         <p className="text-gray-600 mb-6">Please review all information before submitting.</p>
+        
+        {/* Information */}
+        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+          <h4 className="font-medium text-green-900 mb-2">✅ Final Steps:</h4>
+          <ul className="text-sm text-green-800 space-y-1">
+            <li>• Review all your information below</li>
+            <li>• Use the Preview button to see how your profile will look to couples</li>
+            <li>• Save as draft to continue editing later</li>
+            <li>• Submit for review when you're ready (requires 80% completion)</li>
+          </ul>
+        </div>
       </div>
 
       <div className="space-y-6">
