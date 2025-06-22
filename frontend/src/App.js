@@ -36,6 +36,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import VendorProfileSetupPage from './pages/VendorProfileSetupPage';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
+import withRouterCompat from './utils/routerCompat';
 import TestBusinessProfileSetup from './pages/TestBusinessProfileSetup';
 
 // Wrap components that might use match with the compatibility wrapper
