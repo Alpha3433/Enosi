@@ -92,7 +92,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/test-registration" element={<SimpleRegistrationTest />} />
 
-              <Route path="/admin" element={
+              <Route path="/admin/dashboard" element={
                 <ProtectedRoute userType="admin">
                   <AdminDashboardPage />
                 </ProtectedRoute>
