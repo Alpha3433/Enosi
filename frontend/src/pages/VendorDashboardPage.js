@@ -544,219 +544,217 @@ const VendorDashboardPage = () => {
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Quote Requests */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Recent Quote Requests</h2>
-                <span className="text-sm text-gray-600">
-                  {quotes?.data?.filter(q => q.status === 'pending').length || 0} pending
-                </span>
-              </div>
-              
-              {recentQuotes.length > 0 ? (
-                <div className="space-y-4">
-                  {recentQuotes.map((quote) => (
-                    <div key={quote.id} className="border border-gray-200 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <div>
-                          <h3 className="font-medium text-gray-900">
-                            Wedding Quote Request
-                          </h3>
-                          <p className="text-sm text-gray-600">
-                            {quote.wedding_date && `Wedding: ${new Date(quote.wedding_date).toLocaleDateString()}`}
-                            {quote.guest_count && ` • ${quote.guest_count} guests`}
+              <div className="lg:col-span-2">
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold text-gray-900">Recent Quote Requests</h2>
+                    <span className="text-sm text-gray-600">
+                      {quotes?.data?.filter(q => q.status === 'pending').length || 0} pending
+                    </span>
+                  </div>
+                  
+                  {recentQuotes.length > 0 ? (
+                    <div className="space-y-4">
+                      {recentQuotes.map((quote) => (
+                        <div key={quote.id} className="border border-gray-200 rounded-lg p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div>
+                              <h3 className="font-medium text-gray-900">
+                                Wedding Quote Request
+                              </h3>
+                              <p className="text-sm text-gray-600">
+                                {quote.wedding_date && `Wedding: ${new Date(quote.wedding_date).toLocaleDateString()}`}
+                                {quote.guest_count && ` • ${quote.guest_count} guests`}
+                              </p>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              quote.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                              quote.status === 'responded' ? 'bg-blue-100 text-blue-800' :
+                              'bg-green-100 text-green-800'
+                            }`}>
+                              {quote.status}
+                            </span>
+                          </div>
+                          
+                          <p className="text-gray-700 text-sm mb-3">
+                            {quote.event_details}
                           </p>
+                          
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-500">
+                              {new Date(quote.created_at).toLocaleDateString()}
+                            </span>
+                            {quote.status === 'pending' && (
+                              <button className="bg-rose-600 text-white px-3 py-1 rounded text-sm hover:bg-rose-700 transition-colors">
+                                Respond
+                              </button>
+                            )}
+                          </div>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          quote.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          quote.status === 'responded' ? 'bg-blue-100 text-blue-800' :
-                          'bg-green-100 text-green-800'
-                        }`}>
-                          {quote.status}
-                        </span>
-                      </div>
-                      
-                      <p className="text-gray-700 text-sm mb-3">
-                        {quote.event_details}
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-900 mb-2">No quote requests yet</h3>
+                      <p className="text-gray-600 mb-4">
+                        Complete your profile to start receiving requests from couples
                       </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500">
-                          {new Date(quote.created_at).toLocaleDateString()}
-                        </span>
-                        {quote.status === 'pending' && (
-                          <button className="bg-rose-600 text-white px-3 py-1 rounded text-sm hover:bg-rose-700 transition-colors">
-                            Respond
-                          </button>
+                      <Link
+                        to="/profile"
+                        className="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors"
+                      >
+                        Complete Profile
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Sidebar */}
+              <div className="lg:col-span-1 space-y-6">
+                {/* Profile Status */}
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">Profile Status</h2>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
+                        profile?.data ? 'bg-green-100' : 'bg-gray-100'
+                      }`}>
+                        {profile?.data ? (
+                          <Shield className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Settings className="h-4 w-4 text-gray-400" />
                         )}
                       </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Basic Info</p>
+                        <p className="text-sm text-gray-600">
+                          {profile?.data ? 'Complete' : 'Incomplete'}
+                        </p>
+                      </div>
                     </div>
-                  ))}
+                    
+                    <div className="flex items-center">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
+                        profile?.data?.gallery_images?.length > 0 ? 'bg-green-100' : 'bg-gray-100'
+                      }`}>
+                        {profile?.data?.gallery_images?.length > 0 ? (
+                          <Camera className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Camera className="h-4 w-4 text-gray-400" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Photos</p>
+                        <p className="text-sm text-gray-600">
+                          {profile?.data?.gallery_images?.length || 0} uploaded
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
+                        profile?.data?.verified ? 'bg-green-100' : 'bg-gray-100'
+                      }`}>
+                        {profile?.data?.verified ? (
+                          <Award className="h-4 w-4 text-green-600" />
+                        ) : (
+                          <Award className="h-4 w-4 text-gray-400" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">Verification</p>
+                        <p className="text-sm text-gray-600">
+                          {profile?.data?.verified ? 'Verified' : 'Pending'}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ) : (
-                <div className="text-center py-8">
-                  <MessageSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">No quote requests yet</h3>
-                  <p className="text-gray-600 mb-4">
-                    Complete your profile to start receiving requests from couples
+
+                {/* Performance */}
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">This Month</h2>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Profile Views</span>
+                      <span className="font-bold text-gray-900">124</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Quote Requests</span>
+                      <span className="font-bold text-gray-900">{quotes?.data?.length || 0}</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Response Rate</span>
+                      <span className="font-bold text-gray-900">100%</span>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Avg. Response Time</span>
+                      <span className="font-bold text-gray-900">2h</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Tips */}
+                <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl p-6 border border-rose-200">
+                  <h2 className="text-lg font-bold text-gray-900 mb-4">💡 Pro Tips</h2>
+                  
+                  <div className="space-y-3 text-sm">
+                    <p className="text-gray-700">
+                      • Add 5+ high-quality photos to get 3x more views
+                    </p>
+                    <p className="text-gray-700">
+                      • Respond to quotes within 24 hours for better rankings
+                    </p>
+                    <p className="text-gray-700">
+                      • Complete your profile to appear in more searches
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Analytics Overview */}
+            <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+              <h2 className="text-xl font-bold text-gray-900 mb-6">Business Analytics</h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Eye className="h-8 w-8 text-blue-600" />
+                  </div>
+                  <h3 className="font-medium text-gray-900 mb-2">Profile Visibility</h3>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">124</p>
+                  <p className="text-sm text-gray-600">views this month</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MessageSquare className="h-8 w-8 text-green-600" />
+                  </div>
+                  <h3 className="font-medium text-gray-900 mb-2">Lead Generation</h3>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">{quotes?.data?.length || 0}</p>
+                  <p className="text-sm text-gray-600">quote requests</p>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Star className="h-8 w-8 text-purple-600" />
+                  </div>
+                  <h3 className="font-medium text-gray-900 mb-2">Customer Satisfaction</h3>
+                  <p className="text-2xl font-bold text-gray-900 mb-1">
+                    {profile?.data?.average_rating?.toFixed(1) || '—'}
                   </p>
-                  <Link
-                    to="/profile"
-                    className="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors"
-                  >
-                    Complete Profile
-                  </Link>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-6">
-            {/* Profile Status */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Profile Status</h2>
-              
-              <div className="space-y-4">
-                <div className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
-                    profile?.data ? 'bg-green-100' : 'bg-gray-100'
-                  }`}>
-                    {profile?.data ? (
-                      <Shield className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Settings className="h-4 w-4 text-gray-400" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Basic Info</p>
-                    <p className="text-sm text-gray-600">
-                      {profile?.data ? 'Complete' : 'Incomplete'}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
-                    profile?.data?.gallery_images?.length > 0 ? 'bg-green-100' : 'bg-gray-100'
-                  }`}>
-                    {profile?.data?.gallery_images?.length > 0 ? (
-                      <Camera className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Camera className="h-4 w-4 text-gray-400" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Photos</p>
-                    <p className="text-sm text-gray-600">
-                      {profile?.data?.gallery_images?.length || 0} uploaded
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-3 ${
-                    profile?.data?.verified ? 'bg-green-100' : 'bg-gray-100'
-                  }`}>
-                    {profile?.data?.verified ? (
-                      <Award className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Award className="h-4 w-4 text-gray-400" />
-                    )}
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900">Verification</p>
-                    <p className="text-sm text-gray-600">
-                      {profile?.data?.verified ? 'Verified' : 'Pending'}
-                    </p>
-                  </div>
+                  <p className="text-sm text-gray-600">average rating</p>
                 </div>
               </div>
             </div>
-
-            {/* Performance */}
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">This Month</h2>
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Profile Views</span>
-                  <span className="font-bold text-gray-900">124</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Quote Requests</span>
-                  <span className="font-bold text-gray-900">{quotes?.data?.length || 0}</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Response Rate</span>
-                  <span className="font-bold text-gray-900">100%</span>
-                </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-600">Avg. Response Time</span>
-                  <span className="font-bold text-gray-900">2h</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Tips */}
-            <div className="bg-gradient-to-br from-rose-50 to-pink-50 rounded-xl p-6 border border-rose-200">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">💡 Pro Tips</h2>
-              
-              <div className="space-y-3 text-sm">
-                <p className="text-gray-700">
-                  • Add 5+ high-quality photos to get 3x more views
-                </p>
-                <p className="text-gray-700">
-                  • Respond to quotes within 24 hours for better rankings
-                </p>
-                <p className="text-gray-700">
-                  • Complete your profile to appear in more searches
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Analytics Overview */}
-        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Business Analytics</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Eye className="h-8 w-8 text-blue-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Profile Visibility</h3>
-              <p className="text-2xl font-bold text-gray-900 mb-1">124</p>
-              <p className="text-sm text-gray-600">views this month</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="h-8 w-8 text-green-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Lead Generation</h3>
-              <p className="text-2xl font-bold text-gray-900 mb-1">{quotes?.data?.length || 0}</p>
-              <p className="text-sm text-gray-600">quote requests</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Star className="h-8 w-8 text-purple-600" />
-              </div>
-              <h3 className="font-medium text-gray-900 mb-2">Customer Satisfaction</h3>
-              <p className="text-2xl font-bold text-gray-900 mb-1">
-                {profile?.data?.average_rating?.toFixed(1) || '—'}
-              </p>
-              <p className="text-sm text-gray-600">average rating</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
           </>
         )}
 
