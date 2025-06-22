@@ -226,13 +226,7 @@ const SearchPage = () => {
 
             {/* View controls */}
             <div className="flex items-center space-x-2">
-              <Link
-                to="/search/enhanced"
-                className="flex items-center px-3 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
-              >
-                <Search className="h-4 w-4 mr-2" />
-                Enhanced Search
-              </Link>
+
               
               <button
                 onClick={() => setShowFilters(!showFilters)}
