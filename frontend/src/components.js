@@ -54,7 +54,6 @@ export const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <button onClick={() => navigate('/search')} className="text-gray-700 hover:text-rose-600 transition-colors">Find Vendors</button>
-            <button onClick={() => navigate('/search/enhanced')} className="text-gray-700 hover:text-rose-600 transition-colors">Enhanced Search</button>
             <button onClick={() => navigate('/planning')} className="text-gray-700 hover:text-rose-600 transition-colors">Planning Tools</button>
             <a href="#inspiration" className="text-gray-700 hover:text-rose-600 transition-colors">Inspiration</a>
             <a href="#about" className="text-gray-700 hover:text-rose-600 transition-colors">About</a>
