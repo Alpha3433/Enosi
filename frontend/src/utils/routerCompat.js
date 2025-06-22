@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 // Compatibility wrapper for React Router v7
@@ -28,14 +28,18 @@ const withRouterCompat = (Component) => {
     };
     
     // Add a global window._routerCompat object to help debug
-    if (typeof window !== 'undefined') {
-      window._routerCompat = {
-        match,
-        history,
-        location,
-        params
-      };
-    }
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        // Set global match object to fix errors
+        window.match = match;
+        window._routerCompat = {
+          match,
+          history,
+          location,
+          params
+        };
+      }
+    }, [location.pathname]);
     
     return (
       <Component 
