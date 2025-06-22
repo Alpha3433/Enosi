@@ -1,19 +1,3 @@
-backend:
-  - task: "Authentication Login Endpoint"
-    implemented: true
-    working: true
-    file: "server.py, auth.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: false
-          agent: "testing"
-          comment: "Initial testing showed a circular import issue between server.py and auth.py, causing the backend to fail to start. The error was: 'ImportError: cannot import name 'get_db' from partially initialized module 'backend.server' (most likely due to a circular import)'."
-        - working: true
-          agent: "testing"
-          comment: "Fixed the circular import issue by creating a new dependencies.py file and updating the imports in server.py and auth.py. The authentication login endpoint is now working correctly. Comprehensive testing shows that login works with valid credentials, rejects invalid credentials, handles special characters in email and password, allows concurrent logins, and properly validates tokens."
-
 frontend:
   - task: "Redesigned Landing Page"
     implemented: true
@@ -188,11 +172,11 @@ frontend:
         
   - task: "First-Time Vendor Login and Profile Setup Flow"
     implemented: true
-    working: true
+    working: false
     file: "SignUpPage.js, VendorProfileSetupPage.js, VendorDashboardPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: false
           agent: "testing"
@@ -200,16 +184,19 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Successfully tested the typing functionality in the Business Profile Setup page. The issue where input fields were losing focus after typing one character has been fixed. Code review shows that the fix involved moving the Step components (Step1BasicInfo, Step2ServicesAndPricing, Step3LocationAndCoverage, Step4Portfolio, Step5Review) outside the main BusinessProfileWizard component to prevent them from being recreated on every render. Testing confirmed that users can now type multiple characters continuously without losing focus in various input fields. Character-by-character typing tests were performed on multiple fields including text inputs and textareas, and all maintained focus properly throughout the typing process. No console errors related to focus or rendering were detected during testing. The input values were properly retained as the user typed, confirming that the fix for this classic React anti-pattern was successful."
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the Business Profile Setup page but encountered JavaScript errors in the browser console related to 'match' property being undefined. This is a React Router v7 compatibility issue where the application is trying to access route parameters in a way that's not compatible with React Router v7. Despite multiple attempts to fix the issue by updating the RouterErrorBoundary component, routerCompat utility, and adding global match objects, the error persists. The application redirects to the homepage when trying to access the vendor profile setup page. The TestBusinessProfileSetup page also shows the same error. This is a critical issue that prevents testing the Business Profile Setup functionality."
 
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 11
+  test_sequence: 12
   run_ui: false
 
 test_plan:
   current_focus: []
-  stuck_tasks: []
+  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow"]
   test_all: false
   test_priority: "high_first"
 
@@ -223,7 +210,7 @@ agent_communication:
     - agent: "testing"
       message: "Tested Phase 3 frontend features. The Enhanced Search Page is working correctly with search filters and UI components. Protected pages (Wishlist, Media Manager, Chat) correctly redirect to login when not authenticated. The code for these pages is well-implemented but requires authentication to fully test functionality. Navigation and route protection are working as expected. The application needs test credentials to fully verify the protected features."
     - agent: "testing"
-      message: "Tested the redesigned landing page with Airbnb-style design and Bookings.com layout structure. The implementation successfully follows the requested design patterns with a clean, minimalist aesthetic featuring rounded corners, soft shadows, and pink accent colors. The hero section includes the 4-field search layout (Where, What, When, Guests) with a pink gradient search button. All required sections are present and properly styled: Popular wedding destinations, Browse by vendor type cards, Deals & offers, Explore nearby venues, Real wedding stories, and Wedding inspiration & guides. The design is responsive and adapts well to different screen sizes. Card hover animations and transitions work as expected, enhancing the user experience."
+      message: "Tested the redesigned landing page with Airbnb-style design and Bookings.com layout structure. The implementation successfully follows the requested design patterns with a clean, minimalist aesthetic featuring rounded corners, soft shadows, and pink accent colors. The hero section includes the 4-field search layout (Where, What, When, Guests) with a pink gradient search button. All required sections are present and properly styled: Popular wedding destinations, Browse by vendor type cards, Deals & offers, Explore nearby venues, Real wedding stories, and Wedding inspiration & guides. The design is responsive and adapts well to different screen sizes."
     - agent: "testing"
       message: "Tested the Stripe payment system implementation. The subscription tiers are correctly defined in the StripePaymentService class with Basic ($29.99), Premium ($79.99), and Pro ($149.99) tiers, each with appropriate features. However, the API endpoints are not accessible due to dependency injection issues in the FastAPI routes. The backend server fails to start properly due to errors with the payment service dependency injection. Unit tests confirm that the StripePaymentService class itself is correctly implemented with the required functionality for vendor onboarding, subscription management, booking deposits, and webhook handling. The main issue is with the FastAPI route dependencies, which need to be fixed to make the payment system fully functional."
     - agent: "testing"
@@ -253,6 +240,4 @@ agent_communication:
     - agent: "testing"
       message: "Successfully tested the typing functionality in the Business Profile Setup page. The issue where input fields were losing focus after typing one character has been fixed. Code review shows that the fix involved moving the Step components (Step1BasicInfo, Step2ServicesAndPricing, Step3LocationAndCoverage, Step4Portfolio, Step5Review) outside the main BusinessProfileWizard component to prevent them from being recreated on every render. Testing confirmed that users can now type multiple characters continuously without losing focus in various input fields. Character-by-character typing tests were performed on multiple fields including text inputs and textareas, and all maintained focus properly throughout the typing process. No console errors related to focus or rendering were detected during testing. The input values were properly retained as the user typed, confirming that the fix for this classic React anti-pattern was successful."
     - agent: "testing"
-      message: "Successfully tested the authentication login endpoint. Initially found a circular import issue between server.py and auth.py that was causing the backend to fail to start. Fixed the issue by creating a new dependencies.py file and updating the imports in server.py and auth.py. Comprehensive testing shows that the authentication system is working correctly. Login works with valid credentials, rejects invalid credentials, handles special characters in email and password, allows concurrent logins, and properly validates tokens. The backend API for registration and login is fully functional."
-    - agent: "testing"
-      message: "Thoroughly tested the frontend login functionality and business profile setup flow. The login page loads correctly with all form fields present (email, password). User registration through the test registration page works properly, with successful creation of both couple and vendor accounts. Login functionality works correctly for newly registered users, with proper redirection to the appropriate dashboard based on user type. The Business Profile Setup page is accessible for vendor accounts and the typing functionality works correctly - users can type continuously in form fields without losing focus. The multi-step wizard navigation works properly, allowing vendors to move between steps and fill out their business information. Some issues were observed: login with existing credentials sometimes redirects to the homepage instead of the dashboard, and error messages for failed login attempts are not always displayed. However, these are minor issues that don't affect the core functionality."
+      message: "Attempted to test the Business Profile Setup page but encountered JavaScript errors in the browser console related to 'match' property being undefined. This is a React Router v7 compatibility issue where the application is trying to access route parameters in a way that's not compatible with React Router v7. Despite multiple attempts to fix the issue by updating the RouterErrorBoundary component, routerCompat utility, and adding global match objects, the error persists. The application redirects to the homepage when trying to access the vendor profile setup page. The TestBusinessProfileSetup page also shows the same error. This is a critical issue that prevents testing the Business Profile Setup functionality."
