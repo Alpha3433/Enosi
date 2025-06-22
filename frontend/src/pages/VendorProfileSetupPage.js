@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Eye, CheckCircle, Clock } from 'lucide-react';
 import BusinessProfileWizard from '../components/BusinessProfileWizard';
 import { Header, Footer } from '../components-airbnb';
+import withRouterCompat from '../utils/routerCompat';
 
 const VendorProfileSetupPage = () => {
   const { user, isAuthenticated, updateUserProfileStatus } = useAuth();
