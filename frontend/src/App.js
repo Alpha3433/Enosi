@@ -86,6 +86,20 @@ function App() {
         url: window.location.pathname
       };
       console.log('Created global match object in App component');
+      
+      // Monkey patch initStripe to handle missing match
+      const originalInitStripe = window.initStripe;
+      if (typeof originalInitStripe === 'function') {
+        window.initStripe = function(...args) {
+          try {
+            return originalInitStripe(...args);
+          } catch (error) {
+            console.error('Error in initStripe:', error);
+            return null;
+          }
+        };
+        console.log('Monkey patched initStripe function');
+      }
     }
   }, []);
 
