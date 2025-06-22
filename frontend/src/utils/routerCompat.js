@@ -1,27 +1,23 @@
-import React, { useEffect } from 'react';
-import { useParams, useLocation, useNavigate, useMatch } from 'react-router-dom';
+import React from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
 // Compatibility wrapper for React Router v7
-// This component provides a match-like object for components that might expect it
+// This component provides React Router v5-style props for backward compatibility
 const withRouterCompat = (Component) => {
   return (props) => {
     const params = useParams();
     const location = useLocation();
     const navigate = useNavigate();
     
-    // Use useMatch to get match data for the current route
-    const matchResult = useMatch(location.pathname);
-    
     // Create a match-like object for backward compatibility
     const match = {
       params,
       isExact: true,
       path: location.pathname,
-      url: location.pathname,
-      ...matchResult
+      url: location.pathname
     };
     
-    // Create history-like object
+    // Create history-like object for backward compatibility
     const history = {
       push: (path) => navigate(path),
       replace: (path) => navigate(path, { replace: true }),
@@ -30,20 +26,6 @@ const withRouterCompat = (Component) => {
       goForward: () => window.history.forward(),
       location
     };
-    
-    // Add a global window._routerCompat object to help debug
-    useEffect(() => {
-      if (typeof window !== 'undefined') {
-        // Set global match object to fix errors
-        window.match = match;
-        window._routerCompat = {
-          match,
-          history,
-          location,
-          params
-        };
-      }
-    }, [location.pathname]);
     
     return (
       <Component 
