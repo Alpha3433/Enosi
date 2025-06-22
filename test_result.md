@@ -174,7 +174,7 @@ frontend:
     implemented: true
     working: false
     file: "SignUpPage.js, VendorProfileSetupPage.js, VendorDashboardPage.js"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
     needs_retesting: false
     status_history:
@@ -190,6 +190,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Retested the Business Profile Setup page after the React Router compatibility fixes, but the issue persists. When attempting to access the vendor profile setup page (/vendor-profile-setup) or the test profile setup page (/test-profile-setup), the application still shows JavaScript errors in the console related to 'match' property being undefined. The error occurs at initStripe function in the bundle.js file. Despite the implementation of compatibility layers (RouterErrorBoundary, routerCompat utility, global match object), the error prevents the page from rendering correctly. The application shows the homepage with error messages instead of the Business Profile Setup form. This is a critical issue that continues to block testing of the Business Profile Setup functionality."
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the updated Business Profile Setup page with the requested changes (removed Subcategory and ABN fields, business name auto-fill, new preview design, Enhanced Search removal). However, the React Router 'match' property error persists, preventing access to the Business Profile Setup page. Code review confirms that the BusinessProfileWizard component no longer includes Subcategory and ABN fields in the form data structure or UI. The VendorProfileSetupPage component includes code to auto-fill business name from user data. The ProfilePreview component has been updated with the Eternal Moments Photography design (warm ivory background, serif fonts, olive green color scheme). App.js no longer includes any routes for Enhanced Search, and the SearchPage.js does not have any references to enhanced search functionality. Despite these code changes being correctly implemented, the persistent React Router compatibility issue prevents proper testing of the functionality."
 
 metadata:
   created_by: "testing_agent"
