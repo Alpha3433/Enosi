@@ -697,11 +697,50 @@ const BusinessProfileWizard = ({ initialData = null, onSave, onPreview }) => {
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.2 }}
           >
-            {currentStep === 1 && <Step1BasicInfo />}
-            {currentStep === 2 && <Step2ServicesAndPricing />}
-            {currentStep === 3 && <Step3LocationAndCoverage />}
-            {currentStep === 4 && <Step4Portfolio />}
-            {currentStep === 5 && <Step5Review />}
+            {currentStep === 1 && (
+              <Step1BasicInfo 
+                formData={formData}
+                updateFormData={updateFormData}
+                errors={errors}
+                categories={categories}
+              />
+            )}
+            {currentStep === 2 && (
+              <Step2ServicesAndPricing 
+                formData={formData}
+                updateFormData={updateFormData}
+                errors={errors}
+                addService={addService}
+                updateService={updateService}
+                removeService={removeService}
+                addPricingPackage={addPricingPackage}
+                updatePricingPackage={updatePricingPackage}
+                removePricingPackage={removePricingPackage}
+                serviceSpecialties={serviceSpecialties}
+                toggleSpecialty={toggleSpecialty}
+              />
+            )}
+            {currentStep === 3 && (
+              <Step3LocationAndCoverage 
+                formData={formData}
+                updateFormData={updateFormData}
+                errors={errors}
+              />
+            )}
+            {currentStep === 4 && (
+              <Step4Portfolio 
+                formData={formData}
+                updateFormData={updateFormData}
+                errors={errors}
+                handleImageUpload={handleImageUpload}
+                removeImage={removeImage}
+              />
+            )}
+            {currentStep === 5 && (
+              <Step5Review 
+                formData={formData}
+              />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
