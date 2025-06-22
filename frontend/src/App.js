@@ -172,7 +172,7 @@ function App() {
               } />
               <Route path="/vendor-profile-setup" element={
                 <ProtectedRoute userType="vendor">
-                  <WrappedVendorProfileSetupPage />
+                  <VendorProfileSetupPage />
                 </ProtectedRoute>
               } />
               <Route path="/vendor-subscription" element={
