@@ -791,7 +791,7 @@ const BusinessProfileWizard = ({ initialData = null, onSave, onPreview }) => {
           ) : (
             <div className="flex space-x-3">
               <button
-                onClick={onPreview}
+                onClick={() => onPreview(formData)}
                 className="flex items-center px-4 py-2 border border-rose-600 text-rose-600 rounded-lg hover:bg-rose-50"
               >
                 <Eye className="h-4 w-4 mr-2" />
