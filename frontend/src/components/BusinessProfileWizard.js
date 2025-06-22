@@ -30,7 +30,6 @@ const Step1BasicInfo = ({ formData, updateFormData, errors, categories }) => {
             <li>• Business name (required)</li>
             <li>• Category selection (required)</li>
             <li>• Business description (required - tell couples about your business)</li>
-            <li>• Subcategory and ABN are optional</li>
           </ul>
         </div>
       </div>
