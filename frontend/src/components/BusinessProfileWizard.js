@@ -282,6 +282,17 @@ const Step4Portfolio = ({ formData, updateFormData, errors, handleImageUpload, r
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Portfolio</h3>
         <p className="text-gray-600 mb-6">Showcase your work to attract potential clients.</p>
+        
+        {/* Requirements */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h4 className="font-medium text-blue-900 mb-2">📋 Requirements to proceed:</h4>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• Portfolio description (required - describe your style and approach)</li>
+            <li>• Gallery images are optional but highly recommended</li>
+            <li>• Upload your best work to showcase your quality</li>
+            <li>• Images help couples visualize your services</li>
+          </ul>
+        </div>
       </div>
 
       <div>
