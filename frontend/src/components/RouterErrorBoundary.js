@@ -90,5 +90,3 @@ class RouterErrorBoundary extends React.Component {
 }
 
 export default RouterErrorBoundary;
-
-export default RouterErrorBoundary;
