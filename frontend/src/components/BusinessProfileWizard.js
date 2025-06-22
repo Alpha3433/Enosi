@@ -131,6 +131,17 @@ const Step2ServicesAndPricing = ({ formData, updateFormData, errors, addService,
       <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Services & Pricing</h3>
         <p className="text-gray-600 mb-6">Define what you offer and your pricing structure.</p>
+        
+        {/* Requirements */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <h4 className="font-medium text-blue-900 mb-2">📋 Requirements to proceed:</h4>
+          <ul className="text-sm text-blue-800 space-y-1">
+            <li>• At least one complete service (required)</li>
+            <li>• Each service must have a name and starting price</li>
+            <li>• Service description is recommended but optional</li>
+            <li>• Service specialties are optional but help with visibility</li>
+          </ul>
+        </div>
       </div>
 
       <div>
