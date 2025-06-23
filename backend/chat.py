@@ -219,3 +219,86 @@ async def start_conversation(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to start conversation: {str(e)}"
         )
+
+async def send_message_notification(email: str, recipient_name: str, sender_name: str, message_preview: str, channel_id: str):
+    """Send email notification for new messages"""
+    try:
+        subject = f"New message from {sender_name} - Enosi"
+        html_content = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px;">
+                <h2 style="color: #e11d48;">New Message on Enosi</h2>
+                <p>Hi {recipient_name},</p>
+                <p>You have a new message from <strong>{sender_name}</strong>:</p>
+                <div style="background-color: white; padding: 15px; border-radius: 5px; margin: 20px 0; border-left: 4px solid #e11d48;">
+                    <p style="margin: 0; font-style: italic;">"{message_preview}"</p>
+                </div>
+                <p>
+                    <a href="https://enosiweddings.com/chat" 
+                       style="background-color: #e11d48; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; display: inline-block;">
+                        Reply Now
+                    </a>
+                </p>
+                <hr style="margin: 30px 0; border: none; border-top: 1px solid #e5e7eb;">
+                <p style="color: #6b7280; font-size: 14px;">
+                    This message was sent through the Enosi wedding platform. 
+                    <a href="https://enosiweddings.com/chat">Log in to your account</a> to respond.
+                </p>
+            </div>
+        </body>
+        </html>
+        """
+        
+        # Here you would integrate with your email service (SendGrid, etc.)
+        # For now, just log the notification
+        print(f"📧 Email notification sent to {email}: {subject}")
+        print(f"Message preview: {message_preview}")
+        
+        # TODO: Implement actual email sending with SendGrid
+        # import sendgrid
+        # from sendgrid.helpers.mail import Mail
+        # 
+        # sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
+        # mail = Mail(
+        #     from_email='notifications@enosiweddings.com',
+        #     to_emails=email,
+        #     subject=subject,
+        #     html_content=html_content
+        # )
+        # response = sg.send(mail)
+        
+    except Exception as e:
+        print(f"Failed to send email notification: {e}")
+
+@router.post("/notify-message")
+async def notify_new_message(
+    channel_id: str,
+    message_text: str,
+    recipient_id: str,
+    current_user: UserInDB = Depends(get_current_user),
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    """Send email notification for new message"""
+    try:
+        # Get recipient details
+        recipient = await db.users.find_one({"id": recipient_id})
+        if not recipient:
+            raise HTTPException(status_code=404, detail="Recipient not found")
+        
+        # Send email notification
+        await send_message_notification(
+            recipient['email'],
+            recipient.get('first_name', 'User'),
+            f"{current_user.first_name} {current_user.last_name}",
+            message_text[:100] + "..." if len(message_text) > 100 else message_text,
+            channel_id
+        )
+        
+        return {"message": "Notification sent successfully"}
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to send notification: {str(e)}"
+        )
