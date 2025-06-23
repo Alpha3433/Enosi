@@ -21,6 +21,8 @@ import TimelinePage from './pages/TimelinePage';
 import GuestListPage from './pages/GuestListPage';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
+// Alias for compatibility
+const AdminDashboardPage = AdminDashboard;
 import VendorSubscription from './pages/VendorSubscription';
 import PaymentSuccess from './pages/PaymentSuccess';
 import AdvancedPlanningPage from './pages/AdvancedPlanningPage';
