@@ -10,6 +10,8 @@ import uuid
 import hashlib
 from .auth import get_current_user
 from .models import UserInDB
+from motor.motor_asyncio import AsyncIOMotorDatabase
+from .database import get_database
 
 # Initialize Stream Chat client
 api_key = "xzt8q9ttynux"
