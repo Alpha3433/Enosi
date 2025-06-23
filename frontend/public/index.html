@@ -31,41 +31,125 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
-    <!-- React Router v5 compatibility layer -->
+    <!-- React Router v7 Compatibility Script -->
     <script>
-      // Create a global match object that will be available to all components
+      // Comprehensive React Router v7 compatibility layer
       if (typeof window !== 'undefined') {
-        // Extract params from URL
+        // Enhanced route parameter extraction
         const getParamsFromPath = () => {
           const path = window.location.pathname;
           const segments = path.split('/').filter(Boolean);
-          
-          // Simple param extraction for common patterns
           const params = {};
           
-          // Handle vendor ID in /vendors/:vendorId
-          if (segments[0] === 'vendors' && segments.length > 1) {
-            params.vendorId = segments[1];
-          }
-          
-          // Handle booking payment in /booking/payment/:vendorId
-          if (segments[0] === 'booking' && segments[1] === 'payment' && segments.length > 2) {
-            params.vendorId = segments[2];
+          // Common patterns for vendor IDs
+          if (segments.length >= 2) {
+            // Handle /vendors/:vendorId
+            if (segments[0] === 'vendors' && segments[1]) {
+              params.vendorId = segments[1];
+            }
+            
+            // Handle /vendor/:vendorId (alternative pattern)
+            if (segments[0] === 'vendor' && segments[1]) {
+              params.vendorId = segments[1];
+            }
+            
+            // Handle booking payment in /booking/payment/:vendorId
+            if (segments[0] === 'booking' && segments[1] === 'payment' && segments[2]) {
+              params.vendorId = segments[2];
+            }
+            
+            // Handle user IDs in various contexts
+            if (segments.includes('user') || segments.includes('users')) {
+              const userIndex = segments.findIndex(s => s === 'user' || s === 'users');
+              if (segments[userIndex + 1]) {
+                params.userId = segments[userIndex + 1];
+              }
+            }
+            
+            // Handle generic :id patterns (last segment as ID)
+            if (segments.length >= 2 && segments[segments.length - 1].match(/^[a-zA-Z0-9_-]+$/)) {
+              params.id = segments[segments.length - 1];
+            }
           }
           
           return params;
         };
         
-        // Create the match object
+        // Create comprehensive compatibility objects
+        const params = getParamsFromPath();
+        
+        // Global match object (React Router v5 style)
         window.match = {
-          params: getParamsFromPath(),
+          params: params,
           isExact: true,
           path: window.location.pathname,
           url: window.location.pathname
         };
         
-        console.log('React Router v5 compatibility layer initialized');
-        console.log('Created global match object:', window.match);
+        // Global location object
+        window.routerLocation = {
+          pathname: window.location.pathname,
+          search: window.location.search,
+          hash: window.location.hash,
+          state: null,
+          key: 'default'
+        };
+        
+        // Global history object
+        window.routerHistory = {
+          length: window.history.length,
+          action: 'POP',
+          location: window.routerLocation,
+          push: (path) => {
+            window.location.href = path;
+          },
+          replace: (path) => {
+            window.location.replace(path);
+          },
+          go: (n) => window.history.go(n),
+          goBack: () => window.history.back(),
+          goForward: () => window.history.forward()
+        };
+        
+        // Make params globally accessible for any legacy code
+        window.routeParams = params;
+        
+        // Update on route changes
+        const updateRouterGlobals = () => {
+          const newParams = getParamsFromPath();
+          window.match.params = newParams;
+          window.match.path = window.location.pathname;
+          window.match.url = window.location.pathname;
+          window.routerLocation.pathname = window.location.pathname;
+          window.routerLocation.search = window.location.search;
+          window.routerLocation.hash = window.location.hash;
+          window.routeParams = newParams;
+        };
+        
+        // Listen for navigation changes
+        window.addEventListener('popstate', updateRouterGlobals);
+        
+        // Override pushState and replaceState to update our globals
+        const originalPushState = history.pushState;
+        const originalReplaceState = history.replaceState;
+        
+        history.pushState = function(...args) {
+          originalPushState.apply(this, args);
+          setTimeout(updateRouterGlobals, 0);
+        };
+        
+        history.replaceState = function(...args) {
+          originalReplaceState.apply(this, args);
+          setTimeout(updateRouterGlobals, 0);
+        };
+        
+        console.log('React Router v7 compatibility layer initialized');
+        console.log('Global objects created:', {
+          match: window.match,
+          location: window.routerLocation,
+          history: window.routerHistory,
+          params: window.routeParams
+        });
       }
     </script>
   </head>
