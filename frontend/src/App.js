@@ -33,7 +33,7 @@ import BookingPaymentPage from './pages/BookingPaymentPage';
 import SimpleRegistrationTest from './pages/SimpleRegistrationTest';
 import BudgetPlannerPage from './pages/BudgetPlannerPage';
 import WeddingChecklistPage from './pages/WeddingChecklistPage';
-import AdminDashboardPage from './pages/AdminDashboardPage';
+import TestBudgetPage from './pages/TestBudgetPage';
 
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
