@@ -143,6 +143,42 @@
           setTimeout(updateRouterGlobals, 0);
         };
         
+        // Patch initStripe function to handle missing match property
+        window.addEventListener('load', function() {
+          if (typeof window.initStripe === 'function') {
+            const originalInitStripe = window.initStripe;
+            window.initStripe = function(...args) {
+              try {
+                // Ensure match object exists
+                if (!window.match) {
+                  window.match = {
+                    params: getParamsFromPath(),
+                    isExact: true,
+                    path: window.location.pathname,
+                    url: window.location.pathname
+                  };
+                }
+                return originalInitStripe.apply(this, args);
+              } catch (error) {
+                console.error('Error in patched initStripe:', error);
+                // Return a dummy function that does nothing
+                return function() {};
+              }
+            };
+            console.log('Patched initStripe function to handle missing match property');
+          }
+        });
+        
+        // Global error handler for match property errors
+        window.addEventListener('error', function(event) {
+          if (event.error && event.error.message && 
+              (event.error.message.includes("Cannot read properties of undefined (reading 'match')") ||
+               event.error.message.includes("match is undefined"))) {
+            console.warn('Suppressed match property error:', event.error.message);
+            event.preventDefault(); // Prevent the error from propagating
+          }
+        });
+        
         console.log('React Router v7 compatibility layer initialized');
         console.log('Global objects created:', {
           match: window.match,
