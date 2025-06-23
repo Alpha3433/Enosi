@@ -99,8 +99,8 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     setToken(null);
-    Cookies.remove('auth_token');
-    Cookies.remove('user_data');
+    cookieUtils.remove('auth_token');
+    cookieUtils.remove('user_data');
   };
 
   const value = {
