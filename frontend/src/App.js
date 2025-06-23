@@ -233,7 +233,7 @@ function App() {
               {/* Protected routes for admins */}
               <Route path="/admin" element={
                 <ProtectedRoute userType="admin">
-                  <AdminDashboard />
+                  <AdminDashboardPage />
                 </ProtectedRoute>
               } />
               
