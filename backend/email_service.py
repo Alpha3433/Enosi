@@ -91,7 +91,7 @@ class EmailService:
                     <p>This vendor account is pending approval and requires manual review before activation.</p>
                     
                     <div style="text-align: center;">
-                        <a href="https://808bad13-f70b-49e5-8baf-ab76042df5d8.preview.emergentagent.com/admin" class="button">
+                        <a href="https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/admin" class="button">
                             Review in Admin Dashboard
                         </a>
                     </div>
@@ -119,7 +119,7 @@ class EmailService:
         Registration Date: {vendor_data.get('created_at', 'N/A')}
         
         Please review this vendor in the admin dashboard:
-        https://808bad13-f70b-49e5-8baf-ab76042df5d8.preview.emergentagent.com/admin
+        https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/admin
         
         This is an automated notification from Enosi Wedding Marketplace.
         """
@@ -242,7 +242,7 @@ class EmailService:
                         <p>Great news! Your Enosi vendor account has been approved and is now active.</p>
                         <p>You can now access your vendor dashboard and start showcasing your services to couples planning their dream weddings.</p>
                         <div style="text-align: center;">
-                            <a href="https://808bad13-f70b-49e5-8baf-ab76042df5d8.preview.emergentagent.com/vendor-dashboard" class="button">
+                            <a href="https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/vendor-dashboard" class="button">
                                 Access Your Dashboard
                             </a>
                         </div>
