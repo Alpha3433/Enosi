@@ -69,20 +69,20 @@ const PlanningToolsPage = () => {
     },
     {
       title: 'Guest List Manager',
-      description: 'Organize your guest list, track RSVPs, manage dietary requirements, and plan seating arrangements.',
+      description: 'Organize your guest list, track RSVPs, and manage seating arrangements with our comprehensive guest management system.',
       icon: Users,
-      color: 'bg-orange-500',
-      bgColor: 'bg-orange-50',
-      textColor: 'text-orange-700',
-      borderColor: 'border-orange-200',
-      users: '20,000+ couples',
+      color: 'bg-green-500',
+      bgColor: 'bg-green-50',
+      textColor: 'text-green-700',
+      borderColor: 'border-green-200',
+      users: '25,000+ couples',
       features: [
         'RSVP tracking',
         'Dietary management',
-        'Table assignments',
+        'CSV import/export',
         'Plus-one handling'
       ],
-      link: '/planning/guests'
+      link: '/planning/guest-list'
     }
   ];
 
