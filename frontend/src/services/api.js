@@ -1,7 +1,20 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 const API_BASE_URL = process.env.REACT_APP_BACKEND_URL + '/api';
+
+// Native cookie management function
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(';').shift();
+  }
+  return null;
+};
+
+const removeCookie = (name) => {
+  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/`;
+};
 
 // Create axios instance
 const api = axios.create({
@@ -13,7 +26,7 @@ const api = axios.create({
 
 // Request interceptor to add auth token
 api.interceptors.request.use((config) => {
-  const token = Cookies.get('auth_token');
+  const token = getCookie('auth_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -26,8 +39,8 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       // Token expired or invalid
-      Cookies.remove('auth_token');
-      Cookies.remove('user_data');
+      removeCookie('auth_token');
+      removeCookie('user_data');
       window.location.href = '/login';
     }
     return Promise.reject(error);
