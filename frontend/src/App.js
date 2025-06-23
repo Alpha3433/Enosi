@@ -138,6 +138,16 @@ function App() {
                   <PlanningToolsPage />
                 </ProtectedRoute>
               } />
+              <Route path="/planning/budget" element={
+                <ProtectedRoute userType="couple">
+                  <BudgetPlannerPage />
+                </ProtectedRoute>
+              } />
+              <Route path="/planning/checklist" element={
+                <ProtectedRoute userType="couple">
+                  <WeddingChecklistPage />
+                </ProtectedRoute>
+              } />
               <Route path="/planning/advanced" element={
                 <ProtectedRoute userType="couple">
                   <AdvancedPlanningPage />
