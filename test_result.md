@@ -208,16 +208,52 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Attempted to test the updated Vendor Dashboard with manual profile management. The VendorDashboardPage.js component has been updated to include a VendorProfileEditor component that allows vendors to edit 'safe' fields like contact info and availability. However, there are JavaScript errors related to the 'match' property being undefined, which prevent proper rendering of the dashboard. Successfully verified that the /vendor-profile-setup and /test-profile-setup routes are no longer accessible and redirect to the homepage as expected. Attempted to fix the React Router 'match' property error by updating the global match object and monkey patching the initStripe function in App.js, but the error persists. This is a critical issue that prevents testing the Vendor Dashboard functionality."
+        
+  - task: "Budget Planner"
+    implemented: true
+    working: false
+    file: "BudgetPlannerPage.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the Budget Planner feature but encountered JavaScript errors in the browser console related to 'match' property being undefined. This is a React Router v7 compatibility issue where the application is trying to access route parameters in a way that's not compatible with React Router v7. The error occurs at initStripe function in the bundle.js file. Despite implementing various fixes including updating the routerCompat utility, adding global match objects, and monkey patching the initStripe function, the error persists. Created a simplified test budget page that doesn't rely on React Router hooks, but it still shows the same error. This is a critical issue that prevents testing the Budget Planner functionality."
+        
+  - task: "Wedding Checklist"
+    implemented: true
+    working: false
+    file: "WeddingChecklistPage.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Unable to test the Wedding Checklist feature due to the same React Router compatibility issues affecting other pages. The application shows JavaScript errors in the browser console related to 'match' property being undefined when trying to access the checklist page. Code review shows that the WeddingChecklistPage.js component is well-implemented with features for filtering tasks by status and timeframe, searching tasks, and marking tasks as complete. However, the persistent React Router compatibility issue prevents proper testing of the functionality."
+        
+  - task: "Stream Chat Integration"
+    implemented: true
+    working: false
+    file: "ChatComponent.js"
+    stuck_count: 1
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the Stream Chat integration but encountered build errors related to missing CSS files. The application fails to compile due to an error in ChatComponent.js: 'Module not found: Error: Can't resolve 'stream-chat-react/dist/css/index.css''. Attempted to fix the issue by installing the stream-chat-react package and removing the CSS import, but the application still shows JavaScript errors related to the 'match' property being undefined. This prevents proper testing of the chat functionality."
 
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 13
+  test_sequence: 14
   run_ui: false
 
 test_plan:
-  current_focus: ["Updated Vendor Dashboard with Manual Profile Management"]
-  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management"]
+  current_focus: ["Budget Planner", "Wedding Checklist", "Stream Chat Integration"]
+  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Budget Planner", "Wedding Checklist", "Stream Chat Integration"]
   test_all: false
   test_priority: "high_first"
 
@@ -268,3 +304,6 @@ agent_communication:
       message: "Attempted to test the updated Business Profile Setup page with the requested changes (removed Subcategory and ABN fields, business name auto-fill, new preview design, Enhanced Search removal). Code review confirms that all requested changes have been implemented correctly: 1) BusinessProfileWizard component no longer includes Subcategory and ABN fields in the form data structure or UI, 2) VendorProfileSetupPage component includes code to auto-fill business name from user data, 3) ProfilePreview component has been updated with the Eternal Moments Photography design (warm ivory background, serif fonts, olive green color scheme), and 4) App.js no longer includes any routes for Enhanced Search, and the SearchPage.js does not have any references to enhanced search functionality. However, the persistent React Router compatibility issue prevents proper testing of the Business Profile Setup functionality. The application continues to show JavaScript errors and redirects to the homepage when attempting to access the vendor profile setup page."
     - agent: "testing"
       message: "Tested the updated Vendor Dashboard with manual profile management. Attempted to fix the React Router 'match' property error by updating the global match object and monkey patching the initStripe function in App.js. Despite these fixes, the error persists. Successfully verified that the /vendor-profile-setup and /test-profile-setup routes are no longer accessible and redirect to the homepage as expected. However, due to the persistent JavaScript errors, we were unable to fully test the vendor dashboard functionality. The VendorDashboardPage.js component has been updated to include a VendorProfileEditor component that allows vendors to edit 'safe' fields like contact info and availability, but this functionality could not be verified due to the JavaScript errors."
+    - agent: "testing"
+      message: "Attempted to test the Budget Planner, Wedding Checklist, and Stream Chat Integration features but encountered persistent JavaScript errors related to the 'match' property being undefined. This is a React Router v7 compatibility issue that affects multiple pages in the application. Despite implementing various fixes including updating the routerCompat utility, adding global match objects, and monkey patching the initStripe function, the error persists. The application shows error overlays that prevent interaction with the UI. Code review confirms that the components are well-implemented with the required functionality, but the React Router compatibility issue prevents proper testing. This is a critical issue that affects multiple features and requires a comprehensive solution to fix the React Router integration."
+
