@@ -1,6 +1,16 @@
 import React from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 
+// Ensure window.match exists globally
+if (typeof window !== 'undefined' && !window.match) {
+  window.match = {
+    params: {},
+    isExact: true,
+    path: window.location.pathname,
+    url: window.location.pathname
+  };
+}
+
 // Compatibility wrapper for React Router v7
 // This component provides React Router v5-style props for backward compatibility
 const withRouterCompat = (Component) => {
@@ -11,6 +21,13 @@ const withRouterCompat = (Component) => {
       // Store params in window for global access if needed
       if (typeof window !== 'undefined') {
         window.mockParams = params;
+        
+        // Update global match object with current params
+        if (window.match) {
+          window.match.params = params;
+          window.match.path = window.location.pathname;
+          window.match.url = window.location.pathname;
+        }
       }
     } catch (error) {
       console.error('Error using useParams:', error);
