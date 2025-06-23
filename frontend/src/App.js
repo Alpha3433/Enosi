@@ -75,6 +75,9 @@ if (typeof window !== 'undefined') {
       }
     };
   }
+  
+  // Create a global useParams mock for compatibility
+  window.mockParams = {};
 }
 
 function App() {
