@@ -208,6 +208,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Attempted to test the updated Vendor Dashboard with manual profile management. The VendorDashboardPage.js component has been updated to include a VendorProfileEditor component that allows vendors to edit 'safe' fields like contact info and availability. However, there are JavaScript errors related to the 'match' property being undefined, which prevent proper rendering of the dashboard. Successfully verified that the /vendor-profile-setup and /test-profile-setup routes are no longer accessible and redirect to the homepage as expected. Attempted to fix the React Router 'match' property error by updating the global match object and monkey patching the initStripe function in App.js, but the error persists. This is a critical issue that prevents testing the Vendor Dashboard functionality."
+        - working: false
+          agent: "testing"
+          comment: "Tested the cookie functionality after the fix that replaced js-cookie with native document.cookie functions. The native cookie functions in AuthContext.js (cookieUtils.set, cookieUtils.get, cookieUtils.remove) work correctly and can successfully set, retrieve, and delete cookies including JSON data. However, the application still has JavaScript errors related to the 'match' property being undefined, which prevent proper rendering of the login page and dashboard. This makes it impossible to test the full authentication flow through the UI. The cookie functionality itself is working correctly, but the React Router compatibility issues prevent proper testing of the authentication flow."
         
   - task: "Budget Planner"
     implemented: true
