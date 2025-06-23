@@ -92,6 +92,10 @@ function App() {
       };
       console.log('Created global match object in App component');
       
+      // Set up mock params for useParams compatibility
+      window.mockParams = {};
+      console.log('Created mockParams for useParams compatibility');
+      
       // Monkey patch initStripe to handle missing match
       const originalInitStripe = window.initStripe;
       if (typeof originalInitStripe === 'function') {
