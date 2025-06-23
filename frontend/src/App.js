@@ -157,6 +157,11 @@ function App() {
                   <WeddingChecklistPage />
                 </ProtectedRoute>
               } />
+              <Route path="/planning/guest-list" element={
+                <ProtectedRoute userType="couple">
+                  <GuestListManagerPage />
+                </ProtectedRoute>
+              } />
               <Route path="/planning/advanced" element={
                 <ProtectedRoute userType="couple">
                   <AdvancedPlanningPage />
