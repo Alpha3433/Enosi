@@ -14,7 +14,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
 
-import 'stream-chat-react/dist/css/index.css';
+// CSS import removed as it's causing build issues
 
 const ChatComponent = ({ vendorId = null, onClose = null }) => {
     const [client, setClient] = useState(null);
