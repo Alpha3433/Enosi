@@ -128,6 +128,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/test-registration" element={<SimpleRegistrationTest />} />
 
+              <Route path="/test-budget" element={<TestBudgetPage />} />
               <Route path="/admin/dashboard" element={
                 <ProtectedRoute userType="admin">
                   <AdminDashboardPage />
