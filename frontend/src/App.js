@@ -102,6 +102,15 @@ function App() {
       if (typeof originalInitStripe === 'function') {
         window.initStripe = function(...args) {
           try {
+            // Create a mock match object if needed
+            if (!window.match) {
+              window.match = {
+                params: {},
+                isExact: true,
+                path: window.location.pathname,
+                url: window.location.pathname
+              };
+            }
             return originalInitStripe(...args);
           } catch (error) {
             console.error('Error in initStripe:', error);
