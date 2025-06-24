@@ -38,12 +38,11 @@ import TestBudgetPage from './pages/TestBudgetPage';
 
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
-import withRouterCompat from './utils/routerCompat';
 
-// Wrap components that might use match with the compatibility wrapper
-const WrappedVendorDetailPage = withRouterCompat(VendorDetailPage);
-const WrappedGalleryPage = withRouterCompat(GalleryPage);
-const WrappedBookingPaymentPage = withRouterCompat(BookingPaymentPage);
+// Simple wrapper for components that need URL parameters
+const VendorDetailPage = () => <VendorDetailPage />;
+const GalleryPage = () => <GalleryPage />;
+const BookingPaymentPage = () => <BookingPaymentPage />;
 
 // Create a client
 const queryClient = new QueryClient({
