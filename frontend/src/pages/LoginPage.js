@@ -41,11 +41,36 @@ const LoginPage = () => {
       const response = await authAPI.login(data.email, data.password);
       console.log('LoginPage: Login API response:', response.data);
       
-      login(response.data.user, response.data.access_token);
+      const userData = response.data.user;
+      login(userData, response.data.access_token);
       console.log('LoginPage: Called login function');
       
-      // Use custom redirect logic or fallback to provided path
-      const redirectPath = from || getDefaultRedirectPath();
+      // Calculate redirect path based on user data from response
+      let redirectPath = from;
+      
+      if (!redirectPath) {
+        // For vendors, check if profile setup is complete
+        if (userData.user_type === 'vendor') {
+          if (!userData.profile_setup_complete) {
+            redirectPath = '/vendor-profile-setup';
+          } else {
+            redirectPath = '/vendor-dashboard';
+          }
+        }
+        // For couples
+        else if (userData.user_type === 'couple') {
+          redirectPath = '/dashboard';
+        }
+        // For admin
+        else if (userData.user_type === 'admin') {
+          redirectPath = '/admin';
+        }
+        // Default fallback
+        else {
+          redirectPath = '/';
+        }
+      }
+      
       console.log('LoginPage: Redirecting to:', redirectPath);
       
       // Small delay to ensure state update completes
