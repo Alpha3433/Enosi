@@ -55,72 +55,7 @@ const queryClient = new QueryClient({
   },
 });
 
-// Global match object for compatibility
-if (typeof window !== 'undefined') {
-  window.match = {
-    params: {},
-    isExact: true,
-    path: window.location.pathname,
-    url: window.location.pathname
-  };
-  
-  // Monkey patch initStripe to handle missing match
-  const originalInitStripe = window.initStripe;
-  if (typeof originalInitStripe === 'function') {
-    window.initStripe = function(...args) {
-      try {
-        return originalInitStripe(...args);
-      } catch (error) {
-        console.error('Error in initStripe:', error);
-        return null;
-      }
-    };
-  }
-  
-  // Create a global useParams mock for compatibility
-  window.mockParams = {};
-}
-
 function App() {
-  // Set up global match object on component mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.match = {
-        params: {},
-        isExact: true,
-        path: window.location.pathname,
-        url: window.location.pathname
-      };
-      console.log('Created global match object in App component');
-      
-      // Set up mock params for useParams compatibility
-      window.mockParams = {};
-      console.log('Created mockParams for useParams compatibility');
-      
-      // Monkey patch initStripe to handle missing match
-      const originalInitStripe = window.initStripe;
-      if (typeof originalInitStripe === 'function') {
-        window.initStripe = function(...args) {
-          try {
-            // Create a mock match object if needed
-            if (!window.match) {
-              window.match = {
-                params: {},
-                isExact: true,
-                path: window.location.pathname,
-                url: window.location.pathname
-              };
-            }
-            return originalInitStripe(...args);
-          } catch (error) {
-            console.error('Error in initStripe:', error);
-            return null;
-          }
-        };
-        console.log('Monkey patched initStripe function');
-      }
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
