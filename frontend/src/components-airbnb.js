@@ -317,7 +317,7 @@ export const HotelsLovedByGuests = () => {
       image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
     {
-      name: 'Surf'n'Turf Suites',
+      name: 'Surf n Turf Suites',
       location: 'Lisbon',
       rating: 8.4,
       price: 70,
