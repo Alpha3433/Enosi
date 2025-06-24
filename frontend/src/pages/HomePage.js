@@ -3,13 +3,10 @@ import {
   Header,
   AirbnbHeroSection,
   PopularDestinations,
-  VendorTypeCards,
-  FeaturedDeals,
-  ExploreNearby,
-  RealWeddingStories,
-  WeddingInspiration,
+  HotelsLovedByGuests,
+  NewsletterSection,
   Footer
-} from '../components-airbnb';
+} from '../components-airbnb-new';
 
 const HomePage = () => {
   return (
@@ -17,11 +14,8 @@ const HomePage = () => {
       <Header />
       <AirbnbHeroSection />
       <PopularDestinations />
-      <VendorTypeCards />
-      <FeaturedDeals />
-      <ExploreNearby />
-      <RealWeddingStories />
-      <WeddingInspiration />
+      <HotelsLovedByGuests />
+      <NewsletterSection />
       <Footer />
     </div>
   );
