@@ -6,7 +6,7 @@ import {
   HotelsLovedByGuests,
   NewsletterSection,
   Footer
-} from '../components-airbnb-new';
+} from '../components-airbnb';
 
 const HomePage = () => {
   return (
