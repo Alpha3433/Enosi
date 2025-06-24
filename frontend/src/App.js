@@ -66,8 +66,8 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
               <Route path="/search" element={<SearchPage />} />
-              <Route path="/vendors/:vendorId" element={<WrappedVendorDetailPage />} />
-              <Route path="/vendors/:vendorId/gallery" element={<WrappedGalleryPage />} />
+              <Route path="/vendors/:vendorId" element={<VendorDetailPageWrapper />} />
+              <Route path="/vendors/:vendorId/gallery" element={<GalleryPageWrapper />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/test-registration" element={<SimpleRegistrationTest />} />
