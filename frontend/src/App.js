@@ -147,7 +147,7 @@ function App() {
               } />
               <Route path="/booking/payment/:vendorId" element={
                 <ProtectedRoute userType="couple">
-                  <BookingPaymentPageWrapper />
+                  <BookingPaymentPage />
                 </ProtectedRoute>
               } />
               
