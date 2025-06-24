@@ -258,7 +258,7 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: ["Budget Planner", "Wedding Checklist", "Stream Chat Integration"]
+  current_focus: ["Authentication Flow"]
   stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Budget Planner", "Wedding Checklist", "Stream Chat Integration"]
   test_all: false
   test_priority: "high_first"
