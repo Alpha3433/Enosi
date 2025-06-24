@@ -39,11 +39,6 @@ import TestBudgetPage from './pages/TestBudgetPage';
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Simple wrapper for components that need URL parameters
-const VendorDetailPageWrapper = () => <VendorDetailPage />;
-const GalleryPageWrapper = () => <GalleryPage />;
-const BookingPaymentPageWrapper = () => <BookingPaymentPage />;
-
 // Create a client
 const queryClient = new QueryClient({
   defaultOptions: {
