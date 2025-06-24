@@ -37,14 +37,24 @@ const LoginPage = () => {
     setError('');
     
     try {
+      console.log('LoginPage: Attempting login...');
       const response = await authAPI.login(data.email, data.password);
+      console.log('LoginPage: Login API response:', response.data);
+      
       login(response.data.user, response.data.access_token);
+      console.log('LoginPage: Called login function');
       
       // Use custom redirect logic or fallback to provided path
       const redirectPath = from || getDefaultRedirectPath();
-      navigate(redirectPath);
+      console.log('LoginPage: Redirecting to:', redirectPath);
+      
+      // Small delay to ensure state update completes
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 100);
       
     } catch (err) {
+      console.error('LoginPage: Login error:', err);
       setError(err.response?.data?.detail || 'Login failed. Please try again.');
     } finally {
       setIsLoading(false);
