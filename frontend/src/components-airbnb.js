@@ -25,34 +25,53 @@ import {
   Mail,
   Instagram,
   Facebook,
-  Twitter
+  Twitter,
+  ChevronRight
 } from 'lucide-react';
 
 import { useAuth } from './contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
-// Header Component - Exact match to screenshot
+// Header Component - Exact specifications from MD
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex justify-between items-center h-20">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50" style={{ height: '60px' }}>
+      <div className="max-w-[1200px] mx-auto px-6 h-full">
+        <div className="flex justify-between items-center h-full">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="text-2xl font-semibold text-gray-900">
+            <div className="text-2xl font-semibold" style={{ color: '#333333' }}>
               Enosi
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            <button onClick={() => navigate('/search')} className="text-gray-700 hover:text-gray-900 transition-colors font-medium">Find Vendors</button>
-            <a href="#inspiration" className="text-gray-700 hover:text-gray-900 transition-colors font-medium">Inspiration</a>
-            <a href="#about" className="text-gray-700 hover:text-gray-900 transition-colors font-medium">About Us</a>
+            <button 
+              onClick={() => navigate('/search')} 
+              className="font-medium transition-colors hover:opacity-80"
+              style={{ color: '#333333' }}
+            >
+              Find Vendors
+            </button>
+            <a 
+              href="#inspiration" 
+              className="font-medium transition-colors hover:opacity-80"
+              style={{ color: '#333333' }}
+            >
+              Inspiration
+            </a>
+            <a 
+              href="#about" 
+              className="font-medium transition-colors hover:opacity-80"
+              style={{ color: '#333333' }}
+            >
+              About Us
+            </a>
           </nav>
 
           {/* User Actions */}
@@ -89,13 +108,15 @@ export const Header = () => {
               <div className="flex items-center space-x-4">
                 <button 
                   onClick={() => navigate('/signup')}
-                  className="text-gray-700 hover:text-gray-900 transition-colors font-medium"
+                  className="px-4 py-2 border border-gray-300 rounded-lg font-medium transition-colors hover:border-gray-400"
+                  style={{ color: '#333333' }}
                 >
                   Sign up
                 </button>
                 <button
                   onClick={() => navigate('/login')}
-                  className="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors font-medium"
+                  className="px-4 py-2 rounded-lg font-medium text-white transition-colors hover:opacity-90"
+                  style={{ backgroundColor: '#2D5BFF' }}
                 >
                   Log in
                 </button>
@@ -116,7 +137,7 @@ export const Header = () => {
   );
 };
 
-// Hero Section - Exact match to screenshot
+// Hero Section with Search - Exact specifications
 export const AirbnbHeroSection = () => {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchCategory, setSearchCategory] = useState('');
@@ -133,13 +154,15 @@ export const AirbnbHeroSection = () => {
 
   return (
     <section 
-      className="relative h-[600px] bg-cover bg-center bg-no-repeat"
+      className="relative bg-cover bg-center bg-no-repeat"
       style={{
+        height: '500px',
+        width: '100vw',
         backgroundImage: 'url(https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80)',
       }}
     >
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-25"></div>
+      <div className="absolute inset-0 bg-black bg-opacity-30"></div>
       
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center items-center h-full px-6">
@@ -152,29 +175,31 @@ export const AirbnbHeroSection = () => {
           </p>
         </div>
 
-        {/* Search Form */}
-        <div className="w-full max-w-4xl">
+        {/* Search Form - 80% width, centered */}
+        <div style={{ width: '80%', maxWidth: '960px' }}>
           <div className="bg-white rounded-2xl shadow-xl p-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
               {/* Location */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Location</label>
+                <label className="text-sm font-medium" style={{ color: '#333333' }}>Location</label>
                 <input
                   type="text"
                   placeholder="Search Destinations"
                   value={searchLocation}
                   onChange={(e) => setSearchLocation(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900"
+                  style={{ focusRingColor: '#2D5BFF' }}
                 />
               </div>
 
               {/* Vendor */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Vendor</label>
+                <label className="text-sm font-medium" style={{ color: '#333333' }}>Vendor</label>
                 <select 
                   value={searchCategory}
                   onChange={(e) => setSearchCategory(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900"
+                  style={{ focusRingColor: '#2D5BFF' }}
                 >
                   <option value="">All Vendors</option>
                   <option value="venue">Venues</option>
@@ -186,27 +211,29 @@ export const AirbnbHeroSection = () => {
                 </select>
               </div>
 
-              {/* When */}
+              {/* Date */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">When</label>
+                <label className="text-sm font-medium" style={{ color: '#333333' }}>Date</label>
                 <input
                   type="text"
                   placeholder="DD/MM/YYYY"
                   value={weddingDate}
                   onChange={(e) => setWeddingDate(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900"
+                  style={{ focusRingColor: '#2D5BFF' }}
                 />
               </div>
 
               {/* Guests */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Guests</label>
+                <label className="text-sm font-medium" style={{ color: '#333333' }}>Guests</label>
                 <input
                   type="text"
                   placeholder="Number of guests"
                   value={guestCount}
                   onChange={(e) => setGuestCount(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:border-transparent text-gray-900"
+                  style={{ focusRingColor: '#2D5BFF' }}
                 />
               </div>
             </div>
@@ -215,7 +242,8 @@ export const AirbnbHeroSection = () => {
             <div className="mt-6 flex justify-end">
               <button
                 onClick={handleSearch}
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium flex items-center"
+                className="text-white px-8 py-3 rounded-lg transition-colors font-medium flex items-center hover:opacity-90"
+                style={{ backgroundColor: '#2D5BFF' }}
               >
                 <Search className="w-5 h-5 mr-2" />
                 Search
@@ -228,7 +256,7 @@ export const AirbnbHeroSection = () => {
   );
 };
 
-// Popular Wedding Destinations - Exact match to screenshot
+// Popular Wedding Destinations - 4 columns on desktop
 export const PopularDestinations = () => {
   const destinations = [
     {
@@ -259,10 +287,12 @@ export const PopularDestinations = () => {
 
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-8">Popular Wedding destinations</h2>
+      <div className="max-w-[1200px] mx-auto" style={{ padding: '0 24px' }}>
+        <h2 className="text-2xl font-semibold mb-8" style={{ color: '#333333' }}>
+          Popular Wedding destinations
+        </h2>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
           {destinations.map((destination, index) => (
             <div key={index} className="relative rounded-xl overflow-hidden cursor-pointer group">
               <div className="aspect-square">
@@ -285,7 +315,7 @@ export const PopularDestinations = () => {
   );
 };
 
-// Hotels loved by guests section - Exact match to screenshot
+// Hotels loved by guests - 5 columns with horizontal scroll
 export const HotelsLovedByGuests = () => {
   const hotels = [
     {
@@ -327,10 +357,12 @@ export const HotelsLovedByGuests = () => {
 
   return (
     <section className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <h2 className="text-2xl font-semibold text-gray-900 mb-8">Hotels loved by guests</h2>
+      <div className="max-w-[1200px] mx-auto" style={{ padding: '0 24px' }}>
+        <h2 className="text-2xl font-semibold mb-8" style={{ color: '#333333' }}>
+          Hotels loved by guests
+        </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
           {hotels.map((hotel, index) => (
             <div key={index} className="group cursor-pointer">
               <div className="relative mb-3">
@@ -340,21 +372,25 @@ export const HotelsLovedByGuests = () => {
                   className="w-full h-64 object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute top-3 left-3">
-                  <div className="bg-white px-2 py-1 rounded-lg flex items-center space-x-1">
-                    <span className="text-green-600 font-semibold text-sm">{hotel.rating}</span>
+                  <div className="px-2 py-1 rounded-lg flex items-center space-x-1" style={{ backgroundColor: '#FFFFFF' }}>
+                    <span className="font-semibold text-sm" style={{ color: '#00B67A' }}>
+                      {hotel.rating}
+                    </span>
                   </div>
                 </div>
-                <button className="absolute top-3 right-3 p-2 rounded-full bg-white hover:bg-gray-100 transition-colors">
-                  <Heart className="w-4 h-4 text-gray-600" />
+                <button className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100 transition-colors" style={{ backgroundColor: '#FFFFFF' }}>
+                  <Heart className="w-4 h-4" style={{ color: '#333333' }} />
                 </button>
               </div>
               
               <div className="space-y-1">
-                <h3 className="font-semibold text-gray-900">{hotel.name}</h3>
-                <p className="text-gray-600 text-sm">{hotel.location}</p>
+                <h3 className="font-semibold" style={{ color: '#333333' }}>{hotel.name}</h3>
+                <p className="text-sm" style={{ color: '#666666' }}>{hotel.location}</p>
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-gray-900">from ${hotel.price}/night</span>
-                  <ArrowRight className="w-4 h-4 text-gray-400" />
+                  <span className="font-semibold" style={{ color: '#333333' }}>
+                    from ${hotel.price}/night
+                  </span>
+                  <ChevronRight className="w-4 h-4" style={{ color: '#666666' }} />
                 </div>
               </div>
             </div>
@@ -365,21 +401,21 @@ export const HotelsLovedByGuests = () => {
   );
 };
 
-// Newsletter section - Bottom of page
+// Newsletter section
 export const NewsletterSection = () => {
   return (
-    <section className="py-12 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+    <section className="py-12" style={{ backgroundColor: '#F5F5F5' }}>
+      <div className="max-w-[1200px] mx-auto" style={{ padding: '0 24px' }}>
+        <div className="flex flex-col md:flex-row items-center justify-between">
+          <div className="flex items-center space-x-4 mb-6 md:mb-0">
             <div className="text-4xl">🎭</div>
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">Psst!</h3>
-              <p className="text-gray-600">Do you want to get secret offers and best prices for amazing stays?</p>
-              <p className="text-gray-600">Sign up to join our Travel Club!</p>
+              <h3 className="text-lg font-semibold" style={{ color: '#333333' }}>Psst!</h3>
+              <p style={{ color: '#666666' }}>Do you want to get secret offers and best prices for amazing stays?</p>
+              <p style={{ color: '#666666' }}>Sign up to join our Travel Club!</p>
             </div>
           </div>
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+          <button className="text-white px-6 py-3 rounded-lg transition-colors font-medium hover:opacity-90" style={{ backgroundColor: '#2D5BFF' }}>
             Sign up for newsletter
           </button>
         </div>
@@ -388,28 +424,28 @@ export const NewsletterSection = () => {
   );
 };
 
-// Footer - Simple footer
+// Footer - Multi-column layout
 export const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 py-8">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-2xl font-semibold text-gray-900 mb-2">Enosi</div>
-            <p className="text-gray-600 text-sm">Your favorite hotel booking experience</p>
-            <p className="text-gray-600 text-sm">since 1992</p>
+      <div className="max-w-[1200px] mx-auto" style={{ padding: '0 24px' }}>
+        <div className="flex flex-col md:flex-row items-start justify-between">
+          <div className="mb-6 md:mb-0">
+            <div className="text-2xl font-semibold mb-2" style={{ color: '#333333' }}>Enosi</div>
+            <p className="text-sm" style={{ color: '#666666' }}>Your favorite hotel booking experience</p>
+            <p className="text-sm" style={{ color: '#666666' }}>since 1992</p>
           </div>
           
-          <div className="flex items-center space-x-8 text-sm text-gray-600">
-            <a href="#" className="hover:text-gray-900">Help</a>
-            <a href="#" className="hover:text-gray-900">FAQ</a>
-            <a href="#" className="hover:text-gray-900">Customer service</a>
-            <a href="#" className="hover:text-gray-900">How to guide</a>
-            <a href="#" className="hover:text-gray-900">Contact us</a>
+          <div className="flex flex-wrap items-center gap-8 text-sm" style={{ color: '#666666' }}>
+            <a href="#" className="hover:opacity-80 transition-colors">Help</a>
+            <a href="#" className="hover:opacity-80 transition-colors">FAQ</a>
+            <a href="#" className="hover:opacity-80 transition-colors">Customer service</a>
+            <a href="#" className="hover:opacity-80 transition-colors">How to guide</a>
+            <a href="#" className="hover:opacity-80 transition-colors">Contact us</a>
           </div>
         </div>
         
-        <div className="mt-8 text-center text-sm text-gray-500">
+        <div className="mt-8 text-center text-sm" style={{ color: '#999999' }}>
           Enosi © 2025
         </div>
       </div>
