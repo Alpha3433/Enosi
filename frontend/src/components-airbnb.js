@@ -116,7 +116,7 @@ export const Header = () => {
   );
 };
 
-// Hero Section with Overlay Search
+// Hero Section with Separate Search Bar
 export const AirbnbHeroSection = () => {
   const [searchLocation, setSearchLocation] = useState('');
   const [searchCategory, setSearchCategory] = useState('');
@@ -132,75 +132,102 @@ export const AirbnbHeroSection = () => {
   };
 
   return (
-    <section className="container mx-auto px-10 mt-2">
-      <div className="relative rounded-3xl overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-          alt="Wedding scene with guests"
-          className="w-full h-[220px] object-cover"
-        />
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
-          <h2 className="text-3xl font-bold mb-2">Find Wedding Vendors You'll Love</h2>
-          <p className="text-sm">Your perfect florist, DJ, and venue are just a click away</p>
+    <>
+      {/* Hero Section */}
+      <section className="container mx-auto px-10 mt-2">
+        <div className="relative rounded-3xl overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            alt="Wedding scene with guests"
+            className="w-full h-[300px] object-cover"
+          />
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4">Find Wedding Vendors You'll Love</h2>
+            <p className="text-lg">Your perfect florist, DJ, and venue are just a click away</p>
+          </div>
         </div>
-        
-        {/* Overlay Search Bar */}
-        <div className="absolute -bottom-7 left-1/2 transform -translate-x-1/2 flex bg-white rounded-full shadow-lg w-[90%] max-w-3xl">
-          <div className="flex-1 px-4 py-3 border-r">
-            <p className="text-xs font-semibold">Location</p>
-            <input
-              type="text"
-              placeholder="Search Destinations"
-              value={searchLocation}
-              onChange={(e) => setSearchLocation(e.target.value)}
-              className="w-full text-sm outline-none"
-            />
+      </section>
+
+      {/* Floating Search Bar */}
+      <section className="container mx-auto px-10 relative -mt-8 mb-12 z-10">
+        <div className="bg-white rounded-full shadow-2xl p-6 max-w-5xl mx-auto">
+          <div className="flex items-end space-x-1">
+            {/* Location */}
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Location</label>
+              <input
+                type="text"
+                placeholder="Search Destinations"
+                value={searchLocation}
+                onChange={(e) => setSearchLocation(e.target.value)}
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+              />
+            </div>
+
+            {/* Divider */}
+            <div className="w-px h-12 bg-gray-200"></div>
+
+            {/* Vendor */}
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Vendor</label>
+              <select 
+                value={searchCategory}
+                onChange={(e) => setSearchCategory(e.target.value)}
+                className="w-full text-sm outline-none border-0 bg-transparent text-gray-900"
+              >
+                <option value="">All Vendors</option>
+                <option value="venue">Venues</option>
+                <option value="photographer">Photographers</option>
+                <option value="catering">Catering</option>
+                <option value="florist">Florists</option>
+                <option value="music">Music & Entertainment</option>
+                <option value="makeup">Hair & Makeup</option>
+              </select>
+            </div>
+
+            {/* Divider */}
+            <div className="w-px h-12 bg-gray-200"></div>
+
+            {/* When */}
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-xs font-semibold text-gray-700 mb-2">When</label>
+              <input
+                type="text"
+                placeholder="DD/MM/YYYY"
+                value={weddingDate}
+                onChange={(e) => setWeddingDate(e.target.value)}
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+              />
+            </div>
+
+            {/* Divider */}
+            <div className="w-px h-12 bg-gray-200"></div>
+
+            {/* Guests */}
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-xs font-semibold text-gray-700 mb-2">Guests</label>
+              <input
+                type="text"
+                placeholder="Number of guests"
+                value={guestCount}
+                onChange={(e) => setGuestCount(e.target.value)}
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+              />
+            </div>
+
+            {/* Search Button */}
+            <div className="flex-shrink-0 ml-2">
+              <button
+                onClick={handleSearch}
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 transition-colors shadow-lg"
+              >
+                <ArrowRight className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-          <div className="flex-1 px-4 py-3 border-r">
-            <p className="text-xs font-semibold">Vendor</p>
-            <select 
-              value={searchCategory}
-              onChange={(e) => setSearchCategory(e.target.value)}
-              className="w-full text-sm outline-none bg-transparent"
-            >
-              <option value="">All Vendors</option>
-              <option value="venue">Venues</option>
-              <option value="photographer">Photographers</option>
-              <option value="catering">Catering</option>
-              <option value="florist">Florists</option>
-              <option value="music">Music & Entertainment</option>
-              <option value="makeup">Hair & Makeup</option>
-            </select>
-          </div>
-          <div className="flex-1 px-4 py-3 border-r">
-            <p className="text-xs font-semibold">When</p>
-            <input
-              type="text"
-              placeholder="DD/MM/YYYY"
-              value={weddingDate}
-              onChange={(e) => setWeddingDate(e.target.value)}
-              className="w-full text-sm outline-none"
-            />
-          </div>
-          <div className="flex-1 px-4 py-3 border-r">
-            <p className="text-xs font-semibold">Guests</p>
-            <input
-              type="text"
-              placeholder="Number of guests"
-              value={guestCount}
-              onChange={(e) => setGuestCount(e.target.value)}
-              className="w-full text-sm outline-none"
-            />
-          </div>
-          <button
-            onClick={handleSearch}
-            className="bg-blue-500 text-white rounded-full p-4 m-1 hover:bg-blue-600 transition-colors"
-          >
-            <ArrowRight className="w-5 h-5" />
-          </button>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
