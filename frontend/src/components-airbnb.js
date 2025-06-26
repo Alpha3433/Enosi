@@ -262,7 +262,7 @@ export const PopularDestinations = () => {
   ];
 
   return (
-    <section className="container mx-auto px-10 mt-20">
+    <section className="container mx-auto px-10 mt-8">
       <h3 className="text-lg font-semibold mb-5">Popular Wedding destinations</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
         {/* Sydney - Large card */}
