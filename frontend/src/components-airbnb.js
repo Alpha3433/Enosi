@@ -341,7 +341,7 @@ export const PopularDestinations = () => {
   );
 };
 
-// Hotels Section
+// Hotels Section - Exact match to provided design
 export const HotelsLovedByGuests = () => {
   const hotels = [
     {
@@ -352,9 +352,9 @@ export const HotelsLovedByGuests = () => {
       image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
     },
     {
-      name: 'Hotel Norrebro',
+      name: 'Hotel Nørrebro',
       location: 'Copenhagen',
-      rating: 9.5,
+      rating: 9.6,
       price: 180,
       image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
     },
@@ -368,14 +368,14 @@ export const HotelsLovedByGuests = () => {
     {
       name: 'Three Quarters Hotel',
       location: 'Stockholm',
-      rating: 9.0,
+      rating: 9.5,
       price: 130,
       image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
     },
     {
       name: "Surf'n'Turf Suites",
       location: 'Lisbon',
-      rating: 8.8,
+      rating: 8.4,
       price: 70,
       image: 'https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
     },
@@ -384,29 +384,40 @@ export const HotelsLovedByGuests = () => {
   return (
     <section className="container mx-auto px-10 mt-10">
       <h3 className="text-lg font-semibold mb-5">Hotels loved by guests</h3>
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      
+      {/* Horizontal scrollable container */}
+      <div className="flex space-x-4 overflow-x-auto pb-2">
         {hotels.map((hotel, index) => (
-          <div key={index} className="relative">
-            <div className="relative rounded-lg overflow-hidden h-[150px] mb-2 group">
+          <div key={index} className="flex-shrink-0 w-64 group cursor-pointer">
+            {/* Image container */}
+            <div className="relative mb-3">
               <img
                 src={hotel.image}
                 alt={hotel.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-48 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute top-2 left-2 bg-white rounded-full px-2 py-1 text-xs font-bold">
-                {hotel.rating}
+              
+              {/* Rating badge - top left */}
+              <div className="absolute top-3 left-3">
+                <div className="bg-teal-600 text-white px-2 py-1 rounded-md text-xs font-bold">
+                  {hotel.rating}
+                </div>
               </div>
-              <button className="absolute top-2 right-2 bg-white rounded-full p-1 hover:bg-gray-100 transition-colors">
+              
+              {/* Heart icon - top right */}
+              <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
                 <Heart className="w-4 h-4 text-gray-600" />
               </button>
             </div>
-            <h4 className="font-semibold">{hotel.name}</h4>
-            <p className="text-sm text-gray-500">{hotel.location}</p>
-            <div className="flex justify-between items-center mt-1">
-              <p className="text-sm">from ${hotel.price}/night</p>
-              <button className="text-gray-600 hover:text-gray-800 transition-colors">
-                <ChevronRight className="w-4 h-4" />
-              </button>
+            
+            {/* Hotel details */}
+            <div className="space-y-1">
+              <h4 className="font-semibold text-base text-gray-900 leading-tight">{hotel.name}</h4>
+              <p className="text-sm text-gray-500">{hotel.location}</p>
+              <div className="flex items-center justify-between pt-1">
+                <span className="text-sm font-medium text-gray-900">from ${hotel.price}/night</span>
+                <ChevronRight className="w-4 h-4 text-gray-400" />
+              </div>
             </div>
           </div>
         ))}
