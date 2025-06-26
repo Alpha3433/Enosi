@@ -2,26 +2,41 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
   ],
   theme: {
     extend: {
       fontFamily: {
-        'serif': ['Libre Baskerville', 'serif'],
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'sans': ['Open Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'title': ['Lato', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
-        'warm-beige': '#F2EDE3',
-        'warm-taupe': '#8D7F6F',
-        'warm-ivory': '#FFF8F0',
-        'olive-green': '#7A8354',
-        'terracotta': '#B1724C',
-        'charcoal': '#333333',
+        primary: {
+          50: '#f3f1ff',
+          100: '#e9e5ff',
+          200: '#d5cfff',
+          300: '#b7a9ff',
+          400: '#9478ff',
+          500: '#7341ff',
+          600: '#631bff',
+          700: '#611bf8',
+          800: '#4607d0',
+          900: '#3c08aa',
+          950: '#220174',
+          DEFAULT: '#611bf8',
+        },
       },
-      lineHeight: {
-        'relaxed': '1.6',
-      }
+      borderRadius: {
+        'none': '0px',
+        'sm': '6px',
+        'DEFAULT': '12px',
+        'md': '18px',
+        'lg': '24px',
+        'xl': '36px',
+        '2xl': '48px',
+        '3xl': '72px',
+        'full': '9999px',
+      },
     },
   },
   plugins: [],
-};
+}
