@@ -597,7 +597,7 @@ const SearchPage = () => {
         </div>
 
         {/* Main Content */}
-        <div className="md:col-span-9 p-6">
+        <div className="md:col-span-9 p-6" style={{ marginTop: '80px' }}>
           
           {/* Vendor List */}
           <div className="space-y-6">
