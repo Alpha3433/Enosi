@@ -20,8 +20,6 @@ const SearchPage = () => {
   });
 
   const [sortBy, setSortBy] = useState('relevance');
-  const [showSortDropdown, setShowSortDropdown] = useState(false);
-  const [showFiltersDropdown, setShowFiltersDropdown] = useState(false);
 
   const [vendors] = useState([
     {
