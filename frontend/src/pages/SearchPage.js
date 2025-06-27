@@ -602,7 +602,7 @@ const SearchPage = () => {
               if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
               if (filters.vendorType) parts.push(filters.vendorType);
               
-              return parts.length > 0 ? parts.join(', ') : 'Copenhagen, 9.-12. Dec, 2 guests, 1 room';
+              return parts.length > 0 ? parts.join(', ') : 'All locations, All dates, All guests, All vendors';
             })()}
           </div>
           <div 
@@ -615,7 +615,40 @@ const SearchPage = () => {
               marginBottom: '40px'
             }}
           >
-            Breakfast included
+            {(() => {
+              // Generate dynamic text based on user preferences
+              const preferences = [];
+              
+              if (filters.features.includes('Budget-friendly')) {
+                preferences.push('Budget-friendly options');
+              }
+              if (filters.features.includes('Premium packages')) {
+                preferences.push('Premium packages available');
+              }
+              if (filters.features.includes('Free consultation')) {
+                preferences.push('Free consultation included');
+              }
+              if (filters.features.includes('Same-day availability')) {
+                preferences.push('Same-day availability');
+              }
+              if (filters.priceRange) {
+                preferences.push(`Price range: ${filters.priceRange}`);
+              }
+              if (filters.rating && filters.rating !== 'Any') {
+                preferences.push(`${filters.rating} rated vendors`);
+              }
+              if (filters.vendorClass) {
+                preferences.push(`${filters.vendorClass} class vendors`);
+              }
+              
+              if (preferences.length > 0) {
+                return preferences[0]; // Show the first preference
+              } else if (filters.vendorType) {
+                return `${filters.vendorType} specialists available`;
+              } else {
+                return 'Wedding vendors available';
+              }
+            })()}
           </div>
         </div>
 
