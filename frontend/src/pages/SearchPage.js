@@ -118,17 +118,22 @@ const SearchPage = () => {
       {/* Header */}
       <header className="flex justify-between items-center px-10 py-4 border-b">
         <div className="flex items-center space-x-8">
-          <div 
+          <button 
+            onClick={() => navigate('/')}
             style={{
               color: '#030303',
               fontSize: '20px',
               fontFamily: 'Prompt',
               fontWeight: 500,
               lineHeight: '30px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: 0
             }}
           >
             Enosi
-          </div>
+          </button>
           <nav className="hidden md:flex space-x-6">
             <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors">Find Vendors</button>
             <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors">Inspiration</a>
