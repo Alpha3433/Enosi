@@ -354,34 +354,132 @@ const VendorDetailPage = () => {
 
       {/* Reviews Section */}
       <div className="container mx-auto px-9 mb-12">
-        <h2 className="text-2xl font-bold text-gray-900 mb-8 font-sans">Recent Reviews</h2>
-        <div className="space-y-6">
-          {vendor.reviews.map((review) => (
-            <div key={review.id} className="bg-gray-50 rounded-2xl p-6">
-              <div className="flex items-start space-x-4">
-                <img 
-                  src={review.avatar}
-                  alt={review.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-gray-900 font-sans">{review.name}</h4>
-                    <div className="flex items-center">
-                      {[...Array(5)].map((_, i) => (
-                        <Star 
-                          key={i} 
-                          className={`w-4 h-4 ${i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`} 
-                        />
-                      ))}
-                    </div>
-                  </div>
-                  <p className="text-sm text-gray-500 mb-2 font-sans">{review.date}</p>
-                  <p className="text-gray-700 font-sans">{review.comment}</p>
+        <h2 className="font-bold text-lg mb-6">Reviews</h2>
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          {/* Rating Summary */}
+          <div className="md:col-span-3">
+            <div className="flex items-center mb-6">
+              <div className="text-3xl font-bold mr-2">9.6</div>
+              <div className="text-lg">/10</div>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Service Quality</span>
+                  <span>10/10</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div className="bg-blue-500 h-2 rounded-full w-full"></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Venue/Equipment</span>
+                  <span>7/10</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div className="bg-blue-500 h-2 rounded-full w-[70%]"></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Location</span>
+                  <span>9/10</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div className="bg-blue-500 h-2 rounded-full w-[90%]"></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Experience</span>
+                  <span>8/10</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div className="bg-blue-500 h-2 rounded-full w-[80%]"></div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between text-sm mb-1">
+                  <span>Communication</span>
+                  <span>9/10</span>
+                </div>
+                <div className="w-full bg-gray-200 h-2 rounded-full">
+                  <div className="bg-blue-500 h-2 rounded-full w-[90%]"></div>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* Review List */}
+          <div className="md:col-span-9">
+            <div className="border-b pb-6 mb-6">
+              <div className="flex justify-between mb-2">
+                <div>
+                  <h3 className="font-medium">Perfect venue for our dream wedding!</h3>
+                  <p className="text-sm text-gray-600">Sarah & Michael</p>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-green-100 text-green-700 px-2 py-0.5 rounded-md text-xs mr-2">
+                    Excellent
+                  </div>
+                  <span className="font-bold">10</span>
+                </div>
+              </div>
+              <p className="text-sm mb-3">
+                Absolutely stunning venue with incredible service. Our wedding day was magical thanks to their amazing team!
+              </p>
+              <ul className="text-sm space-y-1 mb-3">
+                <li className="flex items-start">
+                  <span className="text-green-500 text-sm mr-1">+</span>
+                  <span>Beautiful garden setting</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 text-sm mr-1">+</span>
+                  <span>Professional coordination</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 text-sm mr-1">+</span>
+                  <span>Excellent catering service</span>
+                </li>
+              </ul>
+              <p className="text-xs text-gray-500 text-right">
+                Reviewed on 20 November 2024
+              </p>
+            </div>
+
+            <div>
+              <div className="flex justify-between mb-2">
+                <div>
+                  <h3 className="font-medium">Good venue but limited parking</h3>
+                  <p className="text-sm text-gray-600">Emma & James</p>
+                </div>
+                <div className="flex items-center">
+                  <div className="bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-md text-xs mr-2">
+                    Good
+                  </div>
+                  <span className="font-bold">7.2</span>
+                </div>
+              </div>
+              <p className="text-sm mb-3">
+                Beautiful venue with great service, but parking was challenging for our guests. Would recommend arranging transport.
+              </p>
+              <ul className="text-sm space-y-1 mb-3">
+                <li className="flex items-start">
+                  <span className="text-red-500 text-sm mr-1">-</span>
+                  <span>Limited parking spaces</span>
+                </li>
+              </ul>
+              <p className="text-xs text-gray-500 text-right">
+                Reviewed on 15 October 2024
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
