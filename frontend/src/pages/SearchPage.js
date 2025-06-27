@@ -103,6 +103,21 @@ const SearchPage = () => {
     }));
   };
 
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.dropdown-container')) {
+        setShowSortDropdown(false);
+        setShowFiltersDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
   const getRatingColor = (rating) => {
     if (rating >= 9.0) return 'bg-green-100 text-green-800';
     if (rating >= 8.0) return 'bg-blue-100 text-blue-800';
