@@ -719,40 +719,25 @@ const SearchPage = () => {
         </div>
       </div>
       
-      {/* Bottom Footer */}
-      <div 
-        style={{
-          width: '1440px',
-          height: '176px',
-          backgroundColor: '#f8f8f8',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexDirection: 'column',
-          gap: '8px'
-        }}
-      >
-        <div 
-          style={{
-            color: '#030303',
-            fontSize: '12px',
-            fontFamily: 'Prompt',
-            fontWeight: 300,
-            lineHeight: '16px',
-          }}
-        >
-          Your favorite wedding vendor booking experience since 1997!
-        </div>
-        <div 
-          style={{
-            color: '#858585',
-            fontSize: '12px',
-            fontFamily: 'Prompt',
-            fontWeight: 300,
-            lineHeight: '16px',
-          }}
-        >
-          Enosi © 2025
+      {/* Pagination Component */}
+      <div className="flex justify-center py-8">
+        <div className="flex items-center space-x-2">
+          <button className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-all duration-200">
+            1
+          </button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">
+            2
+          </button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">
+            3
+          </button>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">
+            4
+          </button>
+          <span className="text-gray-400 px-2">...</span>
+          <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">
+            25
+          </button>
         </div>
       </div>
     </div>
