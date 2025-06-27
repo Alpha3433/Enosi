@@ -204,3 +204,87 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
     </div>
   );
 };
+
+// Header Component - Updated design
+export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  return (
+    <header className="bg-white">
+      <div className="container mx-auto px-10 py-6 flex justify-between items-center">
+        <div className="flex items-center">
+          <h1 className="text-xl font-bold font-sans">Enosi</h1>
+        </div>
+        
+        <nav className="hidden md:flex space-x-6">
+          <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+            Find Vendors
+          </button>
+          <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+            Inspiration
+          </a>
+          <a href="#about" className="text-sm hover:text-blue-500 transition-colors font-sans">
+            About Us
+          </a>
+        </nav>
+
+        <div className="flex space-x-2">
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-3">
+              <div className="relative group">
+                <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                  <User className="h-4 w-4" />
+                  <span className="text-sm font-sans">{user?.first_name}</span>
+                </button>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-2">
+                    <button
+                      onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      onClick={() => {
+                        logout();
+                        navigate('/');
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate('/signup')}
+                className="border border-blue-500 text-blue-500 rounded-full px-4 py-1 text-sm hover:bg-blue-50 transition-colors font-sans"
+              >
+                Sign up
+              </button>
+              <button
+                onClick={() => navigate('/login')}
+                className="bg-blue-500 text-white rounded-full px-4 py-1 text-sm hover:bg-blue-600 transition-colors font-sans"
+              >
+                Log in
+              </button>
+            </>
+          )}
+        </div>
+
+        {/* Mobile menu button */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-2 text-gray-600"
+        >
+          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
+    </header>
+  );
+};
