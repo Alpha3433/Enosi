@@ -628,7 +628,7 @@ const SearchPage = () => {
               <div 
                 key={vendor.id} 
                 style={{
-                  width: '905px',
+                  width: '1050px',
                   height: '232px',
                   backgroundColor: '#ffffff',
                   borderRadius: '24px',
