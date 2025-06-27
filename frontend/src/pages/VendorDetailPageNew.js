@@ -483,7 +483,7 @@ const VendorDetailPage = () => {
                   <span className="font-bold">10</span>
                 </div>
               </div>
-              <p className="text-sm mb-3">
+              <p className="text-sm mb-3" style={{ textAlign: 'left' }}>
                 Absolutely stunning venue with incredible service. Our wedding day was magical thanks to their amazing team!
               </p>
               <ul className="text-sm space-y-1 mb-3">
