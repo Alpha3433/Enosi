@@ -532,25 +532,25 @@ export const PopularDestinations = () => {
   };
 
   return (
-    <section className="container mx-auto px-10 mt-8">
-      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding destinations</h3>
+    <section className="container mx-auto px-8 mt-6">
+      <h3 className="text-base font-semibold mb-4 text-left font-sans">Popular Wedding destinations</h3>
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {destinations.map((destination, index) => (
           <div 
             key={index} 
             onClick={() => handleDestinationClick(destination.name)}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            className="relative rounded-xl overflow-hidden cursor-pointer group p-1 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
           >
             <div className="aspect-square">
               <img
                 src={destination.image}
                 alt={destination.name}
-                className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
               />
             </div>
-            <div className="p-2">
-              <h3 className="text-sm font-medium text-gray-900 text-center font-sans group-hover:text-blue-600 transition-colors">
+            <div className="p-1">
+              <h3 className="text-xs font-medium text-gray-900 text-center font-sans group-hover:text-blue-600 transition-colors">
                 {destination.name}
               </h3>
             </div>
