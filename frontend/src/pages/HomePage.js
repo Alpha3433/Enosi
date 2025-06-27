@@ -4,6 +4,8 @@ import {
   AirbnbHeroSection,
   PopularDestinations,
   HotelsLovedByGuests,
+  FeaturedVenues,
+  TopRatedServices,
   NewsletterSection,
   Footer
 } from '../components-airbnb';
@@ -15,6 +17,8 @@ const HomePage = () => {
       <AirbnbHeroSection />
       <PopularDestinations />
       <HotelsLovedByGuests />
+      <FeaturedVenues />
+      <TopRatedServices />
       <NewsletterSection />
       <Footer />
     </div>
