@@ -180,41 +180,78 @@ const SearchPage = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
 
-          <h2 className="text-lg font-medium mb-4">Your search</h2>
+          <h2 className="text-lg font-medium mb-6">Your search</h2>
           
-          <div className="space-y-6">
+          {/* Compact Search Form */}
+          <div className="space-y-4 mb-8">
+            {/* Location */}
             <div>
-              <h3 className="text-sm font-medium mb-2">Location</h3>
-              <div className="flex items-center">
-                <MapPin className="w-4 h-4 text-gray-500 mr-2" />
-                <span className="text-sm">{filters.location || 'Any location'}</span>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
+              <div className="relative">
+                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={filters.location}
+                  onChange={(e) => handleFilterChange('location', e.target.value)}
+                  placeholder="Search destinations"
+                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                />
               </div>
             </div>
-            
+
+            {/* Vendor Type */}
             <div>
-              <h3 className="text-sm font-medium mb-2">Wedding date</h3>
-              <div className="flex items-center">
-                <Calendar className="w-4 h-4 text-gray-500 mr-2" />
-                <span className="text-sm">{filters.weddingDate || 'Any date'}</span>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Vendor</label>
+              <div className="relative">
+                <select
+                  value={filters.vendorType}
+                  onChange={(e) => handleFilterChange('vendorType', e.target.value)}
+                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm appearance-none bg-white"
+                >
+                  <option value="">All Vendors</option>
+                  <option value="venue">Venues</option>
+                  <option value="photographer">Photographers</option>
+                  <option value="catering">Catering</option>
+                  <option value="florist">Florists</option>
+                  <option value="music">Music & Entertainment</option>
+                  <option value="makeup">Hair & Makeup</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
               </div>
             </div>
-            
+
+            {/* Wedding Date */}
             <div>
-              <h3 className="text-sm font-medium mb-2">Vendor type</h3>
-              <div className="flex items-center">
-                <span className="text-sm">{filters.vendorType || 'All vendors'}</span>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Wedding date</label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={filters.weddingDate}
+                  onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
+                  placeholder="DD/MM/YYYY"
+                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                />
               </div>
             </div>
-            
+
+            {/* Guest Count */}
             <div>
-              <h3 className="text-sm font-medium mb-2">Guest count</h3>
-              <div className="flex items-center">
-                <Users className="w-4 h-4 text-gray-500 mr-2" />
-                <span className="text-sm">{filters.guestCount || 'Any number'}</span>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Guests</label>
+              <div className="relative">
+                <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  value={filters.guestCount}
+                  onChange={(e) => handleFilterChange('guestCount', e.target.value)}
+                  placeholder="Number of guests"
+                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                />
               </div>
             </div>
-            
-            <button className="w-full py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+
+            {/* Search Button */}
+            <button className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium text-sm">
               Search
             </button>
           </div>
