@@ -369,11 +369,57 @@ const SearchPage = () => {
               })()}
             </h1>
             
-            <div className="flex justify-end">
-              <button className="flex items-center text-sm border rounded-lg px-3 py-2 hover:bg-gray-50 transition-colors">
-                Sort by
-                <ChevronDown className="w-4 h-4 ml-1" />
-              </button>
+            <div className="flex justify-end space-x-3">
+              {/* Filters Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setShowFiltersDropdown(!showFiltersDropdown)}
+                  className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
+                >
+                  <SlidersHorizontal className="w-4 h-4 mr-2" />
+                  Filters
+                  <ChevronDown className="w-4 h-4 ml-1" />
+                </button>
+                {showFiltersDropdown && (
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                    <div className="py-2">
+                      <div className="px-4 py-2 text-sm font-medium text-gray-700 border-b border-gray-100">Quick Filters</div>
+                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Free consultation</button>
+                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Same-day availability</button>
+                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Premium packages</button>
+                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Budget-friendly</button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sort Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => setShowSortDropdown(!showSortDropdown)}
+                  className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
+                >
+                  Sort by: {sortOptions.find(option => option.value === sortBy)?.label}
+                  <ChevronDown className="w-4 h-4 ml-1" />
+                </button>
+                {showSortDropdown && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
+                    <div className="py-2">
+                      {sortOptions.map((option) => (
+                        <button 
+                          key={option.value}
+                          onClick={() => handleSortChange(option.value)}
+                          className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
+                            sortBy === option.value ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
           
