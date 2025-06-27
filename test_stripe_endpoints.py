@@ -3,7 +3,7 @@ import json
 
 def test_subscription_tiers():
     """Test the subscription tiers endpoint"""
-    url = "https://4665e1cb-57c5-4afa-8c28-cdcf53af8f7d.preview.emergentagent.com/api/payments/subscription-tiers"
+    url = "https://5e432144-ca53-4700-9713-f8894bf9e665.preview.emergentagent.com/api/payments/subscription-tiers"
     
     print(f"Testing GET {url}")
     
