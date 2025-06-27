@@ -391,7 +391,16 @@ const SearchPage = () => {
           </div>
           
           {/* Filter Sections */}
-          <div className="space-y-8">
+          <div 
+            className="space-y-8"
+            style={{
+              width: '422px',
+              height: '722px',
+              backgroundColor: '#ffffff',
+              padding: '24px',
+              borderRadius: '8px'
+            }}
+          >
             <div>
               <div className="flex justify-between items-center mb-4">
                 <h2 
