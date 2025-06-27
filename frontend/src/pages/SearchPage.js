@@ -709,15 +709,6 @@ const SearchPage = () => {
               </div>
             ))}
           </div>
-          
-          {/* Footer */}
-          <div className="mt-12 text-left text-sm text-gray-600">
-            <p className="mb-1">Help</p>
-            <p className="mb-1">FAQ</p>
-            <p className="mb-1">Customer service</p>
-            <p className="mb-1">How to guide</p>
-            <p className="mb-1">Contact us</p>
-          </div>
         </div>
       </div>
     </div>
