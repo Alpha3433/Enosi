@@ -594,81 +594,34 @@ const SearchPage = () => {
         {/* Main Content */}
         <div className="md:col-span-9 p-6">
           <div className="mb-6">
-            <div 
-              style={{
-                color: '#030303',
-                fontSize: '14px',
-                fontFamily: 'Prompt',
-                lineHeight: '22px',
-                marginBottom: '8px'
-              }}
-            >
-              20 filtered results for: Copenhagen, 9.-12. Dec, 2 guests, 1 room
-            </div>
-            <div 
-              style={{
-                color: '#030303',
-                fontSize: '24px',
-                fontFamily: 'Prompt',
-                fontWeight: 600,
-                lineHeight: '36px',
-                marginBottom: '24px'
-              }}
-            >
-              Breakfast included
-            </div>
-            
-            <div className="flex justify-end space-x-3">
-              {/* Filters Dropdown */}
-              <div className="relative dropdown-container">
-                <button 
-                  onClick={() => setShowFiltersDropdown(!showFiltersDropdown)}
-                  className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
-                >
-                  <SlidersHorizontal className="w-4 h-4 mr-2" />
-                  Filters
-                  <ChevronDown className="w-4 h-4 ml-1" />
-                </button>
-                {showFiltersDropdown && (
-                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
-                    <div className="py-2">
-                      <div className="px-4 py-2 text-sm font-medium text-gray-700 border-b border-gray-100">Quick Filters</div>
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Free consultation</button>
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Same-day availability</button>
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Premium packages</button>
-                      <button className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">Budget-friendly</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Sort Dropdown */}
-              <div className="relative dropdown-container">
-                <button 
-                  onClick={() => setShowSortDropdown(!showSortDropdown)}
-                  className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
-                >
-                  Sort by: {sortOptions.find(option => option.value === sortBy)?.label}
-                  <ChevronDown className="w-4 h-4 ml-1" />
-                </button>
-                {showSortDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-10">
-                    <div className="py-2">
-                      {sortOptions.map((option) => (
-                        <button 
-                          key={option.value}
-                          onClick={() => handleSortChange(option.value)}
-                          className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition-colors ${
-                            sortBy === option.value ? 'text-blue-600 bg-blue-50' : 'text-gray-700'
-                          }`}
-                        >
-                          {option.label}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+            <div className="flex justify-end">
+              <select 
+                style={{
+                  cursor: 'pointer',
+                  width: '128px',
+                  height: '36px',
+                  padding: '0px 8px',
+                  border: '1px solid #dedede',
+                  boxSizing: 'border-box',
+                  borderRadius: '100px',
+                  backgroundColor: '#ffffff',
+                  color: '#3a3a3a',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  lineHeight: '22px',
+                  outline: 'none',
+                  appearance: 'none'
+                }}
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <option value="" disabled hidden>  Sort by</option>
+                <option value="relevance">Relevance</option>
+                <option value="price-low-high">Price: Low to High</option>
+                <option value="price-high-low">Price: High to Low</option>
+                <option value="rating">Rating</option>
+                <option value="distance">Distance</option>
+              </select>
             </div>
           </div>
           
