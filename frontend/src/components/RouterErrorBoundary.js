@@ -65,7 +65,7 @@ class RouterErrorBoundary extends React.Component {
           <details style={{ whiteSpace: 'pre-wrap', marginTop: '10px' }}>
             <summary>Error Details (click to expand)</summary>
             <p><strong>Error:</strong> {this.state.error && this.state.error.toString()}</p>
-            <p><strong>Stack:</strong> {this.state.errorInfo.componentStack}</p>
+            <p><strong>Stack:</strong> {this.state.errorInfo && this.state.errorInfo.componentStack}</p>
           </details>
           <button 
             onClick={() => window.location.reload()}
