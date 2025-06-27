@@ -1078,28 +1078,47 @@ export const TopRatedServices = () => {
   );
 };
 
-// Newsletter Section - Updated design with circular icon on left
+// Newsletter Section - Updated design with circular icon on left and email capture
 export const NewsletterSection = () => {
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  
+  const handleEmailSubmit = (email) => {
+    console.log('Email submitted to mailing list:', email);
+    // Here you would typically send the email to your backend API
+    // For now, we'll just log it
+  };
+
   return (
-    <section className="container mx-auto px-10 mt-12 mb-10">
-      <div className="flex flex-col md:flex-row items-center justify-between bg-gray-50 rounded-2xl p-8">
-        <div className="flex items-center mb-6 md:mb-0">
-          <div className="text-4xl mr-6 flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full flex-shrink-0">
-            💰
+    <>
+      <section className="container mx-auto px-10 mt-12 mb-10">
+        <div className="flex flex-col md:flex-row items-center justify-between bg-gray-50 rounded-2xl p-8">
+          <div className="flex items-center mb-6 md:mb-0">
+            <div className="text-4xl mr-6 flex items-center justify-center w-20 h-20 bg-yellow-100 rounded-full flex-shrink-0">
+              💰
+            </div>
+            <div className="text-left">
+              <h4 className="font-bold text-lg text-gray-900 mb-2 font-sans">Pssst!</h4>
+              <p className="text-sm text-gray-600 mb-1 font-sans">Do you want to get secret offers and best prices for amazing stays?</p>
+              <p className="text-sm text-gray-600 font-sans">Sign up to join our Travel Club!</p>
+            </div>
           </div>
-          <div className="text-left">
-            <h4 className="font-bold text-lg text-gray-900 mb-2 font-sans">Pssst!</h4>
-            <p className="text-sm text-gray-600 mb-1 font-sans">Do you want to get secret offers and best prices for amazing stays?</p>
-            <p className="text-sm text-gray-600 font-sans">Sign up to join our Travel Club!</p>
+          <div className="flex-shrink-0">
+            <button 
+              onClick={() => setIsEmailModalOpen(true)}
+              className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium font-sans"
+            >
+              Sign up for newsletter
+            </button>
           </div>
         </div>
-        <div className="flex-shrink-0">
-          <button className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium font-sans">
-            Sign up for newsletter
-          </button>
-        </div>
-      </div>
-    </section>
+      </section>
+      
+      <EmailCaptureModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        onSubmit={handleEmailSubmit}
+      />
+    </>
   );
 };
 
