@@ -370,53 +370,63 @@ export const PopularDestinations = () => {
   );
 };
 
-// Hotels Section - Based on provided component design
+// Popular Wedding Vendors Section - Based on provided component design
 export const HotelsLovedByGuests = () => {
-  const hotels = [
+  const vendors = [
     {
-      name: 'Soho Hotel London',
-      location: 'London',
+      name: 'Bella Vista Venues',
+      location: 'Sydney',
       rating: 9.6,
-      price: 130,
-      image: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
+      price: 4500,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Venue'
     },
     {
-      name: 'Hotel Nørrebro',
-      location: 'Copenhagen',
-      rating: 9.6,
-      price: 180,
-      image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80',
+      name: 'Artisan Photography Co.',
+      location: 'Melbourne',
+      rating: 9.4,
+      price: 2800,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Photography'
     },
     {
-      name: 'Sunset Plaza Hotel',
-      location: 'Barcelona',
-      rating: 9.0,
-      price: 210,
-      image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'Gourmet Wedding Catering',
+      location: 'Brisbane',
+      rating: 9.2,
+      price: 85,
+      priceUnit: 'per person',
+      image: 'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Catering'
     },
     {
-      name: 'Three Quarters Hotel',
-      location: 'Stockholm',
+      name: 'Bloom & Co Florists',
+      location: 'Perth',
       rating: 9.5,
-      price: 130,
-      image: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      price: 1200,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Florist'
     },
     {
-      name: "Surf'n'Turf Suites",
-      location: 'Lisbon',
-      rating: 8.4,
-      price: 70,
-      image: 'https://images.unsplash.com/photo-1610641818989-c2051b5e2cfd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'Elite Wedding Band',
+      location: 'Adelaide',
+      rating: 8.9,
+      price: 1800,
+      priceUnit: 'night',
+      image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Music'
     },
   ];
 
   return (
     <section className="container mx-auto px-10 mt-10">
-      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Hotels loved by guests</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding Vendors</h3>
       
       {/* Horizontal scrollable container */}
       <div className="flex space-x-6 overflow-x-auto pb-4">
-        {hotels.map((hotel, index) => (
+        {vendors.map((vendor, index) => (
           <div 
             key={index} 
             className="flex-shrink-0 group cursor-pointer"
@@ -436,7 +446,7 @@ export const HotelsLovedByGuests = () => {
                 style={{
                   height: '184px',
                   borderRadius: '16px',
-                  backgroundImage: `url(${hotel.image})`,
+                  backgroundImage: `url(${vendor.image})`,
                   backgroundPosition: 'center center',
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
@@ -455,25 +465,28 @@ export const HotelsLovedByGuests = () => {
                     lineHeight: '16px',
                   }}
                 >
-                  {hotel.rating}
+                  {vendor.rating}
                 </button>
               </div>
               
-              {/* Heart icon - top right */}
-              <button 
-                className="absolute top-2 right-2 flex items-center justify-center border-0"
-                style={{
-                  width: '24px',
-                  height: '24px',
-                  borderRadius: '100px',
-                  backgroundColor: 'rgba(255,255,255,0.5)',
-                }}
-              >
-                <Heart className="w-3.5 h-3.5 text-white fill-white" />
-              </button>
+              {/* Category badge - top right */}
+              <div className="absolute top-2 right-2">
+                <span
+                  className="px-2 py-1 text-xs font-medium font-sans"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: 'rgba(59, 130, 246, 0.9)',
+                    color: 'white',
+                    fontSize: '11px',
+                    lineHeight: '14px',
+                  }}
+                >
+                  {vendor.category}
+                </span>
+              </div>
             </div>
             
-            {/* Hotel details */}
+            {/* Vendor details */}
             <div className="px-2 space-y-1">
               <h4 
                 className="font-normal leading-6 font-sans"
@@ -483,7 +496,7 @@ export const HotelsLovedByGuests = () => {
                   lineHeight: '24px',
                 }}
               >
-                {hotel.name}
+                {vendor.name}
               </h4>
               <p 
                 className="font-light font-sans"
@@ -494,7 +507,7 @@ export const HotelsLovedByGuests = () => {
                   lineHeight: '22px',
                 }}
               >
-                {hotel.location}
+                {vendor.location}
               </p>
               <div className="flex items-center justify-between pt-1">
                 <span 
@@ -506,7 +519,7 @@ export const HotelsLovedByGuests = () => {
                     lineHeight: '24px',
                   }}
                 >
-                  from ${hotel.price}/night
+                  from ${vendor.price}/{vendor.priceUnit}
                 </span>
                 <ChevronRight 
                   className="w-3.5 h-3.5"
