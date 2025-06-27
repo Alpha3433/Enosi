@@ -540,18 +540,29 @@ const SearchPage = () => {
         {/* Main Content */}
         <div className="md:col-span-9 p-6">
           <div className="mb-6">
-            <p className="text-sm text-gray-600 mb-1">{vendors.length} search results for</p>
-            <h1 className="text-xl font-bold mb-4">
-              {(() => {
-                const parts = [];
-                if (filters.location) parts.push(filters.location);
-                if (filters.weddingDate) parts.push(filters.weddingDate);
-                if (filters.vendorType) parts.push(filters.vendorType);
-                if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
-                
-                return parts.length > 0 ? parts.join(', ') : 'All Wedding Vendors';
-              })()}
-            </h1>
+            <div 
+              style={{
+                color: '#030303',
+                fontSize: '14px',
+                fontFamily: 'Prompt',
+                lineHeight: '22px',
+                marginBottom: '8px'
+              }}
+            >
+              20 filtered results for: Copenhagen, 9.-12. Dec, 2 guests, 1 room
+            </div>
+            <div 
+              style={{
+                color: '#030303',
+                fontSize: '24px',
+                fontFamily: 'Prompt',
+                fontWeight: 600,
+                lineHeight: '36px',
+                marginBottom: '24px'
+              }}
+            >
+              Breakfast included
+            </div>
             
             <div className="flex justify-end space-x-3">
               {/* Filters Dropdown */}
