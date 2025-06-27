@@ -512,6 +512,8 @@ export const AirbnbHeroSection = () => {
 
 // Popular Australian States with 6-card grid layout
 export const PopularDestinations = () => {
+  const navigate = useNavigate();
+  
   const destinations = [
     {
       name: 'New South Wales',
@@ -539,13 +541,23 @@ export const PopularDestinations = () => {
     },
   ];
 
+  const handleDestinationClick = (stateName) => {
+    const params = new URLSearchParams();
+    params.set('location', stateName);
+    navigate(`/search?${params.toString()}`);
+  };
+
   return (
     <section className="container mx-auto px-10 mt-8">
       <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding destinations</h3>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {destinations.map((destination, index) => (
-          <div key={index} className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+          <div 
+            key={index} 
+            onClick={() => handleDestinationClick(destination.name)}
+            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+          >
             <div className="aspect-square">
               <img
                 src={destination.image}
@@ -554,7 +566,7 @@ export const PopularDestinations = () => {
               />
             </div>
             <div className="p-2">
-              <h3 className="text-sm font-medium text-gray-900 text-center font-sans">
+              <h3 className="text-sm font-medium text-gray-900 text-center font-sans group-hover:text-blue-600 transition-colors">
                 {destination.name}
               </h3>
             </div>
