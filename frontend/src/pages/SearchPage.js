@@ -426,26 +426,26 @@ const SearchPage = () => {
           {/* Vendor List */}
           <div className="space-y-6">
             {vendors.map((vendor) => (
-              <div key={vendor.id} className="border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div key={vendor.id} className="border border-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 bg-white">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
                   <div className="md:col-span-3">
                     <img 
                       src={vendor.image}
                       alt={vendor.name}
-                      className="w-full h-48 md:h-full object-cover"
+                      className="w-full h-48 md:h-full object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
                   <div className="md:col-span-6 p-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-1">{vendor.name}</h2>
-                    <p className="text-sm text-gray-600 mb-3">{vendor.location}</p>
+                    <h2 className="text-lg font-bold text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">{vendor.name}</h2>
+                    <p className="text-sm text-gray-600 mb-3 flex items-center">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      {vendor.location}
+                    </p>
                     
                     <div className="flex flex-wrap gap-2 text-sm mb-4">
                       {vendor.features.map((feature, idx) => (
-                        <span key={feature} className="text-gray-600">
+                        <span key={feature} className="text-gray-600 bg-gray-50 px-2 py-1 rounded-full text-xs">
                           {feature}
-                          {idx < vendor.features.length - 1 && (
-                            <span className="mx-2 text-gray-400">•</span>
-                          )}
                         </span>
                       ))}
                     </div>
@@ -454,7 +454,10 @@ const SearchPage = () => {
                       <h3 className="font-medium text-gray-900 mb-2">{vendor.description}</h3>
                       <div className="space-y-1">
                         {vendor.details.map((detail, idx) => (
-                          <p key={idx} className="text-sm text-gray-600">{detail}</p>
+                          <p key={idx} className="text-sm text-gray-600 flex items-center">
+                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2 flex-shrink-0"></span>
+                            {detail}
+                          </p>
                         ))}
                       </div>
                     </div>
@@ -463,15 +466,15 @@ const SearchPage = () => {
                       {vendor.tags.map((tag) => (
                         <span 
                           key={tag}
-                          className="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-xs hover:bg-gray-200 transition-colors"
+                          className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs hover:bg-blue-100 transition-colors border border-blue-200"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <div className="md:col-span-3 p-6 flex flex-col justify-between">
-                    <div className="flex items-center justify-end mb-4">
+                  <div className="md:col-span-3 p-6 flex flex-col justify-between bg-gray-50/50">
+                    <div className="flex items-center justify-end mb-6">
                       <div className="text-right mr-3">
                         <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`}>
                           {vendor.ratingText}
@@ -488,10 +491,10 @@ const SearchPage = () => {
                         ${vendor.price.toLocaleString()}
                         {vendor.priceUnit && <span className="text-sm font-normal text-gray-500">/{vendor.priceUnit}</span>}
                       </div>
-                      <div className="text-sm text-gray-500 mb-4">Starting price</div>
+                      <div className="text-sm text-gray-500 mb-6">Starting price</div>
                       <button 
                         onClick={() => navigate(`/vendors/${vendor.id}`)}
-                        className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium text-sm"
+                        className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
                       >
                         View vendor details
                       </button>
