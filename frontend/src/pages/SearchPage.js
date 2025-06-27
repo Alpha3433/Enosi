@@ -1,20 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { useSearchParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
-import { 
-  Search, 
-  MapPin, 
-  Star, 
-  Heart, 
-  Filter,
-  SlidersHorizontal,
-  Grid,
-  List,
-  ArrowLeft
-} from 'lucide-react';
-import { Header, Footer } from '../components';
-import { vendorsAPI } from '../services/api';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ArrowLeft, ChevronDown, MapPin, Calendar, Users } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
