@@ -577,8 +577,341 @@ export const PopularDestinations = () => {
   );
 };
 
-// Popular Wedding Vendors Section - Based on provided component design
-export const HotelsLovedByGuests = () => {
+// Featured Venues Section
+export const FeaturedVenues = () => {
+  const venues = [
+    {
+      name: 'Riverstone Estate',
+      location: 'Yarra Valley, VIC',
+      rating: 9.8,
+      price: 8500,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Winery'
+    },
+    {
+      name: 'Coastal Cliff Manor',
+      location: 'Gold Coast, QLD',
+      rating: 9.7,
+      price: 12000,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Beachfront'
+    },
+    {
+      name: 'Garden Pavilion',
+      location: 'Adelaide Hills, SA',
+      rating: 9.5,
+      price: 6500,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Garden'
+    },
+    {
+      name: 'Heritage Ballroom',
+      location: 'Perth, WA',
+      rating: 9.4,
+      price: 9200,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1545479653-90e8e2f4ac82?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Historic'
+    },
+    {
+      name: 'Mountain View Lodge',
+      location: 'Blue Mountains, NSW',
+      rating: 9.3,
+      price: 7800,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Rustic'
+    },
+  ];
+
+  return (
+    <section className="container mx-auto px-10 mt-10">
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Featured Wedding Venues</h3>
+      
+      {/* Horizontal scrollable container */}
+      <div className="flex space-x-6 overflow-x-auto pb-4">
+        {venues.map((venue, index) => (
+          <div 
+            key={index} 
+            className="flex-shrink-0 group cursor-pointer"
+            style={{
+              width: '249px',
+              height: '294px',
+              backgroundColor: '#ffffff',
+              borderRadius: '20px',
+              boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+              padding: '8px'
+            }}
+          >
+            {/* Image container */}
+            <div className="relative mb-3">
+              <div
+                className="w-full h-46 rounded-2xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+                style={{
+                  height: '184px',
+                  borderRadius: '16px',
+                  backgroundImage: `url(${venue.image})`,
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              />
+              
+              {/* Rating badge - top left */}
+              <div className="absolute top-2 left-2">
+                <button
+                  className="px-2 py-1 border-0 text-xs font-medium font-sans"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: '#e1ffd7',
+                    color: '#009d52',
+                    fontSize: '12px',
+                    lineHeight: '16px',
+                  }}
+                >
+                  {venue.rating}
+                </button>
+              </div>
+              
+              {/* Category badge - top right */}
+              <div className="absolute top-2 right-2">
+                <span
+                  className="px-2 py-1 text-xs font-medium font-sans"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: 'rgba(147, 51, 234, 0.9)',
+                    color: 'white',
+                    fontSize: '11px',
+                    lineHeight: '14px',
+                  }}
+                >
+                  {venue.category}
+                </span>
+              </div>
+            </div>
+            
+            {/* Venue details */}
+            <div className="px-2 space-y-1">
+              <h4 
+                className="font-normal leading-6 font-sans"
+                style={{
+                  color: '#030303',
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                }}
+              >
+                {venue.name}
+              </h4>
+              <p 
+                className="font-light font-sans"
+                style={{
+                  color: '#858585',
+                  fontSize: '14px',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                }}
+              >
+                {venue.location}
+              </p>
+              <div className="flex items-center justify-between pt-1">
+                <span 
+                  className="font-semibold font-sans"
+                  style={{
+                    color: '#030303',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    lineHeight: '24px',
+                  }}
+                >
+                  from ${venue.price}/{venue.priceUnit}
+                </span>
+                <ChevronRight 
+                  className="w-3.5 h-3.5"
+                  style={{
+                    color: '#030303',
+                    fill: '#030303',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
+
+// Top Rated Services Section
+export const TopRatedServices = () => {
+  const services = [
+    {
+      name: 'Luxury Bridal Beauty',
+      location: 'Melbourne, VIC',
+      rating: 9.9,
+      price: 450,
+      priceUnit: 'service',
+      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Hair & Makeup'
+    },
+    {
+      name: 'Elegant Wedding Films',
+      location: 'Sydney, NSW',
+      rating: 9.8,
+      price: 3200,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Videography'
+    },
+    {
+      name: 'Premium Transport Co.',
+      location: 'Brisbane, QLD',
+      rating: 9.6,
+      price: 280,
+      priceUnit: 'hour',
+      image: 'https://images.unsplash.com/photo-1563694983011-6f4d90358083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Transport'
+    },
+    {
+      name: 'Sweet Celebrations',
+      location: 'Perth, WA',
+      rating: 9.7,
+      price: 650,
+      priceUnit: 'cake',
+      image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Cakes'
+    },
+    {
+      name: 'Formal Attire Boutique',
+      location: 'Adelaide, SA',
+      rating: 9.5,
+      price: 2200,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1594736797933-d0e501ba2fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Attire'
+    },
+  ];
+
+  return (
+    <section className="container mx-auto px-10 mt-10">
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Top Rated Services</h3>
+      
+      {/* Horizontal scrollable container */}
+      <div className="flex space-x-6 overflow-x-auto pb-4">
+        {services.map((service, index) => (
+          <div 
+            key={index} 
+            className="flex-shrink-0 group cursor-pointer"
+            style={{
+              width: '249px',
+              height: '294px',
+              backgroundColor: '#ffffff',
+              borderRadius: '20px',
+              boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+              padding: '8px'
+            }}
+          >
+            {/* Image container */}
+            <div className="relative mb-3">
+              <div
+                className="w-full h-46 rounded-2xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+                style={{
+                  height: '184px',
+                  borderRadius: '16px',
+                  backgroundImage: `url(${service.image})`,
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }}
+              />
+              
+              {/* Rating badge - top left */}
+              <div className="absolute top-2 left-2">
+                <button
+                  className="px-2 py-1 border-0 text-xs font-medium font-sans"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: '#e1ffd7',
+                    color: '#009d52',
+                    fontSize: '12px',
+                    lineHeight: '16px',
+                  }}
+                >
+                  {service.rating}
+                </button>
+              </div>
+              
+              {/* Category badge - top right */}
+              <div className="absolute top-2 right-2">
+                <span
+                  className="px-2 py-1 text-xs font-medium font-sans"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: 'rgba(239, 68, 68, 0.9)',
+                    color: 'white',
+                    fontSize: '11px',
+                    lineHeight: '14px',
+                  }}
+                >
+                  {service.category}
+                </span>
+              </div>
+            </div>
+            
+            {/* Service details */}
+            <div className="px-2 space-y-1">
+              <h4 
+                className="font-normal leading-6 font-sans"
+                style={{
+                  color: '#030303',
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                }}
+              >
+                {service.name}
+              </h4>
+              <p 
+                className="font-light font-sans"
+                style={{
+                  color: '#858585',
+                  fontSize: '14px',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                }}
+              >
+                {service.location}
+              </p>
+              <div className="flex items-center justify-between pt-1">
+                <span 
+                  className="font-semibold font-sans"
+                  style={{
+                    color: '#030303',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    lineHeight: '24px',
+                  }}
+                >
+                  from ${service.price}/{service.priceUnit}
+                </span>
+                <ChevronRight 
+                  className="w-3.5 h-3.5"
+                  style={{
+                    color: '#030303',
+                    fill: '#030303',
+                    fontSize: '14px',
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
   const vendors = [
     {
       name: 'Bella Vista Venues',
