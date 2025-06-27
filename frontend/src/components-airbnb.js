@@ -122,13 +122,56 @@ export const AirbnbHeroSection = () => {
   const [searchCategory, setSearchCategory] = useState('');
   const [weddingDate, setWeddingDate] = useState('');
   const [guestCount, setGuestCount] = useState('');
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!searchLocation.trim()) {
+      newErrors.location = 'Please enter a location';
+    }
+    
+    if (!searchCategory) {
+      newErrors.vendor = 'Please select a vendor type';
+    }
+    
+    if (!weddingDate.trim()) {
+      newErrors.date = 'Please enter your wedding date';
+    }
+    
+    if (!guestCount.trim()) {
+      newErrors.guests = 'Please enter number of guests';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (searchCategory) params.set('category', searchCategory);
-    if (searchLocation) params.set('location', searchLocation);
-    navigate(`/search?${params.toString()}`);
+    if (validateForm()) {
+      // Clear any existing errors
+      setErrors({});
+      
+      // Navigate to search page with parameters
+      const params = new URLSearchParams();
+      params.set('location', searchLocation);
+      params.set('category', searchCategory);
+      params.set('date', weddingDate);
+      params.set('guests', guestCount);
+      
+      navigate(`/search?${params.toString()}`);
+    }
+  };
+
+  const clearError = (field) => {
+    if (errors[field]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   return (
@@ -159,9 +202,17 @@ export const AirbnbHeroSection = () => {
                 type="text"
                 placeholder="Search Destinations"
                 value={searchLocation}
-                onChange={(e) => setSearchLocation(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
+                onChange={(e) => {
+                  setSearchLocation(e.target.value);
+                  clearError('location');
+                }}
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                  errors.location ? 'text-red-500' : ''
+                }`}
               />
+              {errors.location && (
+                <p className="text-xs text-red-500 mt-1 font-sans">{errors.location}</p>
+              )}
             </div>
 
             {/* Divider */}
@@ -172,8 +223,13 @@ export const AirbnbHeroSection = () => {
               <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">Vendor</label>
               <select 
                 value={searchCategory}
-                onChange={(e) => setSearchCategory(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent text-gray-900 font-sans"
+                onChange={(e) => {
+                  setSearchCategory(e.target.value);
+                  clearError('vendor');
+                }}
+                className={`w-full text-sm outline-none border-0 bg-transparent font-sans ${
+                  errors.vendor ? 'text-red-500' : 'text-gray-900'
+                }`}
               >
                 <option value="">All Vendors</option>
                 <option value="venue">Venues</option>
@@ -183,6 +239,9 @@ export const AirbnbHeroSection = () => {
                 <option value="music">Music & Entertainment</option>
                 <option value="makeup">Hair & Makeup</option>
               </select>
+              {errors.vendor && (
+                <p className="text-xs text-red-500 mt-1 font-sans">{errors.vendor}</p>
+              )}
             </div>
 
             {/* Divider */}
@@ -195,9 +254,17 @@ export const AirbnbHeroSection = () => {
                 type="text"
                 placeholder="DD/MM/YYYY"
                 value={weddingDate}
-                onChange={(e) => setWeddingDate(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
+                onChange={(e) => {
+                  setWeddingDate(e.target.value);
+                  clearError('date');
+                }}
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                  errors.date ? 'text-red-500' : ''
+                }`}
               />
+              {errors.date && (
+                <p className="text-xs text-red-500 mt-1 font-sans">{errors.date}</p>
+              )}
             </div>
 
             {/* Divider */}
@@ -210,9 +277,17 @@ export const AirbnbHeroSection = () => {
                 type="text"
                 placeholder="Number of guests"
                 value={guestCount}
-                onChange={(e) => setGuestCount(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
+                onChange={(e) => {
+                  setGuestCount(e.target.value);
+                  clearError('guests');
+                }}
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                  errors.guests ? 'text-red-500' : ''
+                }`}
               />
+              {errors.guests && (
+                <p className="text-xs text-red-500 mt-1 font-sans">{errors.guests}</p>
+              )}
             </div>
 
             {/* Search Button */}
@@ -225,6 +300,15 @@ export const AirbnbHeroSection = () => {
               </button>
             </div>
           </div>
+          
+          {/* Error Summary */}
+          {Object.keys(errors).length > 0 && (
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600 font-sans">
+                Please fill in all required fields to search for vendors.
+              </p>
+            </div>
+          )}
         </div>
       </section>
     </>
