@@ -294,7 +294,7 @@ const VendorDetailPage = () => {
                 </span>
               </div>
 
-              <p className="text-gray-700 mb-6 font-sans leading-relaxed">{vendor.longDescription}</p>
+              <p className="text-gray-700 mb-6 font-sans leading-relaxed" style={{ textAlign: 'left' }}>{vendor.longDescription}</p>
 
               {/* Features */}
               <div className="mb-6">
