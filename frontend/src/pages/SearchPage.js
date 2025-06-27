@@ -689,28 +689,29 @@ const SearchPage = () => {
                     ))}
                   </div>
                 </div>
-                <div style={{ width: '200px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'rgba(248, 250, 252, 0.5)' }}>
-                  <div className="flex items-center justify-end mb-4">
-                    <div className="text-right mr-3">
-                      <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`}>
+                <div style={{ width: '200px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'rgba(248, 250, 252, 0.5)' }}>
+                  <div className="flex items-center justify-end mb-3">
+                    <div className="text-right mr-2">
+                      <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`} style={{ fontSize: '12px', lineHeight: '16px' }}>
                         {vendor.ratingText}
                       </div>
-                      <div className="text-xs text-gray-500">{vendor.reviewCount}</div>
+                      <div className="text-xs text-gray-500" style={{ fontSize: '10px', lineHeight: '12px' }}>{vendor.reviewCount}</div>
                     </div>
-                    <div className={`rounded-lg px-2 py-1 font-bold text-sm ${getRatingColor(vendor.rating)}`}>
+                    <div className={`rounded-lg px-2 py-1 font-bold text-sm ${getRatingColor(vendor.rating)}`} style={{ fontSize: '12px', padding: '4px 8px' }}>
                       {vendor.rating}
                     </div>
                   </div>
                   
                   <div className="text-right">
-                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                    <div className="font-bold text-gray-900 mb-1" style={{ fontSize: '20px', lineHeight: '24px' }}>
                       ${vendor.price.toLocaleString()}
-                      {vendor.priceUnit && <span className="text-sm font-normal text-gray-500">/{vendor.priceUnit}</span>}
+                      {vendor.priceUnit && <span className="text-sm font-normal text-gray-500" style={{ fontSize: '11px' }}>/{vendor.priceUnit}</span>}
                     </div>
-                    <div className="text-sm text-gray-500 mb-4">Starting price</div>
+                    <div className="text-sm text-gray-500 mb-3" style={{ fontSize: '10px', lineHeight: '12px' }}>Starting price</div>
                     <button 
                       onClick={() => navigate(`/vendors/${vendor.id}`)}
-                      className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
+                      className="w-full px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium"
+                      style={{ fontSize: '12px', padding: '8px 12px' }}
                     >
                       View vendor details
                     </button>
