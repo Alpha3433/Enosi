@@ -393,7 +393,44 @@ const SearchPage = () => {
           {/* Filter Sections */}
           <div className="space-y-8">
             <div>
-              <h2 className="text-lg font-medium mb-4">Popular filters</h2>
+              <div className="flex justify-between items-center mb-4">
+                <h2 
+                  className="text-lg"
+                  style={{
+                    color: '#030303',
+                    fontFamily: 'Prompt',
+                    fontWeight: 500,
+                    textAlign: 'left'
+                  }}
+                >
+                  Popular filters
+                </h2>
+                <div 
+                  style={{
+                    color: '#858585',
+                    fontSize: '14px',
+                    fontFamily: 'Prompt',
+                    fontWeight: 300,
+                    lineHeight: '22px',
+                    textAlign: 'right',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => {
+                    setFilters({
+                      location: searchParams.get('location') || '',
+                      vendorType: searchParams.get('category') || '',
+                      weddingDate: searchParams.get('date') || '',
+                      guestCount: searchParams.get('guests') || '',
+                      priceRange: '',
+                      rating: '',
+                      vendorClass: '',
+                      features: []
+                    });
+                  }}
+                >
+                  Reset
+                </div>
+              </div>
               <div className="space-y-3">
                 {['Budget-friendly', 'Premium packages', 'Free consultation', 'Same-day availability'].map((feature) => (
                   <label key={feature} className="flex items-center cursor-pointer">
@@ -410,7 +447,17 @@ const SearchPage = () => {
             </div>
             
             <div>
-              <h2 className="text-lg font-medium mb-4">Price range</h2>
+              <h2 
+                className="text-lg mb-4"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Price range
+              </h2>
               <div className="space-y-3">
                 {['Less than $1,000', '$1,000 to $2,500', '$2,500 to $5,000', '$5,000 and more'].map((range) => (
                   <label key={range} className="flex items-center cursor-pointer">
@@ -427,7 +474,17 @@ const SearchPage = () => {
             </div>
             
             <div>
-              <h2 className="text-lg font-medium mb-4">Vendor rating</h2>
+              <h2 
+                className="text-lg mb-4"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Vendor rating
+              </h2>
               <div className="space-y-3">
                 {['Any', 'Excellent', 'Very good', 'Good'].map((rating) => (
                   <label key={rating} className="flex items-center cursor-pointer">
@@ -444,7 +501,17 @@ const SearchPage = () => {
             </div>
             
             <div>
-              <h2 className="text-lg font-medium mb-4">Vendor class</h2>
+              <h2 
+                className="text-lg mb-4"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Vendor class
+              </h2>
               <div className="flex flex-wrap gap-2">
                 {['1 ★', '2 ★', '3 ★', '4 ★', '5 ★'].map((star) => (
                   <button 
