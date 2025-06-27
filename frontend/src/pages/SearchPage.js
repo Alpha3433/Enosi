@@ -331,13 +331,13 @@ const SearchPage = () => {
         {/* Results header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {filters.category ? `${filters.category} vendors` : 'Wedding vendors'}
-              {filters.location && ` in ${filters.location}`}
+            <p className="text-sm text-gray-600">{displayVendors?.length || 0} search results for</p>
+            <h1 className="text-xl font-bold">
+              {filters.location && `${filters.location}, `}
+              {filters.weddingDate && `${filters.weddingDate}, `}
+              {filters.guestCount && `${filters.guestCount}`}
+              {(!filters.location && !filters.weddingDate && !filters.guestCount) && 'All Wedding Vendors'}
             </h1>
-            <p className="text-gray-600 mt-1">
-              {displayVendors?.length || 0} vendors found
-            </p>
           </div>
         </div>
 
