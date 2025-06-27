@@ -539,48 +539,6 @@ const SearchPage = () => {
           </div>
         </div>
         
-        {/* Results Text Positioned Aligned with Your Search */}
-        <div 
-          style={{
-            position: 'absolute',
-            left: '440px',
-            top: '126px',
-            zIndex: 5
-          }}
-        >
-          <div 
-            style={{
-              color: '#030303',
-              fontSize: '14px',
-              fontFamily: 'Prompt',
-              lineHeight: '22px',
-              marginBottom: '8px'
-            }}
-          >
-            {vendors.length} filtered results for: {(() => {
-              const parts = [];
-              if (filters.location) parts.push(filters.location);
-              if (filters.weddingDate) parts.push(filters.weddingDate);
-              if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
-              if (filters.vendorType) parts.push(filters.vendorType);
-              
-              return parts.length > 0 ? parts.join(', ') : 'All locations, All dates, All guests, All vendors';
-            })()}
-          </div>
-          <div 
-            style={{
-              color: '#030303',
-              fontSize: '24px',
-              fontFamily: 'Prompt',
-              fontWeight: 600,
-              lineHeight: '36px',
-              marginBottom: '24px'
-            }}
-          >
-            Wedding Vendors Available
-          </div>
-        </div>
-
         {/* Main Content */}
         <div className="md:col-span-9 p-6">
           
