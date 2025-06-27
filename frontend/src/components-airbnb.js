@@ -296,6 +296,7 @@ export const AirbnbHeroSection = () => {
   const [weddingDate, setWeddingDate] = useState('');
   const [guestCount, setGuestCount] = useState('');
   const [errors, setErrors] = useState({});
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -345,6 +346,11 @@ export const AirbnbHeroSection = () => {
         return newErrors;
       });
     }
+  };
+
+  const handleDateSelect = (date) => {
+    setWeddingDate(date);
+    clearError('date');
   };
 
   return (
@@ -420,24 +426,40 @@ export const AirbnbHeroSection = () => {
             {/* Divider */}
             <div className="w-px h-12 bg-gray-200"></div>
 
-            {/* When */}
-            <div className="flex-1 px-4 py-2">
+            {/* When - with Calendar Dropdown */}
+            <div className="flex-1 px-4 py-2 relative">
               <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">When</label>
-              <input
-                type="text"
-                placeholder="DD/MM/YYYY"
-                value={weddingDate}
-                onChange={(e) => {
-                  setWeddingDate(e.target.value);
-                  clearError('date');
-                }}
-                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
-                  errors.date ? 'text-red-500' : ''
-                }`}
-              />
+              <div className="flex items-center">
+                <input
+                  type="text"
+                  placeholder="DD/MM/YYYY"
+                  value={weddingDate}
+                  onChange={(e) => {
+                    setWeddingDate(e.target.value);
+                    clearError('date');
+                  }}
+                  className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                    errors.date ? 'text-red-500' : ''
+                  }`}
+                  readOnly
+                />
+                <button
+                  type="button"
+                  onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                  className="ml-2 text-gray-400 hover:text-gray-600"
+                >
+                  <Calendar className="w-4 h-4" />
+                </button>
+              </div>
               {errors.date && (
                 <p className="text-xs text-red-500 mt-1 font-sans">{errors.date}</p>
               )}
+              <CalendarDropdown
+                isOpen={isCalendarOpen}
+                onClose={() => setIsCalendarOpen(false)}
+                onDateSelect={handleDateSelect}
+                selectedDate={weddingDate}
+              />
             </div>
 
             {/* Divider */}
