@@ -1052,91 +1052,100 @@ export const TopRatedServices = () => {
 
 // Newsletter Section with Email Capture
 export const NewsletterSection = () => {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   
-  const handleEmailSubmit = async (e) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-    
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Email submitted to mailing list:', email);
-      setIsSuccess(true);
-      setIsSubmitting(false);
-      
-      // Reset form after success
-      setTimeout(() => {
-        setIsSuccess(false);
-        setEmail('');
-      }, 3000);
-    }, 1000);
+  const handleEmailSubmit = (email) => {
+    console.log('Email submitted to mailing list:', email);
   };
 
   return (
-    <section className="container mx-auto px-9 mt-11 mb-9">
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-12 -mb-12"></div>
-        
-        <div className="relative z-10">
-          <div className="text-center mb-6">
-            <h3 className="text-2xl md:text-3xl font-bold mb-3 font-sans">
-              Join Our Wedding Club! 💍
-            </h3>
-            <p className="text-lg opacity-90 mb-1 font-sans">
-              Get exclusive access to secret offers, best prices, and amazing wedding vendor deals!
-            </p>
-          </div>
-          
-          {!isSuccess ? (
-            <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
-              <div className="flex flex-col sm:flex-row gap-3">
-                <div className="flex-1">
-                  <label className="block text-sm font-medium mb-2 font-sans opacity-90">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
-                    className="w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 border-0 focus:ring-2 focus:ring-white focus:ring-opacity-50 outline-none font-sans"
-                    required
-                  />
-                </div>
-                <div className="flex-shrink-0 sm:self-end">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full sm:w-auto bg-white text-blue-600 rounded-lg px-6 py-3 font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-sans whitespace-nowrap"
-                  >
-                    {isSubmitting ? 'Joining...' : 'Join Now'}
-                  </button>
-                </div>
-              </div>
-              <p className="text-xs opacity-75 mt-3 text-center font-sans">
-                No spam, just exclusive wedding deals and inspiration. Unsubscribe anytime.
-              </p>
-            </form>
-          ) : (
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500 rounded-full mb-4">
-                <CheckCircle className="w-8 h-8 text-white" />
-              </div>
-              <h4 className="text-xl font-bold mb-2 font-sans">Welcome to the Club!</h4>
-              <p className="opacity-90 font-sans">
-                You'll start receiving exclusive wedding deals and offers soon.
-              </p>
+    <>
+      <section className="container mx-auto px-9 mt-11 mb-9">
+        <div 
+          className="flex flex-col md:flex-row items-center justify-between"
+          style={{
+            width: '100%',
+            maxWidth: '1312px',
+            height: '92px',
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+            padding: '0 32px'
+          }}
+        >
+          <div className="flex items-center">
+            <div className="mr-6 flex items-center justify-center flex-shrink-0">
+              <svg 
+                style={{
+                  color: '#030303',
+                  fill: '#030303',
+                  fontSize: '48px',
+                  width: '48px',
+                  height: '48px',
+                }}
+                viewBox="0 0 576 512"
+              >
+                <path d="M271.06,144.3l54.27,14.3a8.59,8.59,0,0,1,6.63,8.1c0,4.6-4.09,8.4-9.12,8.4h-35.6a30,30,0,0,1-11.19-2.2c-5.24-2.2-11.28-1.7-15.3,2l-19,17.5a11.68,11.68,0,0,0-2.25,2.66,11.42,11.42,0,0,0,3.88,15.74,83.77,83.77,0,0,0,34.51,11.5V240c0,8.8,7.83,16,17.37,16h17.37c9.55,0,17.38-7.2,17.38-16V222.4c32.93-3.6,57.84-31,53.5-63-3.15-23-22.46-41.3-46.56-47.7L282.68,97.4a8.59,8.59,0,0,1-6.63-8.1c0-4.6,4.09-8.4,9.12-8.4h35.6A30,30,0,0,1,332,83.1c5.23,2.2,11.28,1.7,15.3-2l19-17.5A11.31,11.31,0,0,0,368.47,61a11.43,11.43,0,0,0-3.84-15.78,83.82,83.82,0,0,0-34.52-11.5V16c0-8.8-7.82-16-17.37-16H295.37C285.82,0,278,7.2,278,16V33.6c-32.89,3.6-57.85,31-53.51,63C227.63,119.6,247,137.9,271.06,144.3ZM565.27,328.1c-11.8-10.7-30.2-10-42.6,0L430.27,402a63.64,63.64,0,0,1-40,14H272a16,16,0,0,1,0-32h78.29c15.9,0,30.71-10.9,33.25-26.6a31.2,31.2,0,0,0,.46-5.46A32,32,0,0,0,352,320H192a117.66,117.66,0,0,0-74.1,26.29L71.4,384H16A16,16,0,0,0,0,400v96a16,16,0,0,0,16,16H372.77a64,64,0,0,0,40-14L564,377a32,32,0,0,0,1.28-48.9Z"></path>
+              </svg>
             </div>
-          )}
+            <div className="text-left">
+              <div 
+                style={{
+                  color: '#030303',
+                  fontSize: '16px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 600,
+                  lineHeight: '24px',
+                  marginBottom: '4px'
+                }}
+              >
+                Pssst!
+              </div>
+              <div 
+                style={{
+                  color: '#030303',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 300,
+                  lineHeight: '18px',
+                }}
+              >
+                Do you want to get secret offers and best prices for amazing stays?<br />
+                Sign up to join our Travel Club!
+              </div>
+            </div>
+          </div>
+          <div className="flex-shrink-0">
+            <button 
+              onClick={() => setIsEmailModalOpen(true)}
+              style={{
+                cursor: 'pointer',
+                width: '216px',
+                height: '38px',
+                padding: '0px 8px',
+                border: '1px solid #1d64ec',
+                boxSizing: 'border-box',
+                borderRadius: '100px',
+                backgroundColor: 'rgba(255,255,255,0)',
+                color: '#1d64ec',
+                fontSize: '14px',
+                fontFamily: 'Prompt',
+                lineHeight: '18px',
+                outline: 'none',
+              }}
+            >
+              Sign up for newsletter
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      
+      <EmailCaptureModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        onSubmit={handleEmailSubmit}
+      />
+    </>
   );
 };
 
