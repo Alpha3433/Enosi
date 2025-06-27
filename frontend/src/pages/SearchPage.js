@@ -610,79 +610,92 @@ const SearchPage = () => {
           {/* Vendor List */}
           <div className="space-y-6">
             {vendors.map((vendor) => (
-              <div key={vendor.id} className="border border-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 bg-white">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-0">
-                  <div className="md:col-span-3">
-                    <img 
-                      src={vendor.image}
-                      alt={vendor.name}
-                      className="w-full h-48 md:h-full object-cover transition-transform duration-300 hover:scale-105"
-                    />
+              <div 
+                key={vendor.id} 
+                style={{
+                  width: '905px',
+                  height: '232px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '24px',
+                  boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                  overflow: 'hidden',
+                  display: 'flex'
+                }}
+              >
+                <div style={{ width: '280px', height: '232px', flexShrink: 0 }}>
+                  <img 
+                    src={vendor.image}
+                    alt={vendor.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                  <h2 className="text-lg font-bold text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">{vendor.name}</h2>
+                  <p className="text-sm text-gray-600 mb-3 flex items-center">
+                    <MapPin className="w-3 h-3 mr-1" />
+                    {vendor.location}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 text-sm mb-4">
+                    {vendor.features.map((feature, idx) => (
+                      <span key={feature} className="text-gray-600 bg-gray-50 px-2 py-1 rounded-full text-xs">
+                        {feature}
+                      </span>
+                    ))}
                   </div>
-                  <div className="md:col-span-6 p-6">
-                    <h2 className="text-lg font-bold text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">{vendor.name}</h2>
-                    <p className="text-sm text-gray-600 mb-3 flex items-center">
-                      <MapPin className="w-3 h-3 mr-1" />
-                      {vendor.location}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2 text-sm mb-4">
-                      {vendor.features.map((feature, idx) => (
-                        <span key={feature} className="text-gray-600 bg-gray-50 px-2 py-1 rounded-full text-xs">
-                          {feature}
-                        </span>
+                  
+                  <div className="mb-4 flex-1">
+                    <h3 className="font-medium text-gray-900 mb-2">{vendor.description}</h3>
+                    <div className="space-y-1">
+                      {vendor.details.slice(0, 2).map((detail, idx) => (
+                        <p key={idx} className="text-sm text-gray-600 flex items-center">
+                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2 flex-shrink-0"></span>
+                          {detail}
+                        </p>
                       ))}
                     </div>
-                    
-                    <div className="mb-4">
-                      <h3 className="font-medium text-gray-900 mb-2">{vendor.description}</h3>
-                      <div className="space-y-1">
-                        {vendor.details.map((detail, idx) => (
-                          <p key={idx} className="text-sm text-gray-600 flex items-center">
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full mr-2 flex-shrink-0"></span>
-                            {detail}
-                          </p>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {vendor.tags.map((tag) => (
-                        <span 
-                          key={tag}
-                          className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs hover:bg-blue-100 transition-colors border border-blue-200"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
                   </div>
-                  <div className="md:col-span-3 p-6 flex flex-col justify-between bg-gray-50/50">
-                    <div className="flex items-center justify-end mb-6">
-                      <div className="text-right mr-3">
-                        <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`}>
-                          {vendor.ratingText}
-                        </div>
-                        <div className="text-xs text-gray-500">{vendor.reviewCount}</div>
-                      </div>
-                      <div className={`rounded-lg px-2 py-1 font-bold text-sm ${getRatingColor(vendor.rating)}`}>
-                        {vendor.rating}
-                      </div>
-                    </div>
-                    
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-gray-900 mb-1">
-                        ${vendor.price.toLocaleString()}
-                        {vendor.priceUnit && <span className="text-sm font-normal text-gray-500">/{vendor.priceUnit}</span>}
-                      </div>
-                      <div className="text-sm text-gray-500 mb-6">Starting price</div>
-                      <button 
-                        onClick={() => navigate(`/vendors/${vendor.id}`)}
-                        className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
+                  
+                  <div className="flex flex-wrap gap-2">
+                    {vendor.tags.map((tag) => (
+                      <span 
+                        key={tag}
+                        className="px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-xs hover:bg-blue-100 transition-colors border border-blue-200"
                       >
-                        View vendor details
-                      </button>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div style={{ width: '200px', padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'rgba(248, 250, 252, 0.5)' }}>
+                  <div className="flex items-center justify-end mb-4">
+                    <div className="text-right mr-3">
+                      <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`}>
+                        {vendor.ratingText}
+                      </div>
+                      <div className="text-xs text-gray-500">{vendor.reviewCount}</div>
                     </div>
+                    <div className={`rounded-lg px-2 py-1 font-bold text-sm ${getRatingColor(vendor.rating)}`}>
+                      {vendor.rating}
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    <div className="text-2xl font-bold text-gray-900 mb-1">
+                      ${vendor.price.toLocaleString()}
+                      {vendor.priceUnit && <span className="text-sm font-normal text-gray-500">/{vendor.priceUnit}</span>}
+                    </div>
+                    <div className="text-sm text-gray-500 mb-4">Starting price</div>
+                    <button 
+                      onClick={() => navigate(`/vendors/${vendor.id}`)}
+                      className="w-full px-4 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm"
+                    >
+                      View vendor details
+                    </button>
                   </div>
                 </div>
               </div>
