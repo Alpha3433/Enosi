@@ -350,25 +350,25 @@ export const AirbnbHeroSection = () => {
 
   return (
     <>
-      <section className="container mx-auto px-8 mt-2">
-        <div className="relative rounded-2xl overflow-hidden">
+      <section className="container mx-auto px-9 mt-2">
+        <div className="relative rounded-3xl overflow-hidden">
           <img
             src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
             alt="Wedding scene with guests"
-            className="w-full h-[240px] object-cover"
+            className="w-full h-[264px] object-cover"
           />
-          <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-3">
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 font-sans">Find Wedding Vendors You'll Love</h2>
-            <p className="text-base font-sans">Your perfect florist, DJ, and venue are just a click away</p>
+          <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-sans">Find Wedding Vendors You'll Love</h2>
+            <p className="text-lg font-sans">Your perfect florist, DJ, and venue are just a click away</p>
           </div>
         </div>
       </section>
 
-      <section className="container mx-auto px-8 relative -mt-6 mb-10 z-10">
-        <div className="bg-white rounded-full shadow-2xl p-5 max-w-4xl mx-auto">
+      <section className="container mx-auto px-9 relative -mt-7 mb-11 z-10">
+        <div className="bg-white rounded-full shadow-2xl p-6 max-w-5xl mx-auto">
           <div className="flex items-end space-x-1">
-            <div className="flex-1 px-3 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-1 font-sans">Location</label>
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Location</label>
               <input
                 type="text"
                 placeholder="Search Destinations"
@@ -377,7 +377,7 @@ export const AirbnbHeroSection = () => {
                   setSearchLocation(e.target.value);
                   clearError('location');
                 }}
-                className={`w-full text-xs outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
                   errors.location ? 'text-red-500' : ''
                 }`}
               />
@@ -386,17 +386,17 @@ export const AirbnbHeroSection = () => {
               )}
             </div>
 
-            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="w-px h-11 bg-gray-200"></div>
 
-            <div className="flex-1 px-3 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-1 font-sans">Vendor</label>
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Vendor</label>
               <select 
                 value={searchCategory}
                 onChange={(e) => {
                   setSearchCategory(e.target.value);
                   clearError('vendor');
                 }}
-                className={`w-full text-xs outline-none border-0 bg-transparent font-sans ${
+                className={`w-full text-sm outline-none border-0 bg-transparent font-sans ${
                   errors.vendor ? 'text-red-500' : 'text-gray-900'
                 }`}
               >
@@ -413,10 +413,10 @@ export const AirbnbHeroSection = () => {
               )}
             </div>
 
-            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="w-px h-11 bg-gray-200"></div>
 
-            <div className="flex-1 px-3 py-2 relative">
-              <label className="block text-xs font-semibold text-gray-700 mb-1 font-sans">When</label>
+            <div className="flex-1 px-4 py-2 relative">
+              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">When</label>
               <div className="flex items-center">
                 <input
                   type="text"
@@ -426,7 +426,7 @@ export const AirbnbHeroSection = () => {
                     setWeddingDate(e.target.value);
                     clearError('date');
                   }}
-                  className={`w-full text-xs outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                  className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
                     errors.date ? 'text-red-500' : ''
                   }`}
                   readOnly
@@ -434,9 +434,9 @@ export const AirbnbHeroSection = () => {
                 <button
                   type="button"
                   onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                  className="ml-1 text-gray-400 hover:text-gray-600"
+                  className="ml-2 text-gray-400 hover:text-gray-600"
                 >
-                  <Calendar className="w-3 h-3" />
+                  <Calendar className="w-4 h-4" />
                 </button>
               </div>
               {errors.date && (
@@ -450,10 +450,10 @@ export const AirbnbHeroSection = () => {
               />
             </div>
 
-            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="w-px h-11 bg-gray-200"></div>
 
-            <div className="flex-1 px-3 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-1 font-sans">Guests</label>
+            <div className="flex-1 px-4 py-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Guests</label>
               <input
                 type="text"
                 placeholder="Number of guests"
@@ -462,7 +462,7 @@ export const AirbnbHeroSection = () => {
                   setGuestCount(e.target.value);
                   clearError('guests');
                 }}
-                className={`w-full text-xs outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
                   errors.guests ? 'text-red-500' : ''
                 }`}
               />
@@ -474,16 +474,16 @@ export const AirbnbHeroSection = () => {
             <div className="flex-shrink-0 ml-2">
               <button
                 onClick={handleSearch}
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-3 transition-colors shadow-lg"
+                className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 transition-colors shadow-lg"
               >
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-5 h-5" />
               </button>
             </div>
           </div>
           
           {Object.keys(errors).length > 0 && (
-            <div className="mt-3 p-2 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-xs text-red-600 font-sans">
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600 font-sans">
                 Please fill in all required fields to search for vendors.
               </p>
             </div>
