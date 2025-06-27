@@ -446,7 +446,8 @@ const SearchPage = () => {
                     fontWeight: 300,
                     lineHeight: '22px',
                     textAlign: 'right',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    marginLeft: '-10px'
                   }}
                   onClick={() => {
                     setFilters({
