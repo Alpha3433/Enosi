@@ -21,547 +21,393 @@ const SearchPage = () => {
 
   const [vendors] = useState([
     {
-      id: 'mock-1',
-      business_name: 'Eternal Moments Photography',
-      category: 'photographer',
-      description: 'Capturing love stories with artistic vision and professional excellence. Specializing in romantic, candid, and traditional wedding photography.',
-      location: 'Sydney, NSW',
-      service_areas: ['Sydney', 'Blue Mountains', 'Central Coast'],
-      pricing_from: 1200,
-      pricing_to: 3500,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.unsplash.com/photo-1606490194859-07c18c9f0968',
-        'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
-        'https://images.unsplash.com/photo-1639259621742-90f4c0cf5a16'
-      ],
-      average_rating: 4.9,
-      total_reviews: 156,
-      verified: true,
-      featured: true,
-      years_experience: 8,
-      team_size: 2,
-      website: 'https://eternalmoments.com.au',
-      instagram: '@eternalmomentsphotography'
+      id: 1,
+      name: 'Elegant Garden Venues',
+      type: 'Venue',
+      location: '0.4 km from city center',
+      features: ['Free consultation', 'Wedding planning included'],
+      description: 'Premium wedding venue',
+      details: ['Capacity for 200 guests', 'Garden & indoor options', 'Full catering kitchen'],
+      tags: ['#popular', '#outdoor'],
+      rating: 9.6,
+      ratingText: 'Excellent',
+      reviewCount: '1,020 reviews',
+      price: 3500,
+      image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
-      id: 'mock-2',
-      business_name: 'Garden Grove Venues',
-      category: 'venue',
-      description: 'Stunning outdoor and indoor wedding venues with lush gardens, elegant pavilions, and breathtaking views.',
-      location: 'Melbourne, VIC',
-      service_areas: ['Melbourne', 'Yarra Valley', 'Mornington Peninsula'],
-      pricing_from: 2500,
-      pricing_to: 8000,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.unsplash.com/photo-1578730169862-749bbdc763a8',
-        'https://images.unsplash.com/photo-1606490194859-07c18c9f0968'
-      ],
-      average_rating: 4.8,
-      total_reviews: 89,
-      verified: true,
-      featured: true,
-      years_experience: 12,
-      team_size: 8
+      id: 2,
+      name: 'Artisan Photography Studio',
+      type: 'Photography',
+      location: '1.7 km from city center',
+      features: ['Free engagement session'],
+      description: 'Professional wedding photography',
+      details: ['8-hour coverage', 'Online gallery included', '500+ edited photos'],
+      tags: ['#highly-rated'],
+      rating: 9.2,
+      ratingText: 'Very good',
+      reviewCount: '832 reviews',
+      price: 2800,
+      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
-      id: 'mock-3',
-      business_name: 'Bloom & Blossom Florists',
-      category: 'florist',
-      description: 'Creating magical floral designs for your special day. From bridal bouquets to ceremony decorations.',
-      location: 'Brisbane, QLD',
-      service_areas: ['Brisbane', 'Gold Coast', 'Sunshine Coast'],
-      pricing_from: 350,
-      pricing_to: 1500,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.unsplash.com/photo-1593471682521-5354d03150da'
-      ],
-      average_rating: 4.9,
-      total_reviews: 124,
-      verified: true,
-      featured: false,
-      years_experience: 6,
-      team_size: 3
+      id: 3,
+      name: 'Gourmet Wedding Catering',
+      type: 'Catering',
+      location: '2.0 km from city center',
+      features: ['Menu tasting included'],
+      description: 'Fine dining wedding catering',
+      details: ['3-course plated dinner', 'Vegetarian options', 'Professional service staff'],
+      tags: ['#popular'],
+      rating: 8.0,
+      ratingText: 'Good',
+      reviewCount: '1,000 reviews',
+      price: 85,
+      priceUnit: 'per person',
+      image: 'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     },
     {
-      id: 'mock-4',
-      business_name: 'Harmony Strings Music',
-      category: 'music',
-      description: 'Professional musicians providing elegant ceremony and reception music. String quartets, solo artists, and bands.',
-      location: 'Perth, WA',
-      service_areas: ['Perth', 'Fremantle', 'Swan Valley'],
-      pricing_from: 400,
-      pricing_to: 1200,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.unsplash.com/photo-1635612445702-1891217d4a30'
-      ],
-      average_rating: 4.7,
-      total_reviews: 67,
-      verified: true,
-      featured: false,
-      years_experience: 10,
-      team_size: 4
-    },
-    {
-      id: 'mock-5',
-      business_name: 'Gourmet Catering Co',
-      category: 'catering',
-      description: 'Exquisite wedding catering with fresh, local ingredients. Custom menus for every taste and dietary requirement.',
-      location: 'Adelaide, SA',
-      service_areas: ['Adelaide', 'Barossa Valley', 'Adelaide Hills'],
-      pricing_from: 45,
-      pricing_to: 120,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.unsplash.com/photo-1552617911-83473ac6204b'
-      ],
-      average_rating: 4.8,
-      total_reviews: 203,
-      verified: true,
-      featured: true,
-      years_experience: 15,
-      team_size: 12
-    },
-    {
-      id: 'mock-6',
-      business_name: 'Glamour Beauty Studio',
-      category: 'makeup',
-      description: 'Professional bridal hair and makeup services. Creating stunning looks for your special day.',
-      location: 'Gold Coast, QLD',
-      service_areas: ['Gold Coast', 'Brisbane', 'Byron Bay'],
-      pricing_from: 300,
-      pricing_to: 800,
-      pricing_type: 'range',
-      gallery_images: [
-        'https://images.pexels.com/photos/3434997/pexels-photo-3434997.jpeg'
-      ],
-      average_rating: 4.9,
-      total_reviews: 98,
-      verified: true,
-      featured: false,
-      years_experience: 7,
-      team_size: 5
+      id: 4,
+      name: 'Bella Rosa Florists',
+      type: 'Florist',
+      location: '2.2 km from city center',
+      features: ['Same-day delivery'],
+      description: 'Custom wedding florals',
+      details: ['Bridal bouquet', 'Ceremony arrangements', 'Reception centerpieces'],
+      tags: ['#popular', '#same-day'],
+      rating: 6.3,
+      ratingText: 'Average',
+      reviewCount: '200 reviews',
+      price: 1200,
+      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     }
-  ];
+  ]);
 
-  // Use mock data if no real vendors are returned
-  const displayVendors = vendors?.data?.length > 0 ? vendors.data : 
-    mockVendors.filter(vendor => {
-      const matchesCategory = !filters.category || vendor.category === filters.category;
-      const matchesLocation = !filters.location || 
-        vendor.location.toLowerCase().includes(filters.location.toLowerCase()) ||
-        vendor.service_areas.some(area => area.toLowerCase().includes(filters.location.toLowerCase()));
-      const matchesRating = !filters.min_rating || vendor.average_rating >= parseFloat(filters.min_rating);
-      const matchesFeatured = !filters.featured_only || vendor.featured;
-      
-      return matchesCategory && matchesLocation && matchesRating && matchesFeatured;
-    });
-
-  const updateFilters = (newFilters) => {
-    setFilters(prev => ({ ...prev, ...newFilters }));
-    
-    // Update URL params
-    const params = new URLSearchParams();
-    Object.entries({ ...filters, ...newFilters }).forEach(([key, value]) => {
-      if (value) params.set(key, value);
-    });
-    setSearchParams(params);
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
   };
 
-  const clearFilters = () => {
-    setFilters({
-      category: '',
-      location: '',
-      min_rating: '',
-      featured_only: false,
-      price_range: ''
-    });
-    setSearchParams({});
+  const handleFeatureToggle = (feature) => {
+    setFilters(prev => ({
+      ...prev,
+      features: prev.features.includes(feature)
+        ? prev.features.filter(f => f !== feature)
+        : [...prev.features, feature]
+    }));
+  };
+
+  const getRatingColor = (rating) => {
+    if (rating >= 9.0) return 'bg-green-100 text-green-800';
+    if (rating >= 8.0) return 'bg-blue-100 text-blue-800';
+    return 'bg-yellow-100 text-yellow-800';
+  };
+
+  const getRatingTextColor = (ratingText) => {
+    if (ratingText === 'Excellent') return 'text-green-600';
+    if (ratingText === 'Very good' || ratingText === 'Good') return 'text-blue-600';
+    return 'text-yellow-600';
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      {/* Search Header */}
-      <div className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <Link to="/" className="flex items-center text-gray-600 hover:text-rose-600">
-              <ArrowLeft className="h-5 w-5 mr-2" />
-              Back to home
-            </Link>
-            
-            {/* Search bar */}
-            <div className="flex-1 max-w-2xl mx-8">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search vendors..."
-                  value={filters.location}
-                  onChange={(e) => updateFilters({ location: e.target.value })}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                />
+    <div className="min-h-screen bg-white font-sans" style={{ fontFamily: 'Prompt, sans-serif' }}>
+      {/* Header */}
+      <header className="flex justify-between items-center px-10 py-4 border-b">
+        <div className="flex items-center space-x-8">
+          <h1 className="text-xl font-bold">Enosi</h1>
+          <nav className="hidden md:flex space-x-6">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors">Find Vendors</button>
+            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors">Inspiration</a>
+            <a href="#about" className="text-sm hover:text-blue-500 transition-colors">About Us</a>
+          </nav>
+        </div>
+        <div className="flex space-x-3">
+          {isAuthenticated ? (
+            <div className="flex items-center space-x-3">
+              <div className="relative group">
+                <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                  <span className="text-sm">{user?.first_name}</span>
+                </button>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="py-2">
+                    <button
+                      onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      onClick={() => {
+                        logout();
+                        navigate('/');
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* View controls */}
-            <div className="flex items-center space-x-2">
-
-              
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/signup')}
+                className="px-4 py-1.5 text-sm border border-blue-500 text-blue-500 rounded-full hover:bg-blue-50 transition-colors"
               >
-                <SlidersHorizontal className="h-4 w-4 mr-2" />
-                Filters
+                Sign up
               </button>
-              
-              <div className="flex border border-gray-300 rounded-lg">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 ${viewMode === 'grid' ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
-                >
-                  <Grid className="h-4 w-4" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 ${viewMode === 'list' ? 'bg-gray-100' : 'hover:bg-gray-50'}`}
-                >
-                  <List className="h-4 w-4" />
-                </button>
+              <button 
+                onClick={() => navigate('/login')}
+                className="px-4 py-1.5 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
+              >
+                Log in
+              </button>
+            </>
+          )}
+        </div>
+      </header>
+
+      <div className="grid grid-cols-1 md:grid-cols-12">
+        {/* Sidebar */}
+        <div className="md:col-span-3 border-r p-6">
+          <button 
+            onClick={() => navigate('/')}
+            className="mb-6 hover:text-blue-500 transition-colors flex items-center"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+
+          <h2 className="text-lg font-medium mb-4">Your search</h2>
+          
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-sm font-medium mb-2">Location</h3>
+              <div className="flex items-center">
+                <MapPin className="w-4 h-4 text-gray-500 mr-2" />
+                <span className="text-sm">{filters.location || 'Any location'}</span>
               </div>
             </div>
+            
+            <div>
+              <h3 className="text-sm font-medium mb-2">Wedding date</h3>
+              <div className="flex items-center">
+                <Calendar className="w-4 h-4 text-gray-500 mr-2" />
+                <span className="text-sm">{filters.weddingDate || 'Any date'}</span>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-sm font-medium mb-2">Vendor type</h3>
+              <div className="flex items-center">
+                <span className="text-sm">{filters.vendorType || 'All vendors'}</span>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-sm font-medium mb-2">Guest count</h3>
+              <div className="flex items-center">
+                <Users className="w-4 h-4 text-gray-500 mr-2" />
+                <span className="text-sm">{filters.guestCount || 'Any number'}</span>
+              </div>
+            </div>
+            
+            <button className="w-full py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors">
+              Search
+            </button>
+          </div>
+          
+          <div className="mt-8 space-y-6">
+            <div>
+              <h2 className="text-lg font-medium mb-4">Popular filters</h2>
+              <div className="space-y-2">
+                {['Budget-friendly', 'Premium packages', 'Free consultation', 'Same-day availability'].map((feature) => (
+                  <label key={feature} className="flex items-center">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={filters.features.includes(feature)}
+                      onChange={() => handleFeatureToggle(feature)}
+                    />
+                    <span className="text-sm">{feature}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-medium mb-4">Price range</h2>
+              <div className="space-y-2">
+                {['Less than $1,000', '$1,000 to $2,500', '$2,500 to $5,000', '$5,000 and more'].map((range) => (
+                  <label key={range} className="flex items-center">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={filters.priceRange === range}
+                      onChange={() => handleFilterChange('priceRange', range)}
+                    />
+                    <span className="text-sm">{range}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-medium mb-4">Vendor rating</h2>
+              <div className="space-y-2">
+                {['Any', 'Excellent', 'Very good', 'Good'].map((rating) => (
+                  <label key={rating} className="flex items-center">
+                    <input 
+                      type="checkbox" 
+                      className="mr-2"
+                      checked={filters.rating === rating}
+                      onChange={() => handleFilterChange('rating', rating)}
+                    />
+                    <span className="text-sm">{rating}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+            
+            <div>
+              <h2 className="text-lg font-medium mb-4">Vendor class</h2>
+              <div className="flex space-x-2">
+                {['1 ★', '2 ★', '3 ★', '4 ★', '5 ★'].map((star) => (
+                  <button 
+                    key={star}
+                    className="px-3 py-1 border rounded-full text-sm hover:bg-gray-50 transition-colors"
+                    onClick={() => handleFilterChange('vendorClass', star)}
+                  >
+                    {star}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-10">
+            <h2 className="text-lg font-medium">Enosi</h2>
+            <p className="text-xs text-gray-600">Your favorite wedding vendor booking experience since 1997!</p>
+            <p className="text-xs text-gray-400 mt-6">Enosi © 2025</p>
           </div>
         </div>
-      </div>
-
-      {/* Filters Panel */}
-      {showFilters && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
-          className="bg-white border-b"
-        >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select
-                  value={filters.category}
-                  onChange={(e) => updateFilters({ category: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500"
-                >
-                  <option value="">All categories</option>
-                  <option value="photographer">Photographers</option>
-                  <option value="venue">Venues</option>
-                  <option value="catering">Catering</option>
-                  <option value="florist">Florists</option>
-                  <option value="music">Music & Entertainment</option>
-                  <option value="makeup">Hair & Makeup</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Minimum Rating</label>
-                <select
-                  value={filters.min_rating}
-                  onChange={(e) => updateFilters({ min_rating: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500"
-                >
-                  <option value="">Any rating</option>
-                  <option value="4.5">4.5+ stars</option>
-                  <option value="4.0">4.0+ stars</option>
-                  <option value="3.5">3.5+ stars</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
-                <select
-                  value={filters.price_range}
-                  onChange={(e) => updateFilters({ price_range: e.target.value })}
-                  className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500"
-                >
-                  <option value="">Any price</option>
-                  <option value="0-500">Under $500</option>
-                  <option value="500-1500">$500 - $1,500</option>
-                  <option value="1500-3000">$1,500 - $3,000</option>
-                  <option value="3000+">$3,000+</option>
-                </select>
-              </div>
-              
-              <div className="flex items-end">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={filters.featured_only}
-                    onChange={(e) => updateFilters({ featured_only: e.target.checked })}
-                    className="h-4 w-4 text-rose-600 focus:ring-rose-500 border-gray-300 rounded"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">Featured only</span>
-                </label>
-              </div>
-            </div>
-            
-            <div className="mt-4 flex justify-end">
-              <button
-                onClick={clearFilters}
-                className="text-sm text-gray-600 hover:text-gray-800"
-              >
-                Clear all filters
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
-      {/* Results */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Results header */}
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <p className="text-sm text-gray-600">{displayVendors?.length || 0} search results for</p>
+        
+        {/* Main Content */}
+        <div className="md:col-span-9 p-6">
+          <div className="mb-6">
+            <p className="text-sm text-gray-600">{vendors.length} search results for</p>
             <h1 className="text-xl font-bold">
               {filters.location && `${filters.location}, `}
               {filters.weddingDate && `${filters.weddingDate}, `}
               {filters.guestCount && `${filters.guestCount}`}
               {(!filters.location && !filters.weddingDate && !filters.guestCount) && 'All Wedding Vendors'}
             </h1>
+            
+            <div className="flex justify-end">
+              <button className="flex items-center text-sm border rounded px-3 py-1.5 hover:bg-gray-50 transition-colors">
+                Sort by
+                <ChevronDown className="w-4 h-4 ml-1" />
+              </button>
+            </div>
           </div>
-        </div>
-
-        {/* Loading state */}
-        {isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-200 animate-pulse">
-                <div className="h-48 bg-gray-200 rounded-t-xl"></div>
-                <div className="p-6">
-                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-200 rounded w-2/3 mb-4"></div>
-                  <div className="h-8 bg-gray-200 rounded"></div>
+          
+          {/* Vendor List */}
+          <div className="space-y-6">
+            {vendors.map((vendor) => (
+              <div key={vendor.id} className="border rounded-lg overflow-hidden grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div className="md:col-span-3">
+                  <img 
+                    src={vendor.image}
+                    alt={vendor.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="md:col-span-6 p-4">
+                  <h2 className="text-lg font-bold">{vendor.name}</h2>
+                  <p className="text-sm text-gray-600">{vendor.location}</p>
+                  <div className="flex space-x-4 text-sm mt-1">
+                    {vendor.features.map((feature, idx) => (
+                      <React.Fragment key={feature}>
+                        <span className="text-gray-600">{feature}</span>
+                        {idx < vendor.features.length - 1 && <span className="text-gray-600">•</span>}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-4">
+                    <h3 className="font-medium">{vendor.description}</h3>
+                    {vendor.details.map((detail, idx) => (
+                      <p key={idx} className="text-sm">{detail}</p>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-3 flex space-x-2">
+                    {vendor.tags.map((tag) => (
+                      <span 
+                        key={tag}
+                        className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-600 hover:bg-gray-200 transition-colors"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="md:col-span-3 p-4 flex flex-col justify-between items-end">
+                  <div className="flex items-center">
+                    <div className="text-right mr-3">
+                      <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`}>
+                        {vendor.ratingText}
+                      </div>
+                      <div className="text-xs text-gray-500">{vendor.reviewCount}</div>
+                    </div>
+                    <div className={`rounded px-2 py-1 font-bold ${getRatingColor(vendor.rating)}`}>
+                      {vendor.rating}
+                    </div>
+                  </div>
+                  
+                  <div className="text-right">
+                    <div className="text-2xl font-bold">
+                      ${vendor.price.toLocaleString()}
+                      {vendor.priceUnit && <span className="text-sm font-normal text-gray-500">/{vendor.priceUnit}</span>}
+                    </div>
+                    <div className="text-sm text-gray-500">Starting price</div>
+                    <button 
+                      onClick={() => navigate(`/vendors/${vendor.id}`)}
+                      className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-lg w-full hover:bg-blue-600 transition-colors"
+                    >
+                      View vendor details
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-        )}
-
-        {/* Error state */}
-        {error && (
-          <div className="text-center py-12">
-            <p className="text-gray-600">Something went wrong. Please try again.</p>
-          </div>
-        )}
-
-        {/* Vendors grid */}
-        {displayVendors && displayVendors.length > 0 && (
-          <div className={viewMode === 'grid' 
-            ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'
-            : 'space-y-6'
-          }>
-            {displayVendors.map((vendor) => (
-              <VendorCard 
-                key={vendor.id} 
-                vendor={vendor} 
-                viewMode={viewMode}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* Empty state */}
-        {displayVendors?.length === 0 && (
-          <div className="text-center py-12">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No vendors found</h3>
-            <p className="text-gray-600 mb-6">Try adjusting your search criteria</p>
-            <button
-              onClick={clearFilters}
-              className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition-colors"
-            >
-              Clear filters
-            </button>
-          </div>
-        )}
-      </div>
-
-      <Footer />
-    </div>
-  );
-};
-
-const VendorCard = ({ vendor, viewMode }) => {
-  const [isFavorited, setIsFavorited] = useState(false);
-
-  if (viewMode === 'list') {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-lg transition-shadow overflow-hidden"
-      >
-        <div className="flex">
-          <div className="w-80 h-60 relative">
-            <img
-              src={vendor.gallery_images[0] || 'https://images.unsplash.com/photo-1606490194859-07c18c9f0968'}
-              alt={vendor.business_name}
-              className="w-full h-full object-cover"
-            />
-            {vendor.featured && (
-              <span className="absolute top-3 left-3 bg-rose-600 text-white px-2 py-1 rounded text-sm font-medium">
-                Featured
-              </span>
-            )}
-            <button
-              onClick={() => setIsFavorited(!isFavorited)}
-              className="absolute top-3 right-3 p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-            >
-              <Heart className={`h-5 w-5 ${isFavorited ? 'text-red-500 fill-current' : 'text-white'}`} />
-            </button>
+          
+          {/* Pagination */}
+          <div className="mt-8 flex justify-center">
+            <div className="flex items-center space-x-2">
+              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white">1</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">2</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">3</button>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">4</button>
+              <span className="text-gray-400">...</span>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100">25</button>
+            </div>
           </div>
           
-          <div className="flex-1 p-6">
-            <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className={`h-4 w-4 ${i < Math.floor(vendor.average_rating) ? 'fill-current' : 'text-gray-300'}`} />
-                ))}
-                <span className="ml-2 text-gray-600 text-sm">
-                  {vendor.average_rating} ({vendor.total_reviews} reviews)
-                </span>
-              </div>
-              {vendor.verified && (
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-                  Verified
-                </span>
-              )}
-            </div>
-            
-            <h3 className="text-xl font-semibold text-gray-900 mb-1">
-              {vendor.business_name}
-            </h3>
-            <p className="text-gray-600 text-sm mb-2 capitalize">{vendor.category}</p>
-            <div className="flex items-center text-gray-500 text-sm mb-4">
-              <MapPin className="h-4 w-4 mr-1" />
-              {vendor.location}
-            </div>
-            
-            <p className="text-gray-700 mb-4 line-clamp-2">{vendor.description}</p>
-            
-            <div className="flex items-center justify-between">
-              <div>
-                {vendor.pricing_type === 'from' && vendor.pricing_from && (
-                  <span className="text-lg font-semibold text-gray-900">
-                    From ${vendor.pricing_from}
-                  </span>
-                )}
-                {vendor.pricing_type === 'range' && vendor.pricing_from && vendor.pricing_to && (
-                  <span className="text-lg font-semibold text-gray-900">
-                    ${vendor.pricing_from} - ${vendor.pricing_to}
-                  </span>
-                )}
-                {vendor.pricing_type === 'enquire' && (
-                  <span className="text-lg font-semibold text-rose-600">
-                    Enquire for pricing
-                  </span>
-                )}
-              </div>
-              <Link
-                to={`/vendors/${vendor.id}`}
-                className="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors text-sm font-medium"
-              >
-                View Details
-              </Link>
-            </div>
+          {/* Footer */}
+          <div className="mt-12 text-right text-sm text-gray-600">
+            <p className="mb-1">Help</p>
+            <p className="mb-1">FAQ</p>
+            <p className="mb-1">Customer service</p>
+            <p className="mb-1">How to guide</p>
+            <p className="mb-1">Contact us</p>
           </div>
-        </div>
-      </motion.div>
-    );
-  }
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow"
-    >
-      <div className="relative h-48">
-        <img
-          src={vendor.gallery_images[0] || 'https://images.unsplash.com/photo-1606490194859-07c18c9f0968'}
-          alt={vendor.business_name}
-          className="w-full h-full object-cover"
-        />
-        {vendor.featured && (
-          <span className="absolute top-3 left-3 bg-rose-600 text-white px-2 py-1 rounded text-sm font-medium">
-            Featured
-          </span>
-        )}
-        <button
-          onClick={() => setIsFavorited(!isFavorited)}
-          className="absolute top-3 right-3 p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
-        >
-          <Heart className={`h-5 w-5 ${isFavorited ? 'text-red-500 fill-current' : 'text-white'}`} />
-        </button>
-      </div>
-      
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center text-yellow-400">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className={`h-4 w-4 ${i < Math.floor(vendor.average_rating) ? 'fill-current' : 'text-gray-300'}`} />
-            ))}
-            <span className="ml-2 text-gray-600 text-sm">
-              {vendor.average_rating} ({vendor.total_reviews})
-            </span>
-          </div>
-          {vendor.verified && (
-            <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-              Verified
-            </span>
-          )}
-        </div>
-        
-        <h3 className="text-lg font-semibold text-gray-900 mb-1">
-          {vendor.business_name}
-        </h3>
-        <p className="text-gray-600 text-sm mb-2 capitalize">{vendor.category}</p>
-        <div className="flex items-center text-gray-500 text-sm mb-4">
-          <MapPin className="h-4 w-4 mr-1" />
-          {vendor.location}
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div>
-            {vendor.pricing_type === 'from' && vendor.pricing_from && (
-              <span className="text-lg font-semibold text-gray-900">
-                From ${vendor.pricing_from}
-              </span>
-            )}
-            {vendor.pricing_type === 'range' && vendor.pricing_from && vendor.pricing_to && (
-              <span className="text-lg font-semibold text-gray-900">
-                ${vendor.pricing_from} - ${vendor.pricing_to}
-              </span>
-            )}
-            {vendor.pricing_type === 'enquire' && (
-              <span className="text-lg font-semibold text-rose-600">
-                Enquire for pricing
-              </span>
-            )}
-          </div>
-          <Link
-            to={`/vendors/${vendor.id}`}
-            className="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors text-sm font-medium"
-          >
-            View Details
-          </Link>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
