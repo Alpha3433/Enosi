@@ -75,7 +75,7 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
   
   // Empty cells for days before the first day of the month
   for (let i = 0; i < firstDay; i++) {
-    days.push(<div key={`empty-${i}`} className="w-6 h-6"></div>);
+    days.push(<div key={`empty-${i}`} className="w-7 h-7"></div>);
   }
   
   // Days of the month
@@ -89,7 +89,7 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
           onDateSelect(formattedDate);
           onClose();
         }}
-        className={`w-6 h-6 text-xs rounded-full hover:bg-blue-100 transition-colors ${
+        className={`w-7 h-7 text-sm rounded-full hover:bg-blue-100 transition-colors ${
           isToday ? 'bg-blue-500 text-white' : 'text-gray-700'
         }`}
       >
@@ -99,22 +99,22 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
   }
   
   return (
-    <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-3 w-52">
-      <div className="flex items-center justify-between mb-3">
+    <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 w-58">
+      <div className="flex items-center justify-between mb-4">
         <button onClick={goToPreviousMonth} className="p-1 hover:bg-gray-100 rounded">
-          <ChevronLeft className="w-3 h-3" />
+          <ChevronLeft className="w-4 h-4" />
         </button>
-        <h3 className="font-medium text-gray-900 text-xs">
+        <h3 className="font-medium text-gray-900 text-sm">
           {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
         </h3>
         <button onClick={goToNextMonth} className="p-1 hover:bg-gray-100 rounded">
-          <ChevronRight className="w-3 h-3" />
+          <ChevronRight className="w-4 h-4" />
         </button>
       </div>
       
-      <div className="grid grid-cols-7 gap-1 mb-1">
+      <div className="grid grid-cols-7 gap-1 mb-2">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-          <div key={day} className="w-6 h-6 text-xs text-gray-500 flex items-center justify-center font-medium">
+          <div key={day} className="w-7 h-7 text-xs text-gray-500 flex items-center justify-center font-medium">
             {day}
           </div>
         ))}
