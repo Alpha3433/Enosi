@@ -330,40 +330,71 @@ const VendorDetailPage = () => {
       <div className="container mx-auto px-9 mb-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 font-sans">Packages & Pricing</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {vendor.packages.map((pkg, index) => (
-            <div 
-              key={index} 
-              style={{
-                width: '316px',
-                height: '326px',
-                backgroundColor: '#ffffff',
-                borderRadius: '20px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
-                padding: '24px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between'
-              }}
-            >
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2 font-sans">{pkg.name}</h3>
-                <div className="mb-4">
-                  <span className="text-2xl font-bold text-blue-500 font-sans">${pkg.price.toLocaleString()}</span>
+          {vendor.packages.map((pkg, index) => {
+            // Define images for each package
+            const packageImages = [
+              "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80", // Essential - simple setup
+              "https://images.unsplash.com/photo-1519167758481-83f29c7c3d6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80", // Premium - elegant venue
+              "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80"  // Luxury - grand setup
+            ];
+
+            return (
+              <div 
+                key={index} 
+                style={{
+                  width: '316px',
+                  height: '326px',
+                  backgroundColor: '#ffffff',
+                  borderRadius: '20px',
+                  boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                  overflow: 'hidden',
+                  display: 'flex',
+                  flexDirection: 'column'
+                }}
+              >
+                {/* Package Image */}
+                <div style={{ height: '120px', overflow: 'hidden' }}>
+                  <img 
+                    src={packageImages[index]}
+                    alt={pkg.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
                 </div>
-                <ul className="space-y-2 mb-6">
-                  {pkg.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center font-sans">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
+
+                {/* Package Content */}
+                <div style={{ padding: '16px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 font-sans" style={{ textAlign: 'left' }}>
+                      {pkg.name}
+                    </h3>
+                    <div className="mb-3" style={{ textAlign: 'left' }}>
+                      <span className="text-xl font-bold text-blue-500 font-sans">${pkg.price.toLocaleString()}</span>
+                    </div>
+                    <ul className="space-y-1 mb-4" style={{ textAlign: 'left' }}>
+                      {pkg.features.slice(0, 3).map((feature, idx) => (
+                        <li key={idx} className="flex items-center font-sans">
+                          <CheckCircle className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                          <span className="text-xs text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                      {pkg.features.length > 3 && (
+                        <li className="text-xs text-gray-500 font-sans" style={{ textAlign: 'left' }}>
+                          +{pkg.features.length - 3} more features
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                  <button className="w-full border border-blue-500 text-blue-500 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors font-sans text-sm">
+                    Select Package
+                  </button>
+                </div>
               </div>
-              <button className="w-full border border-blue-500 text-blue-500 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors font-sans">
-                Select Package
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
