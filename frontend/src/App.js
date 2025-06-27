@@ -5,6 +5,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 // import 'react-image-lightbox/style.css';
 
+// Initialize global match object immediately to prevent errors
+if (typeof window !== 'undefined') {
+  window.match = window.match || {
+    params: {},
+    isExact: true,
+    path: window.location.pathname,
+    url: window.location.pathname
+  };
+}
+
 // Import pages
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
