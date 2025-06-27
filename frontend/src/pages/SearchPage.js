@@ -8,11 +8,14 @@ const SearchPage = () => {
   const [viewMode, setViewMode] = useState('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
-    category: searchParams.get('category') || '',
     location: searchParams.get('location') || '',
-    min_rating: '',
-    featured_only: false,
-    price_range: ''
+    vendorType: searchParams.get('category') || '',
+    weddingDate: searchParams.get('date') || '',
+    guestCount: searchParams.get('guests') || '',
+    priceRange: '',
+    rating: '',
+    vendorClass: '',
+    features: []
   });
 
   const { data: vendors, isLoading, error } = useQuery({
