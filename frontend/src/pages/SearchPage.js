@@ -204,7 +204,15 @@ const SearchPage = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-12">
         {/* Sidebar */}
-        <div className="md:col-span-3 border-r p-6">
+        <div 
+          className="md:col-span-3 border-r"
+          style={{
+            width: '422px',
+            height: '550px',
+            backgroundColor: '#f8f8f8',
+            padding: '24px'
+          }}
+        >
           <button 
             onClick={() => navigate('/')}
             className="mb-6 hover:text-blue-500 transition-colors flex items-center"
@@ -212,74 +220,168 @@ const SearchPage = () => {
             <ArrowLeft className="w-5 h-5" />
           </button>
 
-          <h2 className="text-lg font-medium mb-6">Your search</h2>
+          <h2 
+            className="text-lg mb-6"
+            style={{
+              fontWeight: 'bold',
+              color: '#030303',
+              fontFamily: 'Prompt'
+            }}
+          >
+            Your search
+          </h2>
           
           {/* Compact Search Form */}
           <div className="space-y-4 mb-8">
             {/* Location */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-              <div className="relative">
-                <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  value={filters.location}
-                  onChange={(e) => handleFilterChange('location', e.target.value)}
-                  placeholder="Search destinations"
-                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                />
-              </div>
+              <label 
+                className="block text-sm mb-2"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Location
+              </label>
+              <input
+                type="text"
+                value={filters.location}
+                onChange={(e) => handleFilterChange('location', e.target.value)}
+                placeholder="      Copenhagen, Denmark"
+                style={{
+                  width: '310px',
+                  height: '42px',
+                  padding: '0px 8px',
+                  border: '0',
+                  boxSizing: 'border-box',
+                  borderRadius: '100px',
+                  backgroundColor: '#ffffff',
+                  color: '#030303',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                  outline: 'none',
+                }}
+              />
             </div>
 
             {/* Vendor Type */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Vendor</label>
-              <div className="relative">
-                <select
-                  value={filters.vendorType}
-                  onChange={(e) => handleFilterChange('vendorType', e.target.value)}
-                  className="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md appearance-none"
-                >
-                  <option value="">All Vendors</option>
-                  <option value="venue">Venues</option>
-                  <option value="photographer">Photographers</option>
-                  <option value="catering">Catering</option>
-                  <option value="florist">Florists</option>
-                  <option value="music">Music & Entertainment</option>
-                  <option value="makeup">Hair & Makeup</option>
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-              </div>
+              <label 
+                className="block text-sm mb-2"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Vendor
+              </label>
+              <select
+                value={filters.vendorType}
+                onChange={(e) => handleFilterChange('vendorType', e.target.value)}
+                style={{
+                  width: '310px',
+                  height: '42px',
+                  padding: '0px 8px',
+                  border: '0',
+                  boxSizing: 'border-box',
+                  borderRadius: '100px',
+                  backgroundColor: '#ffffff',
+                  color: '#030303',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                  outline: 'none',
+                  appearance: 'none'
+                }}
+              >
+                <option value="">      All Vendors</option>
+                <option value="venue">      Venues</option>
+                <option value="photographer">      Photographers</option>
+                <option value="catering">      Catering</option>
+                <option value="florist">      Florists</option>
+                <option value="music">      Music & Entertainment</option>
+                <option value="makeup">      Hair & Makeup</option>
+              </select>
             </div>
 
             {/* Wedding Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Wedding date</label>
-              <div className="relative">
-                <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  value={filters.weddingDate}
-                  onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
-                  placeholder="DD/MM/YYYY"
-                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                />
-              </div>
+              <label 
+                className="block text-sm mb-2"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Wedding date
+              </label>
+              <input
+                type="text"
+                value={filters.weddingDate}
+                onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
+                placeholder="      DD/MM/YYYY"
+                style={{
+                  width: '310px',
+                  height: '42px',
+                  padding: '0px 8px',
+                  border: '0',
+                  boxSizing: 'border-box',
+                  borderRadius: '100px',
+                  backgroundColor: '#ffffff',
+                  color: '#030303',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                  outline: 'none',
+                }}
+              />
             </div>
 
             {/* Guest Count */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Guests</label>
-              <div className="relative">
-                <Users className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="text"
-                  value={filters.guestCount}
-                  onChange={(e) => handleFilterChange('guestCount', e.target.value)}
-                  placeholder="Number of guests"
-                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
-                />
-              </div>
+              <label 
+                className="block text-sm mb-2"
+                style={{
+                  color: '#030303',
+                  fontFamily: 'Prompt',
+                  fontWeight: 500,
+                  textAlign: 'left'
+                }}
+              >
+                Guests
+              </label>
+              <input
+                type="text"
+                value={filters.guestCount}
+                onChange={(e) => handleFilterChange('guestCount', e.target.value)}
+                placeholder="      Number of guests"
+                style={{
+                  width: '310px',
+                  height: '42px',
+                  padding: '0px 8px',
+                  border: '0',
+                  boxSizing: 'border-box',
+                  borderRadius: '100px',
+                  backgroundColor: '#ffffff',
+                  color: '#030303',
+                  fontSize: '14px',
+                  fontFamily: 'Prompt',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                  outline: 'none',
+                }}
+              />
             </div>
 
             {/* Search Button */}
