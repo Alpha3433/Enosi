@@ -101,6 +101,12 @@ const SearchPage = () => {
     }));
   };
 
+  const getRatingColor = (rating) => {
+    if (rating >= 9.0) return 'bg-green-100 text-green-800';
+    if (rating >= 8.0) return 'bg-blue-100 text-blue-800';
+    return 'bg-yellow-100 text-yellow-800';
+  };
+
   const getRatingTextColor = (ratingText) => {
     if (ratingText === 'Excellent') return 'text-green-600';
     if (ratingText === 'Very good' || ratingText === 'Good') return 'text-blue-600';
