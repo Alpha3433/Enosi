@@ -142,8 +142,8 @@ export const AirbnbHeroSection = () => {
             className="w-full h-[300px] object-cover"
           />
           <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">Find Wedding Vendors You'll Love</h2>
-            <p className="text-lg">Your perfect florist, DJ, and venue are just a click away</p>
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-sans">Find Wedding Vendors You'll Love</h2>
+            <p className="text-lg font-sans">Your perfect florist, DJ, and venue are just a click away</p>
           </div>
         </div>
       </section>
@@ -154,13 +154,13 @@ export const AirbnbHeroSection = () => {
           <div className="flex items-end space-x-1">
             {/* Location */}
             <div className="flex-1 px-4 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-2">Location</label>
+              <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">Location</label>
               <input
                 type="text"
                 placeholder="Search Destinations"
                 value={searchLocation}
                 onChange={(e) => setSearchLocation(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
               />
             </div>
 
@@ -169,11 +169,11 @@ export const AirbnbHeroSection = () => {
 
             {/* Vendor */}
             <div className="flex-1 px-4 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-2">Vendor</label>
+              <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">Vendor</label>
               <select 
                 value={searchCategory}
                 onChange={(e) => setSearchCategory(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent text-gray-900"
+                className="w-full text-sm outline-none border-0 bg-transparent text-gray-900 font-sans"
               >
                 <option value="">All Vendors</option>
                 <option value="venue">Venues</option>
@@ -190,13 +190,13 @@ export const AirbnbHeroSection = () => {
 
             {/* When */}
             <div className="flex-1 px-4 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-2">When</label>
+              <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">When</label>
               <input
                 type="text"
                 placeholder="DD/MM/YYYY"
                 value={weddingDate}
                 onChange={(e) => setWeddingDate(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
               />
             </div>
 
@@ -205,13 +205,13 @@ export const AirbnbHeroSection = () => {
 
             {/* Guests */}
             <div className="flex-1 px-4 py-2">
-              <label className="block text-xs font-semibold text-gray-700 mb-2">Guests</label>
+              <label className="block text-xs font-semibold text-gray-700 mb-2 font-sans">Guests</label>
               <input
                 type="text"
                 placeholder="Number of guests"
                 value={guestCount}
                 onChange={(e) => setGuestCount(e.target.value)}
-                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400"
+                className="w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans"
               />
             </div>
 
