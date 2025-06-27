@@ -386,7 +386,7 @@ const SearchPage = () => {
             
             <div className="flex justify-end space-x-3">
               {/* Filters Dropdown */}
-              <div className="relative">
+              <div className="relative dropdown-container">
                 <button 
                   onClick={() => setShowFiltersDropdown(!showFiltersDropdown)}
                   className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
@@ -409,7 +409,7 @@ const SearchPage = () => {
               </div>
 
               {/* Sort Dropdown */}
-              <div className="relative">
+              <div className="relative dropdown-container">
                 <button 
                   onClick={() => setShowSortDropdown(!showSortDropdown)}
                   className="flex items-center text-sm border border-gray-200 rounded-lg px-4 py-2 hover:bg-gray-50 hover:shadow-md transition-all duration-200 bg-white"
