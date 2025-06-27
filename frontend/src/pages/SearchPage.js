@@ -716,20 +716,8 @@ const SearchPage = () => {
             ))}
           </div>
           
-          {/* Pagination */}
-          <div className="mt-8 flex justify-center">
-            <div className="flex items-center space-x-2">
-              <button className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white shadow-md hover:bg-blue-600 transition-all duration-200">1</button>
-              <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">2</button>
-              <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">3</button>
-              <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">4</button>
-              <span className="text-gray-400 px-2">...</span>
-              <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100 border border-gray-200 transition-all duration-200">25</button>
-            </div>
-          </div>
-          
           {/* Footer */}
-          <div className="mt-12 text-right text-sm text-gray-600">
+          <div className="mt-12 text-left text-sm text-gray-600">
             <p className="mb-1">Help</p>
             <p className="mb-1">FAQ</p>
             <p className="mb-1">Customer service</p>
