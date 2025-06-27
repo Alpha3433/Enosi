@@ -537,36 +537,157 @@ const VendorDetailPage = () => {
 
       {/* Contact Section */}
       <div className="container mx-auto px-9 mb-12">
-        <div className="bg-blue-50 rounded-2xl p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 font-sans">Get in Touch</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div 
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '20px',
+            boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+            padding: '32px'
+          }}
+        >
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 font-sans" style={{ textAlign: 'left' }}>Get in Touch</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Contact Information */}
             <div className="space-y-4">
-              <div className="flex items-center">
-                <Phone className="w-5 h-5 text-blue-500 mr-3" />
-                <span className="font-sans">{vendor.contact.phone}</span>
+              <div className="flex items-center" style={{ justifyContent: 'flex-start' }}>
+                <div 
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: '#eff6ff',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '12px'
+                  }}
+                >
+                  <Phone className="w-5 h-5 text-blue-500" />
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <p className="text-sm text-gray-500 font-sans">Phone</p>
+                  <p className="font-medium text-gray-900 font-sans">{vendor.contact.phone}</p>
+                </div>
               </div>
-              <div className="flex items-center">
-                <Mail className="w-5 h-5 text-blue-500 mr-3" />
-                <span className="font-sans">{vendor.contact.email}</span>
+
+              <div className="flex items-center" style={{ justifyContent: 'flex-start' }}>
+                <div 
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: '#eff6ff',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '12px'
+                  }}
+                >
+                  <Mail className="w-5 h-5 text-blue-500" />
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <p className="text-sm text-gray-500 font-sans">Email</p>
+                  <p className="font-medium text-gray-900 font-sans">{vendor.contact.email}</p>
+                </div>
               </div>
-              <div className="flex items-center">
-                <Globe className="w-5 h-5 text-blue-500 mr-3" />
-                <span className="font-sans">{vendor.contact.website}</span>
+
+              <div className="flex items-center" style={{ justifyContent: 'flex-start' }}>
+                <div 
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    backgroundColor: '#eff6ff',
+                    borderRadius: '10px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '12px'
+                  }}
+                >
+                  <Globe className="w-5 h-5 text-blue-500" />
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <p className="text-sm text-gray-500 font-sans">Website</p>
+                  <p className="font-medium text-gray-900 font-sans">{vendor.contact.website}</p>
+                </div>
               </div>
-              <div className="flex items-center space-x-4 mt-4">
-                <Instagram className="w-5 h-5 text-gray-600" />
-                <span className="font-sans text-sm text-gray-600">{vendor.socialMedia.instagram}</span>
-                <Facebook className="w-5 h-5 text-gray-600" />
-                <span className="font-sans text-sm text-gray-600">{vendor.socialMedia.facebook}</span>
+
+              {/* Social Media */}
+              <div className="pt-4 border-t border-gray-100">
+                <p className="text-sm text-gray-500 mb-3 font-sans" style={{ textAlign: 'left' }}>Follow us</p>
+                <div className="flex items-center space-x-4">
+                  <div className="flex items-center">
+                    <Instagram className="w-4 h-4 text-gray-600 mr-2" />
+                    <span className="font-sans text-sm text-gray-700">{vendor.socialMedia.instagram}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Facebook className="w-4 h-4 text-gray-600 mr-2" />
+                    <span className="font-sans text-sm text-gray-700">{vendor.socialMedia.facebook}</span>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Contact Form */}
             <div>
-              <p className="text-gray-700 mb-4 font-sans">
+              <p className="text-gray-700 mb-6 font-sans leading-relaxed" style={{ textAlign: 'left' }}>
                 Ready to make your wedding dreams come true? Contact us today to check availability and discuss your special day.
               </p>
-              <button className="bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-colors font-sans">
-                Send Message
-              </button>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 font-sans" style={{ textAlign: 'left' }}>
+                    Your Name
+                  </label>
+                  <input 
+                    type="text" 
+                    placeholder="Enter your full name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-sans"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 font-sans" style={{ textAlign: 'left' }}>
+                    Email Address
+                  </label>
+                  <input 
+                    type="email" 
+                    placeholder="Enter your email"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-sans"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2 font-sans" style={{ textAlign: 'left' }}>
+                    Message
+                  </label>
+                  <textarea 
+                    rows="4"
+                    placeholder="Tell us about your wedding plans..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-sans resize-none"
+                  ></textarea>
+                </div>
+                
+                <button 
+                  style={{
+                    width: '100%',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    padding: '12px 24px',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => e.target.style.backgroundColor = '#2563eb'}
+                  onMouseOut={(e) => e.target.style.backgroundColor = '#3b82f6'}
+                  className="font-sans"
+                >
+                  Send Message
+                </button>
+              </div>
             </div>
           </div>
         </div>
