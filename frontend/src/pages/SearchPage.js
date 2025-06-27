@@ -116,74 +116,80 @@ const SearchPage = () => {
   return (
     <div className="min-h-screen bg-white font-sans" style={{ fontFamily: 'Prompt, sans-serif' }}>
       {/* Header */}
-      <header className="flex justify-between items-center px-10 py-4 border-b">
-        <div className="flex items-center space-x-8">
-          <button 
-            onClick={() => navigate('/')}
-            style={{
-              color: '#030303',
-              fontSize: '20px',
-              fontFamily: 'Prompt',
-              fontWeight: 500,
-              lineHeight: '30px',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: 0
-            }}
-          >
-            Enosi
-          </button>
+      <header className="bg-white">
+        <div className="container mx-auto px-9 py-5 flex justify-between items-center">
+          <div className="flex items-center">
+            <button 
+              onClick={() => navigate('/')}
+              className="text-xl font-bold font-sans"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              Enosi
+            </button>
+          </div>
+          
           <nav className="hidden md:flex space-x-6">
-            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors">Find Vendors</button>
-            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors">Inspiration</a>
-            <a href="#about" className="text-sm hover:text-blue-500 transition-colors">About Us</a>
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+              Find Vendors
+            </button>
+            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+              Inspiration
+            </a>
+            <a href="#about" className="text-sm hover:text-blue-500 transition-colors font-sans">
+              About Us
+            </a>
           </nav>
-        </div>
-        <div className="flex space-x-3">
-          {isAuthenticated ? (
-            <div className="flex items-center space-x-3">
-              <div className="relative group">
-                <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                  <span className="text-sm">{user?.first_name}</span>
-                </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="py-2">
-                    <button
-                      onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Dashboard
-                    </button>
-                    <button
-                      onClick={() => {
-                        logout();
-                        navigate('/');
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                    >
-                      Sign Out
-                    </button>
+
+          <div className="flex space-x-2">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <div className="relative group">
+                  <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                    <span className="text-sm font-sans">{user?.first_name}</span>
+                  </button>
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      <button
+                        onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          logout();
+                          navigate('/');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <>
-              <button 
-                onClick={() => navigate('/signup')}
-                className="px-4 py-1.5 text-sm border border-blue-500 text-blue-500 rounded-full hover:bg-blue-50 transition-colors"
-              >
-                Sign up
-              </button>
-              <button 
-                onClick={() => navigate('/login')}
-                className="px-4 py-1.5 text-sm bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors"
-              >
-                Log in
-              </button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="border border-gray-300 text-gray-700 rounded-full px-4 py-2 text-sm hover:bg-gray-50 transition-colors font-sans"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="bg-blue-500 text-white rounded-full px-4 py-2 text-sm hover:bg-blue-600 transition-colors font-sans"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
