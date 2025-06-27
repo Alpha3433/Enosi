@@ -331,19 +331,34 @@ const VendorDetailPage = () => {
         <h2 className="text-2xl font-bold text-gray-900 mb-8 font-sans">Packages & Pricing</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {vendor.packages.map((pkg, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
-              <h3 className="text-xl font-bold text-gray-900 mb-2 font-sans">{pkg.name}</h3>
-              <div className="mb-4">
-                <span className="text-2xl font-bold text-blue-500 font-sans">${pkg.price.toLocaleString()}</span>
+            <div 
+              key={index} 
+              style={{
+                width: '316px',
+                height: '326px',
+                backgroundColor: '#ffffff',
+                borderRadius: '20px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                padding: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}
+            >
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2 font-sans">{pkg.name}</h3>
+                <div className="mb-4">
+                  <span className="text-2xl font-bold text-blue-500 font-sans">${pkg.price.toLocaleString()}</span>
+                </div>
+                <ul className="space-y-2 mb-6">
+                  {pkg.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-center font-sans">
+                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-2 mb-6">
-                {pkg.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-center font-sans">
-                    <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                    <span className="text-sm text-gray-700">{feature}</span>
-                  </li>
-                ))}
-              </ul>
               <button className="w-full border border-blue-500 text-blue-500 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors font-sans">
                 Select Package
               </button>
