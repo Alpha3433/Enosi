@@ -3,6 +3,16 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, MapPin, Calendar, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
+// Initialize match object for this component
+if (typeof window !== 'undefined' && !window.match) {
+  window.match = {
+    params: {},
+    isExact: true,
+    path: window.location.pathname,
+    url: window.location.pathname
+  };
+}
+
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
