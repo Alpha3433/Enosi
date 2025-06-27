@@ -4,7 +4,7 @@ import sys
 
 def test_login(email, password):
     """Test login with provided credentials"""
-    url = "https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/api/auth/login"
+    url = "https://4665e1cb-57c5-4afa-8c28-cdcf53af8f7d.preview.emergentagent.com/api/auth/login"
     headers = {'Content-Type': 'application/json'}
     data = {
         "email": email,
@@ -40,7 +40,7 @@ def test_login(email, password):
 
 def get_pending_vendors(token):
     """Get pending vendor profiles"""
-    url = "https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/api/admin/vendors/pending"
+    url = "https://4665e1cb-57c5-4afa-8c28-cdcf53af8f7d.preview.emergentagent.com/api/admin/vendors/pending"
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}'
@@ -74,7 +74,7 @@ def get_pending_vendors(token):
 
 def approve_vendor(token, vendor_id):
     """Approve a vendor profile"""
-    url = f"https://232cf5b1-b2b3-4423-9728-8803f6e29464.preview.emergentagent.com/api/admin/vendors/{vendor_id}/approve"
+    url = f"https://4665e1cb-57c5-4afa-8c28-cdcf53af8f7d.preview.emergentagent.com/api/admin/vendors/{vendor_id}/approve"
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}'
