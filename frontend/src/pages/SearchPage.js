@@ -334,16 +334,21 @@ const SearchPage = () => {
         {/* Main Content */}
         <div className="md:col-span-9 p-6">
           <div className="mb-6">
-            <p className="text-sm text-gray-600">{vendors.length} search results for</p>
-            <h1 className="text-xl font-bold">
-              {filters.location && `${filters.location}, `}
-              {filters.weddingDate && `${filters.weddingDate}, `}
-              {filters.guestCount && `${filters.guestCount}`}
-              {(!filters.location && !filters.weddingDate && !filters.guestCount) && 'All Wedding Vendors'}
+            <p className="text-sm text-gray-600 mb-1">{vendors.length} search results for</p>
+            <h1 className="text-xl font-bold mb-4">
+              {(() => {
+                const parts = [];
+                if (filters.location) parts.push(filters.location);
+                if (filters.weddingDate) parts.push(filters.weddingDate);
+                if (filters.vendorType) parts.push(filters.vendorType);
+                if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
+                
+                return parts.length > 0 ? parts.join(', ') : 'All Wedding Vendors';
+              })()}
             </h1>
             
             <div className="flex justify-end">
-              <button className="flex items-center text-sm border rounded px-3 py-1.5 hover:bg-gray-50 transition-colors">
+              <button className="flex items-center text-sm border rounded-lg px-3 py-2 hover:bg-gray-50 transition-colors">
                 Sort by
                 <ChevronDown className="w-4 h-4 ml-1" />
               </button>
