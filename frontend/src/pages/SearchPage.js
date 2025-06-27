@@ -583,36 +583,6 @@ const SearchPage = () => {
 
         {/* Main Content */}
         <div className="md:col-span-9 p-6">
-          <div className="mb-6">
-            <div className="flex justify-end">
-              <select 
-                style={{
-                  cursor: 'pointer',
-                  width: '128px',
-                  height: '36px',
-                  padding: '0px 8px',
-                  border: '1px solid #dedede',
-                  boxSizing: 'border-box',
-                  borderRadius: '100px',
-                  backgroundColor: '#ffffff',
-                  color: '#3a3a3a',
-                  fontSize: '14px',
-                  fontFamily: 'Prompt',
-                  lineHeight: '22px',
-                  outline: 'none',
-                  appearance: 'none'
-                }}
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="" disabled hidden>  Sort by</option>
-                <option value="price-low-high">Price: Low to High</option>
-                <option value="price-high-low">Price: High to Low</option>
-                <option value="rating">Rating</option>
-                <option value="distance">Distance</option>
-              </select>
-            </div>
-          </div>
           
           {/* Vendor List */}
           <div className="space-y-6">
