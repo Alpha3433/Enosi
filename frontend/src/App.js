@@ -18,7 +18,7 @@ if (typeof window !== 'undefined') {
 // Import pages
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
-import VendorDetailPage from './pages/VendorDetailPage';
+import VendorDetailPageNew from './pages/VendorDetailPageNew';
 import GalleryPage from './pages/GalleryPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
