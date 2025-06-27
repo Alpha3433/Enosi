@@ -101,30 +101,11 @@ const SearchPage = () => {
     }));
   };
 
-  const getRatingColor = (rating) => {
-    if (rating >= 9.0) return 'bg-green-100 text-green-800';
-    if (rating >= 8.0) return 'bg-blue-100 text-blue-800';
-    return 'bg-yellow-100 text-yellow-800';
-  };
-
   const getRatingTextColor = (ratingText) => {
     if (ratingText === 'Excellent') return 'text-green-600';
     if (ratingText === 'Very good' || ratingText === 'Good') return 'text-blue-600';
     return 'text-yellow-600';
   };
-
-  const handleSortChange = (sortOption) => {
-    setSortBy(sortOption);
-    setShowSortDropdown(false);
-  };
-
-  const sortOptions = [
-    { value: 'relevance', label: 'Relevance' },
-    { value: 'price-low-high', label: 'Price: Low to High' },
-    { value: 'price-high-low', label: 'Price: High to Low' },
-    { value: 'rating', label: 'Rating' },
-    { value: 'distance', label: 'Distance' }
-  ];
 
   return (
     <div className="min-h-screen bg-white font-sans" style={{ fontFamily: 'Prompt, sans-serif' }}>
