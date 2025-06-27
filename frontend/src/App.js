@@ -87,7 +87,7 @@ function App() {
               {/* Protected routes for couples */}
               <Route path="/dashboard" element={
                 <ProtectedRoute userType="couple">
-                  <DashboardPage />
+                  <CouplesDashboard />
                 </ProtectedRoute>
               } />
               <Route path="/planning" element={
