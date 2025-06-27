@@ -406,7 +406,7 @@ const VendorDetailPage = () => {
 
       {/* Reviews Section */}
       <div className="container mx-auto px-9 mb-12">
-        <h2 className="font-bold text-lg mb-6">Reviews</h2>
+        <h2 className="font-bold text-lg mb-6" style={{ textAlign: 'left' }}>Reviews</h2>
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Rating Summary */}
           <div className="md:col-span-3">
