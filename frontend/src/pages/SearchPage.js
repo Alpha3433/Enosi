@@ -680,6 +680,43 @@ const SearchPage = () => {
           </div>
         </div>
       </div>
+      
+      {/* Bottom Footer */}
+      <div 
+        style={{
+          width: '1440px',
+          height: '176px',
+          backgroundColor: '#f8f8f8',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          gap: '8px'
+        }}
+      >
+        <div 
+          style={{
+            color: '#030303',
+            fontSize: '12px',
+            fontFamily: 'Prompt',
+            fontWeight: 300,
+            lineHeight: '16px',
+          }}
+        >
+          Your favorite wedding vendor booking experience since 1997!
+        </div>
+        <div 
+          style={{
+            color: '#858585',
+            fontSize: '12px',
+            fontFamily: 'Prompt',
+            fontWeight: 300,
+            lineHeight: '16px',
+          }}
+        >
+          Enosi © 2025
+        </div>
+      </div>
     </div>
   );
 };
