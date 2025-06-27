@@ -334,13 +334,14 @@ const VendorDetailPage = () => {
       {/* Packages Section */}
       <div className="container mx-auto px-9 mb-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-8 font-sans">Packages & Pricing</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {vendor.packages.map((pkg, index) => {
             // Define images for each package
             const packageImages = [
               "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80", // Essential - simple setup
               "https://images.unsplash.com/photo-1519167758481-83f29c7c3d6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80", // Premium - elegant venue
-              "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80"  // Luxury - grand setup
+              "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80", // Luxury - grand setup
+              "https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200&q=80"  // Ultimate - luxury outdoor ceremony
             ];
 
             return (
