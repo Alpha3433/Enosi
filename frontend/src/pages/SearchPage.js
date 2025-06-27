@@ -4,9 +4,10 @@ import { ArrowLeft, ChevronDown, MapPin, Calendar, Users } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
 const SearchPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState('grid');
-  const [showFilters, setShowFilters] = useState(false);
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
+  
   const [filters, setFilters] = useState({
     location: searchParams.get('location') || '',
     vendorType: searchParams.get('category') || '',
@@ -18,13 +19,7 @@ const SearchPage = () => {
     features: []
   });
 
-  const { data: vendors, isLoading, error } = useQuery({
-    queryKey: ['vendors', filters],
-    queryFn: () => vendorsAPI.search(filters),
-  });
-
-  // Mock vendor data for demonstration when no real vendors exist
-  const mockVendors = [
+  const [vendors] = useState([
     {
       id: 'mock-1',
       business_name: 'Eternal Moments Photography',
