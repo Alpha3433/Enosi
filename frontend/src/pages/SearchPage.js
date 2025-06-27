@@ -368,7 +368,23 @@ const SearchPage = () => {
             </div>
 
             {/* Search Button */}
-            <button className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm">
+            <button 
+              style={{
+                cursor: 'pointer',
+                width: '310px',
+                height: '42px',
+                padding: '0px 8px',
+                border: '0',
+                boxSizing: 'border-box',
+                borderRadius: '100px',
+                backgroundColor: '#1d64ec',
+                color: '#ffffff',
+                fontSize: '14px',
+                fontFamily: 'Prompt',
+                lineHeight: '18px',
+                outline: 'none',
+              }}
+            >
               Search
             </button>
           </div>
