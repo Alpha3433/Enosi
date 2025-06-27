@@ -569,7 +569,7 @@ const SearchPage = () => {
         <div 
           style={{
             position: 'absolute',
-            left: '440px',
+            left: '450px',
             top: '20px',
             zIndex: 5
           }}
