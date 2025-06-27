@@ -472,38 +472,38 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <h3 className="text-xl font-bold mb-4 text-gray-900">Enosi</h3>
-            <p className="text-sm text-gray-600 mb-2">Your favorite hotel booking experience</p>
-            <p className="text-sm text-gray-600">since 1978</p>
+            <h3 className="text-xl font-bold mb-4 text-gray-900 font-sans">Enosi</h3>
+            <p className="text-sm text-gray-600 mb-2 font-sans">Your favorite hotel booking experience</p>
+            <p className="text-sm text-gray-600 font-sans">since 1978</p>
           </div>
           
           {/* Support Links */}
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Support</h4>
+            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Support</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Help</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">FAQ</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Customer service</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Help</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">FAQ</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Customer service</a>
             </div>
           </div>
           
           {/* Company Links */}
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Company</h4>
+            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Company</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">About Us</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Careers</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Press</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">About Us</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Careers</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Press</a>
             </div>
           </div>
           
           {/* Contact Links */}
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4">Contact</h4>
+            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Contact</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">How to guide</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Contact us</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors">Partnership</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">How to guide</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Contact us</a>
+              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Partnership</a>
             </div>
           </div>
         </div>
@@ -511,11 +511,11 @@ export const Footer = () => {
         {/* Bottom section */}
         <div className="border-t border-gray-200 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500 mb-4 md:mb-0">Enosi © 2025. All rights reserved.</p>
+            <p className="text-sm text-gray-500 mb-4 md:mb-0 font-sans">Enosi © 2025. All rights reserved.</p>
             <div className="flex space-x-6">
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">Privacy Policy</a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">Terms of Service</a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">Cookie Policy</a>
+              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Privacy Policy</a>
+              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Terms of Service</a>
+              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Cookie Policy</a>
             </div>
           </div>
         </div>
