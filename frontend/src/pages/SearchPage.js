@@ -606,7 +606,6 @@ const SearchPage = () => {
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <option value="" disabled hidden>  Sort by</option>
-                <option value="relevance">Relevance</option>
                 <option value="price-low-high">Price: Low to High</option>
                 <option value="price-high-low">Price: High to Low</option>
                 <option value="rating">Rating</option>
