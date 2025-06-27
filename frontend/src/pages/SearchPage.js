@@ -559,7 +559,7 @@ const SearchPage = () => {
           style={{
             position: 'absolute',
             left: '440px',
-            top: '80px',
+            top: '20px',
             zIndex: 5
           }}
         >
