@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { useParams, Link } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import { 
   ArrowLeft,
   Star, 
@@ -17,37 +16,289 @@ import {
   Facebook,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  Phone,
+  Mail,
+  CheckCircle
 } from 'lucide-react';
-import { Header, Footer } from '../components-airbnb';
-import { QuoteRequestModal } from '../components';
-import { ChatButton } from '../components/ChatModal';
-import { vendorsAPI } from '../services/api';
-import ReviewDisplay from '../components/ReviewDisplay';
-import ReviewForm from '../components/ReviewForm';
-import TrustBadges from '../components/TrustBadges';
-import { getRouteParam } from '../utils/routeUtils';
+import { useAuth } from '../contexts/AuthContext';
+
+// Initialize match object for this component
+if (typeof window !== 'undefined' && !window.match) {
+  window.match = {
+    params: {},
+    isExact: true,
+    path: window.location.pathname,
+    url: window.location.pathname
+  };
+}
 
 const VendorDetailPage = () => {
-  const params = useParams();
-  const vendorId = getRouteParam(params, 'vendorId', 'mock-1');
+  const { vendorId } = useParams();
+  const navigate = useNavigate();
+  const { isAuthenticated, user, logout } = useAuth();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showImageModal, setShowImageModal] = useState(false);
-  const [reviews, setReviews] = useState([]);
-  const [trustScore, setTrustScore] = useState(null);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
-  const [showReviewForm, setShowReviewForm] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const { data: vendor, isLoading, error } = useQuery({
-    queryKey: ['vendor', vendorId],
-    queryFn: () => vendorsAPI.getById(vendorId),
-  });
+  // Mock vendor data - in real app this would come from API
+  const vendor = {
+    id: vendorId,
+    name: "Elegant Garden Venues",
+    location: "Sydney, NSW",
+    rating: 4.8,
+    reviewCount: "124 reviews",
+    ratingText: "Excellent",
+    price: 2500,
+    priceUnit: "event",
+    category: "Venue",
+    description: "Stunning garden venue perfect for outdoor weddings with panoramic city views and professional event coordination.",
+    longDescription: "Located in the heart of Sydney, Elegant Garden Venues offers breathtaking outdoor spaces surrounded by lush gardens and panoramic city views. Our venue specializes in creating unforgettable wedding experiences with our team of professional event coordinators who handle every detail of your special day.",
+    images: [
+      "https://images.unsplash.com/photo-1519167758481-83f29c7c3d6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1523362628745-0c100150b504?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
+    ],
+    features: [
+      "Outdoor ceremony space",
+      "Professional coordination",
+      "Catering services available",
+      "Full bar service",
+      "Photography packages",
+      "Flexible seating arrangements"
+    ],
+    packages: [
+      {
+        name: "Essential Package",
+        price: 2500,
+        features: ["4-hour venue rental", "Basic setup", "Coordinator on-site", "Tables and chairs"]
+      },
+      {
+        name: "Premium Package", 
+        price: 4200,
+        features: ["8-hour venue rental", "Full setup & styling", "Wedding coordinator", "Tables, chairs & linens", "Sound system", "Bridal suite access"]
+      },
+      {
+        name: "Luxury Package",
+        price: 6800,
+        features: ["Full day venue access", "Complete styling service", "Dedicated coordinator team", "Premium furniture", "Professional sound/lighting", "Bridal & groom suites", "Welcome drinks"]
+      }
+    ],
+    contact: {
+      phone: "+61 2 9876 5432",
+      email: "bookings@elegantgardens.com.au",
+      website: "www.elegantgardens.com.au"
+    },
+    socialMedia: {
+      instagram: "@elegantgardens",
+      facebook: "ElegantGardenVenues"
+    },
+    availability: "Available most weekends",
+    responseTime: "Usually responds within 2 hours"
+  };
 
-  // Mock vendor data for demonstration
-  const mockVendorData = {
-    'mock-1': {
-      id: 'mock-1',
+  return (
+    <div className="min-h-screen bg-white font-sans">
+      {/* Header - Same as landing page */}
+      <header className="bg-white">
+        <div className="container mx-auto px-9 py-5 flex justify-between items-center">
+          <div className="flex items-center">
+            <button 
+              onClick={() => navigate('/')}
+              className="text-xl font-bold font-sans"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              Enosi
+            </button>
+          </div>
+          
+          <nav className="hidden md:flex space-x-6">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+              Find Vendors
+            </button>
+            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+              Inspiration
+            </a>
+            <a href="#about" className="text-sm hover:text-blue-500 transition-colors font-sans">
+              About Us
+            </a>
+          </nav>
+
+          <div className="flex space-x-2">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <div className="relative group">
+                  <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                    <span className="text-sm font-sans">{user?.first_name}</span>
+                  </button>
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      <button
+                        onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          logout();
+                          navigate('/');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="border border-gray-300 text-gray-700 rounded-full px-4 py-2 text-sm hover:bg-gray-50 transition-colors font-sans"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="bg-blue-500 text-white rounded-full px-4 py-2 text-sm hover:bg-blue-600 transition-colors font-sans"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Back Button */}
+      <div className="container mx-auto px-9 py-4">
+        <button 
+          onClick={() => navigate('/search')}
+          className="flex items-center text-gray-600 hover:text-blue-500 transition-colors font-sans"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          Back to search results
+        </button>
+      </div>
+
+      {/* Hero Section */}
+      <div className="container mx-auto px-9 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Image Gallery */}
+          <div className="space-y-4">
+            <div className="relative">
+              <img 
+                src={vendor.images[currentImageIndex]}
+                alt={vendor.name}
+                className="w-full h-96 object-cover rounded-2xl cursor-pointer"
+                onClick={() => setShowImageModal(true)}
+              />
+              <button 
+                onClick={() => setCurrentImageIndex(currentImageIndex > 0 ? currentImageIndex - 1 : vendor.images.length - 1)}
+                className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={() => setCurrentImageIndex(currentImageIndex < vendor.images.length - 1 ? currentImageIndex + 1 : 0)}
+                className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-2 shadow-lg hover:bg-white transition-colors"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="grid grid-cols-4 gap-2">
+              {vendor.images.map((image, index) => (
+                <img 
+                  key={index}
+                  src={image}
+                  alt={`${vendor.name} ${index + 1}`}
+                  className={`w-full h-20 object-cover rounded-lg cursor-pointer border-2 ${index === currentImageIndex ? 'border-blue-500' : 'border-transparent'}`}
+                  onClick={() => setCurrentImageIndex(index)}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Vendor Information */}
+          <div className="space-y-6">
+            <div>
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h1 className="text-3xl font-bold text-gray-900 font-sans mb-2">{vendor.name}</h1>
+                  <p className="text-lg text-gray-600 flex items-center font-sans">
+                    <MapPin className="w-5 h-5 mr-2" />
+                    {vendor.location}
+                  </p>
+                </div>
+                <div className="flex space-x-2">
+                  <button 
+                    onClick={() => setIsFavorited(!isFavorited)}
+                    className={`p-3 rounded-full border transition-colors ${isFavorited ? 'bg-red-50 border-red-200 text-red-500' : 'bg-gray-50 border-gray-200 text-gray-500 hover:bg-gray-100'}`}
+                  >
+                    <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current' : ''}`} />
+                  </button>
+                  <button className="p-3 rounded-full bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-100 transition-colors">
+                    <Share className="w-5 h-5" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-4 mb-6">
+                <div className="flex items-center">
+                  <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                  <span className="text-lg font-semibold ml-1 font-sans">{vendor.rating}</span>
+                  <span className="text-gray-600 ml-1 font-sans">({vendor.reviewCount})</span>
+                </div>
+                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium font-sans">
+                  {vendor.ratingText}
+                </span>
+              </div>
+
+              <p className="text-gray-700 mb-6 font-sans leading-relaxed">{vendor.longDescription}</p>
+
+              {/* Features */}
+              <div className="mb-6">
+                <h3 className="text-lg font-semibold mb-3 font-sans">What's included</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {vendor.features.map((feature, index) => (
+                    <div key={index} className="flex items-center font-sans">
+                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Pricing */}
+              <div className="bg-gray-50 rounded-2xl p-6">
+                <div className="text-center mb-4">
+                  <span className="text-3xl font-bold text-gray-900 font-sans">
+                    ${vendor.price.toLocaleString()}
+                  </span>
+                  <span className="text-gray-600 font-sans">/{vendor.priceUnit}</span>
+                  <p className="text-sm text-gray-500 mt-1 font-sans">Starting price</p>
+                </div>
+                <button 
+                  onClick={() => setShowQuoteModal(true)}
+                  className="w-full bg-blue-500 text-white py-3 px-6 rounded-xl font-semibold hover:bg-blue-600 transition-colors font-sans"
+                >
+                  Request Quote
+                </button>
+                <p className="text-xs text-gray-500 text-center mt-2 font-sans">{vendor.responseTime}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       business_name: 'Eternal Moments Photography',
       category: 'photographer',
       description: 'Capturing love stories with artistic vision and professional excellence. We specialize in romantic, candid, and traditional wedding photography that tells your unique story. Our team combines technical expertise with creative flair to deliver stunning images that will be treasured for generations.',
