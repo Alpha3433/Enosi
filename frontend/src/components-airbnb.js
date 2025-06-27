@@ -286,7 +286,7 @@ export const PopularDestinations = () => {
   );
 };
 
-// Hotels Section - Exact match to provided design
+// Hotels Section - Based on provided component design
 export const HotelsLovedByGuests = () => {
   const hotels = [
     {
@@ -331,37 +331,107 @@ export const HotelsLovedByGuests = () => {
       <h3 className="text-lg font-semibold mb-5">Hotels loved by guests</h3>
       
       {/* Horizontal scrollable container */}
-      <div className="flex space-x-4 overflow-x-auto pb-2">
+      <div className="flex space-x-6 overflow-x-auto pb-4">
         {hotels.map((hotel, index) => (
-          <div key={index} className="flex-shrink-0 w-64 group cursor-pointer">
+          <div 
+            key={index} 
+            className="flex-shrink-0 group cursor-pointer"
+            style={{
+              width: '249px',
+              height: '294px',
+              backgroundColor: '#ffffff',
+              borderRadius: '20px',
+              boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+              padding: '8px'
+            }}
+          >
             {/* Image container */}
             <div className="relative mb-3">
-              <img
-                src={hotel.image}
-                alt={hotel.name}
-                className="w-full h-48 object-cover rounded-lg group-hover:scale-105 transition-transform duration-300"
+              <div
+                className="w-full h-46 rounded-2xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+                style={{
+                  height: '184px',
+                  borderRadius: '16px',
+                  backgroundImage: `url(${hotel.image})`,
+                  backgroundPosition: 'center center',
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'no-repeat',
+                }}
               />
               
               {/* Rating badge - top left */}
-              <div className="absolute top-3 left-3">
-                <div className="bg-teal-600 text-white px-2 py-1 rounded-md text-xs font-bold">
+              <div className="absolute top-2 left-2">
+                <button
+                  className="px-2 py-1 border-0 text-xs font-medium"
+                  style={{
+                    borderRadius: '100px',
+                    backgroundColor: '#e1ffd7',
+                    color: '#009d52',
+                    fontSize: '12px',
+                    lineHeight: '16px',
+                  }}
+                >
                   {hotel.rating}
-                </div>
+                </button>
               </div>
               
               {/* Heart icon - top right */}
-              <button className="absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm">
-                <Heart className="w-4 h-4 text-gray-600" />
+              <button 
+                className="absolute top-2 right-2 flex items-center justify-center border-0"
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '100px',
+                  backgroundColor: 'rgba(255,255,255,0.5)',
+                }}
+              >
+                <Heart className="w-3.5 h-3.5 text-white fill-white" />
               </button>
             </div>
             
             {/* Hotel details */}
-            <div className="space-y-1">
-              <h4 className="font-semibold text-base text-gray-900 leading-tight">{hotel.name}</h4>
-              <p className="text-sm text-gray-500">{hotel.location}</p>
+            <div className="px-2 space-y-1">
+              <h4 
+                className="font-normal leading-6"
+                style={{
+                  color: '#030303',
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                }}
+              >
+                {hotel.name}
+              </h4>
+              <p 
+                className="font-light"
+                style={{
+                  color: '#858585',
+                  fontSize: '14px',
+                  fontWeight: 300,
+                  lineHeight: '22px',
+                }}
+              >
+                {hotel.location}
+              </p>
               <div className="flex items-center justify-between pt-1">
-                <span className="text-sm font-medium text-gray-900">from ${hotel.price}/night</span>
-                <ChevronRight className="w-4 h-4 text-gray-400" />
+                <span 
+                  className="font-semibold"
+                  style={{
+                    color: '#030303',
+                    fontSize: '16px',
+                    fontWeight: 600,
+                    lineHeight: '24px',
+                  }}
+                >
+                  from ${hotel.price}/night
+                </span>
+                <ChevronRight 
+                  className="w-3.5 h-3.5"
+                  style={{
+                    color: '#030303',
+                    fill: '#030303',
+                    fontSize: '14px',
+                  }}
+                />
               </div>
             </div>
           </div>
