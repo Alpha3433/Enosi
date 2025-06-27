@@ -451,12 +451,12 @@ export const NewsletterSection = () => {
             💰
           </div>
           <div>
-            <h4 className="font-bold text-lg text-gray-900 mb-2">Pssst!</h4>
-            <p className="text-sm text-gray-600 mb-1">Do you want to get secret offers and best prices for amazing stays?</p>
-            <p className="text-sm text-gray-600">Sign up to join our Travel Club!</p>
+            <h4 className="font-bold text-lg text-gray-900 mb-2 font-sans">Pssst!</h4>
+            <p className="text-sm text-gray-600 mb-1 font-sans">Do you want to get secret offers and best prices for amazing stays?</p>
+            <p className="text-sm text-gray-600 font-sans">Sign up to join our Travel Club!</p>
           </div>
         </div>
-        <button className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium">
+        <button className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium font-sans">
           Sign up for newsletter
         </button>
       </div>
