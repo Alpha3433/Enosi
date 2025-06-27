@@ -539,12 +539,12 @@ const SearchPage = () => {
           </div>
         </div>
         
-        {/* Results Text Positioned Near Divider */}
+        {/* Results Text Positioned Below Nav Bar */}
         <div 
           style={{
             position: 'absolute',
             left: '440px',
-            top: '120px',
+            top: '80px',
             zIndex: 5
           }}
         >
