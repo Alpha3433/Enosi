@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useParams, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { 
   ArrowLeft,
   Star, 
@@ -16,22 +17,16 @@ import {
   Facebook,
   ChevronLeft,
   ChevronRight,
-  X,
-  Phone,
-  Mail,
-  CheckCircle
+  X
 } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-
-// Initialize match object for this component
-if (typeof window !== 'undefined' && !window.match) {
-  window.match = {
-    params: {},
-    isExact: true,
-    path: window.location.pathname,
-    url: window.location.pathname
-  };
-}
+import { Header, Footer } from '../components-airbnb';
+import { QuoteRequestModal } from '../components';
+import { ChatButton } from '../components/ChatModal';
+import { vendorsAPI } from '../services/api';
+import ReviewDisplay from '../components/ReviewDisplay';
+import ReviewForm from '../components/ReviewForm';
+import TrustBadges from '../components/TrustBadges';
+import { getRouteParam } from '../utils/routeUtils';
 
 const VendorDetailPage = () => {
   const { vendorId } = useParams();
