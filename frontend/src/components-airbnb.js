@@ -612,29 +612,29 @@ export const HotelsLovedByGuests = () => {
   ];
 
   return (
-    <section className="container mx-auto px-8 mt-8">
-      <h3 className="text-base font-semibold mb-4 text-left font-sans">Popular Wedding Vendors</h3>
+    <section className="container mx-auto px-9 mt-9">
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding Vendors</h3>
       
-      <div className="flex space-x-5 overflow-x-auto pb-3">
+      <div className="flex space-x-6 overflow-x-auto pb-4">
         {vendors.map((vendor, index) => (
           <div 
             key={index} 
             className="flex-shrink-0 group cursor-pointer"
             style={{
-              width: '199px',
-              height: '235px',
+              width: '219px',
+              height: '259px',
               backgroundColor: '#ffffff',
-              borderRadius: '16px',
-              boxShadow: '0px 1px 10px rgba(3,3,3,0.08)',
-              padding: '6px'
+              borderRadius: '18px',
+              boxShadow: '0px 1px 11px rgba(3,3,3,0.08)',
+              padding: '7px'
             }}
           >
-            <div className="relative mb-2">
+            <div className="relative mb-3">
               <div
-                className="w-full h-36 rounded-xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
                 style={{
-                  height: '147px',
-                  borderRadius: '13px',
+                  height: '162px',
+                  borderRadius: '14px',
                   backgroundImage: `url(${vendor.image})`,
                   backgroundPosition: 'center center',
                   backgroundSize: 'cover',
@@ -642,30 +642,30 @@ export const HotelsLovedByGuests = () => {
                 }}
               />
               
-              <div className="absolute top-1 left-1">
+              <div className="absolute top-2 left-2">
                 <button
-                  className="px-1 py-0.5 border-0 text-xs font-medium font-sans"
+                  className="px-2 py-1 border-0 text-xs font-medium font-sans"
                   style={{
-                    borderRadius: '80px',
+                    borderRadius: '88px',
                     backgroundColor: '#e1ffd7',
                     color: '#009d52',
-                    fontSize: '10px',
-                    lineHeight: '13px',
+                    fontSize: '11px',
+                    lineHeight: '14px',
                   }}
                 >
                   {vendor.rating}
                 </button>
               </div>
               
-              <div className="absolute top-1 right-1">
+              <div className="absolute top-2 right-2">
                 <span
-                  className="px-1 py-0.5 text-xs font-medium font-sans"
+                  className="px-2 py-1 text-xs font-medium font-sans"
                   style={{
-                    borderRadius: '80px',
+                    borderRadius: '88px',
                     backgroundColor: 'rgba(59, 130, 246, 0.9)',
                     color: 'white',
-                    fontSize: '9px',
-                    lineHeight: '11px',
+                    fontSize: '10px',
+                    lineHeight: '12px',
                   }}
                 >
                   {vendor.category}
@@ -673,13 +673,13 @@ export const HotelsLovedByGuests = () => {
               </div>
             </div>
             
-            <div className="px-1 space-y-1">
+            <div className="px-2 space-y-1">
               <h4 
                 className="font-normal leading-5 font-sans"
                 style={{
                   color: '#030303',
-                  fontSize: '13px',
-                  lineHeight: '19px',
+                  fontSize: '14px',
+                  lineHeight: '21px',
                 }}
               >
                 {vendor.name}
@@ -688,31 +688,31 @@ export const HotelsLovedByGuests = () => {
                 className="font-light font-sans"
                 style={{
                   color: '#858585',
-                  fontSize: '11px',
+                  fontSize: '12px',
                   fontWeight: 300,
-                  lineHeight: '18px',
+                  lineHeight: '20px',
                 }}
               >
                 {vendor.location}
               </p>
-              <div className="flex items-center justify-between pt-0.5">
+              <div className="flex items-center justify-between pt-1">
                 <span 
                   className="font-semibold font-sans"
                   style={{
                     color: '#030303',
-                    fontSize: '13px',
+                    fontSize: '14px',
                     fontWeight: 600,
-                    lineHeight: '19px',
+                    lineHeight: '21px',
                   }}
                 >
                   from ${vendor.price}/{vendor.priceUnit}
                 </span>
                 <ChevronRight 
-                  className="w-3 h-3"
+                  className="w-4 h-4"
                   style={{
                     color: '#030303',
                     fill: '#030303',
-                    fontSize: '11px',
+                    fontSize: '12px',
                   }}
                 />
               </div>
