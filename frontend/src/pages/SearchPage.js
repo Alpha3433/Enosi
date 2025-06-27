@@ -211,7 +211,7 @@ const SearchPage = () => {
                   value={filters.location}
                   onChange={(e) => handleFilterChange('location', e.target.value)}
                   placeholder="Search destinations"
-                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
                 />
               </div>
             </div>
@@ -223,7 +223,7 @@ const SearchPage = () => {
                 <select
                   value={filters.vendorType}
                   onChange={(e) => handleFilterChange('vendorType', e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm appearance-none bg-white"
+                  className="w-full px-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md appearance-none"
                 >
                   <option value="">All Vendors</option>
                   <option value="venue">Venues</option>
@@ -247,7 +247,7 @@ const SearchPage = () => {
                   value={filters.weddingDate}
                   onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
                   placeholder="DD/MM/YYYY"
-                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
                 />
               </div>
             </div>
@@ -262,13 +262,13 @@ const SearchPage = () => {
                   value={filters.guestCount}
                   onChange={(e) => handleFilterChange('guestCount', e.target.value)}
                   placeholder="Number of guests"
-                  className="w-full pl-10 pr-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm"
+                  className="w-full pl-10 pr-3 py-2.5 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md"
                 />
               </div>
             </div>
 
             {/* Search Button */}
-            <button className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium text-sm">
+            <button className="w-full py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium text-sm">
               Search
             </button>
           </div>
