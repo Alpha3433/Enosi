@@ -22,7 +22,7 @@ import VendorDetailPageNew from './pages/VendorDetailPageNew';
 import GalleryPage from './pages/GalleryPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
-import DashboardPage from './pages/DashboardPage';
+import CouplesDashboard from './pages/CouplesDashboard';
 import VendorDashboardPage from './pages/VendorDashboardPage';
 import PlanningToolsPage from './pages/PlanningToolsPage';
 import BudgetTrackerPage from './pages/BudgetTrackerPage';
