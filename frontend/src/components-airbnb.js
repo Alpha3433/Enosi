@@ -315,32 +315,32 @@ export const AirbnbHeroSection = () => {
   );
 };
 
-// Popular Destinations with 6-card grid layout
+// Popular Australian States with 6-card grid layout
 export const PopularDestinations = () => {
   const destinations = [
     {
-      name: 'Sydney',
-      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      name: 'New South Wales',
+      image: 'https://images.pexels.com/photos/5707611/pexels-photo-5707611.jpeg',
     },
     {
-      name: 'London',
-      image: 'https://images.unsplash.com/photo-1520986606214-8b456906c813?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'Victoria',
+      image: 'https://images.pexels.com/photos/3082776/pexels-photo-3082776.jpeg',
     },
     {
-      name: 'Lisbon',
-      image: 'https://images.unsplash.com/photo-1518132006340-7c31de9a7544?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'Queensland',
+      image: 'https://images.unsplash.com/photo-1664191401117-f399706b5bbf',
     },
     {
-      name: 'Croatia',
-      image: 'https://images.unsplash.com/photo-1555990577-78d9a50b2b6a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
+      name: 'Western Australia',
+      image: 'https://images.pexels.com/photos/4319003/pexels-photo-4319003.jpeg',
     },
     {
-      name: 'Bratislava',
-      image: 'https://images.unsplash.com/photo-1592906209472-a36b1f3782ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'South Australia',
+      image: 'https://images.unsplash.com/photo-1636682282083-fa6e79c85fce',
     },
     {
-      name: 'Copenhagen',
-      image: 'https://images.unsplash.com/photo-1513622470522-26c3c8a854bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
+      name: 'Tasmania',
+      image: 'https://images.pexels.com/photos/2265880/pexels-photo-2265880.jpeg',
     },
   ];
 
