@@ -553,6 +553,38 @@ const SearchPage = () => {
           </div>
           
           <div className="mt-10">
+            <div 
+              style={{
+                color: '#030303',
+                fontSize: '14px',
+                fontFamily: 'Prompt',
+                lineHeight: '22px',
+                marginBottom: '8px'
+              }}
+            >
+              {vendors.length} filtered results for: {(() => {
+                const parts = [];
+                if (filters.location) parts.push(filters.location);
+                if (filters.weddingDate) parts.push(filters.weddingDate);
+                if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
+                if (filters.vendorType) parts.push(filters.vendorType);
+                
+                return parts.length > 0 ? parts.join(', ') : 'All locations, All dates, All guests, All vendors';
+              })()}
+            </div>
+            <div 
+              style={{
+                color: '#030303',
+                fontSize: '24px',
+                fontFamily: 'Prompt',
+                fontWeight: 600,
+                lineHeight: '36px',
+                marginBottom: '24px'
+              }}
+            >
+              Wedding Vendors Available
+            </div>
+            
             <h2 className="text-lg font-medium">Enosi</h2>
             <p className="text-xs text-gray-600">Your favorite wedding vendor booking experience since 1997!</p>
             <p className="text-xs text-gray-400 mt-6">Enosi © 2025</p>
