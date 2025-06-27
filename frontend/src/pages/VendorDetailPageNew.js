@@ -84,6 +84,11 @@ const VendorDetailPage = () => {
         name: "Luxury Package",
         price: 6800,
         features: ["Full day venue access", "Complete styling service", "Dedicated coordinator team", "Premium furniture", "Professional sound/lighting", "Bridal & groom suites", "Welcome drinks"]
+      },
+      {
+        name: "Ultimate Package",
+        price: 9500,
+        features: ["Multi-day venue access", "Complete event management", "Personal wedding planner", "Luxury amenities", "Professional photography", "Catering included", "Transportation service", "Spa services"]
       }
     ],
     contact: {
