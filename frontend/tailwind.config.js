@@ -6,8 +6,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Open Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        'title': ['Lato', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'sans': ['Prompt', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'title': ['Prompt', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        'body': ['Prompt', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       colors: {
         primary: {
