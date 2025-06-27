@@ -328,7 +328,7 @@ export const HotelsLovedByGuests = () => {
 
   return (
     <section className="container mx-auto px-10 mt-10">
-      <h3 className="text-lg font-semibold mb-5">Hotels loved by guests</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Hotels loved by guests</h3>
       
       {/* Horizontal scrollable container */}
       <div className="flex space-x-6 overflow-x-auto pb-4">
@@ -362,7 +362,7 @@ export const HotelsLovedByGuests = () => {
               {/* Rating badge - top left */}
               <div className="absolute top-2 left-2">
                 <button
-                  className="px-2 py-1 border-0 text-xs font-medium"
+                  className="px-2 py-1 border-0 text-xs font-medium font-sans"
                   style={{
                     borderRadius: '100px',
                     backgroundColor: '#e1ffd7',
@@ -392,7 +392,7 @@ export const HotelsLovedByGuests = () => {
             {/* Hotel details */}
             <div className="px-2 space-y-1">
               <h4 
-                className="font-normal leading-6"
+                className="font-normal leading-6 font-sans"
                 style={{
                   color: '#030303',
                   fontSize: '16px',
@@ -402,7 +402,7 @@ export const HotelsLovedByGuests = () => {
                 {hotel.name}
               </h4>
               <p 
-                className="font-light"
+                className="font-light font-sans"
                 style={{
                   color: '#858585',
                   fontSize: '14px',
@@ -414,7 +414,7 @@ export const HotelsLovedByGuests = () => {
               </p>
               <div className="flex items-center justify-between pt-1">
                 <span 
-                  className="font-semibold"
+                  className="font-semibold font-sans"
                   style={{
                     color: '#030303',
                     fontSize: '16px',
