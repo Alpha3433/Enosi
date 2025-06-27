@@ -26,7 +26,9 @@ import {
   Instagram,
   Facebook,
   Twitter,
-  ChevronRight
+  ChevronRight,
+  ChevronDown,
+  ChevronLeft
 } from 'lucide-react';
 
 import { useAuth } from './contexts/AuthContext';
