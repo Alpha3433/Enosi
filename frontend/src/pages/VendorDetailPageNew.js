@@ -518,7 +518,7 @@ const VendorDetailPage = () => {
                   <span className="font-bold">7.2</span>
                 </div>
               </div>
-              <p className="text-sm mb-3">
+              <p className="text-sm mb-3" style={{ textAlign: 'left' }}>
                 Beautiful venue with great service, but parking was challenging for our guests. Would recommend arranging transport.
               </p>
               <ul className="text-sm space-y-1 mb-3">
