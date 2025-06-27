@@ -537,12 +537,6 @@ const SearchPage = () => {
               </div>
             </div>
           </div>
-          
-          <div className="mt-10">
-            <h2 className="text-lg font-medium">Enosi</h2>
-            <p className="text-xs text-gray-600">Your favorite wedding vendor booking experience since 1997!</p>
-            <p className="text-xs text-gray-400 mt-6">Enosi © 2025</p>
-          </div>
         </div>
         
         {/* Results Text Positioned Near Divider */}
