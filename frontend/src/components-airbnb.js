@@ -1052,43 +1052,91 @@ export const TopRatedServices = () => {
 
 // Newsletter Section with Email Capture
 export const NewsletterSection = () => {
-  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   
-  const handleEmailSubmit = (email) => {
-    console.log('Email submitted to mailing list:', email);
+  const handleEmailSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    setTimeout(() => {
+      console.log('Email submitted to mailing list:', email);
+      setIsSuccess(true);
+      setIsSubmitting(false);
+      
+      // Reset form after success
+      setTimeout(() => {
+        setIsSuccess(false);
+        setEmail('');
+      }, 3000);
+    }, 1000);
   };
 
   return (
-    <>
-      <section className="container mx-auto px-9 mt-11 mb-9">
-        <div className="flex flex-col md:flex-row items-center justify-between bg-gray-50 rounded-2xl p-7">
-          <div className="flex items-center mb-6 md:mb-0">
-            <div className="text-4xl mr-6 flex items-center justify-center w-18 h-18 bg-yellow-100 rounded-full flex-shrink-0">
-              💰
-            </div>
-            <div className="text-left">
-              <h4 className="font-bold text-lg text-gray-900 mb-2 font-sans">Pssst!</h4>
-              <p className="text-sm text-gray-600 mb-1 font-sans">Do you want to get secret offers and best prices for amazing stays?</p>
-              <p className="text-sm text-gray-600 font-sans">Sign up to join our Travel Club!</p>
-            </div>
+    <section className="container mx-auto px-9 mt-11 mb-9">
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -mr-16 -mt-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white opacity-10 rounded-full -ml-12 -mb-12"></div>
+        
+        <div className="relative z-10">
+          <div className="text-center mb-6">
+            <h3 className="text-2xl md:text-3xl font-bold mb-3 font-sans">
+              Join Our Wedding Club! 💍
+            </h3>
+            <p className="text-lg opacity-90 mb-1 font-sans">
+              Get exclusive access to secret offers, best prices, and amazing wedding vendor deals!
+            </p>
           </div>
-          <div className="flex-shrink-0">
-            <button 
-              onClick={() => setIsEmailModalOpen(true)}
-              className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium font-sans"
-            >
-              Sign up for newsletter
-            </button>
-          </div>
+          
+          {!isSuccess ? (
+            <form onSubmit={handleEmailSubmit} className="max-w-md mx-auto">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex-1">
+                  <label className="block text-sm font-medium mb-2 font-sans opacity-90">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 border-0 focus:ring-2 focus:ring-white focus:ring-opacity-50 outline-none font-sans"
+                    required
+                  />
+                </div>
+                <div className="flex-shrink-0 sm:self-end">
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto bg-white text-blue-600 rounded-lg px-6 py-3 font-semibold hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-sans whitespace-nowrap"
+                  >
+                    {isSubmitting ? 'Joining...' : 'Join Now'}
+                  </button>
+                </div>
+              </div>
+              <p className="text-xs opacity-75 mt-3 text-center font-sans">
+                No spam, just exclusive wedding deals and inspiration. Unsubscribe anytime.
+              </p>
+            </form>
+          ) : (
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500 rounded-full mb-4">
+                <CheckCircle className="w-8 h-8 text-white" />
+              </div>
+              <h4 className="text-xl font-bold mb-2 font-sans">Welcome to the Club!</h4>
+              <p className="opacity-90 font-sans">
+                You'll start receiving exclusive wedding deals and offers soon.
+              </p>
+            </div>
+          )}
         </div>
-      </section>
-      
-      <EmailCaptureModal
-        isOpen={isEmailModalOpen}
-        onClose={() => setIsEmailModalOpen(false)}
-        onSubmit={handleEmailSubmit}
-      />
-    </>
+      </div>
+    </section>
   );
 };
 
