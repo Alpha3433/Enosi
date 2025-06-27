@@ -261,7 +261,8 @@ const SearchPage = () => {
                   color: '#030303',
                   fontFamily: 'Prompt',
                   fontWeight: 500,
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  paddingLeft: '8px'
                 }}
               >
                 Vendor
