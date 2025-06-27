@@ -581,7 +581,8 @@ const SearchPage = () => {
               fontSize: '14px',
               fontFamily: 'Prompt',
               lineHeight: '22px',
-              marginBottom: '8px'
+              marginBottom: '8px',
+              paddingLeft: '8px'
             }}
           >
             {vendors.length} filtered results for: {(() => {
