@@ -441,20 +441,22 @@ export const HotelsLovedByGuests = () => {
   );
 };
 
-// Newsletter Section
+// Newsletter Section - Updated design with icon
 export const NewsletterSection = () => {
   return (
     <section className="container mx-auto px-10 mt-12 mb-10">
-      <div className="flex items-center justify-between bg-gray-50 rounded-lg p-6">
-        <div className="flex items-center">
-          <DollarSign className="text-3xl mr-4 text-gray-600" />
+      <div className="flex flex-col md:flex-row items-center justify-between bg-gray-50 rounded-2xl p-8">
+        <div className="flex items-center mb-6 md:mb-0">
+          <div className="text-4xl mr-6 flex items-center justify-center w-16 h-16 bg-yellow-100 rounded-full">
+            💰
+          </div>
           <div>
-            <h4 className="font-bold">Pssst!</h4>
-            <p className="text-sm">Do you want to get secret offers and best prices for amazing stays?</p>
-            <p className="text-sm">Sign up to join our Travel Club!</p>
+            <h4 className="font-bold text-lg text-gray-900 mb-2">Pssst!</h4>
+            <p className="text-sm text-gray-600 mb-1">Do you want to get secret offers and best prices for amazing stays?</p>
+            <p className="text-sm text-gray-600">Sign up to join our Travel Club!</p>
           </div>
         </div>
-        <button className="border border-blue-500 text-blue-500 rounded-full px-4 py-2 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap">
+        <button className="border border-blue-500 text-blue-500 rounded-full px-6 py-3 text-sm hover:bg-blue-50 transition-colors whitespace-nowrap font-medium">
           Sign up for newsletter
         </button>
       </div>
