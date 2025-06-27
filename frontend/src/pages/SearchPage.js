@@ -115,6 +115,19 @@ const SearchPage = () => {
     return 'text-yellow-600';
   };
 
+  const handleSortChange = (sortOption) => {
+    setSortBy(sortOption);
+    setShowSortDropdown(false);
+  };
+
+  const sortOptions = [
+    { value: 'relevance', label: 'Relevance' },
+    { value: 'price-low-high', label: 'Price: Low to High' },
+    { value: 'price-high-low', label: 'Price: High to Low' },
+    { value: 'rating', label: 'Rating' },
+    { value: 'distance', label: 'Distance' }
+  ];
+
   return (
     <div className="min-h-screen bg-white font-sans" style={{ fontFamily: 'Prompt, sans-serif' }}>
       {/* Header */}
