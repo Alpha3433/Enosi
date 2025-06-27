@@ -87,32 +87,32 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans">
-      {/* Hero Section with matching design */}
-      <section className="relative">
+    <div className="min-h-screen bg-white font-sans flex">
+      {/* Left Side - Image Section */}
+      <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative">
         <img
           src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
           alt="Wedding scene with guests"
-          className="w-full h-[300px] object-cover"
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-sans">Welcome Back</h1>
-          <p className="text-lg font-sans">Continue planning your perfect wedding</p>
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-8">
+          <h1 className="text-3xl xl:text-4xl font-bold mb-3 font-sans">Welcome Back</h1>
+          <p className="text-base xl:text-lg font-sans opacity-90">Continue planning your perfect wedding</p>
         </div>
-      </section>
+      </div>
 
-      {/* Login Form Section */}
-      <section className="container mx-auto px-9 py-12">
-        <div className="max-w-md mx-auto">
+      {/* Right Side - Login Form Section */}
+      <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
           {/* Header */}
-          <div className="text-center mb-8">
-            <Link to="/" className="inline-flex items-center text-gray-600 hover:text-blue-500 mb-6 transition-colors font-sans">
-              <ArrowLeft className="h-5 w-5 mr-2" />
+          <div className="text-center mb-6">
+            <Link to="/" className="inline-flex items-center text-gray-600 hover:text-blue-500 mb-4 transition-colors font-sans">
+              <ArrowLeft className="h-4 w-4 mr-2" />
               Back to home
             </Link>
-            <h2 className="text-2xl font-bold text-gray-900 mb-2 font-sans">Sign in to your account</h2>
-            <p className="text-gray-600 font-sans">Enter your credentials to continue</p>
+            <h2 className="text-xl font-bold text-gray-900 mb-2 font-sans">Sign in to your account</h2>
+            <p className="text-sm text-gray-600 font-sans">Enter your credentials to continue</p>
           </div>
 
           {/* Error message */}
@@ -120,60 +120,60 @@ const LoginPage = () => {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg mb-6 font-sans"
+              className="bg-red-50 border border-red-200 text-red-600 px-3 py-2 rounded-lg mb-4 font-sans text-sm"
             >
               {error}
             </motion.div>
           )}
 
           {/* Login form */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-8 shadow-lg">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">
+                <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
                   Email address
                 </label>
                 <input
                   {...register('email')}
                   type="email"
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans"
+                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
-                  <p className="mt-2 text-sm text-red-600 font-sans">{errors.email.message}</p>
+                  <p className="mt-1 text-xs text-red-600 font-sans">{errors.email.message}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">
+                <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
                   Password
                 </label>
                 <div className="relative">
                   <input
                     {...register('password')}
                     type={showPassword ? 'text' : 'password'}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md pr-12 font-sans"
+                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md pr-10 font-sans text-sm"
                     placeholder="Enter your password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-3 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 transition-colors"
                   >
-                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
                 {errors.password && (
-                  <p className="mt-2 text-sm text-red-600 font-sans">{errors.password.message}</p>
+                  <p className="mt-1 text-xs text-red-600 font-sans">{errors.password.message}</p>
                 )}
               </div>
 
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <input type="checkbox" className="h-4 w-4 text-blue-500 focus:ring-blue-500 border-gray-300 rounded" />
-                  <span className="ml-2 text-sm text-gray-600 font-sans">Remember me</span>
+                  <input type="checkbox" className="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-300 rounded" />
+                  <span className="ml-2 text-xs text-gray-600 font-sans">Remember me</span>
                 </label>
-                <a href="#" className="text-sm text-blue-500 hover:text-blue-600 font-sans">
+                <a href="#" className="text-xs text-blue-500 hover:text-blue-600 font-sans">
                   Forgot password?
                 </a>
               </div>
@@ -183,20 +183,20 @@ const LoginPage = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-500 text-white py-3 px-4 rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed font-sans"
+                className="w-full bg-blue-500 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed font-sans text-sm"
               >
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </motion.button>
             </form>
 
             {/* Divider */}
-            <div className="my-6">
+            <div className="my-4">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-gray-200"></div>
                 </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-white text-gray-500 font-sans">Don't have an account?</span>
+                <div className="relative flex justify-center text-xs">
+                  <span className="px-3 bg-white text-gray-500 font-sans">Don't have an account?</span>
                 </div>
               </div>
             </div>
@@ -205,14 +205,14 @@ const LoginPage = () => {
             <div className="text-center">
               <Link
                 to="/signup"
-                className="text-blue-500 hover:text-blue-600 font-medium font-sans transition-colors"
+                className="text-blue-500 hover:text-blue-600 font-medium font-sans transition-colors text-sm"
               >
                 Create your account
               </Link>
             </div>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
