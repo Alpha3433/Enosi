@@ -202,7 +202,20 @@ const SearchPage = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-12">
+      <div className="grid grid-cols-1 md:grid-cols-12 relative">
+        {/* Vertical Divider */}
+        <div 
+          style={{
+            position: 'absolute',
+            top: '95px',
+            left: '422px',
+            width: '1px',
+            height: '1272px',
+            backgroundColor: '#dedede',
+            zIndex: 10
+          }}
+        />
+
         {/* Sidebar */}
         <div 
           className="md:col-span-3 border-r"
