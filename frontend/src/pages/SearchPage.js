@@ -514,12 +514,13 @@ const SearchPage = () => {
             
             <div>
               <h2 
-                className="text-lg mb-4"
+                className="text-lg"
                 style={{
                   color: '#030303',
                   fontFamily: 'Prompt',
                   fontWeight: 500,
-                  textAlign: 'left'
+                  textAlign: 'left',
+                  marginBottom: '16px'
                 }}
               >
                 Vendor class
