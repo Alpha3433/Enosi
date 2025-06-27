@@ -332,7 +332,7 @@ def test_login_endpoint_detailed():
 def test_auth_endpoints():
     """Comprehensive test of authentication endpoints"""
     # Use the internal URL for testing
-    base_url = "http://0.0.0.0:8001"
+    base_url = "http://0.0.0.0:8001/api"
     
     print(f"Using backend URL: {base_url}")
     
