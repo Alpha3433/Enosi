@@ -231,13 +231,12 @@ export const AirbnbHeroSection = () => {
   );
 };
 
-// Popular Destinations with Advanced Grid Layout
+// Popular Destinations with 6-card grid layout
 export const PopularDestinations = () => {
   const destinations = [
     {
       name: 'Sydney',
-      image: 'https://images.unsplash.com/photo-1562911791-c7a97b729ec5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80',
-      colSpan: 'lg:col-span-4'
+      image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     },
     {
       name: 'London',
@@ -264,78 +263,24 @@ export const PopularDestinations = () => {
   return (
     <section className="container mx-auto px-10 mt-8">
       <h3 className="text-lg font-semibold mb-5">Popular Wedding destinations</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
-        {/* Sydney - Large card */}
-        <div className="lg:col-span-4 relative rounded-lg overflow-hidden h-[200px]">
-          <img
-            src={destinations[0].image}
-            alt={destinations[0].name}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-            {destinations[0].name}
-          </div>
-        </div>
-        
-        {/* London & Lisbon */}
-        <div className="lg:col-span-4 grid grid-cols-1 gap-4">
-          <div className="relative rounded-lg overflow-hidden h-[95px]">
-            <img
-              src={destinations[1].image}
-              alt={destinations[1].name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-              {destinations[1].name}
-            </div>
-          </div>
-          <div className="relative rounded-lg overflow-hidden h-[95px]">
-            <img
-              src={destinations[2].image}
-              alt={destinations[2].name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-              {destinations[2].name}
-            </div>
-          </div>
-        </div>
-        
-        {/* Croatia, Bratislava & Copenhagen */}
-        <div className="lg:col-span-4 grid grid-cols-1 gap-4">
-          <div className="relative rounded-lg overflow-hidden h-[95px]">
-            <img
-              src={destinations[3].image}
-              alt={destinations[3].name}
-              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-              {destinations[3].name}
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="relative rounded-lg overflow-hidden h-[95px]">
+      
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        {destinations.map((destination, index) => (
+          <div key={index} className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-shadow duration-300">
+            <div className="aspect-square">
               <img
-                src={destinations[4].image}
-                alt={destinations[4].name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                src={destination.image}
+                alt={destination.name}
+                className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-                {destinations[4].name}
-              </div>
             </div>
-            <div className="relative rounded-lg overflow-hidden h-[95px]">
-              <img
-                src={destinations[5].image}
-                alt={destinations[5].name}
-                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute bottom-3 left-3 bg-white px-3 py-1 rounded-full text-sm">
-                {destinations[5].name}
-              </div>
+            <div className="p-2">
+              <h3 className="text-sm font-medium text-gray-900 text-center">
+                {destination.name}
+              </h3>
             </div>
           </div>
-        </div>
+        ))}
       </div>
     </section>
   );
