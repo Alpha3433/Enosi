@@ -912,6 +912,9 @@ export const TopRatedServices = () => {
     </section>
   );
 };
+
+// Popular Wedding Vendors Section - Based on provided component design
+export const HotelsLovedByGuests = () => {
   const vendors = [
     {
       name: 'Bella Vista Venues',
