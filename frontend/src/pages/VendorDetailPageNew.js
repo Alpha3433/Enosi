@@ -298,7 +298,7 @@ const VendorDetailPage = () => {
 
               {/* Features */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-3 font-sans">What's included</h3>
+                <h3 className="text-lg font-semibold mb-3 font-sans" style={{ textAlign: 'left' }}>What's included</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {vendor.features.map((feature, index) => (
                     <div key={index} className="flex items-center font-sans">
