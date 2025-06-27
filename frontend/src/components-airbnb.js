@@ -262,7 +262,7 @@ export const PopularDestinations = () => {
 
   return (
     <section className="container mx-auto px-10 mt-8">
-      <h3 className="text-lg font-semibold mb-5">Popular Wedding destinations</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding destinations</h3>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {destinations.map((destination, index) => (
@@ -275,7 +275,7 @@ export const PopularDestinations = () => {
               />
             </div>
             <div className="p-2">
-              <h3 className="text-sm font-medium text-gray-900 text-center">
+              <h3 className="text-sm font-medium text-gray-900 text-center font-sans">
                 {destination.name}
               </h3>
             </div>
