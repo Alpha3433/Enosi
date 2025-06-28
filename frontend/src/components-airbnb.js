@@ -222,12 +222,12 @@ export const Header = () => {
           <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
             Find Vendors
           </button>
-          <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-blue-500 transition-colors font-sans">
             Inspiration
-          </a>
-          <a href="#about" className="text-sm hover:text-blue-500 transition-colors font-sans">
+          </button>
+          <button onClick={() => navigate('/about')} className="text-sm hover:text-blue-500 transition-colors font-sans">
             About Us
-          </a>
+          </button>
         </nav>
 
         <div className="flex space-x-2">
