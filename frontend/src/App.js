@@ -71,6 +71,8 @@ function App() {
               <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
+              <Route path="/inspiration" element={<InspirationPage />} />
+              <Route path="/about" element={<AboutPage />} />
               <Route path="/search" element={<SearchPage />} />
               <Route path="/vendors/:vendorId" element={<VendorDetailPageNew />} />
               <Route path="/vendors/:vendorId/gallery" element={<GalleryPage />} />
