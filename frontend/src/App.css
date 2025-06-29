@@ -4,8 +4,7 @@
   text-align: center;
   transform: scale(0.9);
   transform-origin: top center;
-  width: 111.11%; /* Compensate for the 0.9 scale to maintain full width */
-  margin: 0 auto;
+  min-height: 100vh;
 }
 
 /* Smooth scrolling */
