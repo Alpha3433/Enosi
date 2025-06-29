@@ -781,6 +781,15 @@ export const FeaturedVenues = () => {
       image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       category: 'Rustic'
     },
+    {
+      name: 'Crystal Bay Resort',
+      location: 'Sunshine Coast, QLD',
+      rating: 9.6,
+      price: 10500,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1587271636175-90d58cdad458?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Resort'
+    },
   ];
 
   return (
