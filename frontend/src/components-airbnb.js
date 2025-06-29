@@ -499,7 +499,7 @@ export const AirbnbHeroSection = () => {
           />
           <div className="absolute inset-0 flex flex-col justify-center items-center text-white text-center px-4">
             <h2 className="text-4xl md:text-5xl font-bold mb-4 font-sans">Find Wedding Vendors You'll Love</h2>
-            <p className="text-lg font-sans">Your perfect florist, DJ, and venue are just a click away</p>
+            <p className="text-lg font-sans">Plan your dream wedding in minutes – explore, message, and book top vendors instantly</p>
           </div>
         </div>
       </section>
