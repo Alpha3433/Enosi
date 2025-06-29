@@ -826,7 +826,7 @@ export const HotelsLovedByGuests = () => {
               <h4 
                 className="font-normal leading-5 font-sans"
                 style={{
-                  color: '#030303',
+                  color: '#5a4730',
                   fontSize: '14px',
                   lineHeight: '21px',
                 }}
@@ -836,7 +836,7 @@ export const HotelsLovedByGuests = () => {
               <p 
                 className="font-light font-sans"
                 style={{
-                  color: '#858585',
+                  color: '#b4a797',
                   fontSize: '12px',
                   fontWeight: 300,
                   lineHeight: '20px',
@@ -848,7 +848,7 @@ export const HotelsLovedByGuests = () => {
                 <span 
                   className="font-semibold font-sans"
                   style={{
-                    color: '#030303',
+                    color: '#5a4730',
                     fontSize: '14px',
                     fontWeight: 600,
                     lineHeight: '21px',
