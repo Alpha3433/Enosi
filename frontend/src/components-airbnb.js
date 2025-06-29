@@ -908,6 +908,20 @@ export const HotelsLovedByGuests = () => {
 
 // Featured Venues Section
 export const FeaturedVenues = () => {
+  const [savedVenues, setSavedVenues] = useState(new Set());
+
+  const handleHeartClick = (venueIndex) => {
+    setSavedVenues(prev => {
+      const newSaved = new Set(prev);
+      if (newSaved.has(venueIndex)) {
+        newSaved.delete(venueIndex);
+      } else {
+        newSaved.add(venueIndex);
+      }
+      return newSaved;
+    });
+  };
+
   const venues = [
     {
       name: 'Riverstone Estate',
