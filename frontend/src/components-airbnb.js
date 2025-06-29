@@ -1269,7 +1269,7 @@ export const NewsletterSection = () => {
             <div className="text-left">
               <div 
                 style={{
-                  color: '#030303',
+                  color: '#5a4730',
                   fontSize: '16px',
                   fontFamily: 'Prompt',
                   fontWeight: 600,
@@ -1281,7 +1281,7 @@ export const NewsletterSection = () => {
               </div>
               <div 
                 style={{
-                  color: '#030303',
+                  color: '#5a4730',
                   fontSize: '14px',
                   fontFamily: 'Prompt',
                   fontWeight: 300,
@@ -1289,7 +1289,7 @@ export const NewsletterSection = () => {
                 }}
               >
                 Get exclusive vendor deals, planning tips, and early access to new features!<br />
-                <span className="text-purple-600 font-medium">Join 10,000+ couples already planning their perfect day</span>
+                <span className="text-cement font-medium">Join 10,000+ couples already planning their perfect day</span>
               </div>
             </div>
           </div>
