@@ -263,8 +263,8 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Benefits list */}
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 space-y-3">
-                <h4 className="font-semibold text-gray-900 font-sans mb-3">
+              <div className="bg-gradient-to-r from-linen to-coral-reef rounded-2xl p-6 space-y-3">
+                <h4 className="font-semibold text-millbrook font-sans mb-3">
                   What you'll receive:
                 </h4>
                 <div className="space-y-2">
@@ -282,7 +282,7 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
                       className="flex items-start space-x-3"
                     >
                       <span className="text-lg">{benefit.icon}</span>
-                      <span className="text-sm text-gray-700 font-sans">{benefit.text}</span>
+                      <span className="text-sm text-kabul font-sans">{benefit.text}</span>
                     </motion.div>
                   ))}
                 </div>
@@ -290,7 +290,7 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
               
               {/* Email input */}
               <div className="space-y-2">
-                <label className="block text-sm font-semibold text-gray-700 font-sans">
+                <label className="block text-sm font-semibold text-millbrook font-sans">
                   Email Address
                 </label>
                 <div className="relative">
@@ -299,10 +299,10 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your.email@example.com"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:bg-white transition-all duration-200 font-sans placeholder-gray-400"
+                    className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
                     required
                   />
-                  <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                  <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-napa" />
                 </div>
               </div>
               
@@ -310,7 +310,7 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
               <button
                 type="submit"
                 disabled={isSubmitting || !email.trim()}
-                className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl py-4 font-semibold text-lg hover:from-pink-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none font-sans shadow-lg"
+                className="w-full bg-gradient-to-r from-cement to-millbrook text-white rounded-xl py-4 font-semibold text-lg hover:from-millbrook hover:to-kabul transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none font-sans shadow-lg"
               >
                 {isSubmitting ? (
                   <div className="flex items-center justify-center space-x-2">
@@ -329,12 +329,12 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
               <div className="flex items-center justify-center space-x-4 pt-2">
                 <div className="flex items-center space-x-1">
                   <Shield className="w-4 h-4 text-green-500" />
-                  <span className="text-xs text-gray-500 font-sans">Spam-free</span>
+                  <span className="text-xs text-napa font-sans">Spam-free</span>
                 </div>
-                <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <div className="w-1 h-1 bg-coral-reef rounded-full"></div>
                 <div className="flex items-center space-x-1">
                   <CheckCircle className="w-4 h-4 text-green-500" />
-                  <span className="text-xs text-gray-500 font-sans">Unsubscribe anytime</span>
+                  <span className="text-xs text-napa font-sans">Unsubscribe anytime</span>
                 </div>
               </div>
             </form>
