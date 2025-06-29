@@ -762,7 +762,7 @@ export const HotelsLovedByGuests = () => {
 
   return (
     <section className="container mx-auto px-9 mt-9">
-      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding Vendors</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans text-millbrook">Popular Wedding Vendors</h3>
       
       <div className="flex space-x-6 overflow-x-auto pb-4">
         {vendors.map((vendor, index) => (
