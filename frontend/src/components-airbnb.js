@@ -360,7 +360,15 @@ export const Header = () => {
               src="/enosi-logo.png" 
               alt="Enosi" 
               className="h-8 w-auto"
+              onError={(e) => {
+                // Fallback to text if image doesn't load
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+              }}
             />
+            <h1 className="text-xl font-bold font-sans text-millbrook" style={{display: 'none'}}>
+              Enosi
+            </h1>
           </button>
         </div>
         
