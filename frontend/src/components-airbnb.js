@@ -953,6 +953,15 @@ export const TopRatedServices = () => {
       image: 'https://images.unsplash.com/photo-1594736797933-d0e501ba2fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       category: 'Attire'
     },
+    {
+      name: 'Enchanted Wedding Decor',
+      location: 'Canberra, ACT',
+      rating: 9.4,
+      price: 1500,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Decor'
+    },
   ];
 
   return (
