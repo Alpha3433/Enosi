@@ -7,14 +7,14 @@ const InspirationPage = () => {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
-    <div className="min-h-screen bg-white font-sans">
+    <div className="min-h-screen bg-linen font-sans" style={{ zoom: 0.9 }}>
       {/* Header - Same as landing page */}
       <header className="bg-white">
         <div className="container mx-auto px-9 py-5 flex justify-between items-center">
           <div className="flex items-center">
             <button 
               onClick={() => navigate('/')}
-              className="text-xl font-bold font-sans"
+              className="text-xl font-bold font-sans text-millbrook"
               style={{
                 background: 'none',
                 border: 'none',
@@ -26,14 +26,14 @@ const InspirationPage = () => {
             </button>
           </div>
           
-          <nav className="hidden md:flex space-x-6">
-            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Find Vendors
             </button>
-            <button onClick={() => navigate('/inspiration')} className="text-sm text-blue-500 font-sans">
+            <button onClick={() => navigate('/inspiration')} className="text-sm text-cement font-sans font-medium">
               Inspiration
             </button>
-            <button onClick={() => navigate('/about')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+            <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               About Us
             </button>
           </nav>
@@ -42,10 +42,10 @@ const InspirationPage = () => {
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
                 <div className="relative group">
-                  <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                  <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
                     <span className="text-sm font-sans">{user?.first_name}</span>
                   </button>
-                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-coral-reef opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="py-2">
                       <button
                         onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
