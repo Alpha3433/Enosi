@@ -724,7 +724,7 @@ export const HotelsLovedByGuests = () => {
       rating: 9.6,
       price: 4500,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1510076857177-7470076d4098?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODB8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwdmVudWV8ZW58MHx8fHwxNzUxMTkwOTY0fDA&ixlib=rb-4.1.0&q=85',
       category: 'Venue'
     },
     {
@@ -733,7 +733,7 @@ export const HotelsLovedByGuests = () => {
       rating: 9.4,
       price: 2800,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/3990404/pexels-photo-3990404.jpeg',
       category: 'Photography'
     },
     {
@@ -742,7 +742,7 @@ export const HotelsLovedByGuests = () => {
       rating: 9.2,
       price: 85,
       priceUnit: 'per person',
-      image: 'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/32699777/pexels-photo-32699777.jpeg',
       category: 'Catering'
     },
     {
@@ -751,7 +751,7 @@ export const HotelsLovedByGuests = () => {
       rating: 9.5,
       price: 1200,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1595467959554-9ffcbf37f10f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDF8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwZmxvd2Vyc3xlbnwwfHx8fDE3NTExOTA5ODB8MA&ixlib=rb-4.1.0&q=85',
       category: 'Florist'
     },
     {
@@ -760,7 +760,7 @@ export const HotelsLovedByGuests = () => {
       rating: 8.9,
       price: 1800,
       priceUnit: 'night',
-      image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/17931449/pexels-photo-17931449.jpeg',
       category: 'Music'
     },
     {
@@ -769,7 +769,7 @@ export const HotelsLovedByGuests = () => {
       rating: 9.3,
       price: 3200,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1629756048377-09540f52caa1?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwyfHx3ZWRkaW5nJTIwcGhvdG9ncmFwaGVyfGVufDB8fHx8MTc1MTE5MDk2OXww&ixlib=rb-4.1.0&q=85',
       category: 'Photography'
     },
   ];
