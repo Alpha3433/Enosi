@@ -1170,7 +1170,7 @@ export const TopRatedServices = () => {
               <h4 
                 className="font-normal leading-5 font-sans"
                 style={{
-                  color: '#030303',
+                  color: '#5a4730',
                   fontSize: '14px',
                   lineHeight: '21px',
                 }}
@@ -1180,7 +1180,7 @@ export const TopRatedServices = () => {
               <p 
                 className="font-light font-sans"
                 style={{
-                  color: '#858585',
+                  color: '#b4a797',
                   fontSize: '12px',
                   fontWeight: 300,
                   lineHeight: '20px',
@@ -1192,7 +1192,7 @@ export const TopRatedServices = () => {
                 <span 
                   className="font-semibold font-sans"
                   style={{
-                    color: '#030303',
+                    color: '#5a4730',
                     fontSize: '14px',
                     fontWeight: 600,
                     lineHeight: '21px',
@@ -1203,8 +1203,8 @@ export const TopRatedServices = () => {
                 <ChevronRight 
                   className="w-4 h-4"
                   style={{
-                    color: '#030303',
-                    fill: '#030303',
+                    color: '#5a4730',
+                    fill: '#5a4730',
                     fontSize: '12px',
                   }}
                 />
