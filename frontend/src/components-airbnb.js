@@ -1098,6 +1098,20 @@ export const FeaturedVenues = () => {
 
 // Top Rated Services Section
 export const TopRatedServices = () => {
+  const [savedServices, setSavedServices] = useState(new Set());
+
+  const handleHeartClick = (serviceIndex) => {
+    setSavedServices(prev => {
+      const newSaved = new Set(prev);
+      if (newSaved.has(serviceIndex)) {
+        newSaved.delete(serviceIndex);
+      } else {
+        newSaved.add(serviceIndex);
+      }
+      return newSaved;
+    });
+  };
+
   const services = [
     {
       name: 'Luxury Bridal Beauty',
