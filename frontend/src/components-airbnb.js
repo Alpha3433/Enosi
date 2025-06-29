@@ -835,7 +835,11 @@ export const HotelsLovedByGuests = () => {
                 </button>
               </div>
               
-              <div className="absolute top-2 right-2">
+              <div className="absolute top-2 right-2 flex items-center space-x-1">
+                <HeartButton 
+                  isActive={savedVendors.has(index)}
+                  onClick={() => handleHeartClick(index)}
+                />
                 <span
                   className="px-2 py-1 text-xs font-medium font-sans"
                   style={{
