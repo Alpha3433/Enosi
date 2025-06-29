@@ -359,13 +359,13 @@ export const Header = () => {
         </div>
         
         <nav className="hidden md:flex space-x-6">
-          <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans">
             Find Vendors
           </button>
-          <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans">
             Inspiration
           </button>
-          <button onClick={() => navigate('/about')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans">
             About Us
           </button>
         </nav>
