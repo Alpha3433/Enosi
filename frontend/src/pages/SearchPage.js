@@ -187,13 +187,13 @@ const SearchPage = () => {
               <>
                 <button
                   onClick={() => navigate('/login')}
-                  className="border border-gray-300 text-gray-700 rounded-full px-4 py-2 text-sm hover:bg-gray-50 transition-colors font-sans"
+                  className="border border-coral-reef text-kabul rounded-full px-4 py-2 text-sm hover:bg-linen transition-colors font-sans"
                 >
                   Log in
                 </button>
                 <button
                   onClick={() => navigate('/signup')}
-                  className="bg-blue-500 text-white rounded-full px-4 py-2 text-sm hover:bg-blue-600 transition-colors font-sans"
+                  className="bg-cement text-white rounded-full px-4 py-2 text-sm hover:bg-millbrook transition-colors font-sans"
                 >
                   Sign up
                 </button>
