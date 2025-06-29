@@ -99,22 +99,22 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
   }
   
   return (
-    <div className="absolute top-full left-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 p-4 w-58">
+    <div className="absolute top-full left-0 mt-2 bg-white border border-coral-reef rounded-lg shadow-lg z-50 p-4 w-58">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={goToPreviousMonth} className="p-1 hover:bg-gray-100 rounded">
-          <ChevronLeft className="w-4 h-4" />
+        <button onClick={goToPreviousMonth} className="p-1 hover:bg-linen rounded">
+          <ChevronLeft className="w-4 h-4 text-cement" />
         </button>
-        <h3 className="font-medium text-gray-900 text-sm">
+        <h3 className="font-medium text-millbrook text-sm">
           {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
         </h3>
-        <button onClick={goToNextMonth} className="p-1 hover:bg-gray-100 rounded">
-          <ChevronRight className="w-4 h-4" />
+        <button onClick={goToNextMonth} className="p-1 hover:bg-linen rounded">
+          <ChevronRight className="w-4 h-4 text-cement" />
         </button>
       </div>
       
       <div className="grid grid-cols-7 gap-1 mb-2">
         {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
-          <div key={day} className="w-7 h-7 text-xs text-gray-500 flex items-center justify-center font-medium">
+          <div key={day} className="w-7 h-7 text-xs text-napa flex items-center justify-center font-medium">
             {day}
           </div>
         ))}
