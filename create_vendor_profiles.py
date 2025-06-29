@@ -6,7 +6,7 @@ from datetime import datetime
 
 def test_login(email, password):
     """Test login with provided credentials"""
-    url = "https://5e432144-ca53-4700-9713-f8894bf9e665.preview.emergentagent.com/api/auth/login"
+    url = "https://14dab130-ea45-454e-8a89-896962eeed10.preview.emergentagent.com/api/auth/login"
     headers = {'Content-Type': 'application/json'}
     data = {
         "email": email,
@@ -42,7 +42,7 @@ def test_login(email, password):
 
 def create_vendor_profile(token):
     """Create a vendor profile"""
-    url = "https://5e432144-ca53-4700-9713-f8894bf9e665.preview.emergentagent.com/api/vendors/profile"
+    url = "https://14dab130-ea45-454e-8a89-896962eeed10.preview.emergentagent.com/api/vendors/profile"
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}'
