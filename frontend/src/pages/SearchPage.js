@@ -124,14 +124,14 @@ const SearchPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans" style={{ fontFamily: 'Prompt, sans-serif' }}>
+    <div className="min-h-screen bg-linen font-sans" style={{ fontFamily: 'Prompt, sans-serif', zoom: 0.9 }}>
       {/* Header */}
       <header className="bg-white">
         <div className="container mx-auto px-9 py-5 flex justify-between items-center">
           <div className="flex items-center">
             <button 
               onClick={() => navigate('/')}
-              className="text-xl font-bold font-sans"
+              className="text-xl font-bold font-sans text-millbrook"
               style={{
                 background: 'none',
                 border: 'none',
@@ -143,30 +143,30 @@ const SearchPage = () => {
             </button>
           </div>
           
-          <nav className="hidden md:flex space-x-6">
-            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Find Vendors
             </button>
-            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+            <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Inspiration
-            </a>
-            <a href="#about" className="text-sm hover:text-blue-500 transition-colors font-sans">
+            </button>
+            <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               About Us
-            </a>
+            </button>
           </nav>
 
           <div className="flex space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
                 <div className="relative group">
-                  <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
+                  <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
                     <span className="text-sm font-sans">{user?.first_name}</span>
                   </button>
-                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-coral-reef opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <div className="py-2">
                       <button
                         onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
                       >
                         Dashboard
                       </button>
@@ -175,7 +175,7 @@ const SearchPage = () => {
                           logout();
                           navigate('/');
                         }}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
                       >
                         Sign Out
                       </button>
