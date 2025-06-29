@@ -718,6 +718,20 @@ export const PopularDestinations = () => {
 
 // Popular Wedding Vendors
 export const HotelsLovedByGuests = () => {
+  const [savedVendors, setSavedVendors] = useState(new Set());
+
+  const handleHeartClick = (vendorIndex) => {
+    setSavedVendors(prev => {
+      const newSaved = new Set(prev);
+      if (newSaved.has(vendorIndex)) {
+        newSaved.delete(vendorIndex);
+      } else {
+        newSaved.add(vendorIndex);
+      }
+      return newSaved;
+    });
+  };
+
   const vendors = [
     {
       name: 'Bella Vista Venues',
