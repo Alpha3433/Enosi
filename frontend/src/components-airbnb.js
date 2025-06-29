@@ -796,8 +796,8 @@ export const HotelsLovedByGuests = () => {
                   className="px-2 py-1 border-0 text-xs font-medium font-sans"
                   style={{
                     borderRadius: '88px',
-                    backgroundColor: '#e1ffd7',
-                    color: '#009d52',
+                    backgroundColor: '#fbf3e7',
+                    color: '#5a4730',
                     fontSize: '11px',
                     lineHeight: '14px',
                   }}
@@ -811,7 +811,7 @@ export const HotelsLovedByGuests = () => {
                   className="px-2 py-1 text-xs font-medium font-sans"
                   style={{
                     borderRadius: '88px',
-                    backgroundColor: 'rgba(59, 130, 246, 0.9)',
+                    backgroundColor: 'rgba(137, 117, 96, 0.9)',
                     color: 'white',
                     fontSize: '10px',
                     lineHeight: '12px',
