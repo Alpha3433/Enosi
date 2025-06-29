@@ -505,10 +505,10 @@ export const AirbnbHeroSection = () => {
       </section>
 
       <section className="container mx-auto px-9 relative -mt-7 mb-11 z-10">
-        <div className="bg-white rounded-full shadow-2xl p-6 max-w-5xl mx-auto">
+        <div className="bg-white rounded-full shadow-2xl p-6 max-w-5xl mx-auto border border-coral-reef">
           <div className="flex items-end space-x-1">
             <div className="flex-1 px-4 py-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Location</label>
+              <label className="block text-sm font-semibold text-millbrook mb-2 font-sans">Location</label>
               <input
                 type="text"
                 placeholder="Search Destinations"
@@ -517,8 +517,8 @@ export const AirbnbHeroSection = () => {
                   setSearchLocation(e.target.value);
                   clearError('location');
                 }}
-                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
-                  errors.location ? 'text-red-500' : ''
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-napa font-sans ${
+                  errors.location ? 'text-red-500' : 'text-kabul'
                 }`}
               />
               {errors.location && (
@@ -526,10 +526,10 @@ export const AirbnbHeroSection = () => {
               )}
             </div>
 
-            <div className="w-px h-11 bg-gray-200"></div>
+            <div className="w-px h-11 bg-coral-reef"></div>
 
             <div className="flex-1 px-4 py-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Vendor</label>
+              <label className="block text-sm font-semibold text-millbrook mb-2 font-sans">Vendor</label>
               <select 
                 value={searchCategory}
                 onChange={(e) => {
@@ -537,7 +537,7 @@ export const AirbnbHeroSection = () => {
                   clearError('vendor');
                 }}
                 className={`w-full text-sm outline-none border-0 bg-transparent font-sans ${
-                  errors.vendor ? 'text-red-500' : 'text-gray-900'
+                  errors.vendor ? 'text-red-500' : 'text-kabul'
                 }`}
               >
                 <option value="">All Vendors</option>
@@ -553,10 +553,10 @@ export const AirbnbHeroSection = () => {
               )}
             </div>
 
-            <div className="w-px h-11 bg-gray-200"></div>
+            <div className="w-px h-11 bg-coral-reef"></div>
 
             <div className="flex-1 px-4 py-2 relative">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">When</label>
+              <label className="block text-sm font-semibold text-millbrook mb-2 font-sans">When</label>
               <div className="flex items-center">
                 <input
                   type="text"
@@ -566,15 +566,15 @@ export const AirbnbHeroSection = () => {
                     setWeddingDate(e.target.value);
                     clearError('date');
                   }}
-                  className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
-                    errors.date ? 'text-red-500' : ''
+                  className={`w-full text-sm outline-none border-0 bg-transparent placeholder-napa font-sans ${
+                    errors.date ? 'text-red-500' : 'text-kabul'
                   }`}
                   readOnly
                 />
                 <button
                   type="button"
                   onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                  className="ml-2 text-gray-400 hover:text-gray-600"
+                  className="ml-2 text-napa hover:text-cement"
                 >
                   <Calendar className="w-4 h-4" />
                 </button>
@@ -590,10 +590,10 @@ export const AirbnbHeroSection = () => {
               />
             </div>
 
-            <div className="w-px h-11 bg-gray-200"></div>
+            <div className="w-px h-11 bg-coral-reef"></div>
 
             <div className="flex-1 px-4 py-2">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Guests</label>
+              <label className="block text-sm font-semibold text-millbrook mb-2 font-sans">Guests</label>
               <input
                 type="text"
                 placeholder="Number of guests"
@@ -602,8 +602,8 @@ export const AirbnbHeroSection = () => {
                   setGuestCount(e.target.value);
                   clearError('guests');
                 }}
-                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
-                  errors.guests ? 'text-red-500' : ''
+                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-napa font-sans ${
+                  errors.guests ? 'text-red-500' : 'text-kabul'
                 }`}
               />
               {errors.guests && (
@@ -614,7 +614,7 @@ export const AirbnbHeroSection = () => {
             <div className="flex-shrink-0 ml-2">
               <button
                 onClick={handleSearch}
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 transition-colors shadow-lg"
+                className="bg-cement hover:bg-millbrook text-white rounded-full p-4 transition-colors shadow-lg"
               >
                 <ArrowRight className="w-5 h-5" />
               </button>
