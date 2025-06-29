@@ -355,17 +355,23 @@ export const Header = () => {
     <header className="bg-white">
       <div className="container mx-auto px-9 py-5 flex justify-between items-center">
         <div className="flex items-center">
-          <h1 className="text-xl font-bold font-sans">Enosi</h1>
+          <button onClick={() => navigate('/')} className="flex items-center">
+            <img 
+              src="/enosi-logo.png" 
+              alt="Enosi" 
+              className="h-8 w-auto"
+            />
+          </button>
         </div>
         
-        <nav className="hidden md:flex space-x-6">
-          <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans">
+        <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+          <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
             Find Vendors
           </button>
-          <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans">
+          <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
             Inspiration
           </button>
-          <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans">
+          <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
             About Us
           </button>
         </nav>
