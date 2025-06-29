@@ -934,7 +934,7 @@ export const FeaturedVenues = () => {
 
   return (
     <section className="container mx-auto px-9 mt-9">
-      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Featured Wedding Venues</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans text-millbrook">Featured Wedding Venues</h3>
       
       <div className="flex space-x-6 overflow-x-auto pb-4">
         {venues.map((venue, index) => (
