@@ -25,6 +25,16 @@ module.exports = {
           950: '#220174',
           DEFAULT: '#611bf8',
         },
+        // New earthy wedding color palette
+        'cement': '#897560',
+        'linen': '#fbf3e7',
+        'millbrook': '#5a4730',
+        'coral-reef': '#cabcaa',
+        'napa': '#b4a797',
+        'kabul': '#644c3c',
+        'donkey-brown': '#ac9a83',
+        'rodeo-dust': '#ccb4a5',
+        'tallow': '#a49c84',
       },
       borderRadius: {
         'none': '0px',
