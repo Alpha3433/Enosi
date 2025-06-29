@@ -127,16 +127,16 @@ const LoginPage = () => {
           )}
 
           {/* Login form */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-lg">
+          <div className="bg-white border border-coral-reef rounded-2xl p-6 shadow-lg">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
+                <label className="block text-sm font-semibold text-millbrook mb-1 font-sans">
                   Email address
                 </label>
                 <input
                   {...register('email')}
                   type="email"
-                  className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm"
+                  className="w-full px-3 py-2.5 bg-linen border border-coral-reef rounded-lg focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm text-kabul"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -145,20 +145,20 @@ const LoginPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
+                <label className="block text-sm font-semibold text-millbrook mb-1 font-sans">
                   Password
                 </label>
                 <div className="relative">
                   <input
                     {...register('password')}
                     type={showPassword ? 'text' : 'password'}
-                    className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md pr-10 font-sans text-sm"
+                    className="w-full px-3 py-2.5 bg-linen border border-coral-reef rounded-lg focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md pr-10 font-sans text-sm text-kabul"
                     placeholder="Enter your password"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 transition-colors"
+                    className="absolute right-3 top-2.5 text-napa hover:text-kabul transition-colors"
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
@@ -170,10 +170,10 @@ const LoginPage = () => {
 
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
-                  <input type="checkbox" className="h-3 w-3 text-blue-500 focus:ring-blue-500 border-gray-300 rounded" />
-                  <span className="ml-2 text-xs text-gray-600 font-sans">Remember me</span>
+                  <input type="checkbox" className="h-3 w-3 text-cement focus:ring-cement border-coral-reef rounded" />
+                  <span className="ml-2 text-xs text-kabul font-sans">Remember me</span>
                 </label>
-                <a href="#" className="text-xs text-blue-500 hover:text-blue-600 font-sans">
+                <a href="#" className="text-xs text-cement hover:text-millbrook font-sans">
                   Forgot password?
                 </a>
               </div>
