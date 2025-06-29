@@ -89,8 +89,8 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
           onDateSelect(formattedDate);
           onClose();
         }}
-        className={`w-7 h-7 text-sm rounded-full hover:bg-blue-100 transition-colors ${
-          isToday ? 'bg-blue-500 text-white' : 'text-gray-700'
+        className={`w-7 h-7 text-sm rounded-full hover:bg-linen transition-colors ${
+          isToday ? 'bg-cement text-white' : 'text-kabul'
         }`}
       >
         {day}
