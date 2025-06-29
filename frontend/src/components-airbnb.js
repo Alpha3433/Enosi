@@ -614,7 +614,7 @@ export const AirbnbHeroSection = () => {
             <div className="flex-shrink-0 ml-2">
               <button
                 onClick={handleSearch}
-                className="bg-blue-500 hover:bg-blue-600 text-white rounded-full p-4 transition-colors shadow-lg"
+                className="bg-cement hover:bg-millbrook text-white rounded-full p-4 transition-colors shadow-lg"
               >
                 <ArrowRight className="w-5 h-5" />
               </button>
