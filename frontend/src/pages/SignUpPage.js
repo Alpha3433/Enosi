@@ -100,7 +100,7 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans flex">
+    <div className="min-h-screen bg-linen font-sans flex" style={{ zoom: 0.9 }}>
       {/* Left Side - Image Section */}
       <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative">
         <img
@@ -120,24 +120,24 @@ const SignUpPage = () => {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-4">
-            <Link to="/" className="inline-flex items-center text-gray-600 hover:text-blue-500 mb-3 transition-colors font-sans">
+            <Link to="/" className="inline-flex items-center text-napa hover:text-cement mb-3 transition-colors font-sans">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to home
             </Link>
-            <h2 className="text-xl font-bold text-gray-900 mb-1 font-sans">Create your account</h2>
-            <p className="text-sm text-gray-600 font-sans">Join thousands of couples and vendors</p>
+            <h2 className="text-xl font-bold text-millbrook mb-1 font-sans">Create your account</h2>
+            <p className="text-sm text-kabul font-sans">Join thousands of couples and vendors</p>
           </div>
 
           {/* Signup form */}
-          <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-lg">
+          <div className="bg-white border border-coral-reef rounded-2xl p-5 shadow-lg">
             {/* User type selection */}
             <div className="mb-4">
-              <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">
+              <label className="block text-sm font-semibold text-millbrook mb-2 font-sans">
                 I am signing up as:
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
-                  userType === 'couple' ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                  userType === 'couple' ? 'border-cement bg-linen shadow-md' : 'border-coral-reef hover:border-napa hover:shadow-sm'
                 }`}>
                   <input
                     {...register('user_type')}
@@ -145,15 +145,15 @@ const SignUpPage = () => {
                     value="couple"
                     className="sr-only"
                   />
-                  <Users className="h-4 w-4 text-blue-500 mr-2" />
+                  <Users className="h-4 w-4 text-cement mr-2" />
                   <div>
-                    <div className="font-medium text-gray-900 font-sans text-sm">Couple</div>
-                    <div className="text-xs text-gray-600 font-sans">Planning a wedding</div>
+                    <div className="font-medium text-millbrook font-sans text-sm">Couple</div>
+                    <div className="text-xs text-kabul font-sans">Planning a wedding</div>
                   </div>
                 </label>
                 
                 <label className={`flex items-center p-3 border rounded-lg cursor-pointer transition-all duration-200 ${
-                  userType === 'vendor' ? 'border-blue-500 bg-blue-50 shadow-md' : 'border-gray-200 hover:border-gray-300 hover:shadow-sm'
+                  userType === 'vendor' ? 'border-cement bg-linen shadow-md' : 'border-coral-reef hover:border-napa hover:shadow-sm'
                 }`}>
                   <input
                     {...register('user_type')}
