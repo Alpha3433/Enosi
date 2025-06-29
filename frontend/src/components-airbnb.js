@@ -1305,7 +1305,7 @@ export const NewsletterSection = () => {
                 height: '44px',
                 padding: '0px 16px',
                 border: '2px solid transparent',
-                backgroundImage: 'linear-gradient(135deg, #ec4899, #8b5cf6)',
+                backgroundImage: 'linear-gradient(135deg, #897560, #5a4730)',
                 boxSizing: 'border-box',
                 borderRadius: '100px',
                 color: 'white',
@@ -1318,7 +1318,7 @@ export const NewsletterSection = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '8px',
-                boxShadow: '0 4px 12px rgba(236, 72, 153, 0.3)',
+                boxShadow: '0 4px 12px rgba(137, 117, 96, 0.3)',
                 transition: 'all 0.3s ease'
               }}
             >
