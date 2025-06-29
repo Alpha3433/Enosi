@@ -1068,7 +1068,7 @@ export const TopRatedServices = () => {
       rating: 9.9,
       price: 450,
       priceUnit: 'service',
-      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/1446161/pexels-photo-1446161.jpeg',
       category: 'Hair & Makeup'
     },
     {
@@ -1077,7 +1077,7 @@ export const TopRatedServices = () => {
       rating: 9.8,
       price: 3200,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/13051279/pexels-photo-13051279.jpeg',
       category: 'Videography'
     },
     {
@@ -1086,7 +1086,7 @@ export const TopRatedServices = () => {
       rating: 9.6,
       price: 280,
       priceUnit: 'hour',
-      image: 'https://images.unsplash.com/photo-1563694983011-6f4d90358083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/29963770/pexels-photo-29963770.jpeg',
       category: 'Transport'
     },
     {
@@ -1095,7 +1095,7 @@ export const TopRatedServices = () => {
       rating: 9.7,
       price: 650,
       priceUnit: 'cake',
-      image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1535254973040-607b474cb50d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDN8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwY2FrZXxlbnwwfHx8fDE3NTExOTEwNDJ8MA&ixlib=rb-4.1.0&q=85',
       category: 'Cakes'
     },
     {
@@ -1104,7 +1104,7 @@ export const TopRatedServices = () => {
       rating: 9.5,
       price: 2200,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1594736797933-d0e501ba2fe9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1585241920473-b472eb9ffbae?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHx3ZWRkaW5nJTIwZHJlc3N8ZW58MHx8fHwxNzUxMTkxMDQ4fDA&ixlib=rb-4.1.0&q=85',
       category: 'Attire'
     },
     {
@@ -1113,7 +1113,7 @@ export const TopRatedServices = () => {
       rating: 9.4,
       price: 1500,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1712068534065-f56c36e21759?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwyfHx3ZWRkaW5nJTIwZGVjb3JhdGlvbnN8ZW58MHx8fHwxNzUxMTkxMDU0fDA&ixlib=rb-4.1.0&q=85',
       category: 'Decor'
     },
   ];
