@@ -859,8 +859,8 @@ export const HotelsLovedByGuests = () => {
                 <ChevronRight 
                   className="w-4 h-4"
                   style={{
-                    color: '#030303',
-                    fill: '#030303',
+                    color: '#5a4730',
+                    fill: '#5a4730',
                     fontSize: '12px',
                   }}
                 />
