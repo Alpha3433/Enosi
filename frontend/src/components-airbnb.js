@@ -188,13 +188,13 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
         className="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden"
       >
         {/* Header with gradient background */}
-        <div className="relative bg-gradient-to-br from-pink-50 via-white to-purple-50 px-8 pt-8 pb-6">
+        <div className="relative bg-gradient-to-br from-linen via-white to-rodeo-dust px-8 pt-8 pb-6">
           <button 
             onClick={() => {
               resetModal();
               onClose();
             }} 
-            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-white rounded-full transition-all duration-200"
+            className="absolute top-4 right-4 p-2 text-napa hover:text-kabul hover:bg-white rounded-full transition-all duration-200"
           >
             <X className="w-5 h-5" />
           </button>
@@ -202,19 +202,19 @@ const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
           {/* Wedding rings icon */}
           <div className="flex justify-center mb-4">
             <div className="relative">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-gradient-to-br from-cement to-millbrook rounded-full flex items-center justify-center">
                 <Heart className="w-8 h-8 text-white fill-current" />
               </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-tallow rounded-full flex items-center justify-center">
                 <Star className="w-3 h-3 text-white fill-current" />
               </div>
             </div>
           </div>
           
-          <h3 className="text-2xl font-bold text-gray-900 text-center mb-2 font-sans">
+          <h3 className="text-2xl font-bold text-millbrook text-center mb-2 font-sans">
             Your Dream Wedding Awaits! 💕
           </h3>
-          <p className="text-gray-600 text-center text-sm font-sans leading-relaxed">
+          <p className="text-kabul text-center text-sm font-sans leading-relaxed">
             Join over 10,000 couples planning their perfect day
           </p>
         </div>
