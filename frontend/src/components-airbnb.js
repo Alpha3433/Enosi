@@ -673,14 +673,14 @@ export const PopularDestinations = () => {
 
   return (
     <section className="container mx-auto px-9 mt-7">
-      <h3 className="text-lg font-semibold mb-5 text-left font-sans">Popular Wedding destinations</h3>
+      <h3 className="text-lg font-semibold mb-5 text-left font-sans text-millbrook">Popular Wedding destinations</h3>
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {destinations.map((destination, index) => (
           <div 
             key={index} 
             onClick={() => handleDestinationClick(destination.name)}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-coral-reef"
           >
             <div className="aspect-square">
               <img
@@ -690,7 +690,7 @@ export const PopularDestinations = () => {
               />
             </div>
             <div className="p-2">
-              <h3 className="text-sm font-medium text-gray-900 text-center font-sans group-hover:text-blue-600 transition-colors">
+              <h3 className="text-sm font-medium text-millbrook text-center font-sans group-hover:text-cement transition-colors">
                 {destination.name}
               </h3>
             </div>
