@@ -1253,7 +1253,7 @@ export const NewsletterSection = () => {
                 <div 
                   className="flex items-center justify-center"
                   style={{
-                    color: '#ec4899',
+                    color: '#897560',
                     fontSize: '48px',
                     width: '48px',
                     height: '48px',
@@ -1261,7 +1261,7 @@ export const NewsletterSection = () => {
                 >
                   <Heart className="w-full h-full fill-current" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center">
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-tallow rounded-full flex items-center justify-center">
                   <Star className="w-2 h-2 text-white fill-current" />
                 </div>
               </div>
