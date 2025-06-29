@@ -161,10 +161,10 @@ const SignUpPage = () => {
                     value="vendor"
                     className="sr-only"
                   />
-                  <Building className="h-4 w-4 text-blue-500 mr-2" />
+                  <Building className="h-4 w-4 text-cement mr-2" />
                   <div>
-                    <div className="font-medium text-gray-900 font-sans text-sm">Vendor</div>
-                    <div className="text-xs text-gray-600 font-sans">Wedding professional</div>
+                    <div className="font-medium text-millbrook font-sans text-sm">Vendor</div>
+                    <div className="text-xs text-kabul font-sans">Wedding professional</div>
                   </div>
                 </label>
               </div>
@@ -184,13 +184,13 @@ const SignUpPage = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
+                  <label className="block text-sm font-semibold text-millbrook mb-1 font-sans">
                     First name
                   </label>
                   <input
                     {...register('first_name')}
                     type="text"
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm"
+                    className="w-full px-3 py-2 bg-linen border border-coral-reef rounded-lg focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm text-kabul"
                     placeholder="First name"
                   />
                   {errors.first_name && (
@@ -199,13 +199,13 @@ const SignUpPage = () => {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
+                  <label className="block text-sm font-semibold text-millbrook mb-1 font-sans">
                     Last name
                   </label>
                   <input
                     {...register('last_name')}
                     type="text"
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm"
+                    className="w-full px-3 py-2 bg-linen border border-coral-reef rounded-lg focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 shadow-sm hover:shadow-md font-sans text-sm text-kabul"
                     placeholder="Last name"
                   />
                   {errors.last_name && (
@@ -215,7 +215,7 @@ const SignUpPage = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1 font-sans">
+                <label className="block text-sm font-semibold text-millbrook mb-1 font-sans">
                   Email address
                 </label>
                 <input
