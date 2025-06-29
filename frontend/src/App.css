@@ -2,9 +2,7 @@
 
 .App {
   text-align: center;
-  transform: scale(0.9);
-  transform-origin: top center;
-  min-height: 100vh;
+  zoom: 0.9;
 }
 
 /* Smooth scrolling */
