@@ -896,7 +896,7 @@ export const FeaturedVenues = () => {
       rating: 9.8,
       price: 8500,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/19065394/pexels-photo-19065394.jpeg',
       category: 'Winery'
     },
     {
@@ -905,7 +905,7 @@ export const FeaturedVenues = () => {
       rating: 9.7,
       price: 12000,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1464207687429-7505649dae38?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/2788494/pexels-photo-2788494.jpeg',
       category: 'Beachfront'
     },
     {
@@ -914,7 +914,7 @@ export const FeaturedVenues = () => {
       rating: 9.5,
       price: 6500,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/5039363/pexels-photo-5039363.jpeg',
       category: 'Garden'
     },
     {
@@ -923,7 +923,7 @@ export const FeaturedVenues = () => {
       rating: 9.4,
       price: 9200,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1545479653-90e8e2f4ac82?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/29703684/pexels-photo-29703684.jpeg',
       category: 'Historic'
     },
     {
@@ -932,7 +932,7 @@ export const FeaturedVenues = () => {
       rating: 9.3,
       price: 7800,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1696271026697-4f8da917e0d8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwzfHxtb3VudGFpbiUyMHdlZGRpbmclMjB2ZW51ZXxlbnwwfHx8fDE3NTExOTEwMTZ8MA&ixlib=rb-4.1.0&q=85',
       category: 'Rustic'
     },
     {
@@ -941,7 +941,7 @@ export const FeaturedVenues = () => {
       rating: 9.6,
       price: 10500,
       priceUnit: 'package',
-      image: 'https://images.unsplash.com/photo-1587271636175-90d58cdad458?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.pexels.com/photos/169188/pexels-photo-169188.jpeg',
       category: 'Resort'
     },
   ];
