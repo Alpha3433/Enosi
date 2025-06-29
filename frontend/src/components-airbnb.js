@@ -127,81 +127,221 @@ const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
   );
 };
 
-// Email Capture Modal
+// Enhanced Wedding Newsletter Modal
 const EmailCaptureModal = ({ isOpen, onClose, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasError, setHasError] = useState(false);
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.trim()) return;
     
     setIsSubmitting(true);
+    setHasError(false);
     
-    // Simulate API call
+    // Simulate API call with potential error handling
     setTimeout(() => {
-      onSubmit(email);
-      setIsSuccess(true);
-      setIsSubmitting(false);
+      // Simulate occasional failure for demo
+      const shouldSucceed = Math.random() > 0.1; // 90% success rate
       
-      // Close modal after success message
-      setTimeout(() => {
-        setIsSuccess(false);
-        setEmail('');
-        onClose();
-      }, 2000);
-    }, 1000);
+      if (shouldSucceed) {
+        onSubmit(email);
+        setIsSuccess(true);
+        setIsSubmitting(false);
+        
+        // Close modal after success message
+        setTimeout(() => {
+          setIsSuccess(false);
+          setEmail('');
+          onClose();
+        }, 3000);
+      } else {
+        setHasError(true);
+        setIsSubmitting(false);
+      }
+    }, 1500);
+  };
+  
+  const resetModal = () => {
+    setEmail('');
+    setIsSuccess(false);
+    setHasError(false);
+    setIsSubmitting(false);
   };
   
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 px-4">
-      <div className="bg-white rounded-2xl p-6 max-w-md w-full">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-gray-900 font-sans">Join Our Travel Club!</h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 px-4"
+      onClick={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <motion.div 
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+        className="bg-white rounded-3xl max-w-lg w-full shadow-2xl overflow-hidden"
+      >
+        {/* Header with gradient background */}
+        <div className="relative bg-gradient-to-br from-pink-50 via-white to-purple-50 px-8 pt-8 pb-6">
+          <button 
+            onClick={() => {
+              resetModal();
+              onClose();
+            }} 
+            className="absolute top-4 right-4 p-2 text-gray-400 hover:text-gray-600 hover:bg-white rounded-full transition-all duration-200"
+          >
             <X className="w-5 h-5" />
           </button>
+          
+          {/* Wedding rings icon */}
+          <div className="flex justify-center mb-4">
+            <div className="relative">
+              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
+                <Heart className="w-8 h-8 text-white fill-current" />
+              </div>
+              <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center">
+                <Star className="w-3 h-3 text-white fill-current" />
+              </div>
+            </div>
+          </div>
+          
+          <h3 className="text-2xl font-bold text-gray-900 text-center mb-2 font-sans">
+            Your Dream Wedding Awaits! 💕
+          </h3>
+          <p className="text-gray-600 text-center text-sm font-sans leading-relaxed">
+            Join over 10,000 couples planning their perfect day
+          </p>
         </div>
         
-        {isSuccess ? (
-          <div className="text-center py-4">
-            <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-            <p className="text-green-600 font-medium font-sans">Thank you! You've been added to our mailing list.</p>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <p className="text-gray-600 mb-4 font-sans">
-              Get exclusive access to secret offers, best prices, and amazing wedding vendor deals!
-            </p>
-            
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2 font-sans">
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email address"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent font-sans"
-                required
-              />
-            </div>
-            
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-blue-500 text-white rounded-lg py-3 font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 font-sans"
+        <div className="px-8 pb-8">
+          {isSuccess ? (
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-center py-6"
             >
-              {isSubmitting ? 'Signing up...' : 'Sign Up for Newsletter'}
-            </button>
-          </form>
-        )}
-      </div>
-    </div>
+              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle className="w-10 h-10 text-green-500" />
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-2 font-sans">Welcome to the Family! 🎉</h4>
+              <p className="text-gray-600 font-sans mb-4">
+                You're all set! Check your inbox for exclusive wedding deals and inspiration.
+              </p>
+              <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
+                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span>Email sent successfully</span>
+              </div>
+            </motion.div>
+          ) : hasError ? (
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-center py-6"
+            >
+              <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-bold text-gray-900 mb-2 font-sans">Oops! Something went wrong</h4>
+              <p className="text-gray-600 font-sans mb-4">
+                We couldn't sign you up right now. Please try again in a moment.
+              </p>
+              <button
+                onClick={() => setHasError(false)}
+                className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors font-sans"
+              >
+                Try Again
+              </button>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Benefits list */}
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 space-y-3">
+                <h4 className="font-semibold text-gray-900 font-sans mb-3">
+                  What you'll receive:
+                </h4>
+                <div className="space-y-2">
+                  {[
+                    { icon: '💰', text: 'Exclusive vendor discounts & early bird deals' },
+                    { icon: '💡', text: 'Weekly wedding planning tips & inspiration' },
+                    { icon: '🎯', text: 'Personalized vendor recommendations' },
+                    { icon: '📅', text: 'Free wedding planning timeline & checklist' }
+                  ].map((benefit, index) => (
+                    <motion.div 
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className="flex items-start space-x-3"
+                    >
+                      <span className="text-lg">{benefit.icon}</span>
+                      <span className="text-sm text-gray-700 font-sans">{benefit.text}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+              
+              {/* Email input */}
+              <div className="space-y-2">
+                <label className="block text-sm font-semibold text-gray-700 font-sans">
+                  Email Address
+                </label>
+                <div className="relative">
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your.email@example.com"
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:bg-white transition-all duration-200 font-sans placeholder-gray-400"
+                    required
+                  />
+                  <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                </div>
+              </div>
+              
+              {/* Submit button */}
+              <button
+                type="submit"
+                disabled={isSubmitting || !email.trim()}
+                className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-xl py-4 font-semibold text-lg hover:from-pink-600 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none font-sans shadow-lg"
+              >
+                {isSubmitting ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span>Joining the club...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center space-x-2">
+                    <span>Join the Wedding Club</span>
+                    <ArrowRight className="w-5 h-5" />
+                  </div>
+                )}
+              </button>
+              
+              {/* Trust indicators */}
+              <div className="flex items-center justify-center space-x-4 pt-2">
+                <div className="flex items-center space-x-1">
+                  <Shield className="w-4 h-4 text-green-500" />
+                  <span className="text-xs text-gray-500 font-sans">Spam-free</span>
+                </div>
+                <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
+                <div className="flex items-center space-x-1">
+                  <CheckCircle className="w-4 h-4 text-green-500" />
+                  <span className="text-xs text-gray-500 font-sans">Unsubscribe anytime</span>
+                </div>
+              </div>
+            </form>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 
