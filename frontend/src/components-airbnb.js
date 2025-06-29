@@ -680,7 +680,7 @@ export const PopularDestinations = () => {
           <div 
             key={index} 
             onClick={() => handleDestinationClick(destination.name)}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-coral-reef"
+            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
           >
             <div className="aspect-square">
               <img
