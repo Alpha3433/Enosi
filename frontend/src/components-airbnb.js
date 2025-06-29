@@ -1341,50 +1341,50 @@ export const NewsletterSection = () => {
 // Footer
 export const Footer = () => {
   return (
-    <footer className="bg-white border-t border-gray-200 py-11">
+    <footer className="bg-white border-t border-coral-reef py-11">
       <div className="container mx-auto px-9">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mb-7">
           <div className="lg:col-span-1">
-            <h3 className="text-xl font-bold mb-4 text-gray-900 font-sans">Enosi</h3>
-            <p className="text-sm text-gray-600 mb-2 font-sans">Your favorite hotel booking experience</p>
-            <p className="text-sm text-gray-600 font-sans">since 1978</p>
+            <h3 className="text-xl font-bold mb-4 text-millbrook font-sans">Enosi</h3>
+            <p className="text-sm text-kabul mb-2 font-sans">Your favorite wedding planning experience</p>
+            <p className="text-sm text-kabul font-sans">since 2024</p>
           </div>
           
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Support</h4>
+            <h4 className="font-semibold text-millbrook mb-4 font-sans">Support</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Help</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">FAQ</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Customer service</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Help</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">FAQ</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Customer service</a>
             </div>
           </div>
           
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Company</h4>
+            <h4 className="font-semibold text-millbrook mb-4 font-sans">Company</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">About Us</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Careers</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Press</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">About Us</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Careers</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Press</a>
             </div>
           </div>
           
           <div>
-            <h4 className="font-semibold text-gray-900 mb-4 font-sans">Contact</h4>
+            <h4 className="font-semibold text-millbrook mb-4 font-sans">Contact</h4>
             <div className="space-y-3">
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">How to guide</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Contact us</a>
-              <a href="#" className="block text-sm text-gray-600 hover:text-gray-900 transition-colors font-sans">Partnership</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">How to guide</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Contact us</a>
+              <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Partnership</a>
             </div>
           </div>
         </div>
         
-        <div className="border-t border-gray-200 pt-7">
+        <div className="border-t border-coral-reef pt-7">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500 mb-4 md:mb-0 font-sans">Enosi © 2025. All rights reserved.</p>
+            <p className="text-sm text-napa mb-4 md:mb-0 font-sans">Enosi © 2025. All rights reserved.</p>
             <div className="flex space-x-6">
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Privacy Policy</a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Terms of Service</a>
-              <a href="#" className="text-sm text-gray-500 hover:text-gray-700 transition-colors font-sans">Cookie Policy</a>
+              <a href="#" className="text-sm text-napa hover:text-cement transition-colors font-sans">Privacy Policy</a>
+              <a href="#" className="text-sm text-napa hover:text-cement transition-colors font-sans">Terms of Service</a>
+              <a href="#" className="text-sm text-napa hover:text-cement transition-colors font-sans">Cookie Policy</a>
             </div>
           </div>
         </div>
