@@ -609,6 +609,15 @@ export const HotelsLovedByGuests = () => {
       image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       category: 'Music'
     },
+    {
+      name: 'Eternal Moments Studio',
+      location: 'Gold Coast',
+      rating: 9.3,
+      price: 3200,
+      priceUnit: 'package',
+      image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      category: 'Photography'
+    },
   ];
 
   return (
