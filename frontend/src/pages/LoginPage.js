@@ -183,7 +183,7 @@ const LoginPage = () => {
                 whileTap={{ scale: 0.98 }}
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-blue-500 text-white py-2.5 px-4 rounded-lg hover:bg-blue-600 hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed font-sans text-sm"
+                className="w-full bg-cement text-white py-2.5 px-4 rounded-lg hover:bg-millbrook hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 font-medium disabled:opacity-50 disabled:cursor-not-allowed font-sans text-sm"
               >
                 {isLoading ? 'Signing in...' : 'Sign in'}
               </motion.button>
@@ -193,10 +193,10 @@ const LoginPage = () => {
             <div className="my-4">
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-200"></div>
+                  <div className="w-full border-t border-coral-reef"></div>
                 </div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-3 bg-white text-gray-500 font-sans">Don't have an account?</span>
+                  <span className="px-3 bg-white text-napa font-sans">Don't have an account?</span>
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@ const LoginPage = () => {
             <div className="text-center">
               <Link
                 to="/signup"
-                className="text-blue-500 hover:text-blue-600 font-medium font-sans transition-colors text-sm"
+                className="text-cement hover:text-millbrook font-medium font-sans transition-colors text-sm"
               >
                 Create your account
               </Link>
