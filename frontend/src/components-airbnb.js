@@ -32,6 +32,7 @@ import {
   ChevronDown,
   ChevronLeft
 } from 'lucide-react';
+import HeartButton from './components/HeartButton';
 
 // Calendar Component
 const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
