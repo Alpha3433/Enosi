@@ -87,7 +87,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans flex">
+    <div className="min-h-screen bg-linen font-sans flex" style={{ zoom: 0.9 }}>
       {/* Left Side - Image Section */}
       <div className="hidden lg:flex lg:w-1/2 xl:w-3/5 relative">
         <img
@@ -107,12 +107,12 @@ const LoginPage = () => {
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-6">
-            <Link to="/" className="inline-flex items-center text-gray-600 hover:text-blue-500 mb-4 transition-colors font-sans">
+            <Link to="/" className="inline-flex items-center text-napa hover:text-cement mb-4 transition-colors font-sans">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to home
             </Link>
-            <h2 className="text-xl font-bold text-gray-900 mb-2 font-sans">Sign in to your account</h2>
-            <p className="text-sm text-gray-600 font-sans">Enter your credentials to continue</p>
+            <h2 className="text-xl font-bold text-millbrook mb-2 font-sans">Sign in to your account</h2>
+            <p className="text-sm text-kabul font-sans">Enter your credentials to continue</p>
           </div>
 
           {/* Error message */}
