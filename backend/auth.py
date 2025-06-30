@@ -37,7 +37,11 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 async def get_user_by_email(db: AsyncIOMotorDatabase, email: str):
     user = await db.users.find_one({"email": email})
     if user:
-        return UserInDB(**user)
+        # Map the database field 'password' to the model field 'hashed_password'
+        user_data = user.copy()
+        if 'password' in user_data:
+            user_data['hashed_password'] = user_data.pop('password')
+        return UserInDB(**user_data)
     return None
 
 async def authenticate_user(db: AsyncIOMotorDatabase, email: str, password: str):
