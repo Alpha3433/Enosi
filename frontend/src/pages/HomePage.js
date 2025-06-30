@@ -12,7 +12,7 @@ import {
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-linen" style={{ zoom: 0.9 }}>
       <Header />
       <AirbnbHeroSection />
       <PopularDestinations />
