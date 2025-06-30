@@ -1138,7 +1138,7 @@ export const FeaturedVenues = () => {
                 />
               </div>
             </div>
-          </div>
+          </AnimatedCard>
         ))}
       </div>
     </section>
