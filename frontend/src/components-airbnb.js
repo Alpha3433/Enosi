@@ -601,12 +601,23 @@ export const AirbnbHeroSection = () => {
             </div>
 
             <div className="flex-shrink-0 ml-2">
-              <button
+              <motion.button
                 onClick={handleSearch}
-                className="bg-cement hover:bg-millbrook text-white rounded-full p-4 transition-colors shadow-lg"
+                className="bg-cement hover:bg-millbrook text-white rounded-full p-4 transition-all duration-200 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ 
+                  boxShadow: '0 10px 25px rgba(137, 117, 96, 0.3)',
+                  background: 'linear-gradient(135deg, #897560, #5a4730)'
+                }}
               >
-                <ArrowRight className="w-5 h-5" />
-              </button>
+                <motion.div
+                  whileHover={{ x: 3 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.div>
+              </motion.button>
             </div>
           </div>
           
