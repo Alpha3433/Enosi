@@ -1372,9 +1372,10 @@ export const NewsletterSection = () => {
     <>
       <section className="container mx-auto px-9 mt-11 mb-9">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="flex flex-col md:flex-row items-center justify-between"
           style={{
             width: '100%',
@@ -1388,8 +1389,12 @@ export const NewsletterSection = () => {
         >
           <div className="flex items-center mb-4 md:mb-0">
             <div className="mr-6 flex items-center justify-center flex-shrink-0">
-              <div className="relative">
-                <div 
+              <motion.div 
+                className="relative"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ duration: 0.3 }}
+              >
+                <motion.div 
                   className="flex items-center justify-center"
                   style={{
                     color: '#897560',
@@ -1397,13 +1402,31 @@ export const NewsletterSection = () => {
                     width: '48px',
                     height: '48px',
                   }}
+                  animate={{ 
+                    scale: [1, 1.05, 1],
+                  }}
+                  transition={{ 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
                 >
                   <Heart className="w-full h-full fill-current" />
-                </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-tallow rounded-full flex items-center justify-center">
+                </motion.div>
+                <motion.div 
+                  className="absolute -top-1 -right-1 w-4 h-4 bg-tallow rounded-full flex items-center justify-center"
+                  animate={{ 
+                    rotate: [0, 360],
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }}
+                >
                   <Star className="w-2 h-2 text-white fill-current" />
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
             </div>
             <div className="text-left">
               <div 
