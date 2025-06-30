@@ -677,24 +677,46 @@ export const PopularDestinations = () => {
       
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {destinations.map((destination, index) => (
-          <div 
+          <AnimatedCard
             key={index} 
             onClick={() => handleDestinationClick(destination.name)}
-            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1"
+            className="relative rounded-2xl overflow-hidden cursor-pointer group p-2 bg-white shadow-sm"
+            delay={index * 0.1}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              boxShadow: '0 15px 30px rgba(0,0,0,0.15)',
+              transition: { duration: 0.3 }
+            }}
+            whileTap={{ scale: 0.98 }}
           >
-            <div className="aspect-square">
-              <img
+            <div className="aspect-square relative overflow-hidden rounded-xl">
+              <motion.img
                 src={destination.image}
                 alt={destination.name}
-                className="w-full h-full object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              />
+              
+              {/* Gradient overlay on hover */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
               />
             </div>
             <div className="p-2">
-              <h3 className="text-sm font-medium text-millbrook text-center font-sans group-hover:text-cement transition-colors">
+              <motion.h3 
+                className="text-sm font-medium text-millbrook text-center font-sans group-hover:text-cement transition-colors"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
                 {destination.name}
-              </h3>
+              </motion.h3>
             </div>
-          </div>
+          </AnimatedCard>
         ))}
       </div>
     </section>
