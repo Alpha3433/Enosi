@@ -927,7 +927,7 @@ export const HotelsLovedByGuests = () => {
                 />
               </div>
             </div>
-          </div>
+          </AnimatedCard>
         ))}
       </div>
     </section>
