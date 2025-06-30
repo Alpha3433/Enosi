@@ -497,17 +497,18 @@ export const AirbnbHeroSection = () => {
           <div className="flex items-end space-x-1">
             <div className="flex-1 px-4 py-2">
               <label className="block text-sm font-semibold text-gray-700 mb-2 font-sans">Location</label>
-              <input
-                type="text"
-                placeholder="Search Destinations"
+              <LocationSearchInput
                 value={searchLocation}
-                onChange={(e) => {
-                  setSearchLocation(e.target.value);
+                onChange={(value) => {
+                  setSearchLocation(value);
                   clearError('location');
                 }}
-                className={`w-full text-sm outline-none border-0 bg-transparent placeholder-gray-400 font-sans ${
-                  errors.location ? 'text-red-500' : ''
-                }`}
+                onLocationSelect={(location) => {
+                  setSearchLocation(location.name);
+                  clearError('location');
+                }}
+                placeholder="Search destinations"
+                error={errors.location}
               />
               {errors.location && (
                 <p className="text-xs text-red-500 mt-1 font-sans">{errors.location}</p>
