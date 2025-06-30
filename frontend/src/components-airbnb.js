@@ -1,38 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Calendar, ChevronLeft, ChevronRight, ArrowRight, Heart, Star, User, Menu, X, Mail, ArrowDown, ChevronDown, CheckCircle, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from './contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { 
-  Search, 
-  Star, 
-  MapPin, 
-  Camera, 
-  Music, 
-  Utensils, 
-  Flower,
-  Building, 
-  Heart,
-  Calendar,
-  DollarSign,
-  Users,
-  CheckCircle,
-  Menu,
-  X,
-  User,
-  ShoppingCart,
-  ArrowRight,
-  Award,
-  Shield,
-  Phone,
-  Mail,
-  Instagram,
-  Facebook,
-  Twitter,
-  ChevronRight,
-  ChevronDown,
-  ChevronLeft
-} from 'lucide-react';
 import HeartButton from './components/HeartButton';
+import LocationSearchInput from './components/LocationSearchInput';
+import { InteractiveButton, AnimatedCard } from './components/MicroInteractions';
 
 // Calendar Component
 const CalendarDropdown = ({ isOpen, onClose, onDateSelect, selectedDate }) => {
