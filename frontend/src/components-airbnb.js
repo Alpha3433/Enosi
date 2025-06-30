@@ -1013,7 +1013,7 @@ export const FeaturedVenues = () => {
       
       <div className="flex space-x-6 overflow-x-auto pb-4">
         {venues.map((venue, index) => (
-          <div 
+          <AnimatedCard
             key={index} 
             className="flex-shrink-0 group cursor-pointer"
             style={{
@@ -1024,10 +1024,17 @@ export const FeaturedVenues = () => {
               boxShadow: '0px 1px 11px rgba(3,3,3,0.08)',
               padding: '7px'
             }}
+            delay={index * 0.1}
+            whileHover={{ 
+              y: -8, 
+              scale: 1.02,
+              boxShadow: '0px 10px 25px rgba(3,3,3,0.15)',
+              transition: { duration: 0.3 }
+            }}
           >
-            <div className="relative mb-3">
-              <div
-                className="w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat group-hover:scale-105 transition-transform duration-300"
+            <div className="relative mb-3 overflow-hidden rounded-xl">
+              <motion.div
+                className="w-full h-40 rounded-xl bg-cover bg-center bg-no-repeat"
                 style={{
                   height: '162px',
                   borderRadius: '14px',
@@ -1036,11 +1043,25 @@ export const FeaturedVenues = () => {
                   backgroundSize: 'cover',
                   backgroundRepeat: 'no-repeat',
                 }}
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               />
               
-              <div className="absolute top-2 left-2">
+              {/* Hover overlay */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl"
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+              
+              <motion.div 
+                className="absolute top-2 left-2"
+                whileHover={{ scale: 1.1 }}
+                transition={{ duration: 0.2 }}
+              >
                 <button
-                  className="px-2 py-1 border-0 text-xs font-medium font-sans"
+                  className="px-2 py-1 border-0 text-xs font-medium font-sans shadow-sm"
                   style={{
                     borderRadius: '88px',
                     backgroundColor: '#fbf3e7',
@@ -1049,9 +1070,9 @@ export const FeaturedVenues = () => {
                     lineHeight: '14px',
                   }}
                 >
-                  {venue.rating}
+                  ⭐ {venue.rating}
                 </button>
-              </div>
+              </motion.div>
               
               <div className="absolute top-2 right-2 flex items-center space-x-1">
                 <HeartButton 
