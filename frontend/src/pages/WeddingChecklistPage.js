@@ -1,537 +1,485 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { 
-  CheckCircle, 
+  CheckCircle,
   Circle,
+  Plus,
+  Trash2,
+  Edit3,
+  Save,
+  X,
   Calendar,
   Clock,
-  AlertCircle,
-  Plus,
-  Filter,
+  AlertTriangle,
+  ArrowLeft,
+  Bell,
   Search
 } from 'lucide-react';
-import { Header, Footer } from '../components-airbnb';
 import { useAuth } from '../contexts/AuthContext';
+import { planningAPI } from '../services/api';
 
 const WeddingChecklistPage = () => {
-  const { user } = useAuth();
-  const [checklist, setChecklist] = useState([]);
-  const [filter, setFilter] = useState('all'); // all, completed, pending, overdue
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuth();
+  const [tasks, setTasks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAddTask, setShowAddTask] = useState(false);
+  const [newTask, setNewTask] = useState({ task_name: '', due_date: '', priority: 'medium' });
+  const [editingId, setEditingId] = useState(null);
+  const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedTimeframe, setSelectedTimeframe] = useState('all');
 
-  const defaultChecklist = [
-    // 12+ Months Before
-    {
-      id: 1,
-      task: 'Set your wedding date',
-      timeframe: '12+ months',
-      category: 'Planning',
-      completed: false,
-      priority: 'high',
-      description: 'Choose your wedding date and consider season, holidays, and important dates for family',
-      dueDate: null
-    },
-    {
-      id: 2,
-      task: 'Determine your budget',
-      timeframe: '12+ months',
-      category: 'Budget',
-      completed: false,
-      priority: 'high',
-      description: 'Set overall budget and allocate amounts to different categories',
-      dueDate: null
-    },
-    {
-      id: 3,
-      task: 'Create guest list (rough estimate)',
-      timeframe: '12+ months',
-      category: 'Guest Management',
-      completed: false,
-      priority: 'high',
-      description: 'Initial estimate to help determine venue size and budget',
-      dueDate: null
-    },
-    {
-      id: 4,
-      task: 'Book your venue',
-      timeframe: '12+ months',
-      category: 'Venue',
-      completed: false,
-      priority: 'high',
-      description: 'Secure your ceremony and reception venues',
-      dueDate: null
-    },
-    {
-      id: 5,
-      task: 'Hire wedding planner (if using one)',
-      timeframe: '12+ months',
-      category: 'Planning',
-      completed: false,
-      priority: 'medium',
-      description: 'Research and book a wedding planner if desired',
-      dueDate: null
-    },
-
-    // 9-11 Months Before
-    {
-      id: 6,
-      task: 'Book photographer',
-      timeframe: '9-11 months',
-      category: 'Photography',
-      completed: false,
-      priority: 'high',
-      description: 'Research and book your wedding photographer',
-      dueDate: null
-    },
-    {
-      id: 7,
-      task: 'Book videographer',
-      timeframe: '9-11 months',
-      category: 'Photography',
-      completed: false,
-      priority: 'medium',
-      description: 'Research and book your wedding videographer',
-      dueDate: null
-    },
-    {
-      id: 8,
-      task: 'Choose wedding party',
-      timeframe: '9-11 months',
-      category: 'Wedding Party',
-      completed: false,
-      priority: 'medium',
-      description: 'Ask friends and family to be in your wedding party',
-      dueDate: null
-    },
-    {
-      id: 9,
-      task: 'Book caterer or finalize venue catering',
-      timeframe: '9-11 months',
-      category: 'Catering',
-      completed: false,
-      priority: 'high',
-      description: 'Secure catering for your reception',
-      dueDate: null
-    },
-    {
-      id: 10,
-      task: 'Book florist',
-      timeframe: '9-11 months',
-      category: 'Flowers',
-      completed: false,
-      priority: 'medium',
-      description: 'Research and book your wedding florist',
-      dueDate: null
-    },
-
-    // 6-8 Months Before
-    {
-      id: 11,
-      task: 'Order wedding dress',
-      timeframe: '6-8 months',
-      category: 'Attire',
-      completed: false,
-      priority: 'high',
-      description: 'Shop for and order your wedding dress',
-      dueDate: null
-    },
-    {
-      id: 12,
-      task: 'Book music/entertainment',
-      timeframe: '6-8 months',
-      category: 'Entertainment',
-      completed: false,
-      priority: 'high',
-      description: 'Book DJ, band, or other entertainment',
-      dueDate: null
-    },
-    {
-      id: 13,
-      task: 'Send save the dates',
-      timeframe: '6-8 months',
-      category: 'Invitations',
-      completed: false,
-      priority: 'high',
-      description: 'Send save the date cards to all guests',
-      dueDate: null
-    },
-    {
-      id: 14,
-      task: 'Register for gifts',
-      timeframe: '6-8 months',
-      category: 'Gifts',
-      completed: false,
-      priority: 'medium',
-      description: 'Create wedding registries at your preferred stores',
-      dueDate: null
-    },
-
-    // 3-5 Months Before
-    {
-      id: 15,
-      task: 'Order wedding invitations',
-      timeframe: '3-5 months',
-      category: 'Invitations',
-      completed: false,
-      priority: 'high',
-      description: 'Design and order your wedding invitations',
-      dueDate: null
-    },
-    {
-      id: 16,
-      task: 'Plan honeymoon',
-      timeframe: '3-5 months',
-      category: 'Honeymoon',
-      completed: false,
-      priority: 'medium',
-      description: 'Book flights, accommodations, and activities',
-      dueDate: null
-    },
-    {
-      id: 17,
-      task: 'Schedule dress fittings',
-      timeframe: '3-5 months',
-      category: 'Attire',
-      completed: false,
-      priority: 'high',
-      description: 'Schedule initial dress fitting appointments',
-      dueDate: null
-    },
-    {
-      id: 18,
-      task: 'Order groom\'s attire',
-      timeframe: '3-5 months',
-      category: 'Attire',
-      completed: false,
-      priority: 'high',
-      description: 'Shop for and order groom\'s wedding attire',
-      dueDate: null
-    },
-
-    // 1-2 Months Before
-    {
-      id: 19,
-      task: 'Send wedding invitations',
-      timeframe: '1-2 months',
-      category: 'Invitations',
-      completed: false,
-      priority: 'high',
-      description: 'Mail wedding invitations to all guests',
-      dueDate: null
-    },
-    {
-      id: 20,
-      task: 'Final dress fitting',
-      timeframe: '1-2 months',
-      category: 'Attire',
-      completed: false,
-      priority: 'high',
-      description: 'Complete final dress alterations',
-      dueDate: null
-    },
-    {
-      id: 21,
-      task: 'Finalize menu and cake',
-      timeframe: '1-2 months',
-      category: 'Catering',
-      completed: false,
-      priority: 'high',
-      description: 'Confirm final menu details and cake design',
-      dueDate: null
-    },
-    {
-      id: 22,
-      task: 'Plan rehearsal dinner',
-      timeframe: '1-2 months',
-      category: 'Events',
-      completed: false,
-      priority: 'medium',
-      description: 'Organize rehearsal dinner details',
-      dueDate: null
-    },
-
-    // 1-2 Weeks Before
-    {
-      id: 23,
-      task: 'Confirm guest count',
-      timeframe: '1-2 weeks',
-      category: 'Guest Management',
-      completed: false,
-      priority: 'high',
-      description: 'Get final RSVP count from all guests',
-      dueDate: null
-    },
-    {
-      id: 24,
-      task: 'Create seating chart',
-      timeframe: '1-2 weeks',
-      category: 'Reception',
-      completed: false,
-      priority: 'high',
-      description: 'Finalize table assignments for reception',
-      dueDate: null
-    },
-    {
-      id: 25,
-      task: 'Pack for honeymoon',
-      timeframe: '1-2 weeks',
-      category: 'Honeymoon',
-      completed: false,
-      priority: 'medium',
-      description: 'Pack bags and prepare for honeymoon',
-      dueDate: null
-    },
-    {
-      id: 26,
-      task: 'Prepare vendor payments',
-      timeframe: '1-2 weeks',
-      category: 'Budget',
-      completed: false,
-      priority: 'high',
-      description: 'Prepare final payments for all vendors',
-      dueDate: null
-    }
-  ];
-
-  // Load saved checklist
   useEffect(() => {
-    const savedChecklist = localStorage.getItem(`checklist_${user?.id}`);
-    if (savedChecklist) {
-      setChecklist(JSON.parse(savedChecklist));
-    } else {
-      setChecklist(defaultChecklist);
-    }
-  }, [user]);
+    fetchTasks();
+  }, []);
 
-  // Save checklist
-  useEffect(() => {
-    if (user && checklist.length > 0) {
-      localStorage.setItem(`checklist_${user.id}`, JSON.stringify(checklist));
+  const fetchTasks = async () => {
+    try {
+      setIsLoading(true);
+      const response = await planningAPI.getChecklistItems();
+      setTasks(response.data || []);
+    } catch (err) {
+      console.error('Error fetching tasks:', err);
+      setError('Failed to load checklist');
+    } finally {
+      setIsLoading(false);
     }
-  }, [checklist, user]);
-
-  const toggleTask = (taskId) => {
-    setChecklist(checklist.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
   };
 
-  const addCustomTask = (newTask) => {
-    const task = {
-      id: Date.now(),
-      task: newTask.task,
-      timeframe: newTask.timeframe,
-      category: newTask.category,
-      completed: false,
-      priority: newTask.priority,
-      description: newTask.description,
-      dueDate: newTask.dueDate
-    };
-    setChecklist([...checklist, task]);
+  const addTask = async () => {
+    if (!newTask.task_name) return;
+    
+    try {
+      const taskData = {
+        task_name: newTask.task_name,
+        due_date: newTask.due_date || null,
+        priority: newTask.priority,
+        completed: false,
+        notes: ''
+      };
+      
+      await planningAPI.createChecklistItem(taskData);
+      await fetchTasks();
+      setNewTask({ task_name: '', due_date: '', priority: 'medium' });
+      setShowAddTask(false);
+    } catch (err) {
+      console.error('Error adding task:', err);
+      setError('Failed to add task');
+    }
   };
 
-  const filteredTasks = checklist.filter(task => {
-    const matchesFilter = filter === 'all' || 
-      (filter === 'completed' && task.completed) ||
-      (filter === 'pending' && !task.completed);
-    
-    const matchesTimeframe = selectedTimeframe === 'all' || task.timeframe === selectedTimeframe;
-    
-    const matchesSearch = task.task.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      task.category.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    return matchesFilter && matchesTimeframe && matchesSearch;
+  const toggleTask = async (taskId, completed) => {
+    try {
+      // Note: This would need an update endpoint in the API
+      const updatedTasks = tasks.map(task => 
+        task.id === taskId ? { ...task, completed: !completed } : task
+      );
+      setTasks(updatedTasks);
+    } catch (err) {
+      console.error('Error updating task:', err);
+      setError('Failed to update task');
+    }
+  };
+
+  const deleteTask = async (taskId) => {
+    try {
+      // Note: This would need a delete endpoint in the API
+      setTasks(tasks.filter(task => task.id !== taskId));
+    } catch (err) {
+      console.error('Error deleting task:', err);
+      setError('Failed to delete task');
+    }
+  };
+
+  const filteredTasks = tasks.filter(task => {
+    const matchesStatus = filterStatus === 'all' || 
+                         (filterStatus === 'completed' && task.completed) ||
+                         (filterStatus === 'pending' && !task.completed);
+    const matchesSearch = task.task_name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesStatus && matchesSearch;
   });
 
-  const completedCount = checklist.filter(task => task.completed).length;
-  const progressPercentage = (completedCount / checklist.length) * 100;
-
-  const timeframes = [...new Set(checklist.map(task => task.timeframe))];
-  const categories = [...new Set(checklist.map(task => task.category))];
+  const completedCount = tasks.filter(task => task.completed).length;
+  const totalCount = tasks.length;
+  const completionPercentage = totalCount > 0 ? (completedCount / totalCount) * 100 : 0;
 
   const getPriorityColor = (priority) => {
     switch (priority) {
-      case 'high': return 'text-red-600 bg-red-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'high': return 'bg-coral-reef';
+      case 'medium': return 'bg-tallow';
+      case 'low': return 'bg-cement';
+      default: return 'bg-cement';
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Wedding Checklist</h1>
-          <p className="text-gray-600">Stay organized with our comprehensive wedding planning timeline</p>
-        </motion.div>
+    <div className="min-h-screen bg-linen font-sans" style={{ zoom: 0.9 }}>
+      {/* Header - Same as landing page */}
+      <header className="bg-white">
+        <div className="container mx-auto px-9 py-5 flex justify-between items-center">
+          <div className="flex items-center">
+            <button 
+              onClick={() => navigate('/')}
+              className="text-xl font-bold font-sans text-millbrook"
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
+            >
+              Enosi
+            </button>
+          </div>
+          
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
+              Find Vendors
+            </button>
+            <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
+              Inspiration
+            </button>
+            <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
+              About Us
+            </button>
+          </nav>
+
+          <div className="flex space-x-2">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <button className="p-2 text-kabul hover:text-millbrook transition-colors relative">
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute -top-1 -right-1 bg-coral-reef text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                </button>
+                <div className="relative group">
+                  <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
+                    <span className="text-sm font-sans">{user?.first_name}</span>
+                  </button>
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-coral-reef opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      <button
+                        onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          logout();
+                          navigate('/');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="border border-coral-reef text-kabul rounded-full px-4 py-2 text-sm hover:bg-linen transition-colors font-sans"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="bg-cement text-white rounded-full px-4 py-2 text-sm hover:bg-millbrook transition-colors font-sans"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-9 py-8">
+        {/* Navigation */}
+        <div className="mb-6">
+          <button 
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center text-kabul hover:text-cement transition-colors font-sans"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Dashboard
+          </button>
+        </div>
+
+        {/* Page Header */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-millbrook mb-2 font-sans">Wedding Checklist</h1>
+          <p className="text-kabul font-sans">
+            Keep track of all your wedding planning tasks
+          </p>
+        </div>
 
         {/* Progress Overview */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8"
+          className="mb-8"
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '24px',
+            boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+            padding: '24px'
+          }}
         >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">Progress Overview</h3>
-            <span className="text-sm text-gray-600">
-              {completedCount} of {checklist.length} tasks completed
-            </span>
+            <h2 className="text-xl font-bold text-millbrook font-sans">Progress Overview</h2>
+            <div className="text-right">
+              <p className="text-2xl font-bold text-millbrook font-sans">{completedCount}/{totalCount}</p>
+              <p className="text-sm text-kabul font-sans">Tasks Completed</p>
+            </div>
           </div>
-          
-          <div className="w-full bg-gray-200 rounded-full h-3 mb-4">
-            <div
-              className="bg-rose-600 h-3 rounded-full transition-all duration-300"
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
+          <div className="mb-2">
+            <div className="w-full bg-linen rounded-full h-4">
+              <div 
+                className="bg-cement h-4 rounded-full transition-all duration-300"
+                style={{ width: `${completionPercentage}%` }}
+              ></div>
+            </div>
           </div>
-          
-          <div className="text-center">
-            <span className="text-2xl font-bold text-rose-600">{progressPercentage.toFixed(1)}%</span>
-            <span className="text-gray-600 ml-2">Complete</span>
-          </div>
+          <p className="text-sm text-kabul font-sans">
+            {completionPercentage.toFixed(1)}% complete
+          </p>
         </motion.div>
 
-        {/* Filters and Search */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8"
-        >
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Search Tasks</label>
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  placeholder="Search tasks..."
-                />
-              </div>
+        {/* Controls */}
+        <div className="mb-6 flex flex-col md:flex-row gap-4 justify-between">
+          <div className="flex space-x-4">
+            <button
+              onClick={() => setShowAddTask(true)}
+              className="flex items-center space-x-2 bg-cement text-white px-6 py-3 rounded-full hover:bg-millbrook transition-colors font-sans"
+            >
+              <Plus className="w-5 h-5" />
+              <span>Add Task</span>
+            </button>
+          </div>
+
+          <div className="flex space-x-4">
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-3 top-3 w-4 h-4 text-kabul" />
+              <input
+                type="text"
+                placeholder="Search tasks..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-10 pr-4 py-3 bg-white border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement transition-all duration-200 font-sans placeholder-napa text-kabul"
+              />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Status</label>
+            {/* Filter */}
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="px-4 py-3 bg-white border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement transition-all duration-200 font-sans text-kabul"
+            >
+              <option value="all">All Tasks</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Add Task Form */}
+        {showAddTask && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6"
+            style={{
+              backgroundColor: '#ffffff',
+              borderRadius: '24px',
+              boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+              padding: '24px'
+            }}
+          >
+            <h3 className="text-lg font-bold text-millbrook mb-4 font-sans">Add New Task</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <input
+                type="text"
+                placeholder="Task name"
+                value={newTask.task_name}
+                onChange={(e) => setNewTask({...newTask, task_name: e.target.value})}
+                className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+              />
+              <input
+                type="date"
+                value={newTask.due_date}
+                onChange={(e) => setNewTask({...newTask, due_date: e.target.value})}
+                className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans text-kabul"
+              />
               <select
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                value={newTask.priority}
+                onChange={(e) => setNewTask({...newTask, priority: e.target.value})}
+                className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans text-kabul"
               >
-                <option value="all">All Tasks</option>
-                <option value="pending">Pending</option>
-                <option value="completed">Completed</option>
+                <option value="low">Low Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="high">High Priority</option>
               </select>
             </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Filter by Timeline</label>
-              <select
-                value={selectedTimeframe}
-                onChange={(e) => setSelectedTimeframe(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+            <div className="flex space-x-3">
+              <button
+                onClick={addTask}
+                className="bg-cement text-white px-4 py-2 rounded-lg hover:bg-millbrook transition-colors font-sans"
               >
-                <option value="all">All Timeframes</option>
-                {timeframes.map(timeframe => (
-                  <option key={timeframe} value={timeframe}>{timeframe}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex items-end">
-              <button className="w-full bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition-colors">
-                <Filter className="h-4 w-4 inline mr-2" />
-                Apply Filters
+                Add Task
+              </button>
+              <button
+                onClick={() => setShowAddTask(false)}
+                className="border border-coral-reef text-kabul px-4 py-2 rounded-lg hover:bg-linen transition-colors font-sans"
+              >
+                Cancel
               </button>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
 
-        {/* Task List */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-xl shadow-sm border border-gray-200"
-        >
-          <div className="p-6 border-b border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-900">Wedding Tasks</h3>
-          </div>
-
-          <div className="divide-y divide-gray-200">
-            <AnimatePresence>
-              {filteredTasks.map((task, index) => (
-                <motion.div
-                  key={task.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ delay: index * 0.05 }}
-                  className={`p-6 hover:bg-gray-50 transition-colors ${
-                    task.completed ? 'opacity-75' : ''
-                  }`}
-                >
-                  <div className="flex items-start space-x-4">
+        {/* Tasks List */}
+        <div className="space-y-4">
+          {isLoading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cement mx-auto"></div>
+              <p className="text-kabul mt-2 font-sans">Loading tasks...</p>
+            </div>
+          ) : filteredTasks.length === 0 ? (
+            <div 
+              className="text-center py-12"
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                padding: '24px'
+              }}
+            >
+              <CheckCircle className="w-12 h-12 text-kabul mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-millbrook mb-2 font-sans">
+                {searchTerm ? 'No tasks found' : 'No tasks yet'}
+              </h3>
+              <p className="text-kabul font-sans">
+                {searchTerm ? 'Try adjusting your search' : 'Start by adding your first wedding planning task'}
+              </p>
+            </div>
+          ) : (
+            filteredTasks.map((task, index) => (
+              <motion.div
+                key={task.id || index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                style={{
+                  backgroundColor: '#ffffff',
+                  borderRadius: '24px',
+                  boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                  padding: '24px'
+                }}
+                className={task.completed ? 'opacity-75' : ''}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-4 flex-1">
                     <button
-                      onClick={() => toggleTask(task.id)}
-                      className="mt-1 flex-shrink-0"
+                      onClick={() => toggleTask(task.id, task.completed)}
+                      className="flex-shrink-0"
                     >
                       {task.completed ? (
-                        <CheckCircle className="h-6 w-6 text-green-600" />
+                        <CheckCircle className="w-6 h-6 text-cement" />
                       ) : (
-                        <Circle className="h-6 w-6 text-gray-400 hover:text-rose-600 transition-colors" />
+                        <Circle className="w-6 h-6 text-kabul hover:text-cement transition-colors" />
                       )}
                     </button>
-
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-2">
-                        <h4 className={`text-lg font-medium ${
-                          task.completed ? 'line-through text-gray-500' : 'text-gray-900'
-                        }`}>
-                          {task.task}
-                        </h4>
+                    
+                    <div className="flex-1">
+                      <h3 className={`text-lg font-semibold font-sans ${task.completed ? 'line-through text-kabul' : 'text-millbrook'}`}>
+                        {task.task_name}
+                      </h3>
+                      <div className="flex items-center space-x-4 mt-1">
                         <div className="flex items-center space-x-2">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${getPriorityColor(task.priority)}`}>
-                            {task.priority}
-                          </span>
-                          <span className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs font-medium">
-                            {task.timeframe}
-                          </span>
+                          <div className={`w-3 h-3 rounded-full ${getPriorityColor(task.priority)}`}></div>
+                          <span className="text-sm text-kabul font-sans capitalize">{task.priority} priority</span>
                         </div>
-                      </div>
-
-                      <p className="text-gray-600 mb-2">{task.description}</p>
-
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span className="flex items-center">
-                          <Calendar className="h-4 w-4 mr-1" />
-                          {task.category}
-                        </span>
-                        {task.dueDate && (
-                          <span className="flex items-center">
-                            <Clock className="h-4 w-4 mr-1" />
-                            Due: {new Date(task.dueDate).toLocaleDateString()}
-                          </span>
+                        {task.due_date && (
+                          <div className="flex items-center space-x-1">
+                            <Calendar className="w-4 h-4 text-kabul" />
+                            <span className="text-sm text-kabul font-sans">
+                              {new Date(task.due_date).toLocaleDateString()}
+                            </span>
+                          </div>
                         )}
                       </div>
                     </div>
                   </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </motion.div>
+
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => setEditingId(task.id)}
+                      className="p-2 text-kabul hover:text-cement transition-colors"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => deleteTask(task.id)}
+                      className="p-2 text-coral-reef hover:text-red-600 transition-colors"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </motion.div>
+            ))
+          )}
+        </div>
       </div>
 
-      <Footer />
+      {/* Footer */}
+      <footer className="bg-linen py-12 mt-12">
+        <div className="container mx-auto px-9">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4 text-millbrook font-sans">Enosi</h3>
+              <p className="text-sm text-kabul mb-2 font-sans">Your favorite wedding planning experience</p>
+              <p className="text-sm text-kabul font-sans">since 2024</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Support</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Help</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">FAQ</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Customer service</a>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Company</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">About Us</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Careers</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Press</a>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Legal</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Terms of Service</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Privacy Policy</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Cookies</a>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-coral-reef mt-8 pt-8 text-center">
+            <p className="text-kabul text-sm font-sans">
+              © 2025 Enosi. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
