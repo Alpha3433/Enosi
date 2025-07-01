@@ -243,14 +243,48 @@ const CouplesDashboard = () => {
       {/* Welcome Section */}
       <div className="container mx-auto px-9 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2 font-sans">
+          <h1 className="text-3xl font-bold text-millbrook mb-2 font-sans">
             Welcome back, {user?.first_name}!
           </h1>
-          <p className="text-gray-600 font-sans">
-            Your wedding is on <span className="font-semibold text-blue-600">{stats.weddingDate}</span> - only {stats.daysUntilWedding} days to go! 🎉
+          <p className="text-kabul font-sans">
+            Your wedding is on <span className="font-semibold text-cement">{stats.weddingDate}</span> - only {stats.daysUntilWedding} days to go! 🎉
           </p>
         </div>
 
+        {/* Loading State for Dashboard */}
+        {isLoading && (
+          <div className="flex justify-center items-center h-64">
+            <div className="flex items-center space-x-2">
+              <Loader2 className="w-8 h-8 animate-spin text-cement" />
+              <span className="text-xl text-kabul">Loading your wedding dashboard...</span>
+            </div>
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="flex justify-center items-center h-64">
+            <div className="text-center">
+              <div className="text-coral-reef mb-4">
+                <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-semibold text-millbrook mb-2">Unable to load dashboard</h3>
+              <p className="text-kabul mb-4">{error}</p>
+              <button
+                onClick={fetchDashboardData}
+                className="px-6 py-3 bg-cement text-white rounded-lg hover:bg-millbrook transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Main Dashboard Content */}
+        {!isLoading && !error && (
+          <>
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {dashboardStats.map((stat, index) => (
@@ -261,8 +295,8 @@ const CouplesDashboard = () => {
               transition={{ delay: index * 0.1 }}
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
@@ -271,8 +305,8 @@ const CouplesDashboard = () => {
                   <stat.icon className={`w-6 h-6 ${stat.color}`} />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-1 font-sans">{stat.value}</h3>
-              <p className="text-sm text-gray-600 font-sans">{stat.title}</p>
+              <h3 className="text-2xl font-bold text-millbrook mb-1 font-sans">{stat.value}</h3>
+              <p className="text-sm text-kabul font-sans">{stat.title}</p>
             </motion.div>
           ))}
         </div>
