@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -19,9 +19,11 @@ import {
   Search,
   FileText,
   Camera,
-  Target
+  Target,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { couplesAPI, planningAPI } from '../services/api';
 
 // Initialize match object for this component
 if (typeof window !== 'undefined' && !window.match) {
