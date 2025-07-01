@@ -116,7 +116,7 @@ const SignUpPage = () => {
       </div>
 
       {/* Right Side - Signup Form Section */}
-      <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-6 max-h-screen overflow-y-auto">
+      <div className="w-full lg:w-1/2 xl:w-2/5 flex items-center justify-center p-6 max-h-screen overflow-y-auto bg-linen">
         <div className="w-full max-w-md">
           {/* Header */}
           <div className="text-center mb-4">
