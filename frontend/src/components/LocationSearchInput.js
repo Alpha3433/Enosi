@@ -189,6 +189,7 @@ const LocationSearchInput = ({
                   }`}
                   whileHover={{ x: 2 }}
                   whileTap={{ scale: 0.98 }}
+                  style={{ minWidth: 'max-content' }}
                 >
                   {/* Icon */}
                   <div className="flex-shrink-0 mt-0.5">
