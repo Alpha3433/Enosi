@@ -500,49 +500,46 @@ const CouplesDashboard = () => {
               </div>
             </div>
           </div>
-        </div>
+          </>
+        )}
       </div>
 
       {/* Footer - Same as landing page */}
-      <footer className="bg-gray-100 py-12 mt-12">
+      <footer className="bg-linen py-12 mt-12">
         <div className="container mx-auto px-9">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-lg font-bold mb-4 font-sans">Enosi</h3>
-              <p className="text-gray-600 text-sm font-sans">
-                Australia's premier wedding vendor marketplace, connecting couples with the perfect professionals for their special day.
-              </p>
+              <h3 className="text-xl font-bold mb-4 text-millbrook font-sans">Enosi</h3>
+              <p className="text-sm text-kabul mb-2 font-sans">Your favorite wedding planning experience</p>
+              <p className="text-sm text-kabul font-sans">since 2024</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-sans">For Couples</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900 font-sans">Find Vendors</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Wedding Planning</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Budget Calculator</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Inspiration</a></li>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Support</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Help</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">FAQ</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Customer service</a>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-sans">Planning Tools</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900 font-sans">Budget Planner</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Guest List Manager</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Wedding Checklist</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Timeline Builder</a></li>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Company</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">About Us</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Careers</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Press</a>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 font-sans">Support</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900 font-sans">Help Center</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Contact Us</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-gray-900 font-sans">Privacy Policy</a></li>
+              <h4 className="font-semibold text-millbrook mb-4 font-sans">Legal</h4>
+              <ul className="space-y-2 text-sm text-kabul">
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Terms of Service</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Privacy Policy</a>
+                <a href="#" className="block text-sm text-kabul hover:text-cement transition-colors font-sans">Cookies</a>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-200 mt-8 pt-8 text-center">
-            <p className="text-gray-600 text-sm font-sans">
+          <div className="border-t border-coral-reef mt-8 pt-8 text-center">
+            <p className="text-kabul text-sm font-sans">
               © 2025 Enosi. All rights reserved.
             </p>
           </div>
