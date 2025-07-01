@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, ChevronDown, MapPin, Calendar, Users, Loader2, Heart } from 'lucide-react';
+import { 
+  ArrowLeft, 
+  ChevronDown, 
+  MapPin, 
+  Calendar, 
+  Users, 
+  Loader2, 
+  Heart, 
+  Star,
+  Search,
+  Filter,
+  Grid,
+  List,
+  Map,
+  SlidersHorizontal,
+  CheckCircle,
+  Phone,
+  Mail,
+  Eye
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
 import { vendorsAPI } from '../services/api';
@@ -27,19 +46,23 @@ const SearchPage = () => {
     vendorType: searchParams.get('category') || '',
     weddingDate: searchParams.get('date') || '',
     guestCount: searchParams.get('guests') || '',
-    priceRange: '',
+    priceMin: '',
+    priceMax: '',
     rating: '',
-    vendorClass: '',
-    features: []
+    features: [],
+    availability: ''
   });
 
-  const [sortBy, setSortBy] = useState('relevance');
+  const [sortBy, setSortBy] = useState('recommended');
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'grid'
+  const [showMap, setShowMap] = useState(false);
 
   // Use dynamic vendor search instead of static data
   const [vendors, setVendors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [savedVendors, setSavedVendors] = useState([]);
+  const [previousFilters, setPreviousFilters] = useState([]);
 
   // Get saved vendors from localStorage
   const getSavedVendorsKey = () => `saved_vendors_${user?.id || 'default'}`;
