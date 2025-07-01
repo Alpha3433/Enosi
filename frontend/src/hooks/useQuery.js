@@ -121,7 +121,7 @@ export const useVendorSearch = (searchParams, options = {}) => {
     apiParams.skip = options.skip || 0;
     
     const response = await vendorsAPI.search(apiParams);
-    return response.data;
+    return response.data || []; // Ensure we always return an array
   };
   
   return useQuery(queryKey, queryFn, {
