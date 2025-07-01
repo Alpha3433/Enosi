@@ -376,7 +376,7 @@ const SearchPage = () => {
               <input
                 type="text"
                 value={filters.guestCount}
-                onChange={(e) => handleFilterChange('guestCount', e.target.value)}
+                onChange={(e) => handleFilterChangeWithSearch('guestCount', e.target.value)}
                 placeholder="      Number of guests"
                 style={{
                   width: '310px',
