@@ -33,10 +33,28 @@ const SearchPage = () => {
   const [sortBy, setSortBy] = useState('relevance');
 
   // Use dynamic vendor search instead of static data
-  const { data: vendors = [], isLoading, error, refetch } = useVendorSearch(filters, {
-    limit: 20,
-    skip: 0
-  });
+  const [vendors, setVendors] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchVendors = async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await vendorsAPI.search({ ...filters, limit: 20, skip: 0 });
+      setVendors(response.data || []);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const refetch = fetchVendors;
+
+  useEffect(() => {
+    fetchVendors();
+  }, []);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
