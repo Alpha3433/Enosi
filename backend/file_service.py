@@ -4,7 +4,13 @@ import os
 from datetime import datetime
 from typing import List, Dict, Any, Optional, Tuple
 from PIL import Image
-import magic
+# Try to import magic, but provide a fallback if it's not available
+try:
+    import magic
+    MAGIC_AVAILABLE = True
+except ImportError:
+    MAGIC_AVAILABLE = False
+    print("Warning: python-magic library not available. File type detection will be limited.")
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from fastapi import HTTPException, UploadFile
 import logging
