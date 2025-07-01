@@ -19,6 +19,7 @@ if (typeof window !== 'undefined') {
 // Import pages
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
+import SearchPageNew from './pages/SearchPageNew';
 import InspirationPage from './pages/InspirationPage';
 import AboutPage from './pages/AboutPage';
 import VendorDetailPageNew from './pages/VendorDetailPageNew';
