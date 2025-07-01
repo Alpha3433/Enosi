@@ -361,26 +361,26 @@ const CouplesDashboard = () => {
             <div 
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900 font-sans">Recent Activity</h2>
-                <button className="text-sm text-blue-500 hover:text-blue-600 font-sans">View All</button>
+                <h2 className="text-xl font-bold text-millbrook font-sans">Recent Activity</h2>
+                <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
               </div>
               <div className="space-y-4">
                 {isLoading ? (
                   <div className="flex items-center justify-center p-4">
-                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                    <Loader2 className="w-6 h-6 text-cement animate-spin" />
                   </div>
                 ) : error ? (
-                  <div className="text-center text-red-500 p-4">
+                  <div className="text-center text-coral-reef p-4">
                     Failed to load recent activity
                   </div>
                 ) : (
-                  <div className="text-center text-gray-500 p-4">
+                  <div className="text-center text-kabul p-4">
                     No recent activity to display
                   </div>
                 )}
@@ -391,38 +391,44 @@ const CouplesDashboard = () => {
             <div 
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-gray-900 font-sans">Upcoming Tasks</h2>
+                <h2 className="text-xl font-bold text-millbrook font-sans">Upcoming Tasks</h2>
                 <button 
                   onClick={() => navigate('/planning/checklist')}
-                  className="text-sm text-blue-500 hover:text-blue-600 font-sans"
+                  className="text-sm text-cement hover:text-millbrook font-sans"
                 >
                   View All
                 </button>
               </div>
               <div className="space-y-3">
-                {upcomingTasks.map((task, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
-                    <div className="flex items-center space-x-3">
-                      <div className={`w-3 h-3 rounded-full ${
-                        task.priority === 'high' ? 'bg-red-500' :
-                        task.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'
-                      }`}></div>
-                      <span className="text-sm font-medium text-gray-900 font-sans">{task.task}</span>
+                {upcomingTasks.length > 0 ? (
+                  upcomingTasks.map((task, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 border border-coral-reef rounded-lg">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-3 h-3 rounded-full ${
+                          task.priority === 'high' ? 'bg-coral-reef' :
+                          task.priority === 'medium' ? 'bg-tallow' : 'bg-cement'
+                        }`}></div>
+                        <span className="text-sm font-medium text-millbrook font-sans">{task.task}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs text-kabul font-sans">Due: {task.dueDate}</span>
+                        <button className="text-kabul hover:text-cement">
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs text-gray-500 font-sans">Due in {task.dueDate}</span>
-                      <button className="text-gray-400 hover:text-gray-600">
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
-                    </div>
+                  ))
+                ) : (
+                  <div className="text-center text-kabul p-4">
+                    No upcoming tasks
                   </div>
-                ))}
+                )}
               </div>
             </div>
           </div>
