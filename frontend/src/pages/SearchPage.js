@@ -88,8 +88,8 @@ const SearchPage = () => {
     };
   };
 
-  // Transform vendors data for UI
-  const transformedVendors = vendors.map(transformVendorData);
+  // Transform vendors data for UI with safe handling
+  const transformedVendors = (vendors || []).map(transformVendorData);
 
   const getRatingColor = (rating) => {
     if (rating >= 9.0) return 'bg-green-100 text-green-800';
