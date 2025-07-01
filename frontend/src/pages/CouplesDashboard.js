@@ -65,16 +65,37 @@ const CouplesDashboard = () => {
       // Handle profile data
       if (profileResponse.status === 'fulfilled') {
         setCoupleProfile(profileResponse.value.data);
+      } else {
+        // Load from localStorage if API fails
+        const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+        const savedProfile = localStorage.getItem(coupleProfileKey);
+        if (savedProfile) {
+          setCoupleProfile(JSON.parse(savedProfile));
+        }
       }
 
       // Handle budget data
       if (budgetResponse.status === 'fulfilled') {
         setBudgetItems(budgetResponse.value.data || []);
+      } else {
+        // Load from localStorage if API fails
+        const budgetKey = `budget_items_${user?.id || 'default'}`;
+        const savedBudget = localStorage.getItem(budgetKey);
+        if (savedBudget) {
+          setBudgetItems(JSON.parse(savedBudget));
+        }
       }
 
       // Handle checklist data
       if (checklistResponse.status === 'fulfilled') {
         setChecklistItems(checklistResponse.value.data || []);
+      } else {
+        // Load from localStorage if API fails
+        const checklistKey = `checklist_items_${user?.id || 'default'}`;
+        const savedChecklist = localStorage.getItem(checklistKey);
+        if (savedChecklist) {
+          setChecklistItems(JSON.parse(savedChecklist));
+        }
       }
 
     } catch (err) {
