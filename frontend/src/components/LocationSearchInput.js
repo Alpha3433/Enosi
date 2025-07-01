@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Search } from 'lucide-react';
+import { MapPin, Search, Building2, Mountain, Waves, Wine, TreePine, Plane } from 'lucide-react';
 import { searchLocations, getLocationIcon } from '../utils/locationData';
 
 const useDebounce = (value, delay) => {
@@ -17,6 +17,26 @@ const useDebounce = (value, delay) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+// Get modern icon component based on location type
+const getModernLocationIcon = (type) => {
+  switch (type) {
+    case 'city': 
+      return <Building2 className="w-5 h-5 text-cement" />;
+    case 'region': 
+      return <Mountain className="w-5 h-5 text-cement" />;
+    case 'beach': 
+      return <Waves className="w-5 h-5 text-cement" />;
+    case 'wine': 
+      return <Wine className="w-5 h-5 text-cement" />;
+    case 'mountain': 
+      return <TreePine className="w-5 h-5 text-cement" />;
+    case 'airport':
+      return <Plane className="w-5 h-5 text-cement" />;
+    default: 
+      return <MapPin className="w-5 h-5 text-cement" />;
+  }
 };
 
 const LocationSearchInput = ({ 
@@ -42,11 +62,11 @@ const LocationSearchInput = ({
       setIsLoading(true);
       // Simulate API delay for better UX
       setTimeout(() => {
-        const results = searchLocations(debouncedValue, 6);
+        const results = searchLocations(debouncedValue, 8);
         setSuggestions(results);
         setIsLoading(false);
         setIsOpen(results.length > 0);
-      }, 100);
+      }, 150);
     } else {
       setSuggestions([]);
       setIsOpen(false);
@@ -149,44 +169,68 @@ const LocationSearchInput = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border border-coral-reef rounded-xl shadow-xl z-50 max-h-80 overflow-y-auto"
+            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl z-50 max-h-96 overflow-y-auto border border-coral-reef"
+            style={{
+              boxShadow: '0 10px 40px rgba(137, 117, 96, 0.15)',
+            }}
           >
             <div className="py-2">
               {suggestions.map((location, index) => (
                 <motion.button
                   key={`${location.name}-${index}`}
                   onClick={() => selectLocation(location)}
-                  className={`w-full text-left px-4 py-3 flex items-center space-x-3 transition-all duration-150 ${
+                  className={`w-full text-left px-4 py-3 flex items-start space-x-3 transition-all duration-150 border-l-3 ${
                     index === selectedIndex 
-                      ? 'bg-linen border-l-4 border-cement' 
-                      : 'hover:bg-linen/50'
+                      ? 'bg-linen border-l-cement shadow-sm' 
+                      : 'hover:bg-linen/40 border-l-transparent'
                   }`}
-                  whileHover={{ x: 4 }}
+                  whileHover={{ x: 2 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <span className="text-lg flex-shrink-0">
-                    {getLocationIcon(location.type)}
-                  </span>
+                  {/* Icon */}
+                  <div className="flex-shrink-0 mt-0.5">
+                    {getModernLocationIcon(location.type)}
+                  </div>
+                  
+                  {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-millbrook text-sm truncate">
+                    <p className="font-semibold text-millbrook text-sm truncate leading-tight">
                       {location.name}
                     </p>
-                    <p className="text-xs text-napa capitalize">
-                      {location.type} • {location.region}
-                    </p>
+                    <div className="flex items-center mt-1">
+                      <p className="text-xs text-napa capitalize">
+                        {location.region}
+                      </p>
+                      <span className="mx-2 text-coral-reef text-xs">•</span>
+                      <span className={`
+                        text-xs px-2 py-0.5 rounded-full font-medium
+                        ${location.type === 'city' ? 'bg-cement/10 text-cement' : ''}
+                        ${location.type === 'region' ? 'bg-tallow/20 text-kabul' : ''}
+                        ${location.type === 'beach' ? 'bg-blue-50 text-blue-700' : ''}
+                        ${location.type === 'wine' ? 'bg-purple-50 text-purple-700' : ''}
+                        ${location.type === 'mountain' ? 'bg-green-50 text-green-700' : ''}
+                      `}>
+                        {location.type === 'city' ? 'City' : 
+                         location.type === 'region' ? 'Region' :
+                         location.type === 'beach' ? 'Beach' :
+                         location.type === 'wine' ? 'Wine Region' :
+                         location.type === 'mountain' ? 'Mountain' : 'Location'}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-shrink-0">
-                    <MapPin className="w-4 h-4 text-coral-reef" />
+                  
+                  {/* Arrow indicator */}
+                  <div className="flex-shrink-0 mt-1">
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: index === selectedIndex ? 1 : 0 }}
+                      className="w-4 h-4 text-cement"
+                    >
+                      →
+                    </motion.div>
                   </div>
                 </motion.button>
               ))}
-            </div>
-            
-            {/* Footer */}
-            <div className="border-t border-coral-reef px-4 py-2 bg-linen/30">
-              <p className="text-xs text-napa text-center">
-                Use ↑↓ to navigate, Enter to select, Esc to close
-              </p>
             </div>
           </motion.div>
         )}
@@ -199,11 +243,14 @@ const LocationSearchInput = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border border-coral-reef rounded-xl shadow-xl z-50"
+            className="absolute top-full left-0 right-0 mt-2 bg-white border border-coral-reef rounded-lg shadow-xl z-50"
           >
-            <div className="px-4 py-3 text-center">
-              <p className="text-sm text-napa">No locations found</p>
-              <p className="text-xs text-coral-reef mt-1">
+            <div className="px-4 py-6 text-center">
+              <div className="mb-2">
+                <Search className="w-8 h-8 text-coral-reef mx-auto" />
+              </div>
+              <p className="text-sm text-millbrook font-medium">No locations found</p>
+              <p className="text-xs text-napa mt-1">
                 Try searching for a city, region, or area in Australia
               </p>
             </div>
