@@ -185,10 +185,7 @@ const BudgetPlannerPage = () => {
           <div className="flex space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
-                <button className="p-2 text-kabul hover:text-millbrook transition-colors relative">
-                  <Bell className="w-5 h-5" />
-                  <span className="absolute -top-1 -right-1 bg-coral-reef text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
-                </button>
+                <NotificationDropdown />
                 <div className="relative group">
                   <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
                     <span className="text-sm font-sans">{user?.first_name}</span>
