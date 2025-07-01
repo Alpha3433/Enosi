@@ -62,6 +62,8 @@ const SearchPage = () => {
       updatedSaved = savedVendors.filter(saved => saved.id !== vendor.id);
     } else {
       updatedSaved = [...savedVendors, vendor];
+      // Create notification when vendor is saved
+      createMessageNotification(vendor.name, 'vendor_saved');
     }
     
     setSavedVendors(updatedSaved);
