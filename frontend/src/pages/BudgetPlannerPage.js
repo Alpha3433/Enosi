@@ -72,6 +72,13 @@ const BudgetPlannerPage = () => {
     try {
       const budgetKey = `budget_items_${user?.id || 'default'}`;
       localStorage.setItem(budgetKey, JSON.stringify(budgetList));
+      
+      // Also save to couple profile for dashboard
+      const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+      const existingProfile = localStorage.getItem(coupleProfileKey);
+      const profile = existingProfile ? JSON.parse(existingProfile) : {};
+      profile.budget_items = budgetList;
+      localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
     } catch (err) {
       console.error('Error saving budget:', err);
     }
