@@ -44,8 +44,11 @@ const VendorDetailPage = () => {
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  // Mock vendor data - in real app this would come from API
-  const vendor = {
+  // Fetch vendor data from API
+  const { data: vendorData, isLoading, error } = useVendor(vendorId);
+
+  // Transform backend data to UI format
+  const vendor = vendorData ? {
     id: vendorId,
     name: "Elegant Garden Venues",
     location: "Sydney, NSW",
