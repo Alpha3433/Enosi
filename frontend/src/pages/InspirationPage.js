@@ -42,6 +42,7 @@ const InspirationPage = () => {
           <div className="flex space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
+                <NotificationDropdown />
                 <div className="relative group">
                   <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
                     <span className="text-sm font-sans">{user?.first_name}</span>
