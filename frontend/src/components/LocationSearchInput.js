@@ -19,6 +19,40 @@ const useDebounce = (value, delay) => {
   return debouncedValue;
 };
 
+// Hook to calculate dropdown positioning
+const useDropdownPosition = (containerRef, isOpen) => {
+  const [position, setPosition] = useState({ left: 0, right: 'auto' });
+
+  useEffect(() => {
+    if (!isOpen || !containerRef.current) return;
+
+    const updatePosition = () => {
+      const container = containerRef.current;
+      const rect = container.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      
+      // Check if dropdown would extend beyond right edge
+      const dropdownWidth = 400; // max width
+      const spaceOnRight = viewportWidth - rect.left;
+      const spaceOnLeft = rect.right;
+      
+      if (spaceOnRight < dropdownWidth && spaceOnLeft > dropdownWidth) {
+        // Position on the left if more space there
+        setPosition({ right: 0, left: 'auto' });
+      } else {
+        // Default position on the left
+        setPosition({ left: 0, right: 'auto' });
+      }
+    };
+
+    updatePosition();
+    window.addEventListener('resize', updatePosition);
+    return () => window.removeEventListener('resize', updatePosition);
+  }, [isOpen, containerRef]);
+
+  return position;
+};
+
 // Get modern icon component based on location type
 const getModernLocationIcon = (type) => {
   switch (type) {
