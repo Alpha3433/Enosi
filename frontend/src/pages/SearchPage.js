@@ -32,69 +32,11 @@ const SearchPage = () => {
 
   const [sortBy, setSortBy] = useState('relevance');
 
-  const [vendors] = useState([
-    {
-      id: 1,
-      name: 'Elegant Garden Venues',
-      type: 'Venue',
-      location: '0.4 km from city center',
-      features: ['Free consultation', 'Wedding planning included'],
-      description: 'Premium wedding venue',
-      details: ['Capacity for 200 guests', 'Garden & indoor options', 'Full catering kitchen'],
-      tags: ['#popular', '#outdoor'],
-      rating: 9.6,
-      ratingText: 'Excellent',
-      reviewCount: '1,020 reviews',
-      price: 3500,
-      image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      id: 2,
-      name: 'Artisan Photography Studio',
-      type: 'Photography',
-      location: '1.7 km from city center',
-      features: ['Free engagement session'],
-      description: 'Professional wedding photography',
-      details: ['8-hour coverage', 'Online gallery included', '500+ edited photos'],
-      tags: ['#highly-rated'],
-      rating: 9.2,
-      ratingText: 'Very good',
-      reviewCount: '832 reviews',
-      price: 2800,
-      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      id: 3,
-      name: 'Gourmet Wedding Catering',
-      type: 'Catering',
-      location: '2.0 km from city center',
-      features: ['Menu tasting included'],
-      description: 'Fine dining wedding catering',
-      details: ['3-course plated dinner', 'Vegetarian options', 'Professional service staff'],
-      tags: ['#popular'],
-      rating: 8.0,
-      ratingText: 'Good',
-      reviewCount: '1,000 reviews',
-      price: 85,
-      priceUnit: 'per person',
-      image: 'https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    },
-    {
-      id: 4,
-      name: 'Bella Rosa Florists',
-      type: 'Florist',
-      location: '2.2 km from city center',
-      features: ['Same-day delivery'],
-      description: 'Custom wedding florals',
-      details: ['Bridal bouquet', 'Ceremony arrangements', 'Reception centerpieces'],
-      tags: ['#popular', '#same-day'],
-      rating: 6.3,
-      ratingText: 'Average',
-      reviewCount: '200 reviews',
-      price: 1200,
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-    }
-  ]);
+  // Use dynamic vendor search instead of static data
+  const { data: vendors = [], isLoading, error, refetch } = useVendorSearch(filters, {
+    limit: 20,
+    skip: 0
+  });
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
