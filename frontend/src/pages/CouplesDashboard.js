@@ -120,28 +120,32 @@ const CouplesDashboard = () => {
       value: stats.daysUntilWedding || "Not set", 
       icon: Calendar, 
       color: "text-cement",
-      bgColor: "bg-linen" 
+      bgColor: "bg-linen",
+      onClick: () => navigate('/planning') // Navigate to planning tools to set wedding date
     },
     { 
       title: "Budget Remaining", 
       value: `$${stats.budgetRemaining.toLocaleString()}`, 
       icon: DollarSign, 
       color: "text-millbrook",
-      bgColor: "bg-tallow/20" 
+      bgColor: "bg-tallow/20",
+      onClick: () => navigate('/planning/budget') // Navigate to budget planner
     },
     { 
       title: "Guest Count", 
       value: `${coupleProfile?.guest_count || 0}`, 
       icon: Users, 
       color: "text-kabul",
-      bgColor: "bg-coral-reef/10" 
+      bgColor: "bg-coral-reef/10",
+      onClick: () => navigate('/planning/guest-list') // Navigate to guest list manager
     },
     { 
       title: "Tasks Completed", 
       value: `${stats.completedTasks}/${stats.totalTasks}`, 
       icon: CheckCircle, 
       color: "text-napa",
-      bgColor: "bg-rodeo-dust/20" 
+      bgColor: "bg-rodeo-dust/20",
+      onClick: () => navigate('/planning/checklist') // Navigate to wedding checklist
     }
   ];
 
