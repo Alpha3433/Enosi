@@ -39,108 +39,122 @@ const CouplesDashboard = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('overview');
+  const [isLoading, setIsLoading] = useState(true);
+  const [coupleProfile, setCoupleProfile] = useState(null);
+  const [budgetItems, setBudgetItems] = useState([]);
+  const [checklistItems, setChecklistItems] = useState([]);
+  const [error, setError] = useState(null);
 
-  // Mock data - in real app this would come from API
-  const weddingDetails = {
-    date: "June 15, 2025",
-    venue: "Elegant Garden Venues",
-    guestCount: 150,
-    budget: 25000,
-    spent: 15600,
-    daysUntilWedding: 187
+  // Fetch data on component mount
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Fetch couple profile and planning data
+      const [profileResponse, budgetResponse, checklistResponse] = await Promise.allSettled([
+        couplesAPI.getProfile(),
+        planningAPI.getBudgetItems(),
+        planningAPI.getChecklistItems()
+      ]);
+
+      // Handle profile data
+      if (profileResponse.status === 'fulfilled') {
+        setCoupleProfile(profileResponse.value.data);
+      }
+
+      // Handle budget data
+      if (budgetResponse.status === 'fulfilled') {
+        setBudgetItems(budgetResponse.value.data || []);
+      }
+
+      // Handle checklist data
+      if (checklistResponse.status === 'fulfilled') {
+        setChecklistItems(checklistResponse.value.data || []);
+      }
+
+    } catch (err) {
+      console.error('Error fetching dashboard data:', err);
+      setError('Failed to load dashboard data');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // Calculate dashboard statistics from real data
+  const calculateStats = () => {
+    const totalBudget = budgetItems.reduce((sum, item) => sum + (item.budgeted_amount || 0), 0);
+    const totalSpent = budgetItems.reduce((sum, item) => sum + (item.actual_amount || 0), 0);
+    const completedTasks = checklistItems.filter(item => item.completed).length;
+    const totalTasks = checklistItems.length;
+    
+    // Calculate days until wedding
+    const weddingDate = coupleProfile?.wedding_date ? new Date(coupleProfile.wedding_date) : null;
+    const today = new Date();
+    const daysUntilWedding = weddingDate ? Math.ceil((weddingDate - today) / (1000 * 60 * 60 * 24)) : 0;
+
+    return {
+      daysUntilWedding: Math.max(0, daysUntilWedding),
+      totalBudget,
+      totalSpent,
+      budgetRemaining: totalBudget - totalSpent,
+      completedTasks,
+      totalTasks,
+      weddingDate: weddingDate ? weddingDate.toLocaleDateString('en-AU', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }) : 'Not set'
+    };
+  };
+
+  const stats = calculateStats();
 
   const dashboardStats = [
     { 
       title: "Days Until Wedding", 
-      value: weddingDetails.daysUntilWedding, 
+      value: stats.daysUntilWedding || "Not set", 
       icon: Calendar, 
-      color: "text-blue-500",
-      bgColor: "bg-blue-50" 
+      color: "text-cement",
+      bgColor: "bg-linen" 
     },
     { 
       title: "Budget Remaining", 
-      value: `$${(weddingDetails.budget - weddingDetails.spent).toLocaleString()}`, 
+      value: `$${stats.budgetRemaining.toLocaleString()}`, 
       icon: DollarSign, 
-      color: "text-green-500",
-      bgColor: "bg-green-50" 
+      color: "text-millbrook",
+      bgColor: "bg-tallow/20" 
     },
     { 
-      title: "Confirmed Guests", 
-      value: `${weddingDetails.guestCount}/200`, 
+      title: "Guest Count", 
+      value: `${coupleProfile?.guest_count || 0}`, 
       icon: Users, 
-      color: "text-purple-500",
-      bgColor: "bg-purple-50" 
+      color: "text-kabul",
+      bgColor: "bg-coral-reef/10" 
     },
     { 
       title: "Tasks Completed", 
-      value: "24/45", 
+      value: `${stats.completedTasks}/${stats.totalTasks}`, 
       icon: CheckCircle, 
-      color: "text-orange-500",
-      bgColor: "bg-orange-50" 
+      color: "text-napa",
+      bgColor: "bg-rodeo-dust/20" 
     }
   ];
 
-  const recentActivity = [
-    { 
-      action: "Quote received from", 
-      vendor: "Sydney Wedding Photography", 
-      time: "2 hours ago",
-      type: "quote"
-    },
-    { 
-      action: "Added to favorites", 
-      vendor: "Elegant Garden Venues", 
-      time: "1 day ago",
-      type: "favorite"
-    },
-    { 
-      action: "Completed task", 
-      vendor: "Book wedding venue", 
-      time: "3 days ago",
-      type: "task"
-    },
-    { 
-      action: "Message from", 
-      vendor: "Bloom & Co Florists", 
-      time: "5 days ago",
-      type: "message"
-    }
-  ];
-
-  const savedVendors = [
-    {
-      id: 1,
-      name: "Elegant Garden Venues",
-      category: "Venue",
-      rating: 4.8,
-      price: "$2,500",
-      image: "https://images.unsplash.com/photo-1519167758481-83f29c7c3d6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
-    },
-    {
-      id: 2,
-      name: "Sydney Wedding Photography",
-      category: "Photography",
-      rating: 4.9,
-      price: "$3,200",
-      image: "https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
-    },
-    {
-      id: 3,
-      name: "Bloom & Co Florists",
-      category: "Florist",
-      rating: 4.7,
-      price: "$800",
-      image: "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200&q=80"
-    }
-  ];
-
-  const upcomingTasks = [
-    { task: "Send invitations", dueDate: "2 weeks", priority: "high" },
-    { task: "Book catering", dueDate: "3 weeks", priority: "medium" },
-    { task: "Choose wedding favors", dueDate: "1 month", priority: "low" },
-    { task: "Schedule hair & makeup trial", dueDate: "6 weeks", priority: "medium" }
-  ];
+  // Get recent incomplete tasks for upcoming tasks section
+  const upcomingTasks = checklistItems
+    .filter(item => !item.completed)
+    .slice(0, 4)
+    .map(item => ({
+      task: item.task_name,
+      dueDate: item.due_date ? new Date(item.due_date).toLocaleDateString() : 'No due date',
+      priority: item.priority || 'medium',
+      id: item.id
+    }));
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
