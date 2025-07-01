@@ -4,7 +4,7 @@ import sys
 
 def test_stripe_payment_system():
     """Test the Stripe payment system implementation"""
-    base_url = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api"
+    base_url = "https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api"
     tests_passed = 0
     tests_run = 0
     

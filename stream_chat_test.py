@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timedelta
 
 class StreamChatAPITester:
-    def __init__(self, base_url="https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.tests_run = 0

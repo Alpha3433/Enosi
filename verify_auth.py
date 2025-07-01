@@ -4,7 +4,7 @@ import sys
 
 def test_login(email, password):
     """Test login with provided credentials"""
-    url = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api/auth/login"
+    url = "https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api/auth/login"
     headers = {'Content-Type': 'application/json'}
     data = {
         "email": email,
@@ -40,7 +40,7 @@ def test_login(email, password):
 
 def test_get_user_profile(token):
     """Test getting user profile with token"""
-    url = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api/users/me"
+    url = "https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api/users/me"
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'Bearer {token}'

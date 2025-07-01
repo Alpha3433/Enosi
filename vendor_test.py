@@ -3,7 +3,7 @@ import json
 
 def test_vendor_endpoints():
     """Test vendor endpoints for photo gallery functionality"""
-    base_url = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api"
+    base_url = "https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api"
     
     print("\n🚀 Testing Vendor Endpoints for Photo Gallery")
     print("=" * 80)

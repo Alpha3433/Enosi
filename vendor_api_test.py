@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 
 # Get the backend URL from the frontend .env file
-BACKEND_URL = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api"
+BACKEND_URL = "https://b542ea48-edd1-4904-8d51-48ed0469b0b3.preview.emergentagent.com/api"
 
 def test_vendors_endpoint():
     """Test the GET /api/vendors endpoint with various query parameters"""
