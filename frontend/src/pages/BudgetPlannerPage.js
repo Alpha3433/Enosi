@@ -30,7 +30,7 @@ const BudgetPlannerPage = () => {
 
   useEffect(() => {
     fetchBudgetData();
-  }, []);
+  }, [user]);
 
   const fetchBudgetData = async () => {
     try {
@@ -39,9 +39,26 @@ const BudgetPlannerPage = () => {
       setBudgetItems(response.data || []);
     } catch (err) {
       console.error('Error fetching budget data:', err);
+      // Load from localStorage if API fails
+      const budgetKey = `budget_items_${user?.id || 'default'}`;
+      const savedBudget = localStorage.getItem(budgetKey);
+      if (savedBudget) {
+        setBudgetItems(JSON.parse(savedBudget));
+      } else {
+        setBudgetItems([]);
+      }
       setError('Failed to load budget data');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const saveBudgetToStorage = (budgetList) => {
+    try {
+      const budgetKey = `budget_items_${user?.id || 'default'}`;
+      localStorage.setItem(budgetKey, JSON.stringify(budgetList));
+    } catch (err) {
+      console.error('Error saving budget:', err);
     }
   };
 
@@ -50,14 +67,25 @@ const BudgetPlannerPage = () => {
     
     try {
       const budgetItem = {
+        id: Date.now(), // Temporary ID for demo
         category: newCategory.name,
         budgeted_amount: parseFloat(newCategory.budgeted_amount),
         actual_amount: 0,
-        description: `Budget for ${newCategory.name}`
+        description: `Budget for ${newCategory.name}`,
+        created_at: new Date().toISOString()
       };
       
-      await planningAPI.createBudgetItem(budgetItem);
-      await fetchBudgetData();
+      // Try API first, fall back to localStorage
+      try {
+        await planningAPI.createBudgetItem(budgetItem);
+        await fetchBudgetData();
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+        const updatedBudgetItems = [...budgetItems, budgetItem];
+        setBudgetItems(updatedBudgetItems);
+        saveBudgetToStorage(updatedBudgetItems);
+      }
+      
       setNewCategory({ name: '', budgeted_amount: '' });
       setShowAddCategory(false);
     } catch (err) {
