@@ -247,7 +247,12 @@ const LocationSearchInput = ({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white border border-coral-reef rounded-lg shadow-xl z-50"
+            className="absolute top-full left-0 mt-2 bg-white border border-coral-reef rounded-lg shadow-xl z-50"
+            style={{
+              minWidth: '320px',
+              width: 'max-content',
+              maxWidth: '400px'
+            }}
           >
             <div className="px-4 py-6 text-center">
               <div className="mb-2">
