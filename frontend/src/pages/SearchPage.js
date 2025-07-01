@@ -258,7 +258,7 @@ const SearchPage = () => {
               <input
                 type="text"
                 value={filters.location}
-                onChange={(e) => handleFilterChange('location', e.target.value)}
+                onChange={(e) => handleFilterChangeWithSearch('location', e.target.value)}
                 placeholder="      Copenhagen, Denmark"
                 style={{
                   width: '310px',
