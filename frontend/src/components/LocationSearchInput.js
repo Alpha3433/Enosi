@@ -169,9 +169,12 @@ const LocationSearchInput = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-lg shadow-2xl z-50 max-h-96 overflow-y-auto border border-coral-reef"
+            className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-2xl z-50 max-h-96 overflow-y-auto border border-coral-reef"
             style={{
               boxShadow: '0 10px 40px rgba(137, 117, 96, 0.15)',
+              minWidth: '320px',
+              width: 'max-content',
+              maxWidth: '400px'
             }}
           >
             <div className="py-2">
