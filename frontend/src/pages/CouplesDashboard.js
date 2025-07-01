@@ -326,26 +326,19 @@ const CouplesDashboard = () => {
                 <button className="text-sm text-blue-500 hover:text-blue-600 font-sans">View All</button>
               </div>
               <div className="space-y-4">
-                {recentActivity.map((activity, index) => (
-                  <div key={index} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <div className={`p-2 rounded-lg ${
-                      activity.type === 'quote' ? 'bg-blue-100' :
-                      activity.type === 'favorite' ? 'bg-red-100' :
-                      activity.type === 'task' ? 'bg-green-100' : 'bg-purple-100'
-                    }`}>
-                      {activity.type === 'quote' && <FileText className="w-4 h-4 text-blue-500" />}
-                      {activity.type === 'favorite' && <Heart className="w-4 h-4 text-red-500" />}
-                      {activity.type === 'task' && <CheckCircle className="w-4 h-4 text-green-500" />}
-                      {activity.type === 'message' && <MessageSquare className="w-4 h-4 text-purple-500" />}
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm text-gray-900 font-sans">
-                        {activity.action} <span className="font-medium">{activity.vendor}</span>
-                      </p>
-                      <p className="text-xs text-gray-500 font-sans">{activity.time}</p>
-                    </div>
+                {isLoading ? (
+                  <div className="flex items-center justify-center p-4">
+                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
                   </div>
-                ))}
+                ) : error ? (
+                  <div className="text-center text-red-500 p-4">
+                    Failed to load recent activity
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-500 p-4">
+                    No recent activity to display
+                  </div>
+                )}
               </div>
             </div>
 
