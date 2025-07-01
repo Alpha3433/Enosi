@@ -54,7 +54,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     fetchVendors();
-  }, []);
+  }, [filters]); // Re-fetch when filters change
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
