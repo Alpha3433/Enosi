@@ -56,6 +56,26 @@ const SearchPage = () => {
 
   // Function to transform backend vendor data to UI format
   const transformVendorData = (vendor) => {
+    // Safety check for vendor object
+    if (!vendor || typeof vendor !== 'object') {
+      return {
+        id: 'unknown',
+        name: 'Unknown Vendor',
+        type: 'Vendor',
+        location: 'Location not specified',
+        features: ['Professional service'],
+        description: 'Professional wedding service',
+        details: ['Professional service'],
+        tags: ['#professional'],
+        rating: 0,
+        ratingText: 'Average',
+        reviewCount: '0 reviews',
+        price: 0,
+        priceUnit: undefined,
+        image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      };
+    }
+
     const getRatingText = (rating) => {
       if (rating >= 9.0) return 'Excellent';
       if (rating >= 8.0) return 'Very good';
@@ -64,15 +84,17 @@ const SearchPage = () => {
     };
 
     return {
-      id: vendor.id,
-      name: vendor.business_name,
+      id: vendor.id || 'unknown',
+      name: vendor.business_name || 'Unknown Vendor',
       type: vendor.category?.charAt(0).toUpperCase() + vendor.category?.slice(1) || 'Vendor',
       location: vendor.location || 'Location not specified',
-      features: vendor.packages?.slice(0, 2).map(pkg => pkg.name) || ['Professional service'],
+      features: (vendor.packages && Array.isArray(vendor.packages)) 
+        ? vendor.packages.slice(0, 2).map(pkg => pkg?.name || 'Service').filter(Boolean)
+        : ['Professional service'],
       description: vendor.description || 'Professional wedding service',
       details: [
         `${vendor.years_experience || 0}+ years experience`,
-        `${vendor.service_areas?.length || 1} service areas`,
+        `${(vendor.service_areas && Array.isArray(vendor.service_areas)) ? vendor.service_areas.length : 1} service areas`,
         vendor.verified ? 'Verified vendor' : 'Professional service'
       ],
       tags: [
@@ -84,7 +106,9 @@ const SearchPage = () => {
       reviewCount: `${vendor.total_reviews || 0} reviews`,
       price: vendor.pricing_from || 0,
       priceUnit: vendor.pricing_type === 'per_person' ? 'per person' : undefined,
-      image: vendor.gallery_images?.[0] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      image: (vendor.gallery_images && Array.isArray(vendor.gallery_images) && vendor.gallery_images[0]) 
+        ? vendor.gallery_images[0] 
+        : 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
     };
   };
 
