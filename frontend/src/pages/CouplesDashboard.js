@@ -404,18 +404,18 @@ const CouplesDashboard = () => {
               </div>
               <div className="mb-4">
                 <div className="flex justify-between text-sm text-gray-600 mb-2 font-sans">
-                  <span>Spent: ${weddingDetails.spent.toLocaleString()}</span>
-                  <span>Budget: ${weddingDetails.budget.toLocaleString()}</span>
+                  <span>Spent: ${stats.totalSpent.toLocaleString()}</span>
+                  <span>Budget: ${stats.totalBudget.toLocaleString()}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div 
                     className="bg-blue-500 h-3 rounded-full transition-all duration-300"
-                    style={{ width: `${(weddingDetails.spent / weddingDetails.budget) * 100}%` }}
+                    style={{ width: `${(stats.totalSpent / stats.totalBudget) * 100}%` }}
                   ></div>
                 </div>
               </div>
               <p className="text-sm text-gray-600 font-sans">
-                {((weddingDetails.spent / weddingDetails.budget) * 100).toFixed(0)}% of budget used
+                {((stats.totalSpent / stats.totalBudget) * 100).toFixed(0)}% of budget used
               </p>
             </div>
 
