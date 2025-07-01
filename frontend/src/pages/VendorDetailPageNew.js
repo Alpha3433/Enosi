@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useVendor } from '../hooks/useQuery';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 // Initialize match object for this component
 if (typeof window !== 'undefined' && !window.match) {
