@@ -23,7 +23,9 @@ import {
   Loader2
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import { couplesAPI, planningAPI } from '../services/api';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 // Initialize match object for this component
 if (typeof window !== 'undefined' && !window.match) {
