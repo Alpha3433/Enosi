@@ -890,6 +890,20 @@ const SearchPage = () => {
                   </div>
                 </div>
                 <div style={{ width: '200px', padding: '20px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: 'rgba(248, 250, 252, 0.5)' }}>
+                    {/* Heart button */}
+                    <button
+                      onClick={() => saveVendor(vendor)}
+                      className={`mb-4 p-2 rounded-full transition-colors ${
+                        savedVendors.some(saved => saved.id === vendor.id)
+                          ? 'text-red-500 bg-red-50 hover:bg-red-100'
+                          : 'text-gray-400 bg-gray-50 hover:bg-gray-100 hover:text-red-400'
+                      }`}
+                      title={savedVendors.some(saved => saved.id === vendor.id) ? 'Remove from saved' : 'Save vendor'}
+                    >
+                      <Heart className={`w-5 h-5 ${
+                        savedVendors.some(saved => saved.id === vendor.id) ? 'fill-current' : ''
+                      }`} />
+                    </button>
                   <div className="flex items-center justify-end mb-3">
                     <div className="text-right mr-2">
                       <div className={`font-medium ${getRatingTextColor(vendor.ratingText)}`} style={{ fontSize: '12px', lineHeight: '16px' }}>
