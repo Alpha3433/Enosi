@@ -145,9 +145,12 @@ class FileUploadService:
         file_size = len(contents)
         
         # Validate file type using python-magic for better detection
-        try:
-            mime_type = magic.from_buffer(contents, mime=True)
-        except:
+        if MAGIC_AVAILABLE:
+            try:
+                mime_type = magic.from_buffer(contents, mime=True)
+            except:
+                mime_type = file.content_type
+        else:
             mime_type = file.content_type
         
         # Validate file type and size
