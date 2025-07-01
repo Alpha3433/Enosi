@@ -114,7 +114,7 @@ frontend:
   - task: "Phase 3: Enhanced Search Page"
     implemented: true
     working: false
-    file: "EnhancedSearchPage.js"
+    file: "EnhancedSearchPage.js, SearchPageNew.js"
     stuck_count: 1
     priority: "high"
     needs_retesting: false
