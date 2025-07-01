@@ -45,9 +45,32 @@ const CouplesDashboard = () => {
   const [checklistItems, setChecklistItems] = useState([]);
   const [error, setError] = useState(null);
 
-  // Fetch data on component mount
+  // Fetch data on component mount and when user returns
   useEffect(() => {
     fetchDashboardData();
+  }, []);
+
+  // Refresh data when page becomes visible (user returns from other pages)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        fetchDashboardData();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Also refresh when window gains focus
+    const handleFocus = () => {
+      fetchDashboardData();
+    };
+    
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   const fetchDashboardData = async () => {
