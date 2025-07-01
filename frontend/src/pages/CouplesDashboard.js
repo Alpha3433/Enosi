@@ -59,7 +59,42 @@ const CouplesDashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Refresh data when page becomes visible (user returns from other pages)
+  // Add demo notifications on first load
+  useEffect(() => {
+    const addDemoNotifications = () => {
+      // Check if demo notifications already added
+      const demoAdded = localStorage.getItem(`demo_notifications_${user?.id || 'default'}`);
+      if (!demoAdded) {
+        // Add some demo notifications
+        setTimeout(() => {
+          createQuoteNotification('Elegant Garden Venues', 'Wedding Venue');
+        }, 1000);
+        
+        setTimeout(() => {
+          createMessageNotification('Sydney Wedding Photography', 'message');
+        }, 2000);
+        
+        setTimeout(() => {
+          createBookingNotification('Bloom & Co Florists', 'confirmed');
+        }, 3000);
+        
+        setTimeout(() => {
+          createMeetingNotification('Artisan Photography Studio', '2025-01-20', '3:00 PM');
+        }, 4000);
+        
+        setTimeout(() => {
+          createTaskNotification('Your guest list is 50% complete');
+        }, 5000);
+        
+        // Mark demo notifications as added
+        localStorage.setItem(`demo_notifications_${user?.id || 'default'}`, 'true');
+      }
+    };
+
+    if (user && !isLoading) {
+      addDemoNotifications();
+    }
+  }, [user, isLoading, createQuoteNotification, createMessageNotification, createBookingNotification, createMeetingNotification, createTaskNotification]);
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden) {
