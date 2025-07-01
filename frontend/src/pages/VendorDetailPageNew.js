@@ -182,6 +182,7 @@ const VendorDetailPage = () => {
           <div className="flex space-x-2">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
+                <NotificationDropdown />
                 <div className="relative group">
                   <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
                     <span className="text-sm font-sans">{user?.first_name}</span>
