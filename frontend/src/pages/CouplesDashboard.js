@@ -439,34 +439,34 @@ const CouplesDashboard = () => {
             <div 
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-gray-900 font-sans">Budget Progress</h2>
+                <h2 className="text-lg font-bold text-millbrook font-sans">Budget Progress</h2>
                 <button 
                   onClick={() => navigate('/planning/budget')}
-                  className="text-sm text-blue-500 hover:text-blue-600 font-sans"
+                  className="text-sm text-cement hover:text-millbrook font-sans"
                 >
                   Manage
                 </button>
               </div>
               <div className="mb-4">
-                <div className="flex justify-between text-sm text-gray-600 mb-2 font-sans">
+                <div className="flex justify-between text-sm text-kabul mb-2 font-sans">
                   <span>Spent: ${stats.totalSpent.toLocaleString()}</span>
                   <span>Budget: ${stats.totalBudget.toLocaleString()}</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-linen rounded-full h-3">
                   <div 
-                    className="bg-blue-500 h-3 rounded-full transition-all duration-300"
-                    style={{ width: `${(stats.totalSpent / stats.totalBudget) * 100}%` }}
+                    className="bg-cement h-3 rounded-full transition-all duration-300"
+                    style={{ width: `${stats.totalBudget > 0 ? (stats.totalSpent / stats.totalBudget) * 100 : 0}%` }}
                   ></div>
                 </div>
               </div>
-              <p className="text-sm text-gray-600 font-sans">
-                {((stats.totalSpent / stats.totalBudget) * 100).toFixed(0)}% of budget used
+              <p className="text-sm text-kabul font-sans">
+                {stats.totalBudget > 0 ? ((stats.totalSpent / stats.totalBudget) * 100).toFixed(0) : 0}% of budget used
               </p>
             </div>
 
@@ -474,26 +474,26 @@ const CouplesDashboard = () => {
             <div 
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-gray-900 font-sans">Saved Vendors</h2>
-                <button className="text-sm text-blue-500 hover:text-blue-600 font-sans">View All</button>
+                <h2 className="text-lg font-bold text-millbrook font-sans">Saved Vendors</h2>
+                <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
               </div>
               <div className="space-y-4">
                 {isLoading ? (
                   <div className="flex items-center justify-center p-4">
-                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                    <Loader2 className="w-6 h-6 text-cement animate-spin" />
                   </div>
                 ) : error ? (
-                  <div className="text-center text-red-500 p-4">
+                  <div className="text-center text-coral-reef p-4">
                     Failed to load saved vendors
                   </div>
                 ) : (
-                  <div className="text-center text-gray-500 p-4">
+                  <div className="text-center text-kabul p-4">
                     No saved vendors yet
                   </div>
                 )}
