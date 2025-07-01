@@ -827,6 +827,8 @@ const VendorDetailPage = () => {
           </div>
         </div>
       )}
+        </>
+      )}
     </div>
   );
 };
