@@ -287,9 +287,9 @@ const SearchPage = () => {
   // Handle filter changes and trigger search
   const handleFilterChangeWithSearch = (key, value) => {
     handleFilterChange(key, value);
-    // Small delay to allow state to update before refetching
+    // Small delay to allow state to update before fetching
     setTimeout(() => {
-      refetch();
+      fetchVendors();
     }, 100);
   };
 
