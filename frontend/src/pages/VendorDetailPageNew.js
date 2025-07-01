@@ -19,9 +19,11 @@ import {
   X,
   Phone,
   Mail,
-  CheckCircle
+  CheckCircle,
+  Loader2
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useVendor } from '../hooks/useQuery';
 
 // Initialize match object for this component
 if (typeof window !== 'undefined' && !window.match) {
