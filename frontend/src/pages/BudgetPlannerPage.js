@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { planningAPI } from '../services/api';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 const BudgetPlannerPage = () => {
   const navigate = useNavigate();
