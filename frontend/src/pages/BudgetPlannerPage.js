@@ -35,18 +35,33 @@ const BudgetPlannerPage = () => {
   const fetchBudgetData = async () => {
     try {
       setIsLoading(true);
-      const response = await planningAPI.getBudgetItems();
-      setBudgetItems(response.data || []);
-    } catch (err) {
-      console.error('Error fetching budget data:', err);
-      // Load from localStorage if API fails
+      
+      // Load from localStorage first (demo mode)
       const budgetKey = `budget_items_${user?.id || 'default'}`;
       const savedBudget = localStorage.getItem(budgetKey);
       if (savedBudget) {
         setBudgetItems(JSON.parse(savedBudget));
-      } else {
-        setBudgetItems([]);
+        setIsLoading(false);
+        return;
       }
+
+      // Try API as fallback
+      try {
+        const response = await planningAPI.getBudgetItems();
+        if (response.data && response.data.length > 0) {
+          setBudgetItems(response.data);
+          return;
+        }
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+      }
+      
+      // If no data anywhere, start with empty array
+      setBudgetItems([]);
+      
+    } catch (err) {
+      console.error('Error fetching budget data:', err);
+      setBudgetItems([]);
       setError('Failed to load budget data');
     } finally {
       setIsLoading(false);
