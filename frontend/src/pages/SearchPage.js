@@ -41,9 +41,37 @@ const SearchPage = () => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await vendorsAPI.search({ ...filters, limit: 20, skip: 0 });
+      // Transform search params to match backend API
+      const apiParams = {
+        limit: 20,
+        skip: 0
+      };
+      
+      if (filters.vendorType && filters.vendorType !== '') {
+        apiParams.category = filters.vendorType;
+      }
+      
+      if (filters.location && filters.location !== '') {
+        apiParams.location = filters.location;
+      }
+      
+      if (filters.rating && filters.rating !== 'Any' && filters.rating !== '') {
+        const ratingMap = {
+          'Excellent': 9.0,
+          'Very good': 8.0,
+          'Good': 7.0
+        };
+        apiParams.min_rating = ratingMap[filters.rating] || 0;
+      }
+      
+      if (filters.featured) {
+        apiParams.featured_only = true;
+      }
+      
+      const response = await vendorsAPI.search(apiParams);
       setVendors(response.data || []);
     } catch (err) {
+      console.error('Error fetching vendors:', err);
       setError(err);
     } finally {
       setIsLoading(false);
