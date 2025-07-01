@@ -20,6 +20,7 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
+  const { createMessageNotification } = useNotifications();
   
   const [filters, setFilters] = useState({
     location: searchParams.get('location') || '',
