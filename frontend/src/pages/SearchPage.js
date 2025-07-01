@@ -576,7 +576,10 @@ const SearchPage = () => {
                         ? 'bg-blue-500 text-white border-blue-500' 
                         : 'hover:bg-gray-50 border-gray-300'
                     }`}
-                    onClick={() => handleFilterChange('vendorClass', star)}
+                    onClick={() => {
+                      handleFilterChange('vendorClass', star);
+                      setTimeout(() => refetch(), 100);
+                    }}
                   >
                     {star}
                   </button>
