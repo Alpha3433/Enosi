@@ -67,9 +67,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <div className="App">
-          <RouterErrorBoundary>
-            <BrowserRouter>
+        <NotificationProvider>
+          <div className="App">
+            <RouterErrorBoundary>
+              <BrowserRouter>
               <Routes>
               {/* Public routes */}
               <Route path="/" element={<HomePage />} />
