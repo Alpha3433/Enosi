@@ -774,23 +774,25 @@ const SearchPage = () => {
                     </p>
                     
                     <div className="flex flex-wrap gap-1 text-sm mb-3" style={{ fontSize: '10px' }}>
-                      {vendor.features.slice(0, 2).map((feature, idx) => (
-                        <span key={feature} className="text-gray-600 bg-gray-50 px-2 py-1 rounded-full" style={{ fontSize: '10px', padding: '2px 6px' }}>
+                      {(vendor.features || []).slice(0, 2).map((feature, idx) => (
+                        <span key={feature || idx} className="text-gray-600 bg-gray-50 px-2 py-1 rounded-full" style={{ fontSize: '10px', padding: '2px 6px' }}>
                           {feature}
                         </span>
                       ))}
                     </div>
                     
-                    <div className="mb-3">
-                      <h3 className="font-medium text-gray-900 mb-1" style={{ fontSize: '14px', lineHeight: '18px' }}>{vendor.description}</h3>
-                      <div className="space-y-1">
-                        {vendor.details.slice(0, 2).map((detail, idx) => (
-                          <p key={idx} className="text-sm text-gray-600 flex items-center" style={{ fontSize: '11px', lineHeight: '14px' }}>
-                            <span className="w-1 h-1 bg-gray-400 rounded-full mr-2 flex-shrink-0"></span>
-                            {detail}
-                          </p>
-                        ))}
-                      </div>
+                    <div className="text-sm text-gray-700 mb-3" style={{ fontSize: '11px', lineHeight: '14px' }}>
+                      {(vendor.details || []).slice(0, 2).map((detail, idx) => (
+                        <div key={detail || idx} style={{ marginBottom: '2px' }}>• {detail}</div>
+                      ))}
+                    </div>
+                    
+                    <div className="flex gap-1 mb-3">
+                      {(vendor.tags || []).slice(0, 2).map((tag) => (
+                        <span key={tag} className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded-full" style={{ fontSize: '9px', padding: '1px 4px' }}>
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   </div>
                   
