@@ -281,7 +281,7 @@ const SearchPage = () => {
 
   // Handle search when filters change
   const handleSearch = () => {
-    refetch();
+    fetchVendors();
   };
 
   // Handle filter changes and trigger search
