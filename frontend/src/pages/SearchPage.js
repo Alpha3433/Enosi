@@ -36,6 +36,41 @@ const SearchPage = () => {
   const [vendors, setVendors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [savedVendors, setSavedVendors] = useState([]);
+
+  // Get saved vendors from localStorage
+  const getSavedVendorsKey = () => `saved_vendors_${user?.id || 'default'}`;
+
+  useEffect(() => {
+    // Load saved vendors from localStorage
+    const savedVendorsKey = getSavedVendorsKey();
+    const saved = localStorage.getItem(savedVendorsKey);
+    if (saved) {
+      setSavedVendors(JSON.parse(saved));
+    }
+  }, [user]);
+
+  const saveVendor = (vendor) => {
+    const savedVendorsKey = getSavedVendorsKey();
+    const isAlreadySaved = savedVendors.some(saved => saved.id === vendor.id);
+    
+    let updatedSaved;
+    if (isAlreadySaved) {
+      updatedSaved = savedVendors.filter(saved => saved.id !== vendor.id);
+    } else {
+      updatedSaved = [...savedVendors, vendor];
+    }
+    
+    setSavedVendors(updatedSaved);
+    localStorage.setItem(savedVendorsKey, JSON.stringify(updatedSaved));
+    
+    // Also save to couple profile for dashboard
+    const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+    const existingProfile = localStorage.getItem(coupleProfileKey);
+    const profile = existingProfile ? JSON.parse(existingProfile) : {};
+    profile.saved_vendors = updatedSaved;
+    localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
+  };
 
   const fetchVendors = async () => {
     setIsLoading(true);
