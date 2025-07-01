@@ -596,7 +596,7 @@ const SearchPage = () => {
               paddingLeft: '8px'
             }}
           >
-            {vendors.length} filtered results for: {(() => {
+            {transformedVendors.length} filtered results for: {(() => {
               const parts = [];
               if (filters.location) parts.push(filters.location);
               if (filters.weddingDate) parts.push(filters.weddingDate);
