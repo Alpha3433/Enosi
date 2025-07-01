@@ -122,6 +122,9 @@ frontend:
         - working: true
           agent: "testing"
           comment: "Successfully tested Enhanced Search Page. The page loads correctly and displays the search interface with filters. The filters UI (price range, category, availability date, rating, style tags) is implemented and interactive. Search functionality works, though no vendors are currently returned in the results. The 'No vendors found' message is displayed appropriately."
+        - working: false
+          agent: "testing"
+          comment: "Attempted to test the redesigned search page with Booking.com-inspired design. The application shows JavaScript errors in the browser console related to match property being undefined. The error occurs at initStripe function in the bundle.js file. This is a React Router compatibility issue that prevents the search page from loading properly. The application redirects to the homepage when trying to access the search page directly. The SearchPage.js file also has a syntax error (Unterminated JSX contents) that prevents the application from compiling properly. Attempted to fix the issue by commenting out the SearchPage import and route in App.js, but the React Router match property error persists."
 
   - task: "Phase 3: Wishlist Page"
     implemented: true
