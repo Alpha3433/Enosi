@@ -74,6 +74,13 @@ const SearchPage = () => {
     if (saved) {
       setSavedVendors(JSON.parse(saved));
     }
+
+    // Load previous filters from localStorage
+    const previousFiltersKey = `previous_filters_${user?.id || 'default'}`;
+    const prevFilters = localStorage.getItem(previousFiltersKey);
+    if (prevFilters) {
+      setPreviousFilters(JSON.parse(prevFilters));
+    }
   }, [user]);
 
   const saveVendor = (vendor) => {
@@ -98,6 +105,18 @@ const SearchPage = () => {
     const profile = existingProfile ? JSON.parse(existingProfile) : {};
     profile.saved_vendors = updatedSaved;
     localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
+  };
+
+  const saveCurrentFilters = () => {
+    const currentFilterString = `${filters.location || 'All locations'} • ${filters.vendorType || 'All vendors'} • ${filters.weddingDate || 'Any date'} • ${filters.guestCount || 'Any guests'}`;
+    const previousFiltersKey = `previous_filters_${user?.id || 'default'}`;
+    const existing = JSON.parse(localStorage.getItem(previousFiltersKey) || '[]');
+    
+    if (!existing.includes(currentFilterString)) {
+      const updated = [currentFilterString, ...existing].slice(0, 5); // Keep only 5 recent searches
+      setPreviousFilters(updated);
+      localStorage.setItem(previousFiltersKey, JSON.stringify(updated));
+    }
   };
 
   const fetchVendors = async () => {
@@ -127,12 +146,13 @@ const SearchPage = () => {
         apiParams.min_rating = ratingMap[filters.rating] || 0;
       }
       
-      if (filters.featured) {
+      if (filters.features.includes('featured')) {
         apiParams.featured_only = true;
       }
       
       const response = await vendorsAPI.search(apiParams);
       setVendors(response.data || []);
+      saveCurrentFilters();
     } catch (err) {
       console.error('Error fetching vendors:', err);
       setError(err);
@@ -141,11 +161,9 @@ const SearchPage = () => {
     }
   };
 
-  const refetch = fetchVendors;
-
   useEffect(() => {
     fetchVendors();
-  }, [filters]); // Re-fetch when filters change
+  }, [filters.vendorType, filters.location, filters.rating, filters.features]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
@@ -160,6 +178,31 @@ const SearchPage = () => {
       features: prev.features.includes(feature)
         ? prev.features.filter(f => f !== feature)
         : [...prev.features, feature]
+    }));
+  };
+
+  const clearAllFilters = () => {
+    setFilters({
+      location: '',
+      vendorType: '',
+      weddingDate: '',
+      guestCount: '',
+      priceMin: '',
+      priceMax: '',
+      rating: '',
+      features: [],
+      availability: ''
+    });
+  };
+
+  const applyPreviousFilter = (filterString) => {
+    const parts = filterString.split(' • ');
+    setFilters(prev => ({
+      ...prev,
+      location: parts[0] === 'All locations' ? '' : parts[0],
+      vendorType: parts[1] === 'All vendors' ? '' : parts[1],
+      weddingDate: parts[2] === 'Any date' ? '' : parts[2],
+      guestCount: parts[3] === 'Any guests' ? '' : parts[3]
     }));
   };
 
