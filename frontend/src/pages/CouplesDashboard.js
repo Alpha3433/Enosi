@@ -157,14 +157,14 @@ const CouplesDashboard = () => {
     }));
 
   return (
-    <div className="min-h-screen bg-gray-50 font-sans">
+    <div className="min-h-screen bg-linen font-sans" style={{ zoom: 0.9 }}>
       {/* Header - Same as landing page */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white">
         <div className="container mx-auto px-9 py-5 flex justify-between items-center">
           <div className="flex items-center">
             <button 
               onClick={() => navigate('/')}
-              className="text-xl font-bold font-sans"
+              className="text-xl font-bold font-sans text-millbrook"
               style={{
                 background: 'none',
                 border: 'none',
@@ -176,55 +176,66 @@ const CouplesDashboard = () => {
             </button>
           </div>
           
-          <nav className="hidden md:flex space-x-6">
-            <button onClick={() => navigate('/search')} className="text-sm hover:text-blue-500 transition-colors font-sans">
+          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+            <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Find Vendors
             </button>
-            <button onClick={() => navigate('/planning')} className="text-sm hover:text-blue-500 transition-colors font-sans">
-              Planning Tools
-            </button>
-            <a href="#inspiration" className="text-sm hover:text-blue-500 transition-colors font-sans">
+            <button onClick={() => navigate('/inspiration')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Inspiration
-            </a>
+            </button>
+            <button onClick={() => navigate('/about')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
+              About Us
+            </button>
           </nav>
 
-          <div className="flex space-x-2 items-center">
-            <button className="p-2 text-gray-600 hover:text-gray-900 transition-colors relative">
-              <Bell className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
-            </button>
-            <div className="flex items-center space-x-3">
-              <div className="relative group">
-                <button className="flex items-center space-x-2 p-2 text-gray-600 hover:text-gray-900 transition-colors">
-                  <span className="text-sm font-sans">{user?.first_name}</span>
+          <div className="flex space-x-2">
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-3">
+                <button className="p-2 text-kabul hover:text-millbrook transition-colors relative">
+                  <Bell className="w-5 h-5" />
+                  <span className="absolute -top-1 -right-1 bg-coral-reef text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
                 </button>
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="py-2">
-                    <button
-                      onClick={() => navigate('/dashboard')}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
-                    >
-                      Dashboard
-                    </button>
-                    <button
-                      onClick={() => navigate('/planning')}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
-                    >
-                      Planning Tools
-                    </button>
-                    <button
-                      onClick={() => {
-                        logout();
-                        navigate('/');
-                      }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 font-sans"
-                    >
-                      Sign Out
-                    </button>
+                <div className="relative group">
+                  <button className="flex items-center space-x-2 p-2 text-kabul hover:text-millbrook transition-colors">
+                    <span className="text-sm font-sans">{user?.first_name}</span>
+                  </button>
+                  <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg shadow-lg border border-coral-reef opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <div className="py-2">
+                      <button
+                        onClick={() => navigate(user?.user_type === 'vendor' ? '/vendor-dashboard' : '/dashboard')}
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
+                      >
+                        Dashboard
+                      </button>
+                      <button
+                        onClick={() => {
+                          logout();
+                          navigate('/');
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-kabul hover:bg-linen font-sans"
+                      >
+                        Sign Out
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <>
+                <button
+                  onClick={() => navigate('/login')}
+                  className="border border-coral-reef text-kabul rounded-full px-4 py-2 text-sm hover:bg-linen transition-colors font-sans"
+                >
+                  Log in
+                </button>
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="bg-cement text-white rounded-full px-4 py-2 text-sm hover:bg-millbrook transition-colors font-sans"
+                >
+                  Sign up
+                </button>
+              </>
+            )}
           </div>
         </div>
       </header>
