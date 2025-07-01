@@ -236,7 +236,7 @@ const CouplesDashboard = () => {
             Welcome back, {user?.first_name}!
           </h1>
           <p className="text-gray-600 font-sans">
-            Your wedding is on <span className="font-semibold text-blue-600">{weddingDetails.date}</span> - only {weddingDetails.daysUntilWedding} days to go! 🎉
+            Your wedding is on <span className="font-semibold text-blue-600">{stats.weddingDate}</span> - only {stats.daysUntilWedding} days to go! 🎉
           </p>
         </div>
 
