@@ -7,7 +7,7 @@ import os
 from datetime import datetime, timedelta
 
 class EnosiAPITester:
-    def __init__(self, base_url="https://14dab130-ea45-454e-8a89-896962eeed10.preview.emergentagent.com/api"):
+    def __init__(self, base_url="https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api"):
         self.base_url = base_url
         self.token = None
         self.tests_run = 0

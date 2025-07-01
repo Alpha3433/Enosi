@@ -37,7 +37,7 @@ async def update_user_password(db, user_id, new_password):
 
 async def test_login(email, password):
     """Test login with provided credentials"""
-    url = "https://14dab130-ea45-454e-8a89-896962eeed10.preview.emergentagent.com/api/auth/login"
+    url = "https://4c0e1cae-d13a-41b5-a0eb-333416e55eed.preview.emergentagent.com/api/auth/login"
     headers = {'Content-Type': 'application/json'}
     data = {
         "email": email,
