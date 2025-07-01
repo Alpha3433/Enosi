@@ -119,18 +119,11 @@ const BudgetPlannerPage = () => {
 
   const updateCategory = async (id, updatedData) => {
     try {
-      // Try API first, fall back to localStorage
-      try {
-        // Note: This would need an update endpoint in the API
-        await fetchBudgetData();
-      } catch (apiErr) {
-        console.log('API not available, using localStorage');
-        const updatedBudgetItems = budgetItems.map(item => 
-          item.id === id ? { ...item, ...updatedData } : item
-        );
-        setBudgetItems(updatedBudgetItems);
-        saveBudgetToStorage(updatedBudgetItems);
-      }
+      const updatedBudgetItems = budgetItems.map(item => 
+        item.id === id ? { ...item, ...updatedData } : item
+      );
+      setBudgetItems(updatedBudgetItems);
+      saveBudgetToStorage(updatedBudgetItems);
       setEditingId(null);
     } catch (err) {
       console.error('Error updating budget category:', err);
@@ -142,16 +135,9 @@ const BudgetPlannerPage = () => {
     if (!window.confirm('Are you sure you want to delete this budget category?')) return;
     
     try {
-      // Try API first, fall back to localStorage
-      try {
-        // Note: This would need a delete endpoint in the API
-        await fetchBudgetData();
-      } catch (apiErr) {
-        console.log('API not available, using localStorage');
-        const updatedBudgetItems = budgetItems.filter(item => item.id !== id);
-        setBudgetItems(updatedBudgetItems);
-        saveBudgetToStorage(updatedBudgetItems);
-      }
+      const updatedBudgetItems = budgetItems.filter(item => item.id !== id);
+      setBudgetItems(updatedBudgetItems);
+      saveBudgetToStorage(updatedBudgetItems);
     } catch (err) {
       console.error('Error deleting budget category:', err);
       setError('Failed to delete budget category');
