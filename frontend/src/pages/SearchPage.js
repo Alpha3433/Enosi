@@ -398,23 +398,30 @@ const SearchPage = () => {
 
             {/* Search Button */}
             <button 
+              onClick={handleSearch}
+              disabled={isLoading}
               style={{
-                cursor: 'pointer',
+                cursor: isLoading ? 'not-allowed' : 'pointer',
                 width: '310px',
                 height: '42px',
                 padding: '0px 8px',
                 border: '0',
                 boxSizing: 'border-box',
                 borderRadius: '100px',
-                backgroundColor: '#1d64ec',
+                backgroundColor: isLoading ? '#94a3b8' : '#1d64ec',
                 color: '#ffffff',
                 fontSize: '14px',
                 fontFamily: 'Prompt',
                 lineHeight: '18px',
                 outline: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
               }}
             >
-              Search
+              {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
+              {isLoading ? 'Searching...' : 'Search'}
             </button>
           </div>
           
