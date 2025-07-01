@@ -97,15 +97,16 @@ const BudgetPlannerPage = () => {
         created_at: new Date().toISOString()
       };
       
-      // Try API first, fall back to localStorage
+      // Always save to localStorage first (demo mode)
+      const updatedBudgetItems = [...budgetItems, budgetItem];
+      setBudgetItems(updatedBudgetItems);
+      saveBudgetToStorage(updatedBudgetItems);
+      
+      // Try API but don't depend on it
       try {
         await planningAPI.createBudgetItem(budgetItem);
-        await fetchBudgetData();
       } catch (apiErr) {
-        console.log('API not available, using localStorage');
-        const updatedBudgetItems = [...budgetItems, budgetItem];
-        setBudgetItems(updatedBudgetItems);
-        saveBudgetToStorage(updatedBudgetItems);
+        console.log('API not available, data saved locally');
       }
       
       setNewCategory({ name: '', budgeted_amount: '' });
