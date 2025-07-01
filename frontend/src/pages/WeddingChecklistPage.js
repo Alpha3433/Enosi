@@ -28,12 +28,16 @@ const WeddingChecklistPage = () => {
   const [showAddTask, setShowAddTask] = useState(false);
   const [newTask, setNewTask] = useState({ task_name: '', due_date: '', priority: 'medium' });
   const [editingId, setEditingId] = useState(null);
+  const [editingTask, setEditingTask] = useState({});
   const [filterStatus, setFilterStatus] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Local storage key for task data
+  const getStorageKey = () => `checklist_items_${user?.id || 'default'}`;
+
   useEffect(() => {
     fetchTasks();
-  }, []);
+  }, [user]);
 
   const fetchTasks = async () => {
     try {
@@ -42,9 +46,34 @@ const WeddingChecklistPage = () => {
       setTasks(response.data || []);
     } catch (err) {
       console.error('Error fetching tasks:', err);
+      // Load from localStorage if API fails
+      const storageKey = getStorageKey();
+      const savedTasks = localStorage.getItem(storageKey);
+      if (savedTasks) {
+        setTasks(JSON.parse(savedTasks));
+      } else {
+        setTasks([]);
+      }
       setError('Failed to load checklist');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const saveTasksToStorage = (taskList) => {
+    try {
+      const storageKey = getStorageKey();
+      localStorage.setItem(storageKey, JSON.stringify(taskList));
+      
+      // Also save to couple profile for dashboard
+      const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+      const existingProfile = localStorage.getItem(coupleProfileKey);
+      const profile = existingProfile ? JSON.parse(existingProfile) : {};
+      profile.total_tasks = taskList.length;
+      profile.completed_tasks = taskList.filter(task => task.completed).length;
+      localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
+    } catch (err) {
+      console.error('Error saving tasks:', err);
     }
   };
 
@@ -53,15 +82,26 @@ const WeddingChecklistPage = () => {
     
     try {
       const taskData = {
+        id: Date.now(), // Temporary ID for demo
         task_name: newTask.task_name,
         due_date: newTask.due_date || null,
         priority: newTask.priority,
         completed: false,
-        notes: ''
+        notes: '',
+        created_at: new Date().toISOString()
       };
       
-      await planningAPI.createChecklistItem(taskData);
-      await fetchTasks();
+      // Try API first, fall back to localStorage
+      try {
+        await planningAPI.createChecklistItem(taskData);
+        await fetchTasks();
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+        const updatedTasks = [...tasks, taskData];
+        setTasks(updatedTasks);
+        saveTasksToStorage(updatedTasks);
+      }
+      
       setNewTask({ task_name: '', due_date: '', priority: 'medium' });
       setShowAddTask(false);
     } catch (err) {
@@ -72,21 +112,68 @@ const WeddingChecklistPage = () => {
 
   const toggleTask = async (taskId, completed) => {
     try {
-      // Note: This would need an update endpoint in the API
-      const updatedTasks = tasks.map(task => 
-        task.id === taskId ? { ...task, completed: !completed } : task
-      );
-      setTasks(updatedTasks);
+      // Try API first, fall back to localStorage
+      try {
+        // Note: This would need an update endpoint in the API
+        const updatedTasks = tasks.map(task => 
+          task.id === taskId ? { ...task, completed: !completed } : task
+        );
+        setTasks(updatedTasks);
+        saveTasksToStorage(updatedTasks);
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+        const updatedTasks = tasks.map(task => 
+          task.id === taskId ? { ...task, completed: !completed } : task
+        );
+        setTasks(updatedTasks);
+        saveTasksToStorage(updatedTasks);
+      }
     } catch (err) {
       console.error('Error updating task:', err);
       setError('Failed to update task');
     }
   };
 
-  const deleteTask = async (taskId) => {
+  const startEdit = (task) => {
+    setEditingId(task.id);
+    setEditingTask({ ...task });
+  };
+
+  const saveEdit = () => {
     try {
-      // Note: This would need a delete endpoint in the API
-      setTasks(tasks.filter(task => task.id !== taskId));
+      const updatedTasks = tasks.map(task => 
+        task.id === editingId ? editingTask : task
+      );
+      setTasks(updatedTasks);
+      saveTasksToStorage(updatedTasks);
+      setEditingId(null);
+      setEditingTask({});
+    } catch (err) {
+      console.error('Error updating task:', err);
+      setError('Failed to update task');
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingTask({});
+  };
+
+  const deleteTask = async (taskId) => {
+    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    
+    try {
+      // Try API first, fall back to localStorage
+      try {
+        const updatedTasks = tasks.filter(task => task.id !== taskId);
+        setTasks(updatedTasks);
+        saveTasksToStorage(updatedTasks);
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+        const updatedTasks = tasks.filter(task => task.id !== taskId);
+        setTasks(updatedTasks);
+        saveTasksToStorage(updatedTasks);
+      }
     } catch (err) {
       console.error('Error deleting task:', err);
       setError('Failed to delete task');
@@ -384,55 +471,103 @@ const WeddingChecklistPage = () => {
                 }}
                 className={task.completed ? 'opacity-75' : ''}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-4 flex-1">
-                    <button
-                      onClick={() => toggleTask(task.id, task.completed)}
-                      className="flex-shrink-0"
-                    >
-                      {task.completed ? (
-                        <CheckCircle className="w-6 h-6 text-cement" />
-                      ) : (
-                        <Circle className="w-6 h-6 text-kabul hover:text-cement transition-colors" />
-                      )}
-                    </button>
-                    
-                    <div className="flex-1">
-                      <h3 className={`text-lg font-semibold font-sans ${task.completed ? 'line-through text-kabul' : 'text-millbrook'}`}>
-                        {task.task_name}
-                      </h3>
-                      <div className="flex items-center space-x-4 mt-1">
-                        <div className="flex items-center space-x-2">
-                          <div className={`w-3 h-3 rounded-full ${getPriorityColor(task.priority)}`}></div>
-                          <span className="text-sm text-kabul font-sans capitalize">{task.priority} priority</span>
-                        </div>
-                        {task.due_date && (
-                          <div className="flex items-center space-x-1">
-                            <Calendar className="w-4 h-4 text-kabul" />
-                            <span className="text-sm text-kabul font-sans">
-                              {new Date(task.due_date).toLocaleDateString()}
-                            </span>
-                          </div>
-                        )}
-                      </div>
+                {editingId === task.id ? (
+                  // Edit mode
+                  <div>
+                    <h3 className="text-lg font-bold text-millbrook mb-4 font-sans">Edit Task</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <input
+                        type="text"
+                        placeholder="Task name"
+                        value={editingTask.task_name || ''}
+                        onChange={(e) => setEditingTask({...editingTask, task_name: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
+                      <input
+                        type="date"
+                        value={editingTask.due_date || ''}
+                        onChange={(e) => setEditingTask({...editingTask, due_date: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans text-kabul"
+                      />
+                      <select
+                        value={editingTask.priority || 'medium'}
+                        onChange={(e) => setEditingTask({...editingTask, priority: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans text-kabul"
+                      >
+                        <option value="low">Low Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="high">High Priority</option>
+                      </select>
+                    </div>
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={saveEdit}
+                        className="bg-cement text-white px-4 py-2 rounded-lg hover:bg-millbrook transition-colors font-sans flex items-center space-x-1"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>Save</span>
+                      </button>
+                      <button
+                        onClick={cancelEdit}
+                        className="border border-coral-reef text-kabul px-4 py-2 rounded-lg hover:bg-linen transition-colors font-sans flex items-center space-x-1"
+                      >
+                        <X className="w-4 h-4" />
+                        <span>Cancel</span>
+                      </button>
                     </div>
                   </div>
+                ) : (
+                  // View mode
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4 flex-1">
+                      <button
+                        onClick={() => toggleTask(task.id, task.completed)}
+                        className="flex-shrink-0"
+                      >
+                        {task.completed ? (
+                          <CheckCircle className="w-6 h-6 text-cement" />
+                        ) : (
+                          <Circle className="w-6 h-6 text-kabul hover:text-cement transition-colors" />
+                        )}
+                      </button>
+                      
+                      <div className="flex-1">
+                        <h3 className={`text-lg font-semibold font-sans ${task.completed ? 'line-through text-kabul' : 'text-millbrook'}`}>
+                          {task.task_name}
+                        </h3>
+                        <div className="flex items-center space-x-4 mt-1">
+                          <div className="flex items-center space-x-2">
+                            <div className={`w-3 h-3 rounded-full ${getPriorityColor(task.priority)}`}></div>
+                            <span className="text-sm text-kabul font-sans capitalize">{task.priority} priority</span>
+                          </div>
+                          {task.due_date && (
+                            <div className="flex items-center space-x-1">
+                              <Calendar className="w-4 h-4 text-kabul" />
+                              <span className="text-sm text-kabul font-sans">
+                                {new Date(task.due_date).toLocaleDateString()}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
 
-                  <div className="flex space-x-2">
-                    <button
-                      onClick={() => setEditingId(task.id)}
-                      className="p-2 text-kabul hover:text-cement transition-colors"
-                    >
-                      <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => deleteTask(task.id)}
-                      className="p-2 text-coral-reef hover:text-red-600 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={() => startEdit(task)}
+                        className="p-2 text-kabul hover:text-cement transition-colors"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => deleteTask(task.id)}
+                        className="p-2 text-coral-reef hover:text-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </motion.div>
             ))
           )}
