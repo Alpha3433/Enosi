@@ -656,9 +656,56 @@ const SearchPage = () => {
         {/* Main Content */}
         <div className="md:col-span-9 p-6" style={{ marginTop: '80px' }}>
           
+          {/* Loading State */}
+          {isLoading && (
+            <div className="flex justify-center items-center h-64">
+              <div className="flex items-center space-x-2">
+                <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
+                <span className="text-lg text-gray-600">Loading vendors...</span>
+              </div>
+            </div>
+          )}
+
+          {/* Error State */}
+          {error && (
+            <div className="flex justify-center items-center h-64">
+              <div className="text-center">
+                <div className="text-red-500 mb-4">
+                  <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Error loading vendors</h3>
+                <p className="text-gray-600 mb-4">{error.message || 'Something went wrong while fetching vendors.'}</p>
+                <button
+                  onClick={refetch}
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  Try Again
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* No Results State */}
+          {!isLoading && !error && transformedVendors.length === 0 && (
+            <div className="flex justify-center items-center h-64">
+              <div className="text-center">
+                <div className="text-gray-400 mb-4">
+                  <svg className="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No vendors found</h3>
+                <p className="text-gray-600">Try adjusting your search filters to find more vendors.</p>
+              </div>
+            </div>
+          )}
+          
           {/* Vendor List */}
-          <div className="space-y-6">
-            {vendors.map((vendor) => (
+          {!isLoading && !error && transformedVendors.length > 0 && (
+            <div className="space-y-6">
+              {transformedVendors.map((vendor) => (
               <div 
                 key={vendor.id} 
                 style={{
