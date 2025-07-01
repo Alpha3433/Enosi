@@ -54,7 +54,10 @@ const CouplesDashboard = () => {
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (!document.hidden) {
-        fetchDashboardData();
+        // Add a small delay to ensure localStorage has been updated
+        setTimeout(() => {
+          fetchDashboardData();
+        }, 100);
       }
     };
 
@@ -62,16 +65,28 @@ const CouplesDashboard = () => {
     
     // Also refresh when window gains focus
     const handleFocus = () => {
-      fetchDashboardData();
+      setTimeout(() => {
+        fetchDashboardData();
+      }, 100);
     };
     
     window.addEventListener('focus', handleFocus);
 
+    // Listen for storage changes from other tabs/windows
+    const handleStorageChange = (e) => {
+      if (e.key && e.key.includes(user?.id || 'default')) {
+        fetchDashboardData();
+      }
+    };
+    
+    window.addEventListener('storage', handleStorageChange);
+
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('storage', handleStorageChange);
     };
-  }, []);
+  }, [user]);
 
   const fetchDashboardData = async () => {
     try {
