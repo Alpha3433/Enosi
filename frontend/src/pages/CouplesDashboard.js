@@ -433,26 +433,19 @@ const CouplesDashboard = () => {
                 <button className="text-sm text-blue-500 hover:text-blue-600 font-sans">View All</button>
               </div>
               <div className="space-y-4">
-                {savedVendors.map((vendor) => (
-                  <div key={vendor.id} className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer">
-                    <img 
-                      src={vendor.image}
-                      alt={vendor.name}
-                      className="w-12 h-12 rounded-lg object-cover"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900 text-sm font-sans">{vendor.name}</h3>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-gray-500 font-sans">{vendor.category}</span>
-                        <div className="flex items-center space-x-1">
-                          <Star className="w-3 h-3 text-yellow-400 fill-current" />
-                          <span className="text-xs text-gray-600 font-sans">{vendor.rating}</span>
-                        </div>
-                      </div>
-                      <span className="text-xs font-medium text-blue-600 font-sans">{vendor.price}</span>
-                    </div>
+                {isLoading ? (
+                  <div className="flex items-center justify-center p-4">
+                    <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
                   </div>
-                ))}
+                ) : error ? (
+                  <div className="text-center text-red-500 p-4">
+                    Failed to load saved vendors
+                  </div>
+                ) : (
+                  <div className="text-center text-gray-500 p-4">
+                    No saved vendors yet
+                  </div>
+                )}
               </div>
             </div>
           </div>
