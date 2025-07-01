@@ -316,12 +316,23 @@ const CouplesDashboard = () => {
       {/* Welcome Section */}
       <div className="container mx-auto px-9 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-millbrook mb-2 font-sans">
-            Welcome back, {user?.first_name}!
-          </h1>
-          <p className="text-kabul font-sans">
-            Your wedding is on <span className="font-semibold text-cement">{stats.weddingDate}</span> - only {stats.daysUntilWedding} days to go! 🎉
-          </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-millbrook mb-2 font-sans">
+                Welcome back, {user?.first_name}!
+              </h1>
+              <p className="text-kabul font-sans">
+                Your wedding is on <span className="font-semibold text-cement">{stats.weddingDate}</span> - only {stats.daysUntilWedding} days to go! 🎉
+              </p>
+            </div>
+            <button
+              onClick={fetchDashboardData}
+              className="px-4 py-2 text-sm bg-cement text-white rounded-lg hover:bg-millbrook transition-colors font-sans"
+              title="Refresh dashboard data"
+            >
+              Refresh
+            </button>
+          </div>
         </div>
 
         {/* Loading State for Dashboard */}
