@@ -500,6 +500,7 @@ const CouplesDashboard = () => {
               </div>
             </div>
           </div>
+          </>
         )}
       </div>
 
