@@ -797,7 +797,7 @@ const SearchPage = () => {
                   </div>
                   
                   <div className="flex flex-wrap gap-1">
-                    {vendor.tags.slice(0, 2).map((tag) => (
+                    {(vendor.tags || []).slice(0, 2).map((tag) => (
                       <span 
                         key={tag}
                         className="px-2 py-1 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors border border-blue-200"
