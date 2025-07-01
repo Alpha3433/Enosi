@@ -106,15 +106,16 @@ const WeddingChecklistPage = () => {
         created_at: new Date().toISOString()
       };
       
-      // Try API first, fall back to localStorage
+      // Always save to localStorage (since we're in demo mode)
+      const updatedTasks = [...tasks, taskData];
+      setTasks(updatedTasks);
+      saveTasksToStorage(updatedTasks);
+      
+      // Also try API but don't depend on it
       try {
         await planningAPI.createChecklistItem(taskData);
-        await fetchTasks();
       } catch (apiErr) {
-        console.log('API not available, using localStorage');
-        const updatedTasks = [...tasks, taskData];
-        setTasks(updatedTasks);
-        saveTasksToStorage(updatedTasks);
+        console.log('API not available, data saved locally');
       }
       
       setNewTask({ task_name: '', due_date: '', priority: 'medium' });
