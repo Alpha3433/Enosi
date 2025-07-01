@@ -89,6 +89,7 @@ const LocationSearchInput = ({
   const containerRef = useRef(null);
   
   const debouncedValue = useDebounce(value, 300);
+  const dropdownPosition = useDropdownPosition(containerRef, isOpen);
 
   // Search for suggestions when debounced value changes
   useEffect(() => {
