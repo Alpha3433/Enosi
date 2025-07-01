@@ -319,40 +319,40 @@ const CouplesDashboard = () => {
             <div 
               style={{
                 backgroundColor: '#ffffff',
-                borderRadius: '16px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.08)',
+                borderRadius: '24px',
+                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
                 padding: '24px'
               }}
             >
-              <h2 className="text-xl font-bold text-gray-900 mb-4 font-sans">Quick Actions</h2>
+              <h2 className="text-xl font-bold text-millbrook mb-4 font-sans">Quick Actions</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <button 
                   onClick={() => navigate('/search')}
-                  className="flex flex-col items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
                 >
-                  <Search className="w-6 h-6 text-blue-500 mb-2" />
-                  <span className="text-sm font-medium text-gray-900 font-sans">Find Vendors</span>
+                  <Search className="w-6 h-6 text-cement mb-2" />
+                  <span className="text-sm font-medium text-millbrook font-sans">Find Vendors</span>
                 </button>
                 <button 
                   onClick={() => navigate('/planning/budget')}
-                  className="flex flex-col items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors"
+                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
                 >
-                  <DollarSign className="w-6 h-6 text-green-500 mb-2" />
-                  <span className="text-sm font-medium text-gray-900 font-sans">Budget</span>
+                  <DollarSign className="w-6 h-6 text-cement mb-2" />
+                  <span className="text-sm font-medium text-millbrook font-sans">Budget</span>
                 </button>
                 <button 
                   onClick={() => navigate('/planning/guest-list')}
-                  className="flex flex-col items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
                 >
-                  <Users className="w-6 h-6 text-purple-500 mb-2" />
-                  <span className="text-sm font-medium text-gray-900 font-sans">Guest List</span>
+                  <Users className="w-6 h-6 text-cement mb-2" />
+                  <span className="text-sm font-medium text-millbrook font-sans">Guest List</span>
                 </button>
                 <button 
                   onClick={() => navigate('/planning/checklist')}
-                  className="flex flex-col items-center p-4 bg-orange-50 rounded-lg hover:bg-orange-100 transition-colors"
+                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
                 >
-                  <CheckCircle className="w-6 h-6 text-orange-500 mb-2" />
-                  <span className="text-sm font-medium text-gray-900 font-sans">Checklist</span>
+                  <CheckCircle className="w-6 h-6 text-cement mb-2" />
+                  <span className="text-sm font-medium text-millbrook font-sans">Checklist</span>
                 </button>
               </div>
             </div>
