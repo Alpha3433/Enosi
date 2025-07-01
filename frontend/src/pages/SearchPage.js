@@ -103,6 +103,20 @@ const SearchPage = () => {
     return 'text-yellow-600';
   };
 
+  // Handle search when filters change
+  const handleSearch = () => {
+    refetch();
+  };
+
+  // Handle filter changes and trigger search
+  const handleFilterChangeWithSearch = (key, value) => {
+    handleFilterChange(key, value);
+    // Small delay to allow state to update before refetching
+    setTimeout(() => {
+      refetch();
+    }, 100);
+  };
+
   return (
     <div className="min-h-screen bg-linen font-sans" style={{ fontFamily: 'Prompt, sans-serif', zoom: 0.9 }}>
       {/* Header */}
