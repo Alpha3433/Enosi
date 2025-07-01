@@ -339,7 +339,7 @@ const SearchPage = () => {
               <input
                 type="text"
                 value={filters.weddingDate}
-                onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
+                onChange={(e) => handleFilterChangeWithSearch('weddingDate', e.target.value)}
                 placeholder="      DD/MM/YYYY"
                 style={{
                   width: '310px',
