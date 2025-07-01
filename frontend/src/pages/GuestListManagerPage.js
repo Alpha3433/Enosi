@@ -16,10 +16,11 @@ import {
   Upload,
   ArrowLeft,
   Bell,
-  Filter
+  Filter,
+  Save,
+  X
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
-import { planningAPI } from '../services/api';
 
 const GuestListManagerPage = () => {
   const navigate = useNavigate();
@@ -38,23 +39,49 @@ const GuestListManagerPage = () => {
     plus_one: false
   });
   const [editingId, setEditingId] = useState(null);
+  const [editingGuest, setEditingGuest] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
 
+  // Local storage key for guest data
+  const getStorageKey = () => `guests_${user?.id || 'default'}`;
+
   useEffect(() => {
     fetchGuests();
-  }, []);
+  }, [user]);
 
   const fetchGuests = async () => {
     try {
       setIsLoading(true);
-      // For now, we'll use mock data since guest list API might not be implemented
-      setGuests([]);
+      // Load guests from localStorage for persistence
+      const storageKey = getStorageKey();
+      const savedGuests = localStorage.getItem(storageKey);
+      if (savedGuests) {
+        setGuests(JSON.parse(savedGuests));
+      } else {
+        setGuests([]);
+      }
     } catch (err) {
       console.error('Error fetching guests:', err);
       setError('Failed to load guest list');
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const saveGuestsToStorage = (guestList) => {
+    try {
+      const storageKey = getStorageKey();
+      localStorage.setItem(storageKey, JSON.stringify(guestList));
+      
+      // Also save total count to couple profile for dashboard
+      const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+      const existingProfile = localStorage.getItem(coupleProfileKey);
+      const profile = existingProfile ? JSON.parse(existingProfile) : {};
+      profile.guest_count = guestList.length;
+      localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
+    } catch (err) {
+      console.error('Error saving guests:', err);
     }
   };
 
@@ -68,7 +95,10 @@ const GuestListManagerPage = () => {
         created_at: new Date().toISOString()
       };
       
-      setGuests([...guests, guestData]);
+      const updatedGuests = [...guests, guestData];
+      setGuests(updatedGuests);
+      saveGuestsToStorage(updatedGuests);
+      
       setNewGuest({ 
         name: '', 
         email: '', 
@@ -85,9 +115,38 @@ const GuestListManagerPage = () => {
     }
   };
 
-  const deleteGuest = async (guestId) => {
+  const startEdit = (guest) => {
+    setEditingId(guest.id);
+    setEditingGuest({ ...guest });
+  };
+
+  const saveEdit = () => {
     try {
-      setGuests(guests.filter(guest => guest.id !== guestId));
+      const updatedGuests = guests.map(guest => 
+        guest.id === editingId ? editingGuest : guest
+      );
+      setGuests(updatedGuests);
+      saveGuestsToStorage(updatedGuests);
+      setEditingId(null);
+      setEditingGuest({});
+    } catch (err) {
+      console.error('Error updating guest:', err);
+      setError('Failed to update guest');
+    }
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setEditingGuest({});
+  };
+
+  const deleteGuest = async (guestId) => {
+    if (!window.confirm('Are you sure you want to delete this guest?')) return;
+    
+    try {
+      const updatedGuests = guests.filter(guest => guest.id !== guestId);
+      setGuests(updatedGuests);
+      saveGuestsToStorage(updatedGuests);
     } catch (err) {
       console.error('Error deleting guest:', err);
       setError('Failed to delete guest');
@@ -96,12 +155,93 @@ const GuestListManagerPage = () => {
 
   const updateRSVP = async (guestId, status) => {
     try {
-      setGuests(guests.map(guest => 
+      const updatedGuests = guests.map(guest => 
         guest.id === guestId ? { ...guest, rsvp_status: status } : guest
-      ));
+      );
+      setGuests(updatedGuests);
+      saveGuestsToStorage(updatedGuests);
     } catch (err) {
       console.error('Error updating RSVP:', err);
       setError('Failed to update RSVP');
+    }
+  };
+
+  const handleImportCSV = () => {
+    // Create a file input element
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.csv';
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const csv = event.target.result;
+            const lines = csv.split('\n');
+            const headers = lines[0].split(',').map(h => h.trim());
+            
+            const importedGuests = [];
+            for (let i = 1; i < lines.length; i++) {
+              if (lines[i].trim()) {
+                const values = lines[i].split(',').map(v => v.trim());
+                const guest = {
+                  id: Date.now() + i,
+                  name: values[0] || '',
+                  email: values[1] || '',
+                  phone: values[2] || '',
+                  address: values[3] || '',
+                  rsvp_status: values[4] || 'pending',
+                  meal_preference: values[5] || '',
+                  plus_one: values[6] === 'true' || false,
+                  created_at: new Date().toISOString()
+                };
+                importedGuests.push(guest);
+              }
+            }
+            
+            const updatedGuests = [...guests, ...importedGuests];
+            setGuests(updatedGuests);
+            saveGuestsToStorage(updatedGuests);
+            alert(`Imported ${importedGuests.length} guests successfully!`);
+          } catch (error) {
+            alert('Error importing CSV file. Please check the format.');
+          }
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  };
+
+  const handleExportCSV = () => {
+    try {
+      const headers = ['Name', 'Email', 'Phone', 'Address', 'RSVP Status', 'Meal Preference', 'Plus One'];
+      const csvContent = [
+        headers.join(','),
+        ...guests.map(guest => [
+          guest.name,
+          guest.email,
+          guest.phone,
+          guest.address,
+          guest.rsvp_status,
+          guest.meal_preference,
+          guest.plus_one ? 'true' : 'false'
+        ].join(','))
+      ].join('\n');
+      
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', `wedding_guest_list_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Error exporting CSV:', err);
+      alert('Error exporting guest list');
     }
   };
 
@@ -323,11 +463,17 @@ const GuestListManagerPage = () => {
               <Plus className="w-5 h-5" />
               <span>Add Guest</span>
             </button>
-            <button className="flex items-center space-x-2 border border-coral-reef text-kabul px-6 py-3 rounded-full hover:bg-linen transition-colors font-sans">
+            <button 
+              onClick={handleImportCSV}
+              className="flex items-center space-x-2 border border-coral-reef text-kabul px-6 py-3 rounded-full hover:bg-linen transition-colors font-sans"
+            >
               <Upload className="w-5 h-5" />
               <span>Import CSV</span>
             </button>
-            <button className="flex items-center space-x-2 border border-coral-reef text-kabul px-6 py-3 rounded-full hover:bg-linen transition-colors font-sans">
+            <button 
+              onClick={handleExportCSV}
+              className="flex items-center space-x-2 border border-coral-reef text-kabul px-6 py-3 rounded-full hover:bg-linen transition-colors font-sans"
+            >
               <Download className="w-5 h-5" />
               <span>Export</span>
             </button>
@@ -487,76 +633,157 @@ const GuestListManagerPage = () => {
                   padding: '24px'
                 }}
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-lg font-semibold text-millbrook font-sans">{guest.name}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRSVPColor(guest.rsvp_status)}`}>
-                        {guest.rsvp_status.charAt(0).toUpperCase() + guest.rsvp_status.slice(1)}
-                      </span>
+                {editingId === guest.id ? (
+                  // Edit mode
+                  <div>
+                    <h3 className="text-lg font-bold text-millbrook mb-4 font-sans">Edit Guest</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <input
+                        type="text"
+                        placeholder="Full name"
+                        value={editingGuest.name || ''}
+                        onChange={(e) => setEditingGuest({...editingGuest, name: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
+                      <input
+                        type="email"
+                        placeholder="Email address"
+                        value={editingGuest.email || ''}
+                        onChange={(e) => setEditingGuest({...editingGuest, email: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
+                      <input
+                        type="tel"
+                        placeholder="Phone number"
+                        value={editingGuest.phone || ''}
+                        onChange={(e) => setEditingGuest({...editingGuest, phone: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
+                      <input
+                        type="text"
+                        placeholder="Address"
+                        value={editingGuest.address || ''}
+                        onChange={(e) => setEditingGuest({...editingGuest, address: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
+                      <select
+                        value={editingGuest.rsvp_status || 'pending'}
+                        onChange={(e) => setEditingGuest({...editingGuest, rsvp_status: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans text-kabul"
+                      >
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="declined">Declined</option>
+                      </select>
+                      <input
+                        type="text"
+                        placeholder="Meal preference"
+                        value={editingGuest.meal_preference || ''}
+                        onChange={(e) => setEditingGuest({...editingGuest, meal_preference: e.target.value})}
+                        className="w-full px-4 py-3 bg-linen border border-coral-reef rounded-xl focus:ring-2 focus:ring-cement focus:border-cement focus:bg-white transition-all duration-200 font-sans placeholder-napa text-kabul"
+                      />
                     </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm text-kabul">
-                      {guest.email && (
-                        <div className="flex items-center space-x-1">
-                          <Mail className="w-4 h-4" />
-                          <span className="font-sans">{guest.email}</span>
-                        </div>
-                      )}
-                      {guest.phone && (
-                        <div className="flex items-center space-x-1">
-                          <Phone className="w-4 h-4" />
-                          <span className="font-sans">{guest.phone}</span>
-                        </div>
-                      )}
-                      {guest.address && (
-                        <div className="flex items-center space-x-1">
-                          <MapPin className="w-4 h-4" />
-                          <span className="font-sans">{guest.address}</span>
-                        </div>
-                      )}
-                      {guest.plus_one && (
-                        <div className="flex items-center space-x-1">
-                          <Users className="w-4 h-4" />
-                          <span className="font-sans">Plus One</span>
-                        </div>
-                      )}
+                    <div className="flex items-center space-x-4 mb-4">
+                      <label className="flex items-center space-x-2 text-kabul font-sans">
+                        <input
+                          type="checkbox"
+                          checked={editingGuest.plus_one || false}
+                          onChange={(e) => setEditingGuest({...editingGuest, plus_one: e.target.checked})}
+                          className="w-4 h-4 text-cement border-coral-reef rounded focus:ring-cement"
+                        />
+                        <span>Allow Plus One</span>
+                      </label>
+                    </div>
+                    <div className="flex space-x-3">
+                      <button
+                        onClick={saveEdit}
+                        className="bg-cement text-white px-4 py-2 rounded-lg hover:bg-millbrook transition-colors font-sans flex items-center space-x-1"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span>Save</span>
+                      </button>
+                      <button
+                        onClick={cancelEdit}
+                        className="border border-coral-reef text-kabul px-4 py-2 rounded-lg hover:bg-linen transition-colors font-sans flex items-center space-x-1"
+                      >
+                        <X className="w-4 h-4" />
+                        <span>Cancel</span>
+                      </button>
                     </div>
                   </div>
+                ) : (
+                  // View mode
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="text-lg font-semibold text-millbrook font-sans">{guest.name}</h3>
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${getRSVPColor(guest.rsvp_status)}`}>
+                          {guest.rsvp_status.charAt(0).toUpperCase() + guest.rsvp_status.slice(1)}
+                        </span>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 text-sm text-kabul">
+                        {guest.email && (
+                          <div className="flex items-center space-x-1">
+                            <Mail className="w-4 h-4" />
+                            <span className="font-sans">{guest.email}</span>
+                          </div>
+                        )}
+                        {guest.phone && (
+                          <div className="flex items-center space-x-1">
+                            <Phone className="w-4 h-4" />
+                            <span className="font-sans">{guest.phone}</span>
+                          </div>
+                        )}
+                        {guest.address && (
+                          <div className="flex items-center space-x-1">
+                            <MapPin className="w-4 h-4" />
+                            <span className="font-sans">{guest.address}</span>
+                          </div>
+                        )}
+                        {guest.plus_one && (
+                          <div className="flex items-center space-x-1">
+                            <Users className="w-4 h-4" />
+                            <span className="font-sans">Plus One</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                  <div className="flex space-x-2 ml-4">
-                    {guest.rsvp_status === 'pending' && (
-                      <>
-                        <button
-                          onClick={() => updateRSVP(guest.id, 'confirmed')}
-                          className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                          title="Confirm RSVP"
-                        >
-                          <UserCheck className="w-4 h-4" />
-                        </button>
-                        <button
-                          onClick={() => updateRSVP(guest.id, 'declined')}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                          title="Decline RSVP"
-                        >
-                          <UserX className="w-4 h-4" />
-                        </button>
-                      </>
-                    )}
-                    <button
-                      onClick={() => setEditingId(guest.id)}
-                      className="p-2 text-kabul hover:text-cement transition-colors"
-                    >
-                      <Edit3 className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => deleteGuest(guest.id)}
-                      className="p-2 text-coral-reef hover:text-red-600 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+                    <div className="flex space-x-2 ml-4">
+                      {guest.rsvp_status === 'pending' && (
+                        <>
+                          <button
+                            onClick={() => updateRSVP(guest.id, 'confirmed')}
+                            className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                            title="Confirm RSVP"
+                          >
+                            <UserCheck className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => updateRSVP(guest.id, 'declined')}
+                            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            title="Decline RSVP"
+                          >
+                            <UserX className="w-4 h-4" />
+                          </button>
+                        </>
+                      )}
+                      <button
+                        onClick={() => startEdit(guest)}
+                        className="p-2 text-kabul hover:text-cement transition-colors"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => deleteGuest(guest.id)}
+                        className="p-2 text-coral-reef hover:text-red-600 transition-colors"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   </div>
-                </div>
+                )}
               </motion.div>
             ))
           )}
