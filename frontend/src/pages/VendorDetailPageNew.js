@@ -53,87 +53,64 @@ const VendorDetailPage = () => {
     name: vendorData.business_name,
     location: vendorData.location,
     rating: vendorData.average_rating || 0,
-    reviewCount: "124 reviews",
-    ratingText: "Excellent",
-    price: 2500,
-    priceUnit: "event",
-    category: "Venue",
-    description: "Stunning garden venue perfect for outdoor weddings with panoramic city views and professional event coordination.",
-    longDescription: "Located in the heart of Sydney, Elegant Garden Venues offers breathtaking outdoor spaces surrounded by lush gardens and panoramic city views. Our venue specializes in creating unforgettable wedding experiences with our team of professional event coordinators who handle every detail of your special day.",
-    images: [
+    reviewCount: `${vendorData.total_reviews || 0} reviews`,
+    ratingText: vendorData.average_rating >= 9 ? "Excellent" : 
+               vendorData.average_rating >= 8 ? "Very good" :
+               vendorData.average_rating >= 7 ? "Good" : "Average",
+    price: vendorData.pricing_from || 0,
+    priceUnit: vendorData.pricing_type === 'per_person' ? 'per person' : 'event',
+    category: vendorData.category?.charAt(0).toUpperCase() + vendorData.category?.slice(1) || 'Vendor',
+    description: vendorData.description || 'Professional wedding service',
+    longDescription: vendorData.description || 'Professional wedding service provider.',
+    images: vendorData.gallery_images?.length > 0 ? vendorData.gallery_images : [
       "https://images.unsplash.com/photo-1519167758481-83f29c7c3d6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
       "https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
       "https://images.unsplash.com/photo-1523362628745-0c100150b504?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80",
       "https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80"
     ],
-    features: [
-      "Outdoor ceremony space",
+    features: vendorData.service_areas?.length > 0 ? 
+      vendorData.service_areas.map(area => `Service area: ${area}`) : [
+      "Professional service",
+      `${vendorData.years_experience || 0}+ years experience`,
+      vendorData.verified ? "Verified vendor" : "Trusted professional",
+      "Quality guarantee",
       "Professional coordination",
-      "Catering services available",
-      "Full bar service",
-      "Photography packages",
-      "Flexible seating arrangements"
+      "Consultation included"
     ],
-    packages: [
+    packages: vendorData.packages?.length > 0 ? vendorData.packages : [
       {
-        name: "Essential Package",
-        price: 2500,
-        features: ["4-hour venue rental", "Basic setup", "Coordinator on-site", "Tables and chairs"]
+        name: "Standard Package",
+        price: vendorData.pricing_from || 0,
+        features: ["Professional service", "Consultation included", "Quality guarantee", "Flexible arrangements"]
       },
       {
-        name: "Premium Package", 
-        price: 4200,
-        features: ["8-hour venue rental", "Full setup & styling", "Wedding coordinator", "Tables, chairs & linens", "Sound system", "Bridal suite access"]
-      },
-      {
-        name: "Luxury Package",
-        price: 6800,
-        features: ["Full day venue access", "Complete styling service", "Dedicated coordinator team", "Premium furniture", "Professional sound/lighting", "Bridal & groom suites", "Welcome drinks"]
-      },
-      {
-        name: "Ultimate Package",
-        price: 9500,
-        features: ["Multi-day venue access", "Complete event management", "Personal wedding planner", "Luxury amenities", "Professional photography", "Catering included", "Transportation service", "Spa services"]
+        name: "Premium Package",
+        price: (vendorData.pricing_from || 0) * 1.5,
+        features: ["Extended service", "Priority support", "Additional features", "Premium coordination", "Enhanced experience"]
       }
     ],
     contact: {
-      phone: "+61 2 9876 5432",
-      email: "bookings@elegantgardens.com.au",
-      website: "www.elegantgardens.com.au"
+      phone: "+61 2 9876 5432", // Would come from user data in real implementation
+      email: "contact@vendor.com", // Would come from user data
+      website: vendorData.website || "www.vendor.com"
     },
     socialMedia: {
-      instagram: "@elegantgardens",
-      facebook: "ElegantGardenVenues"
+      instagram: vendorData.instagram || "@vendor",
+      facebook: vendorData.facebook || "vendor"
     },
-    availability: "Available most weekends",
-    responseTime: "Usually responds within 2 hours",
+    availability: "Available for bookings",
+    responseTime: "Usually responds within 24 hours",
     reviews: [
       {
         id: 1,
-        name: "Sarah & Michael",
-        rating: 5,
-        date: "November 2024",
-        comment: "Absolutely perfect venue for our wedding! The gardens were stunning and the coordination team made everything seamless.",
+        name: "Happy Couple",
+        rating: vendorData.average_rating || 5,
+        date: "Recent",
+        comment: "Excellent service and professional approach. Highly recommended!",
         avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&w=150&h=150&fit=crop&crop=face"
-      },
-      {
-        id: 2,
-        name: "Emma & James",
-        rating: 5,
-        date: "October 2024", 
-        comment: "The most beautiful venue with incredible service. Our guests are still talking about how magical the day was!",
-        avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&w=150&h=150&fit=crop&crop=face"
-      },
-      {
-        id: 3,
-        name: "Lisa & David",
-        rating: 4,
-        date: "September 2024",
-        comment: "Great venue with beautiful outdoor spaces. The only minor issue was parking, but everything else was perfect.",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=150&h=150&fit=crop&crop=face"
       }
     ]
-  };
+  } : null;
 
   return (
     <div className="min-h-screen bg-white font-sans">
