@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ChevronDown, MapPin, Calendar, Users, Loader2, Heart } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { useNotifications } from '../contexts/NotificationContext';
 import { vendorsAPI } from '../services/api';
+import NotificationDropdown from '../components/NotificationDropdown';
 
 // Initialize match object for this component
 if (typeof window !== 'undefined' && !window.match) {
