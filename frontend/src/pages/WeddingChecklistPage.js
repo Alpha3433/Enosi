@@ -42,18 +42,33 @@ const WeddingChecklistPage = () => {
   const fetchTasks = async () => {
     try {
       setIsLoading(true);
-      const response = await planningAPI.getChecklistItems();
-      setTasks(response.data || []);
-    } catch (err) {
-      console.error('Error fetching tasks:', err);
-      // Load from localStorage if API fails
+      
+      // Load from localStorage first (since we're in demo mode)
       const storageKey = getStorageKey();
       const savedTasks = localStorage.getItem(storageKey);
       if (savedTasks) {
         setTasks(JSON.parse(savedTasks));
-      } else {
-        setTasks([]);
+        setIsLoading(false);
+        return;
       }
+
+      // Try API as fallback
+      try {
+        const response = await planningAPI.getChecklistItems();
+        if (response.data && response.data.length > 0) {
+          setTasks(response.data);
+          return;
+        }
+      } catch (apiErr) {
+        console.log('API not available, using localStorage');
+      }
+      
+      // If no data anywhere, start with empty array
+      setTasks([]);
+      
+    } catch (err) {
+      console.error('Error fetching tasks:', err);
+      setTasks([]);
       setError('Failed to load checklist');
     } finally {
       setIsLoading(false);
