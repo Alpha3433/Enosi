@@ -285,221 +285,223 @@ const CouplesDashboard = () => {
         {/* Main Dashboard Content */}
         {!isLoading && !error && (
           <>
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {dashboardStats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-3 rounded-lg ${stat.bgColor}`}>
-                  <stat.icon className={`w-6 h-6 ${stat.color}`} />
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold text-millbrook mb-1 font-sans">{stat.value}</h3>
-              <p className="text-sm text-kabul font-sans">{stat.title}</p>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Recent Activity & Tasks */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Quick Actions */}
-            <div 
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <h2 className="text-xl font-bold text-millbrook mb-4 font-sans">Quick Actions</h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <button 
-                  onClick={() => navigate('/search')}
-                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {dashboardStats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
                 >
-                  <Search className="w-6 h-6 text-cement mb-2" />
-                  <span className="text-sm font-medium text-millbrook font-sans">Find Vendors</span>
-                </button>
-                <button 
-                  onClick={() => navigate('/planning/budget')}
-                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
-                >
-                  <DollarSign className="w-6 h-6 text-cement mb-2" />
-                  <span className="text-sm font-medium text-millbrook font-sans">Budget</span>
-                </button>
-                <button 
-                  onClick={() => navigate('/planning/guest-list')}
-                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
-                >
-                  <Users className="w-6 h-6 text-cement mb-2" />
-                  <span className="text-sm font-medium text-millbrook font-sans">Guest List</span>
-                </button>
-                <button 
-                  onClick={() => navigate('/planning/checklist')}
-                  className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
-                >
-                  <CheckCircle className="w-6 h-6 text-cement mb-2" />
-                  <span className="text-sm font-medium text-millbrook font-sans">Checklist</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Recent Activity */}
-            <div 
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-millbrook font-sans">Recent Activity</h2>
-                <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
-              </div>
-              <div className="space-y-4">
-                {isLoading ? (
-                  <div className="flex items-center justify-center p-4">
-                    <Loader2 className="w-6 h-6 text-cement animate-spin" />
-                  </div>
-                ) : error ? (
-                  <div className="text-center text-coral-reef p-4">
-                    Failed to load recent activity
-                  </div>
-                ) : (
-                  <div className="text-center text-kabul p-4">
-                    No recent activity to display
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Upcoming Tasks */}
-            <div 
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-millbrook font-sans">Upcoming Tasks</h2>
-                <button 
-                  onClick={() => navigate('/planning/checklist')}
-                  className="text-sm text-cement hover:text-millbrook font-sans"
-                >
-                  View All
-                </button>
-              </div>
-              <div className="space-y-3">
-                {upcomingTasks.length > 0 ? (
-                  upcomingTasks.map((task, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 border border-coral-reef rounded-lg">
-                      <div className="flex items-center space-x-3">
-                        <div className={`w-3 h-3 rounded-full ${
-                          task.priority === 'high' ? 'bg-coral-reef' :
-                          task.priority === 'medium' ? 'bg-tallow' : 'bg-cement'
-                        }`}></div>
-                        <span className="text-sm font-medium text-millbrook font-sans">{task.task}</span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-kabul font-sans">Due: {task.dueDate}</span>
-                        <button className="text-kabul hover:text-cement">
-                          <ArrowRight className="w-4 h-4" />
-                        </button>
-                      </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className={`p-3 rounded-lg ${stat.bgColor}`}>
+                      <stat.icon className={`w-6 h-6 ${stat.color}`} />
                     </div>
-                  ))
-                ) : (
-                  <div className="text-center text-kabul p-4">
-                    No upcoming tasks
                   </div>
-                )}
-              </div>
+                  <h3 className="text-2xl font-bold text-millbrook mb-1 font-sans">{stat.value}</h3>
+                  <p className="text-sm text-kabul font-sans">{stat.title}</p>
+                </motion.div>
+              ))}
             </div>
-          </div>
 
-          {/* Right Column - Saved Vendors & Budget */}
-          <div className="space-y-6">
-            {/* Budget Progress */}
-            <div 
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-millbrook font-sans">Budget Progress</h2>
-                <button 
-                  onClick={() => navigate('/planning/budget')}
-                  className="text-sm text-cement hover:text-millbrook font-sans"
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column - Recent Activity & Tasks */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Quick Actions */}
+                <div 
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
                 >
-                  Manage
-                </button>
-              </div>
-              <div className="mb-4">
-                <div className="flex justify-between text-sm text-kabul mb-2 font-sans">
-                  <span>Spent: ${stats.totalSpent.toLocaleString()}</span>
-                  <span>Budget: ${stats.totalBudget.toLocaleString()}</span>
+                  <h2 className="text-xl font-bold text-millbrook mb-4 font-sans">Quick Actions</h2>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button 
+                      onClick={() => navigate('/search')}
+                      className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
+                    >
+                      <Search className="w-6 h-6 text-cement mb-2" />
+                      <span className="text-sm font-medium text-millbrook font-sans">Find Vendors</span>
+                    </button>
+                    <button 
+                      onClick={() => navigate('/planning/budget')}
+                      className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
+                    >
+                      <DollarSign className="w-6 h-6 text-cement mb-2" />
+                      <span className="text-sm font-medium text-millbrook font-sans">Budget</span>
+                    </button>
+                    <button 
+                      onClick={() => navigate('/planning/guest-list')}
+                      className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
+                    >
+                      <Users className="w-6 h-6 text-cement mb-2" />
+                      <span className="text-sm font-medium text-millbrook font-sans">Guest List</span>
+                    </button>
+                    <button 
+                      onClick={() => navigate('/planning/checklist')}
+                      className="flex flex-col items-center p-4 bg-linen rounded-lg hover:bg-tallow/20 transition-colors"
+                    >
+                      <CheckCircle className="w-6 h-6 text-cement mb-2" />
+                      <span className="text-sm font-medium text-millbrook font-sans">Checklist</span>
+                    </button>
+                  </div>
                 </div>
-                <div className="w-full bg-linen rounded-full h-3">
-                  <div 
-                    className="bg-cement h-3 rounded-full transition-all duration-300"
-                    style={{ width: `${stats.totalBudget > 0 ? (stats.totalSpent / stats.totalBudget) * 100 : 0}%` }}
-                  ></div>
-                </div>
-              </div>
-              <p className="text-sm text-kabul font-sans">
-                {stats.totalBudget > 0 ? ((stats.totalSpent / stats.totalBudget) * 100).toFixed(0) : 0}% of budget used
-              </p>
-            </div>
 
-            {/* Saved Vendors */}
-            <div 
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '24px',
-                boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
-                padding: '24px'
-              }}
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-millbrook font-sans">Saved Vendors</h2>
-                <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
+                {/* Recent Activity */}
+                <div 
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-millbrook font-sans">Recent Activity</h2>
+                    <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
+                  </div>
+                  <div className="space-y-4">
+                    {isLoading ? (
+                      <div className="flex items-center justify-center p-4">
+                        <Loader2 className="w-6 h-6 text-cement animate-spin" />
+                      </div>
+                    ) : error ? (
+                      <div className="text-center text-coral-reef p-4">
+                        Failed to load recent activity
+                      </div>
+                    ) : (
+                      <div className="text-center text-kabul p-4">
+                        No recent activity to display
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Upcoming Tasks */}
+                <div 
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-xl font-bold text-millbrook font-sans">Upcoming Tasks</h2>
+                    <button 
+                      onClick={() => navigate('/planning/checklist')}
+                      className="text-sm text-cement hover:text-millbrook font-sans"
+                    >
+                      View All
+                    </button>
+                  </div>
+                  <div className="space-y-3">
+                    {upcomingTasks.length > 0 ? (
+                      upcomingTasks.map((task, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 border border-coral-reef rounded-lg">
+                          <div className="flex items-center space-x-3">
+                            <div className={`w-3 h-3 rounded-full ${
+                              task.priority === 'high' ? 'bg-coral-reef' :
+                              task.priority === 'medium' ? 'bg-tallow' : 'bg-cement'
+                            }`}></div>
+                            <span className="text-sm font-medium text-millbrook font-sans">{task.task}</span>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs text-kabul font-sans">Due: {task.dueDate}</span>
+                            <button className="text-kabul hover:text-cement">
+                              <ArrowRight className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-kabul p-4">
+                        No upcoming tasks
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div className="space-y-4">
-                {isLoading ? (
-                  <div className="flex items-center justify-center p-4">
-                    <Loader2 className="w-6 h-6 text-cement animate-spin" />
+
+              {/* Right Column - Saved Vendors & Budget */}
+              <div className="space-y-6">
+                {/* Budget Progress */}
+                <div 
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-bold text-millbrook font-sans">Budget Progress</h2>
+                    <button 
+                      onClick={() => navigate('/planning/budget')}
+                      className="text-sm text-cement hover:text-millbrook font-sans"
+                    >
+                      Manage
+                    </button>
                   </div>
-                ) : error ? (
-                  <div className="text-center text-coral-reef p-4">
-                    Failed to load saved vendors
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm text-kabul mb-2 font-sans">
+                      <span>Spent: ${stats.totalSpent.toLocaleString()}</span>
+                      <span>Budget: ${stats.totalBudget.toLocaleString()}</span>
+                    </div>
+                    <div className="w-full bg-linen rounded-full h-3">
+                      <div 
+                        className="bg-cement h-3 rounded-full transition-all duration-300"
+                        style={{ width: `${stats.totalBudget > 0 ? (stats.totalSpent / stats.totalBudget) * 100 : 0}%` }}
+                      ></div>
+                    </div>
                   </div>
-                ) : (
-                  <div className="text-center text-kabul p-4">
-                    No saved vendors yet
+                  <p className="text-sm text-kabul font-sans">
+                    {stats.totalBudget > 0 ? ((stats.totalSpent / stats.totalBudget) * 100).toFixed(0) : 0}% of budget used
+                  </p>
+                </div>
+
+                {/* Saved Vendors */}
+                <div 
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderRadius: '24px',
+                    boxShadow: '0px 1px 12px rgba(3,3,3,0.1)',
+                    padding: '24px'
+                  }}
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-lg font-bold text-millbrook font-sans">Saved Vendors</h2>
+                    <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
                   </div>
-                )}
+                  <div className="space-y-4">
+                    {isLoading ? (
+                      <div className="flex items-center justify-center p-4">
+                        <Loader2 className="w-6 h-6 text-cement animate-spin" />
+                      </div>
+                    ) : error ? (
+                      <div className="text-center text-coral-reef p-4">
+                        Failed to load saved vendors
+                      </div>
+                    ) : (
+                      <div className="text-center text-kabul p-4">
+                        No saved vendors yet
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 
