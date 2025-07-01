@@ -513,20 +513,49 @@ const CouplesDashboard = () => {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <h2 className="text-lg font-bold text-millbrook font-sans">Saved Vendors</h2>
-                    <button className="text-sm text-cement hover:text-millbrook font-sans">View All</button>
+                    <button 
+                      onClick={() => navigate('/search')}
+                      className="text-sm text-cement hover:text-millbrook font-sans"
+                    >
+                      View All
+                    </button>
                   </div>
                   <div className="space-y-4">
-                    {isLoading ? (
-                      <div className="flex items-center justify-center p-4">
-                        <Loader2 className="w-6 h-6 text-cement animate-spin" />
-                      </div>
-                    ) : error ? (
-                      <div className="text-center text-coral-reef p-4">
-                        Failed to load saved vendors
-                      </div>
+                    {stats.savedVendors.length > 0 ? (
+                      stats.savedVendors.map((vendor, index) => (
+                        <div key={vendor.id || index} className="flex items-center space-x-3 p-3 bg-linen rounded-lg hover:bg-tallow/20 transition-colors cursor-pointer"
+                             onClick={() => navigate(`/vendors/${vendor.id}`)}>
+                          <img 
+                            src={vendor.image || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&h=100&q=80'}
+                            alt={vendor.name}
+                            className="w-12 h-12 rounded-lg object-cover"
+                          />
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-millbrook text-sm font-sans">{vendor.name}</h3>
+                            <p className="text-xs text-kabul font-sans">{vendor.type} • {vendor.location}</p>
+                            <div className="flex items-center mt-1">
+                              <span className="text-xs text-cement font-sans">⭐ {vendor.rating}</span>
+                              <span className="text-xs text-kabul ml-2 font-sans">{vendor.reviewCount}</span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-bold text-millbrook font-sans">${vendor.price}</p>
+                            {vendor.priceUnit && (
+                              <p className="text-xs text-kabul font-sans">{vendor.priceUnit}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))
                     ) : (
                       <div className="text-center text-kabul p-4">
-                        No saved vendors yet
+                        <Heart className="w-8 h-8 text-kabul mx-auto mb-2 opacity-50" />
+                        <p className="font-sans">No saved vendors yet</p>
+                        <button 
+                          onClick={() => navigate('/search')}
+                          className="text-sm text-cement hover:text-millbrook font-sans mt-1 underline"
+                        >
+                          Start exploring vendors
+                        </button>
                       </div>
                     )}
                   </div>
