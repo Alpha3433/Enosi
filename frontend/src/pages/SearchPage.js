@@ -294,7 +294,7 @@ const SearchPage = () => {
               </label>
               <select
                 value={filters.vendorType}
-                onChange={(e) => handleFilterChange('vendorType', e.target.value)}
+                onChange={(e) => handleFilterChangeWithSearch('vendorType', e.target.value)}
                 style={{
                   width: '310px',
                   height: '42px',
