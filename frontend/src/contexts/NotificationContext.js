@@ -121,16 +121,23 @@ export const NotificationProvider = ({ children }) => {
   const createMessageNotification = (vendorName, messageType = 'message') => {
     const messages = {
       message: `New message from ${vendorName}`,
-      quote_update: `${vendorName} updated their quote`
+      quote_update: `${vendorName} updated their quote`,
+      vendor_saved: `You saved ${vendorName} to your favorites`
+    };
+
+    const titles = {
+      message: 'New Message',
+      quote_update: 'Quote Updated',
+      vendor_saved: 'Vendor Saved'
     };
 
     addNotification({
-      type: 'message',
-      title: messageType === 'quote_update' ? 'Quote Updated' : 'New Message',
+      type: messageType === 'vendor_saved' ? 'favorite' : 'message',
+      title: titles[messageType] || titles.message,
       message: messages[messageType] || messages.message,
       vendorName,
-      icon: '💬',
-      priority: 'medium'
+      icon: messageType === 'vendor_saved' ? '❤️' : '💬',
+      priority: messageType === 'vendor_saved' ? 'low' : 'medium'
     });
   };
 
