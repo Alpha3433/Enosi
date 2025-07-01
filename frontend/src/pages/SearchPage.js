@@ -279,41 +279,21 @@ const SearchPage = () => {
     return 'text-yellow-600';
   };
 
-  // Handle search when filters change
-  const handleSearch = () => {
-    fetchVendors();
-  };
-
-  // Handle filter changes and trigger search
-  const handleFilterChangeWithSearch = (key, value) => {
-    handleFilterChange(key, value);
-    // Small delay to allow state to update before fetching
-    setTimeout(() => {
-      fetchVendors();
-    }, 100);
-  };
-
   return (
-    <div className="min-h-screen bg-linen font-sans" style={{ fontFamily: 'Prompt, sans-serif', zoom: 0.9 }}>
+    <div className="min-h-screen bg-white font-sans" style={{ zoom: 0.9 }}>
       {/* Header */}
-      <header className="bg-white">
-        <div className="container mx-auto px-9 py-5 flex justify-between items-center">
+      <header className="bg-white border-b border-coral-reef">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center">
             <button 
               onClick={() => navigate('/')}
               className="text-xl font-bold font-sans text-millbrook"
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0
-              }}
             >
               Enosi
             </button>
           </div>
           
-          <nav className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
+          <nav className="hidden md:flex space-x-8">
             <button onClick={() => navigate('/search')} className="text-sm hover:text-cement transition-colors font-sans text-millbrook font-medium">
               Find Vendors
             </button>
@@ -374,7 +354,224 @@ const SearchPage = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 relative">
+      {/* Search Bar */}
+      <div className="bg-millbrook py-6">
+        <div className="container mx-auto px-6">
+          <div className="flex items-center space-x-4 bg-white rounded-lg p-2 shadow-lg max-w-6xl">
+            <div className="flex-1 flex items-center space-x-4">
+              <div className="flex-1">
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-3 w-5 h-5 text-kabul" />
+                  <input
+                    type="text"
+                    placeholder="Where are you getting married?"
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border-0 focus:ring-0 focus:outline-none text-sm font-sans placeholder-napa"
+                  />
+                </div>
+              </div>
+              <div className="w-px h-8 bg-coral-reef"></div>
+              <div className="flex-1">
+                <select
+                  value={filters.vendorType}
+                  onChange={(e) => handleFilterChange('vendorType', e.target.value)}
+                  className="w-full py-3 px-4 border-0 focus:ring-0 focus:outline-none text-sm font-sans bg-transparent"
+                >
+                  <option value="">All vendors</option>
+                  <option value="venue">Venues</option>
+                  <option value="photographer">Photographers</option>
+                  <option value="catering">Catering</option>
+                  <option value="florist">Florists</option>
+                  <option value="music">Music & Entertainment</option>
+                  <option value="makeup">Hair & Makeup</option>
+                </select>
+              </div>
+              <div className="w-px h-8 bg-coral-reef"></div>
+              <div className="flex-1">
+                <input
+                  type="date"
+                  placeholder="Wedding date"
+                  value={filters.weddingDate}
+                  onChange={(e) => handleFilterChange('weddingDate', e.target.value)}
+                  className="w-full py-3 px-4 border-0 focus:ring-0 focus:outline-none text-sm font-sans"
+                />
+              </div>
+              <div className="w-px h-8 bg-coral-reef"></div>
+              <div className="flex-1">
+                <div className="relative">
+                  <Users className="absolute left-3 top-3 w-5 h-5 text-kabul" />
+                  <input
+                    type="number"
+                    placeholder="Number of guests"
+                    value={filters.guestCount}
+                    onChange={(e) => handleFilterChange('guestCount', e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 border-0 focus:ring-0 focus:outline-none text-sm font-sans placeholder-napa"
+                  />
+                </div>
+              </div>
+            </div>
+            <button 
+              onClick={fetchVendors}
+              disabled={isLoading}
+              className="bg-cement text-white px-8 py-3 rounded-lg hover:bg-millbrook transition-colors font-sans font-medium disabled:opacity-50"
+            >
+              {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Search'}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-6 py-6">
+        <div className="flex gap-6">
+          {/* Left Sidebar - Filters */}
+          <div className="w-80 flex-shrink-0">
+            <div className="sticky top-6">
+              {/* Back Button */}
+              <button 
+                onClick={() => navigate('/')}
+                className="flex items-center text-kabul hover:text-cement transition-colors font-sans mb-6"
+              >
+                <ArrowLeft className="w-5 h-5 mr-2" />
+                Back to home
+              </button>
+
+              {/* Your Previous Filters */}
+              {previousFilters.length > 0 && (
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your previous filters</h3>
+                  <div className="space-y-2">
+                    {previousFilters.map((filter, index) => (
+                      <button
+                        key={index}
+                        onClick={() => applyPreviousFilter(filter)}
+                        className="block w-full text-left text-sm text-kabul hover:text-cement transition-colors font-sans p-2 hover:bg-linen rounded-lg"
+                      >
+                        {filter}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Budget Filter */}
+              <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
+                <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your budget (per vendor)</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-kabul font-sans">AUD</span>
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      value={filters.priceMin}
+                      onChange={(e) => handleFilterChange('priceMin', e.target.value)}
+                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans"
+                    />
+                    <span className="text-kabul">–</span>
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      value={filters.priceMax}
+                      onChange={(e) => handleFilterChange('priceMax', e.target.value)}
+                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    {['Under $1,000', '$1,000 - $2,500', '$2,500 - $5,000', '$5,000 - $10,000', 'Over $10,000'].map((range) => (
+                      <label key={range} className="flex items-center cursor-pointer">
+                        <input 
+                          type="radio" 
+                          name="priceRange"
+                          className="mr-3 w-4 h-4 text-cement border-coral-reef focus:ring-cement"
+                          onChange={() => {
+                            const [min, max] = range.includes('Under') ? ['', '1000'] :
+                                             range.includes('Over') ? ['10000', ''] :
+                                             range.split(' - ').map(p => p.replace(/[$,]/g, ''));
+                            handleFilterChange('priceMin', min);
+                            handleFilterChange('priceMax', max);
+                          }}
+                        />
+                        <span className="text-sm text-kabul font-sans">{range}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Popular Filters */}
+              <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-semibold text-millbrook font-sans">Popular filters</h3>
+                  <button 
+                    onClick={clearAllFilters}
+                    className="text-sm text-cement hover:text-millbrook transition-colors font-sans"
+                  >
+                    Clear all
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {[
+                    { key: 'featured', label: 'Featured vendors' },
+                    { key: 'verified', label: 'Verified vendors' },
+                    { key: 'free_consultation', label: 'Free consultation' },
+                    { key: 'same_day_response', label: 'Same day response' },
+                    { key: 'budget_friendly', label: 'Budget friendly' },
+                    { key: 'premium_service', label: 'Premium service' },
+                    { key: 'package_deals', label: 'Package deals available' },
+                    { key: 'flexible_booking', label: 'Flexible booking' }
+                  ].map((feature) => (
+                    <label key={feature.key} className="flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className="mr-3 w-4 h-4 text-cement border-coral-reef rounded focus:ring-cement"
+                        checked={filters.features.includes(feature.key)}
+                        onChange={() => handleFeatureToggle(feature.key)}
+                      />
+                      <span className="text-sm text-kabul font-sans">{feature.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Rating Filter */}
+              <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
+                <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Vendor rating</h3>
+                <div className="space-y-2">
+                  {['Any', 'Excellent (9.0+)', 'Very good (8.0+)', 'Good (7.0+)'].map((rating) => (
+                    <label key={rating} className="flex items-center cursor-pointer">
+                      <input 
+                        type="radio" 
+                        name="rating"
+                        className="mr-3 w-4 h-4 text-cement border-coral-reef focus:ring-cement"
+                        checked={filters.rating === rating}
+                        onChange={() => handleFilterChange('rating', rating)}
+                      />
+                      <span className="text-sm text-kabul font-sans">{rating}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Availability Filter */}
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
+                <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Availability</h3>
+                <div className="space-y-2">
+                  {['Any time', 'Available this month', 'Available next month', 'Available in 3+ months'].map((availability) => (
+                    <label key={availability} className="flex items-center cursor-pointer">
+                      <input 
+                        type="radio" 
+                        name="availability"
+                        className="mr-3 w-4 h-4 text-cement border-coral-reef focus:ring-cement"
+                        checked={filters.availability === availability}
+                        onChange={() => handleFilterChange('availability', availability)}
+                      />
+                      <span className="text-sm text-kabul font-sans">{availability}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
         {/* Vertical Divider */}
         <div 
           style={{
