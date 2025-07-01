@@ -54,6 +54,43 @@ const SearchPage = () => {
     }));
   };
 
+  // Function to transform backend vendor data to UI format
+  const transformVendorData = (vendor) => {
+    const getRatingText = (rating) => {
+      if (rating >= 9.0) return 'Excellent';
+      if (rating >= 8.0) return 'Very good';
+      if (rating >= 7.0) return 'Good';
+      return 'Average';
+    };
+
+    return {
+      id: vendor.id,
+      name: vendor.business_name,
+      type: vendor.category?.charAt(0).toUpperCase() + vendor.category?.slice(1) || 'Vendor',
+      location: vendor.location || 'Location not specified',
+      features: vendor.packages?.slice(0, 2).map(pkg => pkg.name) || ['Professional service'],
+      description: vendor.description || 'Professional wedding service',
+      details: [
+        `${vendor.years_experience || 0}+ years experience`,
+        `${vendor.service_areas?.length || 1} service areas`,
+        vendor.verified ? 'Verified vendor' : 'Professional service'
+      ],
+      tags: [
+        vendor.featured ? '#featured' : '#professional',
+        vendor.verified ? '#verified' : '#trusted'
+      ],
+      rating: vendor.average_rating || 0,
+      ratingText: getRatingText(vendor.average_rating || 0),
+      reviewCount: `${vendor.total_reviews || 0} reviews`,
+      price: vendor.pricing_from || 0,
+      priceUnit: vendor.pricing_type === 'per_person' ? 'per person' : undefined,
+      image: vendor.gallery_images?.[0] || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    };
+  };
+
+  // Transform vendors data for UI
+  const transformedVendors = vendors.map(transformVendorData);
+
   const getRatingColor = (rating) => {
     if (rating >= 9.0) return 'bg-green-100 text-green-800';
     if (rating >= 8.0) return 'bg-blue-100 text-blue-800';
