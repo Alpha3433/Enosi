@@ -78,47 +78,52 @@ const CouplesDashboard = () => {
       setIsLoading(true);
       setError(null);
 
-      // Fetch couple profile and planning data
-      const [profileResponse, budgetResponse, checklistResponse] = await Promise.allSettled([
-        couplesAPI.getProfile(),
-        planningAPI.getBudgetItems(),
-        planningAPI.getChecklistItems()
-      ]);
+      // Load data from localStorage first (demo mode)
+      const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
+      const budgetKey = `budget_items_${user?.id || 'default'}`;
+      const checklistKey = `checklist_items_${user?.id || 'default'}`;
+      const guestKey = `guests_${user?.id || 'default'}`;
 
-      // Handle profile data
-      if (profileResponse.status === 'fulfilled') {
-        setCoupleProfile(profileResponse.value.data);
-      } else {
-        // Load from localStorage if API fails
-        const coupleProfileKey = `couple_profile_${user?.id || 'default'}`;
-        const savedProfile = localStorage.getItem(coupleProfileKey);
-        if (savedProfile) {
-          setCoupleProfile(JSON.parse(savedProfile));
-        }
+      // Load couple profile
+      const savedProfile = localStorage.getItem(coupleProfileKey);
+      if (savedProfile) {
+        setCoupleProfile(JSON.parse(savedProfile));
       }
 
-      // Handle budget data
-      if (budgetResponse.status === 'fulfilled') {
-        setBudgetItems(budgetResponse.value.data || []);
-      } else {
-        // Load from localStorage if API fails
-        const budgetKey = `budget_items_${user?.id || 'default'}`;
-        const savedBudget = localStorage.getItem(budgetKey);
-        if (savedBudget) {
-          setBudgetItems(JSON.parse(savedBudget));
-        }
+      // Load budget data
+      const savedBudget = localStorage.getItem(budgetKey);
+      if (savedBudget) {
+        setBudgetItems(JSON.parse(savedBudget));
       }
 
-      // Handle checklist data
-      if (checklistResponse.status === 'fulfilled') {
-        setChecklistItems(checklistResponse.value.data || []);
-      } else {
-        // Load from localStorage if API fails
-        const checklistKey = `checklist_items_${user?.id || 'default'}`;
-        const savedChecklist = localStorage.getItem(checklistKey);
-        if (savedChecklist) {
-          setChecklistItems(JSON.parse(savedChecklist));
+      // Load checklist data
+      const savedChecklist = localStorage.getItem(checklistKey);
+      if (savedChecklist) {
+        setChecklistItems(JSON.parse(savedChecklist));
+      }
+
+      // Try API as fallback (but don't rely on it for demo)
+      try {
+        const [profileResponse, budgetResponse, checklistResponse] = await Promise.allSettled([
+          couplesAPI.getProfile(),
+          planningAPI.getBudgetItems(),
+          planningAPI.getChecklistItems()
+        ]);
+
+        // Only use API data if localStorage is empty
+        if (profileResponse.status === 'fulfilled' && !savedProfile) {
+          setCoupleProfile(profileResponse.value.data);
         }
+
+        if (budgetResponse.status === 'fulfilled' && !savedBudget) {
+          setBudgetItems(budgetResponse.value.data || []);
+        }
+
+        if (checklistResponse.status === 'fulfilled' && !savedChecklist) {
+          setChecklistItems(checklistResponse.value.data || []);
+        }
+      } catch (apiErr) {
+        console.log('API not available, using localStorage data');
       }
 
     } catch (err) {
