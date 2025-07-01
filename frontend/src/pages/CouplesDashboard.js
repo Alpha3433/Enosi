@@ -118,6 +118,9 @@ const CouplesDashboard = () => {
     const today = new Date();
     const daysUntilWedding = weddingDate ? Math.ceil((weddingDate - today) / (1000 * 60 * 60 * 24)) : 0;
 
+    // Get saved vendors
+    const savedVendors = coupleProfile?.saved_vendors || [];
+
     return {
       daysUntilWedding: Math.max(0, daysUntilWedding),
       totalBudget,
@@ -125,6 +128,8 @@ const CouplesDashboard = () => {
       budgetRemaining: totalBudget - totalSpent,
       completedTasks,
       totalTasks,
+      savedVendorsCount: savedVendors.length,
+      savedVendors: savedVendors.slice(0, 3), // Show top 3 for dashboard
       weddingDate: weddingDate ? weddingDate.toLocaleDateString('en-AU', { 
         year: 'numeric', 
         month: 'long', 
