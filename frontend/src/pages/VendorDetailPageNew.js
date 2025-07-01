@@ -49,10 +49,10 @@ const VendorDetailPage = () => {
 
   // Transform backend data to UI format
   const vendor = vendorData ? {
-    id: vendorId,
-    name: "Elegant Garden Venues",
-    location: "Sydney, NSW",
-    rating: 4.8,
+    id: vendorData.id,
+    name: vendorData.business_name,
+    location: vendorData.location,
+    rating: vendorData.average_rating || 0,
     reviewCount: "124 reviews",
     ratingText: "Excellent",
     price: 2500,
