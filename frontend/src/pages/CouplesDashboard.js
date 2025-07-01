@@ -40,6 +40,13 @@ if (typeof window !== 'undefined' && !window.match) {
 const CouplesDashboard = () => {
   const navigate = useNavigate();
   const { isAuthenticated, user, logout } = useAuth();
+  const { 
+    createQuoteNotification, 
+    createMessageNotification, 
+    createBookingNotification, 
+    createMeetingNotification, 
+    createTaskNotification 
+  } = useNotifications();
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const [coupleProfile, setCoupleProfile] = useState(null);
