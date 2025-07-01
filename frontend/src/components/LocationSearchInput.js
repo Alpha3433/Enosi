@@ -197,16 +197,16 @@ const LocationSearchInput = ({
                   
                   {/* Content */}
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-millbrook text-sm truncate leading-tight">
+                    <p className="font-semibold text-millbrook text-sm leading-tight whitespace-nowrap">
                       {location.name}
                     </p>
                     <div className="flex items-center mt-1">
-                      <p className="text-xs text-napa capitalize">
+                      <p className="text-xs text-napa capitalize whitespace-nowrap">
                         {location.region}
                       </p>
                       <span className="mx-2 text-coral-reef text-xs">•</span>
                       <span className={`
-                        text-xs px-2 py-0.5 rounded-full font-medium
+                        text-xs px-2 py-0.5 rounded-full font-medium whitespace-nowrap
                         ${location.type === 'city' ? 'bg-cement/10 text-cement' : ''}
                         ${location.type === 'region' ? 'bg-tallow/20 text-kabul' : ''}
                         ${location.type === 'beach' ? 'bg-blue-50 text-blue-700' : ''}
