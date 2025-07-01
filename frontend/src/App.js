@@ -78,7 +78,7 @@ function App() {
               <Route path="/inspiration" element={<InspirationPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/search" element={<SearchPageNew />} />
-            <Route path="/search-old" element={<SearchPage />} />
+            {/* <Route path="/search-old" element={<SearchPage />} /> */}
               <Route path="/vendors/:vendorId" element={<VendorDetailPageNew />} />
               <Route path="/vendors/:vendorId/gallery" element={<GalleryPage />} />
               <Route path="/login" element={<LoginPage />} />
