@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full bg-white rounded-2xl shadow-lg p-8">
+        <div id="onboarding-container">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl font-bold text-gray-800">Enosi</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="step-indicator" class="text-sm text-gray-600">Step 1 of 5</span>
+                    <button id="skip-button" class="text-sm text-gray-500 hover:text-gray-700 transition-colors">
+                        Skip for now
+                    </button>
+                    <button id="close-button" class="text-gray-600 hover:text-gray-800 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-8">
+                <div id="progress-bar" class="bg-blue-500 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+            </div>
+
+            <!-- Step Content -->
+            <div id="step-content" class="mb-8">
+                <!-- Step 1 Content -->
+                <div id="step-1" class="space-y-6">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Let's get to know you!</h2>
+                        <p class="text-gray-600">Tell us about yourselves so we can personalize your experience</p>
+                        <p class="text-sm text-gray-500 mt-2">This will only take 2 minutes</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                First partner's name
+                            </label>
+                            <input
+                                type="text"
+                                id="partner1-name"
+                                placeholder="Enter first name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Second partner's name
+                            </label>
+                            <input
+                                type="text"
+                                id="partner2-name"
+                                placeholder="Enter first name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 Content -->
+                <div id="step-2" class="space-y-6 hidden">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Where's the magic happening?</h2>
+                        <p class="text-gray-600">Help us find vendors in your area</p>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Wedding location
+                            </label>
+                            <select
+                                id="wedding-location"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Select your location</option>
+                                <option value="New South Wales">New South Wales</option>
+                                <option value="Victoria">Victoria</option>
+                                <option value="Queensland">Queensland</option>
+                                <option value="Western Australia">Western Australia</option>
+                                <option value="South Australia">South Australia</option>
+                                <option value="Tasmania">Tasmania</option>
+                                <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                <option value="Northern Territory">Northern Territory</option>
+                                <option value="Other">Other / International</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Wedding date (if known)
+                                </label>
+                                <input
+                                    type="date"
+                                    id="wedding-date"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                />
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Or timeframe
+                                </label>
+                                <select
+                                    id="wedding-timeframe"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                >
+                                    <option value="">Select timeframe</option>
+                                    <option value="Next 3 months">Next 3 months</option>
+                                    <option value="3-6 months">3-6 months</option>
+                                    <option value="6-12 months">6-12 months</option>
+                                    <option value="1-2 years">1-2 years</option>
+                                    <option value="2+ years">2+ years</option>
+                                    <option value="Just browsing">Just browsing</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 Content -->
+                <div id="step-3" class="space-y-6 hidden">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Let's talk numbers</h2>
+                        <p class="text-gray-600">This helps us find vendors that match your scale and budget</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Estimated guest count
+                            </label>
+                            <select
+                                id="guest-count"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Select guest count</option>
+                                <option value="Under 25">Intimate (Under 25)</option>
+                                <option value="25-50">Small (25-50)</option>
+                                <option value="50-100">Medium (50-100)</option>
+                                <option value="100-150">Large (100-150)</option>
+                                <option value="150+">Very Large (150+)</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                Budget type
+                            </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                    <input
+                                        type="radio"
+                                        name="budget_type"
+                                        value="per_vendor"
+                                        class="mr-3 w-4 h-4 text-blue-500 border-gray-300 focus:ring-blue-500"
+                                    />
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-700">Per vendor</span>
+                                        <p class="text-xs text-gray-500">Budget for each vendor category</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
+                                    <input
+                                        type="radio"
+                                        name="budget_type"
+                                        value="total"
+                                        class="mr-3 w-4 h-4 text-blue-500 border-gray-300 focus:ring-blue-500"
+                                    />
+                                    <div>
+                                        <span class="text-sm font-medium text-gray-700">Total wedding</span>
+                                        <p class="text-xs text-gray-500">Overall wedding budget</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="budget-range-container" class="hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Budget range <span id="budget-range-type"></span>
+                            </label>
+                            <select
+                                id="budget-range"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Select budget range</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 Content -->
+                <div id="step-4" class="space-y-6 hidden">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">What vendors do you need?</h2>
+                        <p class="text-gray-600">Select all the vendor categories you're interested in</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3" id="vendor-categories">
+                        <!-- Vendor categories will be added here by JavaScript -->
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                What's your top 3 planning priorities? (Select up to 3)
+                            </label>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2" id="planning-priorities">
+                                <!-- Planning priorities will be added here by JavaScript -->
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">
+                                Selected: <span id="priorities-count">0</span>/3
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 Content -->
+                <div id="step-5" class="space-y-6 hidden">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Almost done!</h2>
+                        <p class="text-gray-600">Just a couple more questions to personalize your experience</p>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-3">
+                                How far along are you in your planning?
+                            </label>
+                            <div class="space-y-3" id="planning-progress">
+                                <!-- Planning progress options will be added here by JavaScript -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                How did you hear about Enosi? (Optional)
+                            </label>
+                            <select
+                                id="referral-source"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Select an option</option>
+                                <option value="google_search">Google search</option>
+                                <option value="social_media">Social media</option>
+                                <option value="friend_family">Friend or family</option>
+                                <option value="vendor_referral">Vendor referral</option>
+                                <option value="wedding_website">Wedding website/blog</option>
+                                <option value="advertisement">Advertisement</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="flex justify-between items-center">
+                <button
+                    id="back-button"
+                    disabled
+                    class="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors text-gray-400 cursor-not-allowed"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Back</span>
+                </button>
+
+                <button
+                    id="continue-button"
+                    class="flex items-center space-x-2 px-6 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors font-medium"
+                >
+                    <span>Continue</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Reassuring Message -->
+            <p class="text-center text-xs text-gray-500 mt-4">
+                We'll use this to make your planning easier • Nothing's locked in – you can update this later
+            </p>
+        </div>
+
+        <!-- Completion Message (Hidden initially) -->
+        <div id="completion-message" class="text-center py-8 hidden">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-3">Onboarding Complete!</h2>
+            <p class="text-gray-600 mb-6">Thank you for sharing your information. We've personalized your experience based on your preferences.</p>
+            <div class="bg-gray-50 p-4 rounded-lg mb-6 text-left">
+                <h3 class="font-medium text-gray-800 mb-2">Your Preferences:</h3>
+                <ul id="preferences-summary" class="text-sm text-gray-600 space-y-1">
+                    <!-- Preferences will be added here -->
+                </ul>
+            </div>
+            <button id="finish-button" class="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-medium">
+                Go to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Data
+        const vendorCategories = [
+            { key: 'venue', label: 'Venues', icon: '🏛️' },
+            { key: 'photographer', label: 'Photography', icon: '📸' },
+            { key: 'videographer', label: 'Videography', icon: '🎥' },
+            { key: 'catering', label: 'Catering', icon: '🍽️' },
+            { key: 'florist', label: 'Florists', icon: '🌸' },
+            { key: 'music', label: 'Music & Entertainment', icon: '🎵' },
+            { key: 'makeup', label: 'Hair & Makeup', icon: '💄' },
+            { key: 'decorator', label: 'Decoration', icon: '🎨' },
+            { key: 'transport', label: 'Transportation', icon: '🚗' },
+            { key: 'celebrant', label: 'Celebrant', icon: '👥' },
+            { key: 'stationery', label: 'Stationery', icon: '📋' }
+        ];
+
+        const planningPriorities = [
+            'Staying on budget',
+            'Beautiful aesthetic',
+            'Easy communication',
+            'Reliability & punctuality',
+            'Unique & creative ideas',
+            'Local vendors',
+            'Eco-friendly options',
+            'Quick responses',
+            'Package deals',
+            'Flexible booking'
+        ];
+
+        const planningProgressOptions = [
+            { value: 'just_browsing', label: 'Just browsing - early stages' },
+            { value: 'some_research', label: 'Done some research, ready to book' },
+            { value: 'some_vendors', label: 'Have booked some vendors already' },
+            { value: 'nearly_done', label: 'Nearly done, just need a few more' }
+        ];
+
+        const budgetRanges = {
+            per_vendor: [
+                'Under $1,000',
+                '$1,000 - $2,500',
+                '$2,500 - $5,000',
+                '$5,000 - $10,000',
+                'Over $10,000'
+            ],
+            total: [
+                'Under $10,000',
+                '$10,000 - $20,000',
+                '$20,000 - $35,000',
+                '$35,000 - $50,000',
+                '$50,000 - $75,000',
+                'Over $75,000'
+            ]
+        };
+
+        // State
+        let currentStep = 1;
+        const totalSteps = 5;
+        const formData = {
+            partner1_name: '',
+            partner2_name: '',
+            wedding_location: '',
+            wedding_date: '',
+            wedding_timeframe: '',
+            guest_count: '',
+            budget_type: '',
+            budget_range: '',
+            vendor_categories: [],
+            planning_priorities: [],
+            planning_progress: '',
+            referral_source: ''
+        };
+
+        // DOM Elements
+        const stepIndicator = document.getElementById('step-indicator');
+        const progressBar = document.getElementById('progress-bar');
+        const backButton = document.getElementById('back-button');
+        const continueButton = document.getElementById('continue-button');
+        const skipButton = document.getElementById('skip-button');
+        const closeButton = document.getElementById('close-button');
+        const onboardingContainer = document.getElementById('onboarding-container');
+        const completionMessage = document.getElementById('completion-message');
+        const preferencesSummary = document.getElementById('preferences-summary');
+        const finishButton = document.getElementById('finish-button');
+
+        // Initialize
+        function init() {
+            updateProgressBar();
+            populateVendorCategories();
+            populatePlanningPriorities();
+            populatePlanningProgress();
+            setupEventListeners();
+        }
+
+        // Event Listeners
+        function setupEventListeners() {
+            // Navigation buttons
+            backButton.addEventListener('click', goToPreviousStep);
+            continueButton.addEventListener('click', goToNextStep);
+            skipButton.addEventListener('click', skipOnboarding);
+            closeButton.addEventListener('click', skipOnboarding);
+            finishButton.addEventListener('click', finishOnboarding);
+
+            // Step 1 inputs
+            document.getElementById('partner1-name').addEventListener('input', e => {
+                formData.partner1_name = e.target.value;
+                validateCurrentStep();
+            });
+            document.getElementById('partner2-name').addEventListener('input', e => {
+                formData.partner2_name = e.target.value;
+                validateCurrentStep();
+            });
+
+            // Step 2 inputs
+            document.getElementById('wedding-location').addEventListener('change', e => {
+                formData.wedding_location = e.target.value;
+                validateCurrentStep();
+            });
+            document.getElementById('wedding-date').addEventListener('change', e => {
+                formData.wedding_date = e.target.value;
+                validateCurrentStep();
+            });
+            document.getElementById('wedding-timeframe').addEventListener('change', e => {
+                formData.wedding_timeframe = e.target.value;
+                validateCurrentStep();
+            });
+
+            // Step 3 inputs
+            document.getElementById('guest-count').addEventListener('change', e => {
+                formData.guest_count = e.target.value;
+                validateCurrentStep();
+            });
+            document.querySelectorAll('input[name="budget_type"]').forEach(radio => {
+                radio.addEventListener('change', e => {
+                    formData.budget_type = e.target.value;
+                    updateBudgetRanges();
+                    validateCurrentStep();
+                });
+            });
+            document.getElementById('budget-range').addEventListener('change', e => {
+                formData.budget_range = e.target.value;
+                validateCurrentStep();
+            });
+
+            // Step 5 inputs
+            document.getElementById('referral-source').addEventListener('change', e => {
+                formData.referral_source = e.target.value;
+                validateCurrentStep();
+            });
+        }
+
+        // Navigation
+        function goToNextStep() {
+            if (currentStep < totalSteps) {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep++;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                updateProgressBar();
+                updateNavButtons();
+                
+                // Update continue button text for last step
+                if (currentStep === totalSteps) {
+                    continueButton.querySelector('span').textContent = 'Complete Setup';
+                }
+            } else {
+                completeOnboarding();
+            }
+        }
+
+        function goToPreviousStep() {
+            if (currentStep > 1) {
+                document.getElementById(`step-${currentStep}`).classList.add('hidden');
+                currentStep--;
+                document.getElementById(`step-${currentStep}`).classList.remove('hidden');
+                updateProgressBar();
+                updateNavButtons();
+                
+                // Reset continue button text
+                continueButton.querySelector('span').textContent = 'Continue';
+            }
+        }
+
+        function updateProgressBar() {
+            stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
+            progressBar.style.width = `${(currentStep / totalSteps) * 100}%`;
+        }
+
+        function updateNavButtons() {
+            if (currentStep === 1) {
+                backButton.disabled = true;
+                backButton.classList.add('text-gray-400', 'cursor-not-allowed');
+                backButton.classList.remove('text-gray-600', 'hover:text-gray-800');
+            } else {
+                backButton.disabled = false;
+                backButton.classList.remove('text-gray-400', 'cursor-not-allowed');
+                backButton.classList.add('text-gray-600', 'hover:text-gray-800');
+            }
+            
+            validateCurrentStep();
+        }
+
+        // Validation
+        function validateCurrentStep() {
+            let isValid = false;
+            
+            switch (currentStep) {
+                case 1:
+                    isValid = formData.partner1_name.trim() !== '' || formData.partner2_name.trim() !== '';
+                    break;
+                case 2:
+                    isValid = formData.wedding_location !== '' || formData.wedding_timeframe !== '';
+                    break;
+                case 3:
+                    isValid = formData.guest_count !== '' || formData.budget_range !== '';
+                    break;
+                case 4:
+                    isValid = formData.vendor_categories.length > 0;
+                    break;
+                case 5:
+                    isValid = formData.planning_progress !== '';
+                    break;
+                default:
+                    isValid = true;
+            }
+            
+            if (isValid) {
+                continueButton.disabled = false;
+                continueButton.classList.remove('bg-gray-400');
+                continueButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            } else {
+                continueButton.disabled = true;
+                continueButton.classList.remove('bg-blue-500', 'hover:bg-blue-600');
+                continueButton.classList.add('bg-gray-400');
+            }
+            
+            return isValid;
+        }
+
+        // Populate dynamic content
+        function populateVendorCategories() {
+            const container = document.getElementById('vendor-categories');
+            
+            vendorCategories.forEach(category => {
+                const label = document.createElement('label');
+                label.className = 'flex flex-col items-center p-4 border border-gray-300 rounded-lg cursor-pointer transition-all duration-200 hover:bg-gray-50';
+                label.dataset.key = category.key;
+                
+                label.innerHTML = `
+                    <input type="checkbox" class="sr-only vendor-category-checkbox" value="${category.key}">
+                    <span class="text-2xl mb-2">${category.icon}</span>
+                    <span class="text-sm text-center font-medium">${category.label}</span>
+                `;
+                
+                label.addEventListener('click', () => {
+                    const isSelected = formData.vendor_categories.includes(category.key);
+                    
+                    if (isSelected) {
+                        formData.vendor_categories = formData.vendor_categories.filter(key => key !== category.key);
+                        label.classList.remove('border-blue-500', 'bg-blue-50', 'text-blue-500');
+                    } else {
+                        formData.vendor_categories.push(category.key);
+                        label.classList.add('border-blue-500', 'bg-blue-50', 'text-blue-500');
+                    }
+                    
+                    validateCurrentStep();
+                });
+                
+                container.appendChild(label);
+            });
+        }
+
+        function populatePlanningPriorities() {
+            const container = document.getElementById('planning-priorities');
+            const prioritiesCount = document.getElementById('priorities-count');
+            
+            planningPriorities.forEach(priority => {
+                const label = document.createElement('label');
+                label.className = 'flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer transition-colors hover:bg-gray-50';
+                
+                label.innerHTML = `
+                    <input type="checkbox" class="mr-3 w-4 h-4 text-blue-500 border-gray-300 rounded focus:ring-blue-500 priority-checkbox" value="${priority}">
+                    <span class="text-sm text-gray-600">${priority}</span>
+                `;
+                
+                const checkbox = label.querySelector('input');
+                
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        if (formData.planning_priorities.length >= 3) {
+                            checkbox.checked = false;
+                            return;
+                        }
+                        formData.planning_priorities.push(priority);
+                    } else {
+                        formData.planning_priorities = formData.planning_priorities.filter(p => p !== priority);
+                    }
+                    
+                    prioritiesCount.textContent = formData.planning_priorities.length;
+                    
+                    // Disable checkboxes if 3 are selected
+                    document.querySelectorAll('.priority-checkbox').forEach(cb => {
+                        if (!cb.checked && formData.planning_priorities.length >= 3) {
+                            cb.disabled = true;
+                            cb.parentElement.classList.add('opacity-50');
+                        } else {
+                            cb.disabled = false;
+                            cb.parentElement.classList.remove('opacity-50');
+                        }
+                    });
+                });
+                
+                container.appendChild(label);
+            });
+        }
+
+        function populatePlanningProgress() {
+            const container = document.getElementById('planning-progress');
+            
+            planningProgressOptions.forEach(option => {
+                const label = document.createElement('label');
+                label.className = 'flex items-center p-4 border border-gray-300 rounded-lg cursor-pointer transition-colors hover:bg-gray-50';
+                
+                label.innerHTML = `
+                    <input type="radio" name="planning_progress" value="${option.value}" class="mr-3 w-4 h-4 text-blue-500 border-gray-300 focus:ring-blue-500">
+                    <span class="text-sm text-gray-600">${option.label}</span>
+                `;
+                
+                const radio = label.querySelector('input');
+                
+                radio.addEventListener('change', () => {
+                    formData.planning_progress = option.value;
+                    
+                    // Update styling for selected option
+                    document.querySelectorAll('#planning-progress label').forEach(lbl => {
+                        lbl.classList.remove('border-blue-500', 'bg-blue-50');
+                    });
+                    label.classList.add('border-blue-500', 'bg-blue-50');
+                    
+                    validateCurrentStep();
+                });
+                
+                container.appendChild(label);
+            });
+        }
+
+        function updateBudgetRanges() {
+            const budgetRangeContainer = document.getElementById('budget-range-container');
+            const budgetRangeSelect = document.getElementById('budget-range');
+            const budgetRangeType = document.getElementById('budget-range-type');
+            
+            if (formData.budget_type) {
+                budgetRangeContainer.classList.remove('hidden');
+                
+                // Clear existing options
+                budgetRangeSelect.innerHTML = '<option value="">Select budget range</option>';
+                
+                // Set type label
+                budgetRangeType.textContent = formData.budget_type === 'per_vendor' ? '(per vendor)' : '(total wedding)';
+                
+                // Add new options
+                budgetRanges[formData.budget_type].forEach(range => {
+                    const option = document.createElement('option');
+                    option.value = range;
+                    option.textContent = range;
+                    budgetRangeSelect.appendChild(option);
+                });
+            } else {
+                budgetRangeContainer.classList.add('hidden');
+            }
+        }
+
+        // Completion
+        function completeOnboarding() {
+            onboardingContainer.classList.add('hidden');
+            completionMessage.classList.remove('hidden');
+            
+            // Populate preferences summary
+            const summaryItems = [];
+            
+            if (formData.partner1_name || formData.partner2_name) {
+                const names = [formData.partner1_name, formData.partner2_name].filter(Boolean).join(' & ');
+                summaryItems.push(`<li>Partners: ${names}</li>`);
+            }
+            
+            if (formData.wedding_location) {
+                summaryItems.push(`<li>Location: ${formData.wedding_location}</li>`);
+            }
+            
+            if (formData.wedding_date) {
+                summaryItems.push(`<li>Wedding Date: ${formData.wedding_date}</li>`);
+            } else if (formData.wedding_timeframe) {
+                summaryItems.push(`<li>Timeframe: ${formData.wedding_timeframe}</li>`);
+            }
+            
+            if (formData.guest_count) {
+                summaryItems.push(`<li>Guest Count: ${formData.guest_count}</li>`);
+            }
+            
+            if (formData.budget_range) {
+                summaryItems.push(`<li>Budget: ${formData.budget_range} ${formData.budget_type === 'per_vendor' ? '(per vendor)' : '(total)'}</li>`);
+            }
+            
+            if (formData.vendor_categories.length > 0) {
+                const vendorLabels = formData.vendor_categories.map(key => {
+                    const category = vendorCategories.find(c => c.key === key);
+                    return category ? category.label : key;
+                });
+                summaryItems.push(`<li>Vendors Needed: ${vendorLabels.join(', ')}</li>`);
+            }
+            
+            if (formData.planning_priorities.length > 0) {
+                summaryItems.push(`<li>Priorities: ${formData.planning_priorities.join(', ')}</li>`);
+            }
+            
+            preferencesSummary.innerHTML = summaryItems.join('');
+            
+            // Save to localStorage (simulating backend storage)
+            localStorage.setItem('onboarding_data', JSON.stringify({
+                ...formData,
+                completed_at: new Date().toISOString()
+            }));
+            localStorage.setItem('onboarding_completed', 'true');
+            
+            console.log('Onboarding completed with data:', formData);
+        }
+
+        function skipOnboarding() {
+            localStorage.setItem('onboarding_completed', 'true');
+            finishOnboarding();
+        }
+
+        function finishOnboarding() {
+            alert('Onboarding complete! You would now be redirected to the dashboard.');
+            window.location.href = '/';
+        }
+
+        // Initialize the app
+        init();
+    </script>
+</body>
+</html>
