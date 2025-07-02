@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNotifications } from '../contexts/NotificationContext';
+import { useOnboarding } from '../hooks/useOnboarding';
 import { couplesAPI, planningAPI } from '../services/api';
 import NotificationDropdown from '../components/NotificationDropdown';
 
