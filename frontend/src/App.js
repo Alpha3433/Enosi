@@ -292,8 +292,8 @@ function App() {
           </BrowserRouter>
           </RouterErrorBoundary>
         </div>
-          </OnboardingWrapper>
-          </NotificationProvider>
+        </OnboardingWrapper>
+        </NotificationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
