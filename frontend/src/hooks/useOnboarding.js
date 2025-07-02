@@ -37,32 +37,36 @@ export const useOnboarding = () => {
   }, [isAuthenticated, user]);
 
   const checkOnboardingStatus = () => {
-    if (!user?.id) return;
+    try {
+      if (!user?.id) return;
 
-    console.log('Checking onboarding status for user:', user.id);
-    
-    // Check if onboarding has been completed
-    const onboardingCompleted = localStorage.getItem(`onboarding_completed_${user.id}`);
-    console.log('onboarding_completed flag:', onboardingCompleted);
-    
-    // Check if this is a new user (just signed up)
-    const isNewUser = localStorage.getItem(`new_user_${user.id}`);
-    console.log('new_user flag:', isNewUser);
-    
-    if (!onboardingCompleted && isNewUser) {
-      console.log('Setting shouldShowOnboarding to true');
-      setShouldShowOnboarding(true);
-      // Clear the new user flag after checking
-      localStorage.removeItem(`new_user_${user.id}`);
-      console.log('Cleared new_user flag');
-    } else {
-      console.log('Not showing onboarding modal. onboardingCompleted:', onboardingCompleted, 'isNewUser:', isNewUser);
-    }
+      console.log('Checking onboarding status for user:', user.id);
+      
+      // Check if onboarding has been completed
+      const onboardingCompleted = localStorage.getItem(`onboarding_completed_${user.id}`);
+      console.log('onboarding_completed flag:', onboardingCompleted);
+      
+      // Check if this is a new user (just signed up)
+      const isNewUser = localStorage.getItem(`new_user_${user.id}`);
+      console.log('new_user flag:', isNewUser);
+      
+      if (!onboardingCompleted && isNewUser) {
+        console.log('Setting shouldShowOnboarding to true');
+        setShouldShowOnboarding(true);
+        // Clear the new user flag after checking
+        localStorage.removeItem(`new_user_${user.id}`);
+        console.log('Cleared new_user flag');
+      } else {
+        console.log('Not showing onboarding modal. onboardingCompleted:', onboardingCompleted, 'isNewUser:', isNewUser);
+      }
 
-    // Load existing onboarding data if available
-    const existingData = localStorage.getItem(`onboarding_data_${user.id}`);
-    if (existingData) {
-      setOnboardingData(JSON.parse(existingData));
+      // Load existing onboarding data if available
+      const existingData = localStorage.getItem(`onboarding_data_${user.id}`);
+      if (existingData) {
+        setOnboardingData(JSON.parse(existingData));
+      }
+    } catch (error) {
+      console.error('Error in checkOnboardingStatus:', error);
     }
   };
 
