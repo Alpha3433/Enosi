@@ -90,6 +90,36 @@ if (typeof window !== 'undefined') {
     }
     return originalConsoleError.apply(this, args);
   };
+  
+  // Monkey patch the initStripe function to handle missing match property
+  if (typeof window !== 'undefined') {
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        try {
+          // Find the initStripe function in the global scope or in any module
+          const originalInitStripe = window.initStripe;
+          if (originalInitStripe) {
+            window.initStripe = function(...args) {
+              // Ensure match object exists before calling original function
+              if (!window.match) {
+                window.match = createMatchObject();
+              }
+              try {
+                return originalInitStripe.apply(this, args);
+              } catch (error) {
+                console.warn('Handled error in initStripe:', error);
+                // Return a mock result to prevent further errors
+                return { success: false, error: 'Handled initStripe error' };
+              }
+            };
+            console.log('Successfully patched initStripe function');
+          }
+        } catch (e) {
+          console.warn('Failed to patch initStripe function:', e);
+        }
+      }, 500); // Delay to ensure the bundle is fully loaded
+    });
+  }
 }
 
 // Import pages
