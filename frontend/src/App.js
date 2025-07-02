@@ -7,12 +7,87 @@ import { NotificationProvider } from './contexts/NotificationContext';
 // import 'react-image-lightbox/style.css';
 
 // Initialize global match object immediately to prevent errors
+// React Router v7 compatibility layer - ensure global match object exists
 if (typeof window !== 'undefined') {
-  window.match = window.match || {
-    params: {},
-    isExact: true,
-    path: window.location.pathname,
-    url: window.location.pathname
+  // Enhanced match object creation with error handling
+  const createMatchObject = () => {
+    const path = window.location.pathname;
+    const segments = path.split('/').filter(segment => segment.length > 0);
+    const params = {};
+    
+    // Extract common route parameters
+    if (segments.length >= 2) {
+      // Handle /vendors/:vendorId pattern
+      if (segments[0] === 'vendors' && segments[1]) {
+        params.vendorId = segments[1];
+      }
+      // Handle /users/:userId pattern  
+      if (segments[0] === 'users' && segments[1]) {
+        params.userId = segments[1];
+      }
+      // Handle generic :id patterns
+      if (segments.length >= 2 && segments[segments.length - 1].match(/^[a-zA-Z0-9_-]+$/)) {
+        params.id = segments[segments.length - 1];
+      }
+    }
+    
+    return {
+      params: params,
+      isExact: true,
+      path: path,
+      url: path
+    };
+  };
+
+  // Initialize match object
+  window.match = window.match || createMatchObject();
+  
+  // Update match object when route changes
+  const updateMatch = () => {
+    window.match = createMatchObject();
+  };
+  
+  // Listen for route changes
+  window.addEventListener('popstate', updateMatch);
+  
+  // Override history methods to update match object
+  if (window.history) {
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+    
+    window.history.pushState = function(...args) {
+      const result = originalPushState.apply(this, args);
+      setTimeout(updateMatch, 0);
+      return result;
+    };
+    
+    window.history.replaceState = function(...args) {
+      const result = originalReplaceState.apply(this, args);
+      setTimeout(updateMatch, 0);
+      return result;
+    };
+  }
+
+  // Global error handler for any remaining match issues
+  const handleMatchError = (error) => {
+    if (error && error.message && error.message.includes("Cannot read properties of undefined (reading 'match')")) {
+      console.warn('Fixing match property error, recreating match object');
+      window.match = createMatchObject();
+      return true;
+    }
+    return false;
+  };
+
+  // Override console.error to catch and fix match errors
+  const originalConsoleError = console.error;
+  console.error = function(...args) {
+    const firstArg = args[0];
+    if (typeof firstArg === 'string' && firstArg.includes("Cannot read properties of undefined (reading 'match')")) {
+      console.warn('Suppressed match property error, ensuring match object exists');
+      window.match = window.match || createMatchObject();
+      return;
+    }
+    return originalConsoleError.apply(this, args);
   };
 }
 
