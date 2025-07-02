@@ -471,24 +471,6 @@ const SearchPageNew = () => {
                 </p>
               </div>
 
-              {/* Your Previous Filters */}
-              {previousFilters.length > 0 && (
-                <div className="mb-6">
-                  <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your previous filters</h3>
-                  <div className="space-y-2">
-                    {previousFilters.map((filter, index) => (
-                      <button
-                        key={index}
-                        onClick={() => applyPreviousFilter(filter)}
-                        className="block w-full text-left text-sm text-kabul hover:text-cement transition-colors font-sans p-2 hover:bg-linen rounded-lg"
-                      >
-                        {filter}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* Budget Filter */}
               <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
                 <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your budget (per vendor)</h3>
