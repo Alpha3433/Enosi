@@ -85,18 +85,6 @@ const SearchPageNew = () => {
     localStorage.setItem(coupleProfileKey, JSON.stringify(profile));
   };
 
-  const saveCurrentFilters = () => {
-    const currentFilterString = `${filters.location || 'All locations'} • ${filters.vendorType || 'All vendors'} • ${filters.weddingDate || 'Any date'} • ${filters.guestCount || 'Any guests'}`;
-    const previousFiltersKey = `previous_filters_${user?.id || 'default'}`;
-    const existing = JSON.parse(localStorage.getItem(previousFiltersKey) || '[]');
-    
-    if (!existing.includes(currentFilterString)) {
-      const updated = [currentFilterString, ...existing].slice(0, 5); // Keep only 5 recent searches
-      setPreviousFilters(updated);
-      localStorage.setItem(previousFiltersKey, JSON.stringify(updated));
-    }
-  };
-
   const fetchVendors = async () => {
     setIsLoading(true);
     setError(null);
@@ -130,7 +118,6 @@ const SearchPageNew = () => {
       
       const response = await vendorsAPI.search(apiParams);
       setVendors(response.data || []);
-      saveCurrentFilters();
     } catch (err) {
       console.error('Error fetching vendors:', err);
       setError(err);
