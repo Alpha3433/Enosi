@@ -137,7 +137,7 @@ const SearchPageNew = () => {
 
   useEffect(() => {
     fetchVendors();
-  }, [filters.vendorType, filters.location, filters.rating, filters.features]);
+  }, [filters.vendorType, filters.location, filters.rating, filters.features, filters.priceMin, filters.priceMax]);
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
