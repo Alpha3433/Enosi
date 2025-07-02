@@ -161,6 +161,7 @@ import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import CouplesOnboarding from './components/CouplesOnboarding';
 import OnboardingWrapper from './components/OnboardingWrapper';
+import OnboardingTester from './components/OnboardingTester';
 
 // Create a client
 const queryClient = new QueryClient({
