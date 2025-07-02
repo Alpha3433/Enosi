@@ -116,6 +116,74 @@
         // Make params globally accessible for any legacy code
         window.routeParams = params;
         
+        // Immediate patch for initStripe function (before it's called)
+        const originalSetTimeout = window.setTimeout;
+        window.setTimeout = function(callback, delay, ...args) {
+          const wrappedCallback = function() {
+            try {
+              // Ensure match object exists before any callback execution
+              if (!window.match) {
+                window.match = {
+                  params: getParamsFromPath(),
+                  isExact: true,
+                  path: window.location.pathname,
+                  url: window.location.pathname
+                };
+              }
+              return callback.apply(this, arguments);
+            } catch (error) {
+              if (error.message && error.message.includes("Cannot read properties of undefined (reading 'match')")) {
+                console.warn('Suppressed match property error in setTimeout callback:', error.message);
+                return;
+              }
+              throw error;
+            }
+          };
+          return originalSetTimeout.call(this, wrappedCallback, delay, ...args);
+        };
+        
+        // Immediate initStripe patching
+        let stripePatched = false;
+        const patchInitStripe = () => {
+          if (!stripePatched && typeof window.initStripe === 'function') {
+            const originalInitStripe = window.initStripe;
+            window.initStripe = function(...args) {
+              try {
+                // Ensure match object exists
+                if (!window.match) {
+                  window.match = {
+                    params: getParamsFromPath(),
+                    isExact: true,
+                    path: window.location.pathname,
+                    url: window.location.pathname
+                  };
+                }
+                return originalInitStripe.apply(this, args);
+              } catch (error) {
+                console.error('Error in patched initStripe:', error);
+                // Return a dummy function that does nothing
+                return function() {};
+              }
+            };
+            stripePatched = true;
+            console.log('Patched initStripe function to handle missing match property');
+          }
+        };
+        
+        // Try to patch immediately and on intervals
+        patchInitStripe();
+        const patchInterval = setInterval(() => {
+          patchInitStripe();
+          if (stripePatched) {
+            clearInterval(patchInterval);
+          }
+        }, 10);
+        
+        // Stop trying after 5 seconds
+        setTimeout(() => {
+          clearInterval(patchInterval);
+        }, 5000);
+        
         // Update on route changes
         const updateRouterGlobals = () => {
           const newParams = getParamsFromPath();
