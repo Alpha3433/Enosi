@@ -2,14 +2,37 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
 export const useOnboarding = () => {
-  const { user, isAuthenticated } = useAuth();
+  let authHookResult;
+  
+  try {
+    authHookResult = useAuth();
+  } catch (error) {
+    console.error('useAuth failed in useOnboarding:', error);
+    // Return a default state if auth hook fails
+    return {
+      shouldShowOnboarding: false,
+      onboardingData: null,
+      completeOnboarding: () => {},
+      skipOnboarding: () => {},
+      markAsNewUser: () => {},
+      getPersonalizedFilters: () => ({}),
+      getPersonalizedMessage: () => null,
+      getRecommendedActions: () => []
+    };
+  }
+
+  const { user, isAuthenticated } = authHookResult;
   const [shouldShowOnboarding, setShouldShowOnboarding] = useState(false);
   const [onboardingData, setOnboardingData] = useState(null);
 
   useEffect(() => {
-    if (isAuthenticated && user && user.user_type === 'couple') {
-      console.log('useOnboarding useEffect triggered for couple user:', user.id);
-      checkOnboardingStatus();
+    try {
+      if (isAuthenticated && user && user.user_type === 'couple') {
+        console.log('useOnboarding useEffect triggered for couple user:', user.id);
+        checkOnboardingStatus();
+      }
+    } catch (error) {
+      console.error('Error in useOnboarding useEffect:', error);
     }
   }, [isAuthenticated, user]);
 
