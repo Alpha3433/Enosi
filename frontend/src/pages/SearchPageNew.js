@@ -48,7 +48,6 @@ const SearchPageNew = () => {
     availability: ''
   });
   const [savedVendors, setSavedVendors] = useState([]);
-  const [previousFilters, setPreviousFilters] = useState([]);
 
   // Get saved vendors from localStorage
   const getSavedVendorsKey = () => `saved_vendors_${user?.id || 'default'}`;
