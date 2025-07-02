@@ -336,8 +336,8 @@ const SearchPageNew = () => {
 
       {/* Search Bar - Booking.com style */}
       <div className="bg-millbrook py-6">
-        <div className="container mx-auto px-6">
-          <div className="flex items-center space-x-4 bg-white rounded-lg p-2 shadow-lg max-w-6xl">
+        <div className="container mx-auto px-6 flex justify-center">
+          <div className="flex items-center space-x-4 bg-white rounded-lg p-2 shadow-lg max-w-6xl w-full">
             <div className="flex-1 flex items-center space-x-4">
               <div className="flex-1">
                 <div className="relative">
@@ -360,11 +360,15 @@ const SearchPageNew = () => {
                 >
                   <option value="">All vendors</option>
                   <option value="venue">Venues</option>
-                  <option value="photographer">Photographers</option>
+                  <option value="photographer">Photography</option>
                   <option value="catering">Catering</option>
                   <option value="florist">Florists</option>
                   <option value="music">Music & Entertainment</option>
                   <option value="makeup">Hair & Makeup</option>
+                  <option value="videographer">Videography</option>
+                  <option value="decorator">Decoration</option>
+                  <option value="transport">Transportation</option>
+                  <option value="stationery">Stationery</option>
                 </select>
               </div>
               <div className="w-px h-8 bg-coral-reef"></div>
