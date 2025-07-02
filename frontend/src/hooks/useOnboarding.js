@@ -36,6 +36,23 @@ export const useOnboarding = () => {
     }
   }, [isAuthenticated, user]);
 
+  // Also check immediately when the hook is called
+  useEffect(() => {
+    try {
+      // Force check for test user ID
+      const testUserId = 'test-user-123';
+      const isTestNewUser = localStorage.getItem(`new_user_${testUserId}`);
+      const isTestCompleted = localStorage.getItem(`onboarding_completed_${testUserId}`);
+      
+      if (isTestNewUser && !isTestCompleted) {
+        console.log('Test user onboarding trigger detected');
+        setShouldShowOnboarding(true);
+      }
+    } catch (error) {
+      console.error('Error checking test user onboarding:', error);
+    }
+  }, []);
+
   const checkOnboardingStatus = () => {
     try {
       if (!user?.id) return;
