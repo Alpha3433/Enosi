@@ -336,7 +336,7 @@ frontend:
 metadata:
   created_by: "testing_agent"
   version: "1.0"
-  test_sequence: 17
+  test_sequence: 18
   run_ui: false
 
 test_plan:
