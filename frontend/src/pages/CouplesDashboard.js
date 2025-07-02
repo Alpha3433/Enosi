@@ -48,6 +48,12 @@ const CouplesDashboard = () => {
     createMeetingNotification, 
     createTaskNotification 
   } = useNotifications();
+  const { 
+    onboardingData, 
+    getPersonalizedMessage, 
+    getRecommendedActions, 
+    getPersonalizedFilters 
+  } = useOnboarding();
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoading, setIsLoading] = useState(true);
   const [coupleProfile, setCoupleProfile] = useState(null);
