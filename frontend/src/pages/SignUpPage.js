@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { Eye, EyeOff, ArrowLeft, Users, Building } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { authAPI } from '../services/api';
+import { useOnboarding } from '../hooks/useOnboarding';
 
 const schema = yup.object({
   first_name: yup.string().required('First name is required'),
