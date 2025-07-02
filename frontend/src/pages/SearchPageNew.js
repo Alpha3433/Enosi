@@ -484,39 +484,78 @@ const SearchPageNew = () => {
                 <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your budget (per vendor)</h3>
                 <div className="space-y-3">
                   <div className="flex items-center space-x-2">
-                    <span className="text-sm text-kabul font-sans">AUD</span>
+                    <span className="text-sm text-kabul font-sans min-w-[35px]">AUD</span>
                     <input
                       type="number"
                       placeholder="Min"
                       value={filters.priceMin}
-                      onChange={(e) => handleFilterChange('priceMin', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans"
+                      onChange={(e) => {
+                        handleFilterChange('priceMin', e.target.value);
+                        // Clear any selected preset range when typing custom values
+                        if (e.target.value) {
+                          setSelectedPriceRange('');
+                        }
+                      }}
+                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans focus:ring-2 focus:ring-cement focus:border-cement transition-all duration-200"
+                      min="0"
+                      step="100"
                     />
-                    <span className="text-kabul">–</span>
+                    <span className="text-kabul font-medium">–</span>
                     <input
                       type="number"
                       placeholder="Max"
                       value={filters.priceMax}
-                      onChange={(e) => handleFilterChange('priceMax', e.target.value)}
-                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans"
+                      onChange={(e) => {
+                        handleFilterChange('priceMax', e.target.value);
+                        // Clear any selected preset range when typing custom values
+                        if (e.target.value) {
+                          setSelectedPriceRange('');
+                        }
+                      }}
+                      className="flex-1 px-3 py-2 border border-coral-reef rounded-lg text-sm font-sans focus:ring-2 focus:ring-cement focus:border-cement transition-all duration-200"
+                      min="0"
+                      step="100"
                     />
                   </div>
+                  
+                  {/* Clear button for custom price range */}
+                  {(filters.priceMin || filters.priceMax) && (
+                    <div className="flex justify-end">
+                      <button
+                        onClick={() => {
+                          handleFilterChange('priceMin', '');
+                          handleFilterChange('priceMax', '');
+                          setSelectedPriceRange('');
+                        }}
+                        className="text-xs text-cement hover:text-millbrook transition-colors font-sans"
+                      >
+                        Clear price range
+                      </button>
+                    </div>
+                  )}
+                  
                   <div className="space-y-2">
-                    {['Under $1,000', '$1,000 - $2,500', '$2,500 - $5,000', '$5,000 - $10,000', 'Over $10,000'].map((range) => (
-                      <label key={range} className="flex items-center cursor-pointer">
+                    <p className="text-xs text-kabul font-sans mb-2">Or choose a preset range:</p>
+                    {[
+                      { key: 'under-1000', label: 'Under $1,000', min: '', max: '1000' },
+                      { key: '1000-2500', label: '$1,000 - $2,500', min: '1000', max: '2500' },
+                      { key: '2500-5000', label: '$2,500 - $5,000', min: '2500', max: '5000' },
+                      { key: '5000-10000', label: '$5,000 - $10,000', min: '5000', max: '10000' },
+                      { key: 'over-10000', label: 'Over $10,000', min: '10000', max: '' }
+                    ].map((range) => (
+                      <label key={range.key} className="flex items-center cursor-pointer hover:bg-linen rounded-lg p-2 transition-colors">
                         <input 
                           type="radio" 
                           name="priceRange"
                           className="mr-3 w-4 h-4 text-cement border-coral-reef focus:ring-cement"
+                          checked={selectedPriceRange === range.key}
                           onChange={() => {
-                            const [min, max] = range.includes('Under') ? ['', '1000'] :
-                                             range.includes('Over') ? ['10000', ''] :
-                                             range.split(' - ').map(p => p.replace(/[$,]/g, ''));
-                            handleFilterChange('priceMin', min);
-                            handleFilterChange('priceMax', max);
+                            setSelectedPriceRange(range.key);
+                            handleFilterChange('priceMin', range.min);
+                            handleFilterChange('priceMax', range.max);
                           }}
                         />
-                        <span className="text-sm text-kabul font-sans">{range}</span>
+                        <span className="text-sm text-kabul font-sans">{range.label}</span>
                       </label>
                     ))}
                   </div>
