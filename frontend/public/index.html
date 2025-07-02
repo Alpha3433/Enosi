@@ -187,19 +187,26 @@
         // Update on route changes
         const updateRouterGlobals = () => {
           const newParams = getParamsFromPath();
-          window.match.params = newParams;
-          window.match.path = window.location.pathname;
-          window.match.url = window.location.pathname;
-          window.routerLocation.pathname = window.location.pathname;
-          window.routerLocation.search = window.location.search;
-          window.routerLocation.hash = window.location.hash;
+          
+          // Update match object
+          if (window.match) {
+            window.match.params = newParams;
+            window.match.path = window.location.pathname;
+            window.match.url = window.location.pathname;
+          }
+          
+          // Update location object
+          if (window.routerLocation) {
+            window.routerLocation.pathname = window.location.pathname;
+            window.routerLocation.search = window.location.search;
+            window.routerLocation.hash = window.location.hash;
+          }
+          
+          // Update global params
           window.routeParams = newParams;
         };
         
-        // Listen for navigation changes
-        window.addEventListener('popstate', updateRouterGlobals);
-        
-        // Override pushState and replaceState to update our globals
+        // Override history methods to update globals
         const originalPushState = history.pushState;
         const originalReplaceState = history.replaceState;
         
@@ -213,39 +220,37 @@
           setTimeout(updateRouterGlobals, 0);
         };
         
-        // Patch initStripe function to handle missing match property
-        window.addEventListener('load', function() {
-          if (typeof window.initStripe === 'function') {
-            const originalInitStripe = window.initStripe;
-            window.initStripe = function(...args) {
-              try {
-                // Ensure match object exists
-                if (!window.match) {
-                  window.match = {
-                    params: getParamsFromPath(),
-                    isExact: true,
-                    path: window.location.pathname,
-                    url: window.location.pathname
-                  };
-                }
-                return originalInitStripe.apply(this, args);
-              } catch (error) {
-                console.error('Error in patched initStripe:', error);
-                // Return a dummy function that does nothing
-                return function() {};
-              }
-            };
-            console.log('Patched initStripe function to handle missing match property');
-          }
-        });
-        
         // Global error handler for match property errors
         window.addEventListener('error', function(event) {
           if (event.error && event.error.message && 
               (event.error.message.includes("Cannot read properties of undefined (reading 'match')") ||
-               event.error.message.includes("match is undefined"))) {
+               event.error.message.includes("match is undefined") ||
+               event.error.message.includes("Cannot read property 'match'"))) {
             console.warn('Suppressed match property error:', event.error.message);
+            
+            // Ensure match object exists
+            if (!window.match) {
+              window.match = {
+                params: getParamsFromPath(),
+                isExact: true,
+                path: window.location.pathname,
+                url: window.location.pathname
+              };
+            }
+            
             event.preventDefault(); // Prevent the error from propagating
+            return true;
+          }
+        });
+        
+        // Handle unhandled promise rejections related to match
+        window.addEventListener('unhandledrejection', function(event) {
+          if (event.reason && event.reason.message && 
+              (event.reason.message.includes("Cannot read properties of undefined (reading 'match')") ||
+               event.reason.message.includes("match is undefined"))) {
+            console.warn('Suppressed unhandled promise rejection for match property:', event.reason.message);
+            event.preventDefault();
+            return true;
           }
         });
         
