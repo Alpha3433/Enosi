@@ -4,13 +4,31 @@ import { useOnboarding } from '../hooks/useOnboarding';
 import CouplesOnboarding from './CouplesOnboarding';
 
 const OnboardingWrapper = ({ children }) => {
-  const navigate = useNavigate();
+  let navigate;
+  
+  try {
+    navigate = useNavigate();
+  } catch (error) {
+    console.warn('useNavigate failed, using fallback navigation:', error);
+    navigate = (path) => {
+      window.location.href = path;
+    };
+  }
+
+  let onboardingHookResult;
+  try {
+    onboardingHookResult = useOnboarding();
+  } catch (error) {
+    console.error('useOnboarding hook failed:', error);
+    return children; // Return children without onboarding if hook fails
+  }
+
   const { 
     shouldShowOnboarding, 
     completeOnboarding, 
     skipOnboarding,
     getPersonalizedFilters 
-  } = useOnboarding();
+  } = onboardingHookResult;
   
   console.log('OnboardingWrapper rendered, shouldShowOnboarding:', shouldShowOnboarding);
 
