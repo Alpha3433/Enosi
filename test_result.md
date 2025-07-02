@@ -113,9 +113,9 @@ frontend:
 
   - task: "Phase 3: Enhanced Search Page"
     implemented: true
-    working: false
+    working: true
     file: "EnhancedSearchPage.js, SearchPageNew.js"
-    stuck_count: 1
+    stuck_count: 0
     priority: "high"
     needs_retesting: false
     status_history:
@@ -125,6 +125,9 @@ frontend:
         - working: false
           agent: "testing"
           comment: "Attempted to test the redesigned search page with Booking.com-inspired design. The application shows JavaScript errors in the browser console related to match property being undefined. The error occurs at initStripe function in the bundle.js file. This is a React Router compatibility issue that prevents the search page from loading properly. The application redirects to the homepage when trying to access the search page directly. The SearchPage.js file also has a syntax error (Unterminated JSX contents) that prevents the application from compiling properly. Attempted to fix the issue by commenting out the SearchPage import and route in App.js, but the React Router match property error persists."
+        - working: true
+          agent: "testing"
+          comment: "Successfully tested the updated SearchPageNew.js with the latest improvements. The search page is now accessible via the 'Find Vendors' navigation link. The main search bar is properly centered on the page with the 'justify-center' class. The vendor type dropdown has been expanded to include all required vendor types: Photography, Videography, Decoration, Transportation, and Stationery. The results count correctly displays 'X vendors found' instead of 'properties' and updates dynamically based on search criteria. The sidebar includes a 'Vendor category' filter section with radio buttons for all vendor types. The filter description below the results count dynamically updates to show selected filters. The 'Your previous filters' section has been completely removed from the sidebar as requested. The Popular filters section is present and allows users to select additional filtering options. Despite some JavaScript console errors related to the 'match' property, these don't prevent the core search functionality from working properly."
 
   - task: "Phase 3: Wishlist Page"
     implemented: true
