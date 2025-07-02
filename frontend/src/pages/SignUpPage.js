@@ -86,7 +86,9 @@ const SignUpPage = () => {
       
       // Mark as new user for onboarding trigger (only for couples)
       if (data.user_type === 'couple') {
+        console.log('Marking user as new for onboarding:', loginResponse.data.user.id);
         markAsNewUser(loginResponse.data.user.id);
+        console.log('New user flag set in localStorage:', localStorage.getItem(`new_user_${loginResponse.data.user.id}`));
       }
       
       // For new vendors, always redirect to profile setup
