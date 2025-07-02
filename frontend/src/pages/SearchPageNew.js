@@ -47,6 +47,7 @@ const SearchPageNew = () => {
     features: [],
     availability: ''
   });
+  const [selectedPriceRange, setSelectedPriceRange] = useState('');
   const [savedVendors, setSavedVendors] = useState([]);
 
   // Get saved vendors from localStorage
