@@ -11,6 +11,8 @@ const OnboardingWrapper = ({ children }) => {
     skipOnboarding,
     getPersonalizedFilters 
   } = useOnboarding();
+  
+  console.log('OnboardingWrapper rendered, shouldShowOnboarding:', shouldShowOnboarding);
 
   const handleOnboardingComplete = (data) => {
     completeOnboarding(data);
