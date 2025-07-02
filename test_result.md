@@ -363,7 +363,7 @@ metadata:
 
 test_plan:
   current_focus: ["Authentication Flow", "Couples Onboarding Flow"]
-  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Stream Chat Integration"]
+  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Stream Chat Integration", "Couples Onboarding Flow"]
   test_all: false
   test_priority: "high_first"
 
