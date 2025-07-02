@@ -112,6 +112,15 @@ const SearchPageNew = () => {
         apiParams.min_rating = ratingMap[filters.rating] || 0;
       }
       
+      // Add price filtering
+      if (filters.priceMin && filters.priceMin !== '') {
+        apiParams.price_min = parseInt(filters.priceMin);
+      }
+      
+      if (filters.priceMax && filters.priceMax !== '') {
+        apiParams.price_max = parseInt(filters.priceMax);
+      }
+      
       if (filters.features.includes('featured')) {
         apiParams.featured_only = true;
       }
