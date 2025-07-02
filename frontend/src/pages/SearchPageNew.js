@@ -160,17 +160,6 @@ const SearchPageNew = () => {
     });
   };
 
-  const applyPreviousFilter = (filterString) => {
-    const parts = filterString.split(' • ');
-    setFilters(prev => ({
-      ...prev,
-      location: parts[0] === 'All locations' ? '' : parts[0],
-      vendorType: parts[1] === 'All vendors' ? '' : parts[1],
-      weddingDate: parts[2] === 'Any date' ? '' : parts[2],
-      guestCount: parts[3] === 'Any guests' ? '' : parts[3]
-    }));
-  };
-
   // Transform backend vendor data to UI format
   const transformVendorData = (vendor) => {
     // Safety check for vendor object
