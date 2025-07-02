@@ -127,6 +127,7 @@ import TestBudgetPage from './pages/TestBudgetPage';
 
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
+import CouplesOnboarding from './components/CouplesOnboarding';
 
 // Create a client
 const queryClient = new QueryClient({
