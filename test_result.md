@@ -342,15 +342,18 @@ frontend:
 frontend:
   - task: "Couples Onboarding Flow"
     implemented: true
-    working: true
+    working: false
     file: "CouplesOnboarding.js, OnboardingWrapper.js, useOnboarding.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
         - working: true
           agent: "testing"
           comment: "Successfully tested the couples onboarding flow. The onboarding modal appears immediately after successful signup with a progress bar and 'Step 1 of 5' indicator. All five steps work correctly: Step 1 (partner names), Step 2 (location and wedding date), Step 3 (guest count and budget), Step 4 (vendor categories and planning priorities with max 3 selection), and Step 5 (planning progress and referral source). Navigation buttons ('Back', 'Continue', 'Skip for now', and 'X' close) function properly. The onboarding flow correctly validates required fields before proceeding. After completion, data is stored in localStorage and the onboarding doesn't show again on subsequent visits. The design uses Enosi earth tones and proper fonts, and the progress bar updates correctly. The flow includes reassuring microcopy like 'This will only take 2 minutes'."
+        - working: false
+          agent: "testing"
+          comment: "Identified critical issue with the couples onboarding flow. The onboarding modal doesn't appear when creating a new couple account due to a JavaScript error: 'Cannot read properties of undefined (reading 'match')' at the initStripe function. This error is related to React Router v7 compatibility issues with the Stripe integration. The error occurs in the bundled JavaScript and prevents proper execution of the application, including the onboarding flow. The code for the onboarding components (CouplesOnboarding.js, OnboardingWrapper.js, useOnboarding.js) is well-implemented, but the JavaScript error prevents it from functioning correctly. The issue is that the markAsNewUser function in useOnboarding.js is called during registration in SignUpPage.js, but the localStorage flag isn't being properly checked due to the JavaScript error interrupting the application flow. The application has a compatibility layer in App.js that creates a global 'match' object, but it seems the Stripe initialization is happening before this compatibility layer is fully applied. To fix this issue, the Stripe integration needs to be updated to be compatible with React Router v7, or the compatibility layer needs to be enhanced to specifically address the Stripe initialization issue."
 
 metadata:
   created_by: "testing_agent"
