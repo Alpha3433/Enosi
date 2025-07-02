@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 1rem;
+            max-width: 42rem;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: #f5f5f5;
+            border-radius: 9999px;
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar-fill {
+            height: 0.5rem;
+            background-color: #8D7B68;
+            border-radius: 9999px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6">Onboarding Test Page</h1>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Test Controls</h2>
+            <button id="showModalBtn" class="bg-blue-500 text-white px-4 py-2 rounded mr-4">
+                Show Onboarding Modal
+            </button>
+            
+            <button id="resetBtn" class="bg-red-500 text-white px-4 py-2 rounded">
+                Reset Onboarding State
+            </button>
+            
+            <div class="mt-4">
+                <h3 class="font-bold">LocalStorage Values:</h3>
+                <pre id="localStorageDisplay" class="bg-gray-100 p-3 rounded mt-2 text-sm overflow-auto"></pre>
+            </div>
+        </div>
+        
+        <div id="submittedDataContainer" class="bg-white rounded-lg shadow-md p-6 hidden">
+            <h2 class="text-xl font-bold mb-4">Submitted Onboarding Data</h2>
+            <pre id="submittedData" class="bg-gray-100 p-3 rounded mt-2 text-sm overflow-auto"></pre>
+        </div>
+    </div>
+    
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="modal hidden">
+        <div class="modal-content">
+            <!-- Header -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xl font-bold text-gray-800">Enosi</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="stepIndicator" class="text-sm text-gray-600">Step 1 of 5</span>
+                    <button id="skipBtn" class="text-sm text-gray-400 hover:text-gray-600 transition-colors">
+                        Skip for now
+                    </button>
+                    <button id="closeBtn" class="text-gray-600 hover:text-gray-800 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="progress-bar">
+                <div id="progressBarFill" class="progress-bar-fill" style="width: 20%"></div>
+            </div>
+            
+            <!-- Step Content -->
+            <div class="mb-8">
+                <!-- Step 1 -->
+                <div id="step1" class="step-content">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-pink-500" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Let's get to know you!</h2>
+                        <p class="text-gray-600">Tell us about yourselves so we can personalize your experience</p>
+                        <p class="text-sm text-gray-500 mt-2">This will only take 2 minutes</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                First partner's name
+                            </label>
+                            <input
+                                type="text"
+                                id="partner1_name"
+                                placeholder="Enter first name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Second partner's name
+                            </label>
+                            <input
+                                type="text"
+                                id="partner2_name"
+                                placeholder="Enter first name"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 (Hidden initially) -->
+                <div id="step2" class="step-content hidden">
+                    <!-- Step 2 content would go here -->
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-800 mb-2">Where's the magic happening?</h2>
+                        <p class="text-gray-600">Help us find vendors in your area</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Wedding location
+                            </label>
+                            <select
+                                id="wedding_location"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                                <option value="">Select your location</option>
+                                <option value="New South Wales">New South Wales</option>
+                                <option value="Victoria">Victoria</option>
+                                <option value="Queensland">Queensland</option>
+                                <option value="Western Australia">Western Australia</option>
+                                <option value="South Australia">South Australia</option>
+                                <option value="Tasmania">Tasmania</option>
+                                <option value="Australian Capital Territory">Australian Capital Territory</option>
+                                <option value="Northern Territory">Northern Territory</option>
+                                <option value="Other">Other / International</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Wedding date (if known)
+                            </label>
+                            <input
+                                type="date"
+                                id="wedding_date"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Steps 3-5 would be similar -->
+            </div>
+            
+            <!-- Navigation -->
+            <div class="flex justify-between items-center">
+                <button
+                    id="backBtn"
+                    disabled
+                    class="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-400 cursor-not-allowed"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Back</span>
+                </button>
+                
+                <button
+                    id="nextBtn"
+                    class="flex items-center space-x-2 px-6 py-3 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                >
+                    <span>Continue</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Reassuring Message -->
+            <p class="text-center text-xs text-gray-500 mt-4">
+                We'll use this to make your planning easier • Nothing's locked in – you can update this later
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Test user ID
+        const userId = 'test-user-123';
+        
+        // DOM elements
+        const showModalBtn = document.getElementById('showModalBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const onboardingModal = document.getElementById('onboardingModal');
+        const closeBtn = document.getElementById('closeBtn');
+        const skipBtn = document.getElementById('skipBtn');
+        const backBtn = document.getElementById('backBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const progressBarFill = document.getElementById('progressBarFill');
+        const stepIndicator = document.getElementById('stepIndicator');
+        const localStorageDisplay = document.getElementById('localStorageDisplay');
+        const submittedDataContainer = document.getElementById('submittedDataContainer');
+        const submittedData = document.getElementById('submittedData');
+        
+        // Step elements
+        const steps = [
+            document.getElementById('step1'),
+            document.getElementById('step2')
+            // Steps 3-5 would be added here
+        ];
+        
+        // Current step
+        let currentStep = 1;
+        const totalSteps = 5; // We're only implementing 2 steps for this test
+        
+        // Form data
+        const formData = {
+            partner1_name: '',
+            partner2_name: '',
+            wedding_location: '',
+            wedding_date: ''
+            // Other fields would be added here
+        };
+        
+        // Update localStorage display
+        function updateLocalStorageDisplay() {
+            const storageData = {
+                userId,
+                new_user: localStorage.getItem(`new_user_${userId}`),
+                onboarding_completed: localStorage.getItem(`onboarding_completed_${userId}`),
+                onboarding_data: localStorage.getItem(`onboarding_data_${userId}`)
+            };
+            
+            localStorageDisplay.textContent = JSON.stringify(storageData, null, 2);
+        }
+        
+        // Show onboarding modal
+        function showOnboarding() {
+            onboardingModal.classList.remove('hidden');
+            currentStep = 1;
+            updateStepDisplay();
+        }
+        
+        // Hide onboarding modal
+        function hideOnboarding() {
+            onboardingModal.classList.add('hidden');
+        }
+        
+        // Update step display
+        function updateStepDisplay() {
+            // Update progress bar
+            progressBarFill.style.width = `${(currentStep / totalSteps) * 100}%`;
+            
+            // Update step indicator
+            stepIndicator.textContent = `Step ${currentStep} of ${totalSteps}`;
+            
+            // Show current step, hide others
+            steps.forEach((step, index) => {
+                if (index + 1 === currentStep) {
+                    step.classList.remove('hidden');
+                } else {
+                    step.classList.add('hidden');
+                }
+            });
+            
+            // Update back button state
+            if (currentStep === 1) {
+                backBtn.disabled = true;
+                backBtn.classList.add('text-gray-400', 'cursor-not-allowed');
+                backBtn.classList.remove('text-gray-600', 'hover:text-gray-800');
+            } else {
+                backBtn.disabled = false;
+                backBtn.classList.remove('text-gray-400', 'cursor-not-allowed');
+                backBtn.classList.add('text-gray-600', 'hover:text-gray-800');
+            }
+            
+            // Update next button text
+            if (currentStep === totalSteps) {
+                nextBtn.querySelector('span').textContent = 'Complete Setup';
+            } else {
+                nextBtn.querySelector('span').textContent = 'Continue';
+            }
+        }
+        
+        // Complete onboarding
+        function completeOnboarding() {
+            // Get form data
+            formData.partner1_name = document.getElementById('partner1_name').value;
+            formData.partner2_name = document.getElementById('partner2_name').value;
+            formData.wedding_location = document.getElementById('wedding_location').value;
+            formData.wedding_date = document.getElementById('wedding_date').value;
+            
+            // Save to localStorage
+            const onboardingData = {
+                ...formData,
+                completed_at: new Date().toISOString(),
+                user_id: userId
+            };
+            
+            localStorage.setItem(`onboarding_data_${userId}`, JSON.stringify(onboardingData));
+            localStorage.setItem(`onboarding_completed_${userId}`, 'true');
+            
+            // Display submitted data
+            submittedData.textContent = JSON.stringify(onboardingData, null, 2);
+            submittedDataContainer.classList.remove('hidden');
+            
+            // Hide modal
+            hideOnboarding();
+            
+            // Update localStorage display
+            updateLocalStorageDisplay();
+        }
+        
+        // Skip onboarding
+        function skipOnboarding() {
+            localStorage.setItem(`onboarding_completed_${userId}`, 'true');
+            hideOnboarding();
+            updateLocalStorageDisplay();
+        }
+        
+        // Reset onboarding state
+        function resetOnboarding() {
+            localStorage.removeItem(`onboarding_completed_${userId}`);
+            localStorage.removeItem(`onboarding_data_${userId}`);
+            localStorage.setItem(`new_user_${userId}`, 'true');
+            submittedDataContainer.classList.add('hidden');
+            updateLocalStorageDisplay();
+        }
+        
+        // Event listeners
+        showModalBtn.addEventListener('click', showOnboarding);
+        resetBtn.addEventListener('click', resetOnboarding);
+        closeBtn.addEventListener('click', hideOnboarding);
+        skipBtn.addEventListener('click', skipOnboarding);
+        
+        backBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStepDisplay();
+            }
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStepDisplay();
+            } else {
+                completeOnboarding();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set up test localStorage values
+            localStorage.setItem(`new_user_${userId}`, 'true');
+            
+            // Check if onboarding is already completed
+            const onboardingCompleted = localStorage.getItem(`onboarding_completed_${userId}`);
+            
+            // Show onboarding modal if not completed
+            if (!onboardingCompleted) {
+                showOnboarding();
+            }
+            
+            // Check for existing onboarding data
+            const existingData = localStorage.getItem(`onboarding_data_${userId}`);
+            if (existingData) {
+                submittedData.textContent = existingData;
+                submittedDataContainer.classList.remove('hidden');
+            }
+            
+            // Update localStorage display
+            updateLocalStorageDisplay();
+        });
+    </script>
+</body>
+</html>
