@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 import { NotificationProvider } from './contexts/NotificationContext';
+import { useOnboarding } from './hooks/useOnboarding';
 // import 'react-image-lightbox/style.css';
 
 // Initialize global match object immediately to prevent errors
