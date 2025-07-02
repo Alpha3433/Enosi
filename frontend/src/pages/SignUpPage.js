@@ -34,6 +34,7 @@ const SignUpPage = () => {
   const [showApprovalModal, setShowApprovalModal] = useState(false);
   
   const { login, getDefaultRedirectPath } = useAuth();
+  const { markAsNewUser } = useOnboarding();
   const navigate = useNavigate();
 
   const {
