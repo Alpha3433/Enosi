@@ -36,7 +36,9 @@ export const useOnboarding = () => {
 
   const markAsNewUser = (userId) => {
     // This should be called when a new couple account is created
+    console.log('useOnboarding.markAsNewUser called with userId:', userId);
     localStorage.setItem(`new_user_${userId}`, 'true');
+    console.log('new_user flag set in localStorage:', localStorage.getItem(`new_user_${userId}`));
   };
 
   const completeOnboarding = (data) => {
