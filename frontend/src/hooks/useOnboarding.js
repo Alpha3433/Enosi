@@ -8,6 +8,7 @@ export const useOnboarding = () => {
 
   useEffect(() => {
     if (isAuthenticated && user && user.user_type === 'couple') {
+      console.log('useOnboarding useEffect triggered for couple user:', user.id);
       checkOnboardingStatus();
     }
   }, [isAuthenticated, user]);
