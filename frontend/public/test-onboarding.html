@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        button.red {
+            background-color: #f44336;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .status {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .status h3 {
+            margin-bottom: 5px;
+        }
+        .status ul {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Onboarding Test Page</h1>
+    
+    <div class="card">
+        <h2>Test Controls</h2>
+        <button id="triggerBtn">Trigger Onboarding</button>
+        <button id="clearBtn" class="red">Clear Onboarding Data</button>
+        
+        <div class="status">
+            <h3>LocalStorage Status:</h3>
+            <ul id="statusList">
+                <li>Loading...</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>Onboarding Data</h2>
+        <pre id="dataDisplay">No data available</pre>
+    </div>
+    
+    <div id="onboardingContainer"></div>
+
+    <script>
+        // Test user ID
+        const userId = 'test-user-123';
+        
+        // Update status display
+        function updateStatus() {
+            const statusList = document.getElementById('statusList');
+            statusList.innerHTML = '';
+            
+            const newUser = localStorage.getItem(`new_user_${userId}`);
+            const completed = localStorage.getItem(`onboarding_completed_${userId}`);
+            const hasData = localStorage.getItem(`onboarding_data_${userId}`) ? true : false;
+            
+            statusList.innerHTML += `<li>New User: ${newUser || 'false'}</li>`;
+            statusList.innerHTML += `<li>Completed: ${completed || 'false'}</li>`;
+            statusList.innerHTML += `<li>Has Data: ${hasData ? 'true' : 'false'}</li>`;
+            
+            // Update data display
+            const dataDisplay = document.getElementById('dataDisplay');
+            const data = localStorage.getItem(`onboarding_data_${userId}`);
+            if (data) {
+                try {
+                    const formattedData = JSON.stringify(JSON.parse(data), null, 2);
+                    dataDisplay.textContent = formattedData;
+                } catch (e) {
+                    dataDisplay.textContent = data;
+                }
+            } else {
+                dataDisplay.textContent = 'No data available';
+            }
+        }
+        
+        // Trigger onboarding
+        document.getElementById('triggerBtn').addEventListener('click', function() {
+            localStorage.setItem(`new_user_${userId}`, 'true');
+            localStorage.removeItem(`onboarding_completed_${userId}`);
+            updateStatus();
+            alert('Onboarding flags set! Please go to the main app to see the onboarding modal.');
+        });
+        
+        // Clear onboarding data
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            localStorage.removeItem(`new_user_${userId}`);
+            localStorage.removeItem(`onboarding_completed_${userId}`);
+            localStorage.removeItem(`onboarding_data_${userId}`);
+            updateStatus();
+            alert('Onboarding data cleared!');
+        });
+        
+        // Initialize
+        updateStatus();
+    </script>
+</body>
+</html>
