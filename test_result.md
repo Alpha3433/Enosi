@@ -341,7 +341,7 @@ metadata:
 
 test_plan:
   current_focus: ["Authentication Flow"]
-  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Stream Chat Integration", "Phase 3: Enhanced Search Page"]
+  stuck_tasks: ["First-Time Vendor Login and Profile Setup Flow", "Updated Vendor Dashboard with Manual Profile Management", "Stream Chat Integration"]
   test_all: false
   test_priority: "high_first"
 
