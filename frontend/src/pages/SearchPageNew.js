@@ -59,13 +59,6 @@ const SearchPageNew = () => {
     if (saved) {
       setSavedVendors(JSON.parse(saved));
     }
-
-    // Load previous filters from localStorage
-    const previousFiltersKey = `previous_filters_${user?.id || 'default'}`;
-    const prevFilters = localStorage.getItem(previousFiltersKey);
-    if (prevFilters) {
-      setPreviousFilters(JSON.parse(prevFilters));
-    }
   }, [user]);
 
   const saveVendor = (vendor) => {
