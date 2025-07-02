@@ -84,6 +84,11 @@ const SignUpPage = () => {
       
       login(loginResponse.data.user, loginResponse.data.access_token);
       
+      // Mark as new user for onboarding trigger (only for couples)
+      if (data.user_type === 'couple') {
+        markAsNewUser(loginResponse.data.user.id);
+      }
+      
       // For new vendors, always redirect to profile setup
       // For other user types, use default redirect logic
       if (data.user_type === 'vendor') {
