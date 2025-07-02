@@ -155,6 +155,7 @@ import BudgetPlannerPage from './pages/BudgetPlannerPage';
 import WeddingChecklistPage from './pages/WeddingChecklistPage';
 import GuestListManagerPage from './pages/GuestListManagerPage';
 import TestBudgetPage from './pages/TestBudgetPage';
+import TestOnboardingPage from './pages/TestOnboardingPage';
 
 import RouterErrorBoundary from './components/RouterErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
