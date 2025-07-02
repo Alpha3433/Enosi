@@ -423,17 +423,50 @@ const SearchPageNew = () => {
               {/* Results Count */}
               <div className="mb-6">
                 <h1 className="text-2xl font-bold text-millbrook mb-2 font-sans">
-                  {filters.location || 'Australia'}: {transformedVendors.length} properties found
+                  {filters.location || 'Australia'}: {transformedVendors.length} vendors found
                 </h1>
                 <p className="text-sm text-kabul font-sans">
                   {(() => {
-                    const parts = [];
-                    if (filters.location) parts.push(filters.location);
-                    if (filters.weddingDate) parts.push(filters.weddingDate);
-                    if (filters.guestCount) parts.push(`${filters.guestCount} guests`);
-                    if (filters.vendorType) parts.push(filters.vendorType);
+                    const filterParts = [];
+                    if (filters.location) filterParts.push(filters.location);
+                    if (filters.vendorType) {
+                      const vendorTypeMap = {
+                        'venue': 'Venues',
+                        'photographer': 'Photography', 
+                        'catering': 'Catering',
+                        'florist': 'Florists',
+                        'music': 'Music & Entertainment',
+                        'makeup': 'Hair & Makeup',
+                        'videographer': 'Videography',
+                        'decorator': 'Decoration',
+                        'transport': 'Transportation',
+                        'stationery': 'Stationery'
+                      };
+                      filterParts.push(vendorTypeMap[filters.vendorType] || filters.vendorType);
+                    }
+                    if (filters.weddingDate) filterParts.push(filters.weddingDate);
+                    if (filters.guestCount) filterParts.push(`${filters.guestCount} guests`);
+                    if (filters.rating && filters.rating !== 'Any') filterParts.push(filters.rating);
+                    if (filters.priceMin || filters.priceMax) {
+                      const priceRange = `$${filters.priceMin || '0'} - $${filters.priceMax || '∞'}`;
+                      filterParts.push(priceRange);
+                    }
+                    if (filters.features.length > 0) {
+                      const featureLabels = {
+                        'featured': 'Featured',
+                        'verified': 'Verified',
+                        'free_consultation': 'Free consultation',
+                        'same_day_response': 'Same day response',
+                        'budget_friendly': 'Budget friendly',
+                        'premium_service': 'Premium service',
+                        'package_deals': 'Package deals',
+                        'flexible_booking': 'Flexible booking'
+                      };
+                      const selectedFeatures = filters.features.map(f => featureLabels[f] || f);
+                      filterParts.push(...selectedFeatures);
+                    }
                     
-                    return parts.length > 0 ? parts.join(', ') : 'All locations, All dates, All guests, All vendors';
+                    return filterParts.length > 0 ? filterParts.join(', ') : 'All locations, All vendors, Any date, Any guests';
                   })()}
                 </p>
               </div>
