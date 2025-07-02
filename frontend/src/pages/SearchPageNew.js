@@ -471,6 +471,37 @@ const SearchPageNew = () => {
                 </p>
               </div>
 
+              {/* Vendor Category Filter */}
+              <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
+                <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Vendor category</h3>
+                <div className="space-y-2">
+                  {[
+                    { key: '', label: 'All vendors' },
+                    { key: 'venue', label: 'Venues' },
+                    { key: 'photographer', label: 'Photography' },
+                    { key: 'catering', label: 'Catering' },
+                    { key: 'florist', label: 'Florists' },
+                    { key: 'music', label: 'Music & Entertainment' },
+                    { key: 'makeup', label: 'Hair & Makeup' },
+                    { key: 'videographer', label: 'Videography' },
+                    { key: 'decorator', label: 'Decoration' },
+                    { key: 'transport', label: 'Transportation' },
+                    { key: 'stationery', label: 'Stationery' }
+                  ].map((category) => (
+                    <label key={category.key} className="flex items-center cursor-pointer">
+                      <input 
+                        type="radio" 
+                        name="vendorCategory"
+                        className="mr-3 w-4 h-4 text-cement border-coral-reef focus:ring-cement"
+                        checked={filters.vendorType === category.key}
+                        onChange={() => handleFilterChange('vendorType', category.key)}
+                      />
+                      <span className="text-sm text-kabul font-sans">{category.label}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               {/* Budget Filter */}
               <div className="mb-6 bg-white rounded-xl p-4 shadow-sm border border-coral-reef">
                 <h3 className="text-lg font-semibold text-millbrook mb-3 font-sans">Your budget (per vendor)</h3>
