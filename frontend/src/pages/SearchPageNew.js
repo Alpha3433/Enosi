@@ -168,6 +168,7 @@ const SearchPageNew = () => {
       features: [],
       availability: ''
     });
+    setSelectedPriceRange('');
   };
 
   // Transform backend vendor data to UI format
