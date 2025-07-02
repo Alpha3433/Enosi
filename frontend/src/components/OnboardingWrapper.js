@@ -33,27 +33,51 @@ const OnboardingWrapper = ({ children }) => {
   console.log('OnboardingWrapper rendered, shouldShowOnboarding:', shouldShowOnboarding);
 
   const handleOnboardingComplete = (data) => {
+    console.log('Onboarding completed with data:', data);
     completeOnboarding(data);
     
-    // Redirect based on onboarding data
-    const filters = getPersonalizedFilters();
+    // Clear test user flags
+    const testUserId = 'test-user-123';
+    localStorage.setItem(`onboarding_completed_${testUserId}`, 'true');
+    localStorage.removeItem(`new_user_${testUserId}`);
     
-    if (filters.preferredCategories && filters.preferredCategories.length > 0) {
-      // Redirect to search with personalized filters
-      const searchParams = new URLSearchParams();
-      if (filters.location) searchParams.set('location', filters.location);
-      if (filters.preferredCategories[0]) searchParams.set('category', filters.preferredCategories[0]);
+    // Redirect based on onboarding data
+    try {
+      const filters = getPersonalizedFilters();
       
-      navigate(`/search?${searchParams.toString()}`);
-    } else {
-      // Redirect to dashboard
-      navigate('/dashboard');
+      if (filters.preferredCategories && filters.preferredCategories.length > 0) {
+        // Redirect to search with personalized filters
+        const searchParams = new URLSearchParams();
+        if (filters.location) searchParams.set('location', filters.location);
+        if (filters.preferredCategories[0]) searchParams.set('category', filters.preferredCategories[0]);
+        
+        navigate(`/search?${searchParams.toString()}`);
+      } else {
+        // Redirect to dashboard
+        navigate('/dashboard');
+      }
+    } catch (error) {
+      console.error('Error in redirect after onboarding:', error);
+      // Fallback to home page
+      navigate('/');
     }
   };
 
   const handleOnboardingSkip = () => {
+    console.log('Onboarding skipped');
     skipOnboarding();
-    navigate('/dashboard');
+    
+    // Clear test user flags
+    const testUserId = 'test-user-123';
+    localStorage.setItem(`onboarding_completed_${testUserId}`, 'true');
+    localStorage.removeItem(`new_user_${testUserId}`);
+    
+    try {
+      navigate('/dashboard');
+    } catch (error) {
+      console.error('Error in redirect after skip:', error);
+      navigate('/');
+    }
   };
 
   return (
